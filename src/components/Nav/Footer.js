@@ -9,7 +9,7 @@ export default Footer;
 
 const Container = styled.div`
   display: flex;
-  position: relative;
+  position: absolute;
   bottom: 0;
   height: 5rem;
   width: 100%;

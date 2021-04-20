@@ -11,7 +11,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  top: 8rem;
+  margin-bottom: 8rem;
   width: 18rem;
   height: 100%;
   background: ${({ theme }) => theme.primaryDark};
+  transition: all 0.75s ease;
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    transition: all 0.75s ease;
+    -webkit-transform: translateX(-100%);
+  }
 `;
