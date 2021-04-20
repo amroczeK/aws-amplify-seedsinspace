@@ -13,5 +13,5 @@ const Container = styled.div`
   bottom: 0;
   height: 5rem;
   width: 100%;
-  background: ${({ theme }) => theme.primaryDark};
+  background: ${({ theme }) => theme.primaryBackground};
 `;

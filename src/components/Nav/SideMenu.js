@@ -13,5 +13,5 @@ const Container = styled.div`
   position: relative;
   width: 18rem;
   height: 100%;
-  background: ${({ theme }) => theme.secondaryLight};
+  background: ${({ theme }) => theme.primaryDark};
 `;
