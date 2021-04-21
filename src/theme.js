@@ -4,11 +4,11 @@
  * No. 24 - Clean and Modern
  */
 export const theme = {
-  primaryBackground: "#3AAFA9",
+  primaryBackground: "#358C5F",
   primaryDark: "#17252A",
-  primaryLight: "#FEFFFF",
-  primaryHover: "#203647",
+  primaryLight: "#FCFCFC",
+  primaryHover: "#CBCBCB",
   secondaryDark: "#2B7A78",
-  secondaryLight: "#DEF2F1",
+  secondaryLight: "#6BBE93",
   mobile: "576px",
 };

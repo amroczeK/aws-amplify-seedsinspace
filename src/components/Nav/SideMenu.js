@@ -15,7 +15,7 @@ const Container = styled.div`
   margin-bottom: 8rem;
   width: 18rem;
   height: 100%;
-  background: ${({ theme }) => theme.primaryDark};
+  background: ${({ theme }) => theme.secondaryLight};
   transition: all 0.75s ease;
   @media (max-width: ${({ theme }) => theme.mobile}) {
     transition: all 0.75s ease;

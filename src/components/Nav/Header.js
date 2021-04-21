@@ -21,4 +21,7 @@ const Container = styled.div`
   background: ${({ theme }) => theme.primaryBackground};
   justify-content: center;
   align-items: center;
+  h1 {
+    color: ${({ theme }) => theme.primaryLight};
+  }
 `;

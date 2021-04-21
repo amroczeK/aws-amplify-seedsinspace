@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none !important;
 }
 body {
-    background: ${({ theme }) => theme.secondaryLight};
+    background: ${({ theme }) => theme.primaryLight};
     font-family: 'Montserrat', sans-serif;
 }
 `;
