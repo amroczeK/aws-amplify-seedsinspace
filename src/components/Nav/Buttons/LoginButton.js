@@ -42,4 +42,5 @@ const LoginBtn = styled(LogIn)`
   height: 2.5rem;
   color: white;
   cursor: pointer;
+  margin-right: 0.5rem;
 `;

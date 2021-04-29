@@ -1,10 +1,12 @@
 import React from "react";
+import LineChart from "../components/Charts/LineChart";
 import styled from "styled-components";
 
 const Dashboard = () => {
   return (
     <Container>
       <h1>DASHBOARD</h1>
+      <LineChart />
     </Container>
   );
 };
@@ -16,7 +18,8 @@ const Container = styled.div`
   position: relative;
   flex-direction: column;
   width: 100vw;
-  height: 100%;
+  height: 86vh;
+  max-height: 100%;
   max-width: 100%;
-  padding: 1rem;
+  padding: 2rem;
 `;
