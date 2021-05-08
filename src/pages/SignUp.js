@@ -1,25 +1,19 @@
 import React, { useState } from "react";
-import Amplify from "aws-amplify";
-import { Auth } from "aws-amplify";
-
-// Material UI Imports
-import Button from "@material-ui/core/Button";
+// import { Auth } from "aws-amplify";
+import styled from "styled-components";
+import { Camera } from "@styled-icons/bootstrap/Camera";
+import { StyledButton } from "../components/styled-components/Buttons";
+import { StyledLink } from "../components/styled-components/Links";
+import { StyledTypography } from "../components/styled-components/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-
-// Styled Components
-import styled from "styled-components";
-
-// Styled Icons
-import { Camera } from "@styled-icons/bootstrap/Camera";
-
-// Custom Components
 import { Header } from "../components/Nav";
+import { Controller, useForm } from "react-hook-form";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
   min-width: 300px;
 `;
 
@@ -34,43 +28,6 @@ const SignUpContainer = styled.div`
   gap: 1em;
 `;
 
-const StyledTextField = styled(TextField)`
-  font-weight: bold;
-  flex: 1 0;
-`;
-
-const StyledTypography = styled(Typography)`
-  font-weight: bold;
-  color: ${({ theme }) => theme.primaryDark};
-`;
-
-const StyledButton = styled(Button)`
-  background: ${({ theme }) => theme.secondaryLight};
-  color: ${({ theme }) => theme.primaryLight};
-  padding: 1em 0;
-  width: 100%;
-  text-transform: none;
-`;
-
-const StyledLink = styled.a`
-  color: ${({ theme }) => theme.primaryBackground};
-  font-size: 0.75em;
-`;
-
-const StyledSelectLink = styled.a`
-  color: ${({ theme }) => theme.primaryBackground};
-  align-self: center;
-  font-size: 0.75em;
-  padding: 0 0 0 2em;
-  text-decoration: none !important;
-`;
-
-const StyledNavLink = styled.a`
-  color: ${({ theme }) => theme.primaryBackground};
-  align-self: center;
-  font-size: 0.75em;
-`;
-
 const CameraIcon = styled(Camera)`
   width: 2em;
   height: 2em;
@@ -78,17 +35,27 @@ const CameraIcon = styled(Camera)`
   margin: 1em 0;
 `;
 
+const GridForm = styled.form`
+  display: grid;
+  gap: 1em;
+`;
+
 const SignUp = () => {
   const [step, setStep] = useState(0);
+  const { control, handleSubmit, formState } = useForm();
+  const { errors } = formState;
 
-  async function signUp() {
-    var username;
-    var password;
-    try {
-      const user = await Auth.signIn(username, password);
-    } catch (error) {
-      console.log("error signing in", error);
-    }
+  async function signUp(formData) {
+    console.log("Submitting Data");
+    console.log(formData);
+    setStep(1);
+    // var username;
+    // var password;
+    // try {
+    //   const user = await Auth.signIn(username, password);
+    // } catch (error) {
+    //   console.log("error signing in", error);
+    // }
   }
 
   const Stepper = () => {
@@ -101,40 +68,38 @@ const SignUp = () => {
   const CreateAnAccount = () => {
     return (
       <SignUpContainer>
-        <StyledTypography variant="h5">Create an account</StyledTypography>
-        <InputLabel shrink>SCHOOL/ORGANISATION'S NAME</InputLabel>
-        <StyledTextField
-          name="organisation"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          defaultValue=""
-        />
-        <InputLabel shrink>EMAIL ADDRESS</InputLabel>
-        <StyledTextField
-          name="email"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          defaultValue=""
-        />
-        <InputLabel shrink>NEW PASSWORD</InputLabel>
-        <StyledTextField
-          name="password"
-          variant="outlined"
-          type="password"
-          defaultValue=""
-        />
-        <StyledLink href="/">SIS disclaimer / terms and conditions</StyledLink>
-        <StyledButton
-          disableElevation
-          variant="contained"
-          onClick={() => setStep(1)}
-        >
-          Create account
-        </StyledButton>
+        <GridForm onSubmit={handleSubmit(signUp)}>
+          <StyledTypography fontWeight="bold" variant="h5">
+            Create an account
+          </StyledTypography>
+          <InputLabel shrink>SCHOOL/ORGANISATION'S NAME</InputLabel>
+          <Controller
+            name="organisation"
+            control={control}
+            defaultValue=""
+            render={({ field }) => <TextField {...field} variant="outlined" />}
+          />
+          <InputLabel shrink>EMAIL ADDRESS</InputLabel>
+          <Controller
+            name="email"
+            control={control}
+            defaultValue=""
+            render={({ field }) => <TextField {...field} variant="outlined" />}
+          />
+          <InputLabel shrink>NEW PASSWORD</InputLabel>
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField {...field} type="password" variant="outlined" />
+            )}
+          />
+          <StyledLink to="/">SIS disclaimer / terms and conditions</StyledLink>
+          <StyledButton disableElevation variant="contained" type="submit">
+            Create account
+          </StyledButton>
+        </GridForm>
       </SignUpContainer>
     );
   };
@@ -142,27 +107,31 @@ const SignUp = () => {
   const FillInYourProfile = () => {
     return (
       <SignUpContainer>
-        <StyledTypography variant="h5">Fill in your profile</StyledTypography>
+        <StyledTypography fontWeight="bold" variant="h5">
+          Fill in your profile
+        </StyledTypography>
         <span>
           <CameraIcon />
-          <StyledSelectLink href="/">+ Add your logo</StyledSelectLink>
+          <StyledLink to="/" margin="0 2em">
+            + Add your logo
+          </StyledLink>
         </span>
         <InputLabel shrink>LOCATION</InputLabel>
-        <StyledTextField
+        <Controller
           name="location"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
           defaultValue=""
+          control={control}
+          render={({ field }) => <TextField {...field} variant="outlined" />}
         />
+
         <InputLabel shrink>TELL US ABOUT YOURSELF</InputLabel>
-        <StyledTextField
+        <Controller
           name="about"
-          variant="outlined"
           defaultValue=""
-          multiline
-          rows={10}
+          control={control}
+          render={({ field }) => (
+            <TextField {...field} multiline variant="outlined" rows={10} />
+          )}
         />
         <StyledButton
           disableElevation
@@ -171,7 +140,9 @@ const SignUp = () => {
         >
           Next
         </StyledButton>
-        <StyledNavLink href="/">Skip for now</StyledNavLink>
+        <StyledLink to="/" alignself="center">
+          Skip for now
+        </StyledLink>
       </SignUpContainer>
     );
   };

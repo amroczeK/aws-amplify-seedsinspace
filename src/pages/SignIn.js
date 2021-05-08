@@ -1,17 +1,65 @@
-import React, { useState } from "react";
-import Amplify from "aws-amplify";
+import React from "react";
 import { Auth } from "aws-amplify";
-
-// Material UI Imports
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-
-// Styled Components
 import styled from "styled-components";
-
-// Custom Components
-import { Header } from "../components/Nav";
+import { StyledLink } from "../components/styled-components/Links";
+import { StyledButton } from "../components/styled-components/Buttons";
+import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
 import Logo from "../assets/logo.png";
+import { Header } from "../components/Nav";
+import { Controller, useForm } from "react-hook-form";
+
+const SignIn = () => {
+  const { control, handleSubmit, formState } = useForm();
+
+  const login = async ({ email, password }) => {
+    var AmplifySetup = false;
+
+    if (AmplifySetup) {
+      try {
+        const user = await Auth.signIn(email, password);
+      } catch (error) {
+        console.log("error signing in", error);
+      }
+    }
+    console.log(`User email: ${email}, password: ${password}`);
+  };
+
+  return (
+    <Container>
+      <Header />
+      <SignInContainer>
+        <StyledImg src={Logo}></StyledImg>
+        <GridForm onSubmit={handleSubmit(login)}>
+          <InputLabel shrink>EMAIL ADDRESS</InputLabel>
+          <Controller
+            name="email"
+            defaultValue=""
+            control={control}
+            render={({ field }) => <TextField {...field} />}
+          />
+
+          <InputLabel shrink>PASSWORD</InputLabel>
+          <Controller
+            name="password"
+            defaultValue=""
+            control={control}
+            render={({ field }) => <TextField {...field} type="password" />}
+          />
+          <StyledButton type="submit" disableElevation variant="contained">
+            Log in
+          </StyledButton>
+          <StyledLink to="/signup" decoration="underline">
+            Don't have an account?
+          </StyledLink>
+          <StyledLink to="/" decoration="underline">
+            Forgot password
+          </StyledLink>
+        </GridForm>
+      </SignInContainer>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -30,70 +78,15 @@ const SignInContainer = styled.div`
   gap: 1em;
 `;
 
-const StyledTextField = styled(TextField)`
-  font-weight: bold;
-  flex: 1 0;
-`;
-
-const StyledButton = styled(Button)`
-  background: ${({ theme }) => theme.secondaryLight};
-  color: ${({ theme }) => theme.primaryLight};
-  padding: 1em 0;
-  text-transform: none;
-`;
-
 const StyledImg = styled.img`
   width: 65%;
   align-self: center;
   margin: 5% 0;
 `;
 
-const StyledLink = styled.a`
-  color: ${({ theme }) => theme.primaryBackground};
-  font-size: 0.75em;
+const GridForm = styled.form`
+  display: grid;
+  gap: 1em;
 `;
-
-const SignIn = () => {
-  async function signIn() {
-    var username;
-    var password;
-    try {
-      const user = await Auth.signIn(username, password);
-    } catch (error) {
-      console.log("error signing in", error);
-    }
-  }
-
-  return (
-    <Container>
-      <Header />
-      <SignInContainer>
-        <StyledImg src={Logo}></StyledImg>
-        <StyledTextField
-          name="email"
-          label="EMAIL ADDRESS"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          defaultValue=""
-        />
-        <StyledTextField
-          name="password"
-          label="PASSWORD"
-          type="password"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          defaultValue=""
-        />
-        <StyledButton disableElevation variant="contained">
-          Log in
-        </StyledButton>
-        <StyledLink href="/signup">Don't have an account?</StyledLink>
-        <StyledLink href="/">Forgot password</StyledLink>
-      </SignInContainer>
-    </Container>
-  );
-};
 
 export default SignIn;
