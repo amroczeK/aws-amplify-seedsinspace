@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Home, Dashboard, SignIn, SignUp, SeedSetUp } from "./pages";
-import { Header } from "./components/Nav";
-
 import styled from "styled-components";
+
+// import { Header } from "./components/Nav";
 
 const AppContainer = styled.div`
   height: 100vh;
@@ -21,7 +21,7 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route path="/dashboard" component={Dashboard} />
         </Switch>
-        {/* <Footer />         */}
+        {/* <Footer /> */}
       </Router>
     </AppContainer>
   );

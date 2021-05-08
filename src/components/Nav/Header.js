@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Links from "./Links";
-import { Rocket } from "@styled-icons/ionicons-sharp/Rocket";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+// import { Rocket } from "@styled-icons/ionicons-sharp/Rocket";
+// import Links from "./Links";
 
 const Header = () => {
   return (
@@ -28,15 +28,15 @@ const Container = styled.div`
   background: ${({ theme }) => theme.primaryBackground};
 `;
 
-const Logo = styled.div`
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  h1 {
-    padding-left: 1rem;
-    color: ${({ theme }) => theme.primaryLight};
-  }
-`;
+// const Logo = styled.div`
+//   justify-content: center;
+//   align-items: center;
+//   padding: 1rem;
+//   h1 {
+//     padding-left: 1rem;
+//     color: ${({ theme }) => theme.primaryLight};
+//   }
+// `;
 
 const NavLink = styled(Link)`
   flex: 1 0;
@@ -48,8 +48,8 @@ const NavLink = styled(Link)`
   }
 `;
 
-const RocketIcon = styled(Rocket)`
-  color: white;
-  height: 5rem;
-  width: 5rem;
-`;
+// const RocketIcon = styled(Rocket)`
+//   color: white;
+//   height: 5rem;
+//   width: 5rem;
+// `;

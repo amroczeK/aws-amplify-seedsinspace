@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-// Material UI Imports
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
@@ -64,11 +62,11 @@ const StyledTypography = styled(Typography)`
   color: ${({ theme }) => theme.primaryDark};
 `;
 
-const StyledNavLink = styled.a`
-  color: ${({ theme }) => theme.primaryBackground};
-  align-self: center;
-  font-size: 0.75em;
-`;
+// const StyledNavLink = styled.a`
+//   color: ${({ theme }) => theme.primaryBackground};
+//   align-self: center;
+//   font-size: 0.75em;
+// `;
 
 const SeedSetUp = () => {
   const [step, setStep] = useState(0);
