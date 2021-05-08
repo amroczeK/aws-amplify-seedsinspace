@@ -89,7 +89,7 @@ const SignIn = () => {
         <StyledButton disableElevation variant="contained">
           Log in
         </StyledButton>
-        <StyledLink href="/">Don't have an account?</StyledLink>
+        <StyledLink href="/signup">Don't have an account?</StyledLink>
         <StyledLink href="/">Forgot password</StyledLink>
       </SignInContainer>
     </Container>
