@@ -1,25 +1,27 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import GlobalStyle from "./GlobalStyle";
-import { theme } from "./theme";
-import { Base } from "./components";
-import { Home, Dashboard } from "./pages";
-import { Header, Footer } from "./components/Nav";
+import { Home, Dashboard, SignIn } from "./pages";
+import { Header } from "./components/Nav";
+
+import styled from "styled-components";
+
+const AppContainer = styled.div`
+  height: 100vh;
+`;
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
+    <AppContainer>
       <Router>
-        <Header />
+        {/* <Header /> */}
         <Switch>
+          <Route exact path="/login" component={SignIn} />
           <Route exact path="/" component={Home} />
           <Route path="/dashboard" component={Dashboard} />
         </Switch>
         {/* <Footer />         */}
       </Router>
-    </ThemeProvider>
+    </AppContainer>
   );
 };
 

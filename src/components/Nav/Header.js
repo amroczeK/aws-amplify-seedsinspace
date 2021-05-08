@@ -7,13 +7,13 @@ import styled from "styled-components";
 const Header = () => {
   return (
     <Container>
-      <Logo>
-        <NavLink to="/">
-          <RocketIcon />
-          <h1>SEEDS IN SPACE</h1>
-        </NavLink>
-      </Logo>
-      <Links />
+      {/* <Logo> */}
+      <NavLink to="/">
+        {/* <RocketIcon /> */}
+        <h1>Seeds in space</h1>
+      </NavLink>
+      {/* </Logo> */}
+      {/* <Links /> */}
     </Container>
   );
 };
@@ -22,33 +22,30 @@ export default Header;
 
 const Container = styled.div`
   display: flex;
-  position: relative;
-  top: 0;
-  left: 0;
-  height: 8rem;
-  width: 100vw;
-  max-width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5em;
   background: ${({ theme }) => theme.primaryBackground};
 `;
 
 const Logo = styled.div`
-  display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  width: 35rem;
   h1 {
-    font-style: italic;
     padding-left: 1rem;
     color: ${({ theme }) => theme.primaryLight};
   }
 `;
 
 const NavLink = styled(Link)`
-  display: flex;
-  flex-direction: row;
+  flex: 1 0;
   justify-content: center;
   align-items: center;
+  text-decoration: none !important;
+  h1 {
+    color: ${({ theme }) => theme.primaryLight};
+  }
 `;
 
 const RocketIcon = styled(Rocket)`

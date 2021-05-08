@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Header from "./Nav/Header";
-import SideMenu from "./Nav/SideMenu";
 import { Home, Dashboard } from "../pages";
 import Footer from "./Nav/Footer";
 
