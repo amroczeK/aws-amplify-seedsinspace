@@ -7,9 +7,6 @@ import CardContent from "@material-ui/core/CardContent";
 // Styled Components
 import styled from "styled-components";
 
-// Custom Components
-import { Header } from "../components/Nav";
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,7 +121,6 @@ const SeedSetUp = () => {
 
   return (
     <Container>
-      <Header />
       <Stepper />
     </Container>
   );

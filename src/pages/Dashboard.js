@@ -1,5 +1,5 @@
 import React from "react";
-import LineChart from "../components/Charts/LineChart";
+import LineChart from "../components/charts/LineChart";
 import styled from "styled-components";
 
 const Dashboard = () => {

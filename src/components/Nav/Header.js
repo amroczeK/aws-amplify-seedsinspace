@@ -1,19 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-// import { Rocket } from "@styled-icons/ionicons-sharp/Rocket";
-// import Links from "./Links";
+
+import SideMenu from "./SideMenu";
 
 const Header = () => {
   return (
     <Container>
-      {/* <Logo> */}
+      <SideMenu />
       <NavLink to="/">
-        {/* <RocketIcon /> */}
-        <h1>Seeds in space</h1>
+        <h2>Seeds in space</h2>
       </NavLink>
-      {/* </Logo> */}
-      {/* <Links /> */}
     </Container>
   );
 };
@@ -22,34 +19,19 @@ export default Header;
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  padding: 1.5em;
+  padding: 1em;
+  gap: 2em;
   background: ${({ theme }) => theme.primaryBackground};
 `;
-
-// const Logo = styled.div`
-//   justify-content: center;
-//   align-items: center;
-//   padding: 1rem;
-//   h1 {
-//     padding-left: 1rem;
-//     color: ${({ theme }) => theme.primaryLight};
-//   }
-// `;
 
 const NavLink = styled(Link)`
   flex: 1 0;
   justify-content: center;
   align-items: center;
   text-decoration: none !important;
-  h1 {
+  h2 {
     color: ${({ theme }) => theme.primaryLight};
   }
 `;
-
-// const RocketIcon = styled(Rocket)`
-//   color: white;
-//   height: 5rem;
-//   width: 5rem;
-// `;

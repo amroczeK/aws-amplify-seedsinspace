@@ -1,43 +1,41 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Home, SignIn, SignUp, SeedSetUp } from "./pages";
 import styled from "styled-components";
-import { UserNav } from "./components/Nav/UserNav";
-import { PublicNav } from "./components/Nav/PublicNav";
+import Header from "./components/nav/Header";
+
+// Context
+import { UserContext } from "./components/context/User";
 
 const AppContainer = styled.div`
   height: 100vh;
 `;
 
 const App = () => {
-  // Put this somewhere else like in context
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { loggedIn } = useContext(UserContext);
 
   return (
     <AppContainer>
-      {loggedIn && (
-        <div>
-          <UserNav />
-          <Router>
+      <Router>
+        <Header />
+        {loggedIn && (
+          <div>
             <Switch>
               <Route exact path="/seed-setup" component={SeedSetUp} />
               <Route exact path="/" component={Home} />
             </Switch>
-          </Router>
-        </div>
-      )}
-      {!loggedIn && (
-        <div>
-          <PublicNav />
-          <Router>
+          </div>
+        )}
+        {!loggedIn && (
+          <div>
             <Switch>
               <Route exact path="/signin" component={SignIn} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/" component={<div>Public Home</div>} />
             </Switch>
-          </Router>
-        </div>
-      )}
+          </div>
+        )}
+      </Router>
     </AppContainer>
   );
 };

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "./Nav/Header";
+import Header from "./nav/Header";
 import { Home, Dashboard } from "../pages";
-import Footer from "./Nav/Footer";
+import Footer from "./nav/Footer";
 
 const Base = () => {
   return (

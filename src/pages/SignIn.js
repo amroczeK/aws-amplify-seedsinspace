@@ -6,7 +6,6 @@ import { StyledButton } from "../components/styled-components/Buttons";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import Logo from "../assets/logo.png";
-import { Header } from "../components/Nav";
 import { Controller, useForm } from "react-hook-form";
 
 const SignIn = () => {
@@ -27,7 +26,6 @@ const SignIn = () => {
 
   return (
     <Container>
-      <Header />
       <SignInContainer>
         <StyledImg src={Logo}></StyledImg>
         <GridForm onSubmit={handleSubmit(login)}>

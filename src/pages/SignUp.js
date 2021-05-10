@@ -7,7 +7,6 @@ import { StyledLink } from "../components/styled-components/Links";
 import { StyledTypography } from "../components/styled-components/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
-import { Header } from "../components/Nav";
 import { Controller, useForm } from "react-hook-form";
 
 const Container = styled.div`
@@ -149,7 +148,6 @@ const SignUp = () => {
 
   return (
     <Container>
-      <Header />
       <Stepper />
     </Container>
   );
