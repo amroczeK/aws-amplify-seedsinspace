@@ -19,21 +19,20 @@ const App = () => {
       <Router>
         <Header />
         {loggedIn && (
-          <div>
+          <>
             <Switch>
               <Route exact path="/seed-setup" component={SeedSetUp} />
               <Route exact path="/" component={Home} />
             </Switch>
-          </div>
+          </>
         )}
         {!loggedIn && (
-          <div>
+          <>
             <Switch>
-              <Route exact path="/signin" component={SignIn} />
               <Route exact path="/signup" component={SignUp} />
-              <Route exact path="/" component={<div>Public Home</div>} />
+              <Route exact path="*" component={SignIn} />
             </Switch>
-          </div>
+          </>
         )}
       </Router>
     </AppContainer>
