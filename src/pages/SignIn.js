@@ -30,20 +30,10 @@ const SignIn = () => {
         <StyledImg src={Logo}></StyledImg>
         <GridForm onSubmit={handleSubmit(login)}>
           <InputLabel shrink>EMAIL ADDRESS</InputLabel>
-          <Controller
-            name="email"
-            defaultValue=""
-            control={control}
-            render={({ field }) => <TextField {...field} />}
-          />
+          <Controller name="email" defaultValue="" control={control} render={({ field }) => <TextField {...field} type="email" required />} />
 
           <InputLabel shrink>PASSWORD</InputLabel>
-          <Controller
-            name="password"
-            defaultValue=""
-            control={control}
-            render={({ field }) => <TextField {...field} type="password" />}
-          />
+          <Controller name="password" defaultValue="" control={control} required render={({ field }) => <TextField {...field} type="password" required />} />
           <StyledButton type="submit" disableElevation variant="contained">
             Log in
           </StyledButton>
