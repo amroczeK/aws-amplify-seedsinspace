@@ -1,15 +1,12 @@
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Home, SignIn, SignUp, SeedSetUp } from "./pages";
-import styled from "styled-components";
-import Header from "./components/nav/Header";
-
-// Context
-import { UserContext } from "./components/context/User";
-
-const AppContainer = styled.div`
-  height: 100vh;
-`;
+import { ThemeProvider } from "styled-components";
+import GlobalStyle from "./GlobalStyle";
+import { theme } from "./theme";
+import { Base } from "./components";
+import { Home, Dashboard } from "./pages";
+import { Header, Footer } from "./components/Nav";
+import DatePicker from "./components/DatePicker/DatePicker";
 
 const App = () => {
   const { loggedIn } = useContext(UserContext);
@@ -36,6 +33,7 @@ const App = () => {
         )}
       </Router>
     </AppContainer>
+
   );
 };
 
