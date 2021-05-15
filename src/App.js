@@ -1,6 +1,14 @@
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Home, SignIn, SignUp, SeedSetUp } from "./pages";
+import {
+  Home,
+  SignIn,
+  SignUp,
+  SeedSetUp,
+  AboutUs,
+  ParticipatingSchools,
+  Faq,
+} from "./pages";
 import styled from "styled-components";
 import Header from "./components/nav/Header";
 
@@ -29,7 +37,12 @@ const App = () => {
         {!loggedIn && (
           <>
             <Switch>
+              <Route exact path="/signin" component={SignIn} />
               <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/about" component={AboutUs} />
+              <Route exact path="/schools" component={ParticipatingSchools} />
+              <Route exact path="/faq" component={Faq} />
+
               <Route exact path="*" component={SignIn} />
             </Switch>
           </>

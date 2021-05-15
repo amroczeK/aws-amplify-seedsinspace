@@ -5,20 +5,20 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-const PublicMenu = () => {
+const PublicMenu = ({ callback }) => {
   return (
     <>
       <List component="nav">
-        <ListItem button component={Link} to="/about">
+        <ListItem button component={Link} onClick={callback} to="/about">
           <StyledListItemText primary="About Us" />
         </ListItem>
-        <ListItem button component={Link} to="/schools">
+        <ListItem button component={Link} onClick={callback} to="/schools">
           <StyledListItemText primary="Participating Schools" />
         </ListItem>
-        <ListItem button component={Link} to="/faq">
+        <ListItem button component={Link} onClick={callback} to="/faq">
           <StyledListItemText primary="FAQ" />
         </ListItem>
-        <ListItem button component={Link} to="/signin">
+        <ListItem button component={Link} onClick={callback} to="/signin">
           <StyledListItemText primary="Login" />
         </ListItem>
       </List>

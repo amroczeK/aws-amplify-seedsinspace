@@ -8,9 +8,9 @@ const Header = () => {
   return (
     <Container>
       <SideMenu />
-      <NavLink to="/">
+      <StyledLink to="/">
         <h2>Seeds in space</h2>
-      </NavLink>
+      </StyledLink>
     </Container>
   );
 };
@@ -26,8 +26,7 @@ const Container = styled.div`
   background: ${({ theme }) => theme.primaryBackground};
 `;
 
-const NavLink = styled(Link)`
-  flex: 1 0;
+const StyledLink = styled(Link)`
   justify-content: center;
   align-items: center;
   text-decoration: none !important;

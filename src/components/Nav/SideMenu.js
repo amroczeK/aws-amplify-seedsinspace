@@ -12,6 +12,7 @@ import { Close } from "@styled-icons/evaicons-solid/Close";
 
 // Custom Components
 import { StyledTypography } from "../styled-components/Typography";
+import AdminMenu from "./AdminMenu";
 import UserMenu from "./UserMenu";
 import PublicMenu from "./PublicMenu";
 
@@ -25,14 +26,29 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const SideMenu = () => {
   const [open, setOpen] = useState(false);
 
-  const { loggedIn } = useContext(UserContext);
+  const { userData, loggedIn } = useContext(UserContext);
 
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    console.log("hello");
     setOpen(false);
+  };
+
+  // NOTE: WILL NEED TO CHANGE WHEN WE INCORPORATE AUTH FLOWS
+  const Menus = () => {
+    if (loggedIn) {
+      const userMenus = {
+        admin: <AdminMenu callback={handleClose} />,
+        default: <UserMenu callback={handleClose} />,
+      };
+
+      return userMenus[userData.role] || userMenus["default"];
+    } else {
+      return <PublicMenu callback={handleClose} />;
+    }
   };
 
   return (
@@ -48,7 +64,7 @@ const SideMenu = () => {
           </IconButton>
         </StyledAppBar>
         <StyledMenuContent>
-          {loggedIn ? <UserMenu /> : <PublicMenu />}
+          <Menus />
         </StyledMenuContent>
       </Dialog>
     </>
@@ -71,11 +87,12 @@ const StyledAppBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1em;
+  padding: 1em 0em 0em 2em;
   background: ${({ theme }) => theme.primaryBackground};
 `;
 
 const StyledMenuContent = styled.div`
+  padding: 1em 0em 0em 1em;
   height: 100%;
   background: ${({ theme }) => theme.primaryBackground};
 `;

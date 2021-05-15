@@ -6,6 +6,8 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
 
+  userData.username = "test"; // NOTE: DELETE THIS LATER
+
   return (
     <UserContext.Provider value={{ userData, loggedIn }}>
       {children}
