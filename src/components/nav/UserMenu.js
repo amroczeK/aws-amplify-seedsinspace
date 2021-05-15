@@ -9,7 +9,7 @@ const UserMenu = ({ callback }) => {
   return (
     <>
       <List component="nav">
-        <ListItem button component={Link} onClick={callback} to="/">
+        <ListItem button component={Link} onClick={callback} to="/dashboard">
           <StyledListItemText primary="Dashboard" />
         </ListItem>
         <ListItem button component={Link} onClick={callback} to="/profile">

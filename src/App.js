@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   Home,
+  Dashboard,
   SignIn,
   SignUp,
   SeedSetUp,
@@ -30,6 +31,7 @@ const App = () => {
           <>
             <Switch>
               <Route exact path="/seed-setup" component={SeedSetUp} />
+              <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/" component={Home} />
             </Switch>
           </>
