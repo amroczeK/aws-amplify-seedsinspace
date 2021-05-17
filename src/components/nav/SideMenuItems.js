@@ -19,7 +19,7 @@ export const SideMenuItems = ({ callback }) => {
     <List component="nav">
       {loggedIn && (
         <>
-          <ListItem button component={Link} onClick={callback} to="/">
+          <ListItem button component={Link} onClick={callback} to="/dashboard">
             <StyledListItemText primary="Dashboard" />
           </ListItem>
           <ListItem button component={Link} onClick={callback} to="/profile">
