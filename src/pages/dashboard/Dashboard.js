@@ -1,5 +1,4 @@
 import React from "react";
-import LineChart from "../../components/charts/LineChart";
 import styled from "styled-components";
 
 import { StyledButton } from "../../components/styled-components/Buttons";
