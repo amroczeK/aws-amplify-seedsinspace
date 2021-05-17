@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import Dialog from "@material-ui/core/Dialog";
-import IconButton from "@material-ui/core/IconButton";
-import Slide from "@material-ui/core/Slide";
-import styled from "styled-components";
-import { Menu } from "@styled-icons/heroicons-solid/Menu";
-import { Close } from "@styled-icons/evaicons-solid/Close";
-import { StyledTypographyLight } from "../styled-components/Typography";
-import { StyledLink } from "../styled-components/Links";
-import { SideMenuItems } from "./SideMenuItems";
+import React, { useState } from 'react';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import styled from 'styled-components';
+import { Menu } from '@styled-icons/heroicons-solid/Menu';
+import { Close } from '@styled-icons/evaicons-solid/Close';
+import { StyledTypographyLight } from '../styled-components/Typography';
+import { StyledLink } from '../styled-components/Links';
+import { SideMenuItems } from './SideMenuItems';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="right" ref={ref} {...props} />;
+  return <Slide direction='right' ref={ref} {...props} />;
 });
 
 const StyledMenuIcon = styled(Menu)`
@@ -48,24 +48,21 @@ const SideMenu = () => {
   };
 
   const handleClose = () => {
-    console.log("hello");
     setOpen(false);
   };
 
   return (
     <>
-      <IconButton onClick={handleOpen}>
+      <IconButton style={{ marginLeft: '0.25em' }} onClick={handleOpen}>
         <StyledMenuIcon />
       </IconButton>
-      <StyledLink color="white" to="/">
+      <StyledLink color='white' to='/'>
         <h2>Seeds in space</h2>
       </StyledLink>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
         <StyledAppBar>
-          <StyledTypographyLight variant="h5">
-            Seeds in Space
-          </StyledTypographyLight>
-          <IconButton onClick={handleClose}>
+          <StyledTypographyLight variant='h5'>Seeds in Space</StyledTypographyLight>
+          <IconButton style={{ marginRight: '0.5em' }} onClick={handleClose}>
             <StyledCloseIcon />
           </IconButton>
         </StyledAppBar>

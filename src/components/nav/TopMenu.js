@@ -9,22 +9,22 @@ import { StyledLink } from "../styled-components/Links";
 const TopMenu = () => {
   return (
     <>
-      <StyledLink padding="0 0 4px 2em" color="white" to="/">
+      <StyledLink padding='0 0 4px 2em' color='white' to='/'>
         <h2>Seeds in space</h2>
       </StyledLink>
-      <StyledList component="nav">
-        <StyledListItem component={Link} to="/dashboard">
-          <ListItemText primary="Dashboard" />
+      <StyledList component='nav'>
+        <StyledListItem component={Link} to='/dashboard'>
+          <ListItemText primary='Dashboard' />
         </StyledListItem>
-        <StyledListItem component={Link} to="/about">
-          <ListItemText primary="Resources" />
+        <StyledListItem component={Link} to='/about'>
+          <ListItemText primary='Resources' />
         </StyledListItem>
-        <StyledListItem component={Link} to="/profile">
-          <ListItemText primary="Profile" />
+        <StyledListItem component={Link} to='/profile'>
+          <ListItemText primary='Profile' />
         </StyledListItem>
         <Expander />
-        <StyledListItem component={Link} to="/logout">
-          <ListItemText primary="Logout" />
+        <StyledListItem style={{ marginRight: '0.65em' }} component={Link} to='/logout'>
+          <ListItemText primary='Logout' />
         </StyledListItem>
       </StyledList>
     </>
