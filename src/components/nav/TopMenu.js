@@ -4,37 +4,50 @@ import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import { StyledLink } from "../styled-components/Links";
 
-const TopMenu = ({ callback }) => {
+const TopMenu = () => {
   return (
     <>
+      <StyledLink padding="0 0 4px 2em" color="white" to="/">
+        <h2>Seeds in space</h2>
+      </StyledLink>
       <StyledList component="nav">
-        <ListItem button component={Link} onClick={callback} to="/dashboard">
-          <StyledListItemText primary="Dashboard" />
-        </ListItem>
-        <ListItem button component={Link} onClick={callback} to="/about">
-          <StyledListItemText primary="Resources" />
-        </ListItem>
-        <ListItem button component={Link} onClick={callback} to="/profile">
-          <StyledListItemText primary="Profile" />
-        </ListItem>
-        <ListItem button component={Link} onClick={callback} to="/logout">
-          <StyledListItemText primary="Logout" />
-        </ListItem>
+        <StyledListItem component={Link} to="/dashboard">
+          <ListItemText primary="Dashboard" />
+        </StyledListItem>
+        <StyledListItem component={Link} to="/about">
+          <ListItemText primary="Resources" />
+        </StyledListItem>
+        <StyledListItem component={Link} to="/profile">
+          <ListItemText primary="Profile" />
+        </StyledListItem>
+        <Expander />
+        <StyledListItem component={Link} to="/logout">
+          <ListItemText primary="Logout" />
+        </StyledListItem>
       </StyledList>
     </>
   );
 };
 
-const StyledList = styled(List)`
-  display: flex;
-  & a:last-child {
-    align-self: flex-end;
-  }
+const Expander = styled.div`
+  flex: 1 0;
 `;
 
-const StyledListItemText = styled(ListItemText)`
+const StyledList = styled(List)`
+  display: flex;
+  flex: 1 0;
+  padding: 0;
+`;
+
+const StyledListItem = styled(ListItem)`
   color: ${({ theme }) => theme.primaryLight};
+  width: 115px;
+  text-align: center;
+  &:hover {
+    background-color: hsl(149deg 45% 34%);
+  }
 `;
 
 export default TopMenu;

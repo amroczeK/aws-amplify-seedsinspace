@@ -5,11 +5,8 @@ import Slide from "@material-ui/core/Slide";
 import styled from "styled-components";
 import { Menu } from "@styled-icons/heroicons-solid/Menu";
 import { Close } from "@styled-icons/evaicons-solid/Close";
-
-// Custom Components
 import { StyledTypographyLight } from "../styled-components/Typography";
-
-// Context
+import { StyledLink } from "../styled-components/Links";
 import { SideMenuItems } from "./SideMenuItems";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -60,6 +57,9 @@ const SideMenu = () => {
       <IconButton onClick={handleOpen}>
         <StyledMenuIcon />
       </IconButton>
+      <StyledLink color="white" to="/">
+        <h2>Seeds in space</h2>
+      </StyledLink>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
         <StyledAppBar>
           <StyledTypographyLight variant="h5">
