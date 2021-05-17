@@ -44,6 +44,8 @@ const SignUp = () => {
   const { control, handleSubmit, formState } = useForm();
   const { errors } = formState;
 
+  console.log(`error: ${errors}`);
+
   async function signUp(formData) {
     console.log("Submitting Data");
     console.log(formData);

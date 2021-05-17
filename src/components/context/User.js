@@ -3,14 +3,10 @@ import React, { useState } from "react";
 export const UserContext = React.createContext();
 
 export const UserProvider = ({ children }) => {
-  const [userData, setUserData] = useState({});
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [userData, setUserData] = useState({ username: "TEST" });
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  userData.username = "test"; // NOTE: DELETE THIS LATER
+  const values = { userData, loggedIn, setUserData, setLoggedIn };
 
-  return (
-    <UserContext.Provider value={{ userData, loggedIn }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 };
