@@ -1,27 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-import { StyledLink } from "../styled-components/Links";
 import SideMenu from "./SideMenu";
 import TopMenu from "./TopMenu";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 
-const Header = () => {
+export const AppNavBar = () => {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Container>
-      <SideMenu />
-      <StyledLink color="white" to="/">
-        <h2>Seeds in space</h2>
-      </StyledLink>
-      <TopMenu />
+      {isSmall && <SideMenu />}
+      {!isSmall && <TopMenu />}
     </Container>
   );
 };
 
-export default Header;
-
 const Container = styled.div`
   display: flex;
   align-items: center;
-  padding: 1em;
   gap: 2em;
+  height: 70px;
   background-color: ${({ theme }) => theme.primaryBackground};
 `;
