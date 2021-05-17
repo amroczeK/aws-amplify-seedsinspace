@@ -18,7 +18,7 @@ const App = () => {
     <AppContainer>
       <Router>
         <Header />
-        {loggedIn && (
+        {!loggedIn && (
           <>
             <Switch>
               <Route exact path="/seed-setup" component={SeedSetUp} />
