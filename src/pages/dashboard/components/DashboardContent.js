@@ -15,16 +15,15 @@ const DashboardContent = () => {
   };
   return (
     <Container>
-      <StyledTabs
+      <Tabs
         value={tab}
         onChange={handleChange}
         TabIndicatorProps={{
           style: { background: "#6BBE93" },
         }}
-        aria-label="simple tabs example"
         variant="fullWidth"
       >
-        <Tab
+        <StyledTab
           label={
             <>
               <StyledTabDiv>
@@ -33,7 +32,7 @@ const DashboardContent = () => {
             </>
           }
         />
-        <Tab
+        <StyledTab
           label={
             <>
               <StyledTabDiv>
@@ -42,7 +41,7 @@ const DashboardContent = () => {
             </>
           }
         />
-      </StyledTabs>
+      </Tabs>
     </Container>
   );
 };
@@ -55,7 +54,7 @@ const Container = styled.div`
   min-width: 300px;
 `;
 
-const StyledTabs = styled(Tabs)`
+const StyledTab = styled(Tab)`
   selected: {
     color: ${({ theme }) => theme.primaryBackground};
   }
@@ -71,11 +70,9 @@ const StyledTabDiv = styled.div`
 const StyledCalendarIcon = styled(Calendar3)`
   width: 1.5em;
   height: 1.5em;
-  padding: 0em;
 `;
 
 const StyledBarGraphIcon = styled(BarGraph)`
   width: 1.5em;
   height: 1.5em;
-  padding: 0em;
 `;

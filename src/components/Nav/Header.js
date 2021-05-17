@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import SideMenu from "./SideMenu";
+import TopMenu from "./TopMenu";
 
 const Header = () => {
   return (
@@ -11,6 +12,7 @@ const Header = () => {
       <StyledLink to="/">
         <h2>Seeds in space</h2>
       </StyledLink>
+      <TopMenu />
     </Container>
   );
 };

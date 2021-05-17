@@ -1,14 +1,20 @@
 import React from "react";
 
+import { format } from "date-fns";
+
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
+import { StyledTypographyDark } from "../components/styled-components/Typography";
 
 const Weather = () => {
+  const date = new Date();
+
   return (
     <Card>
       <CardContent>
-        <Typography variant="body2">Placeholder: Weather API</Typography>
+        <StyledTypographyDark variant="h6">
+          {format(date, "eeee dd MMMM")}
+        </StyledTypographyDark>
       </CardContent>
     </Card>
   );

@@ -11,7 +11,7 @@ import { Menu } from "@styled-icons/heroicons-solid/Menu";
 import { Close } from "@styled-icons/evaicons-solid/Close";
 
 // Custom Components
-import { StyledTypography } from "../styled-components/Typography";
+import { StyledTypographyLight } from "../styled-components/Typography";
 import AdminMenu from "./AdminMenu";
 import UserMenu from "./UserMenu";
 import PublicMenu from "./PublicMenu";
@@ -58,7 +58,9 @@ const SideMenu = () => {
       </IconButton>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
         <StyledAppBar>
-          <StyledTypography variant="h5">Seeds in Space</StyledTypography>
+          <StyledTypographyLight variant="h5">
+            Seeds in Space
+          </StyledTypographyLight>
           <IconButton onClick={handleClose}>
             <StyledCloseIcon />
           </IconButton>

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Camera } from "@styled-icons/bootstrap/Camera";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
-import { StyledTypography } from "../components/styled-components/Typography";
+import { StyledTypographyDark } from "../components/styled-components/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import { Controller, useForm } from "react-hook-form";
@@ -68,9 +68,9 @@ const SignUp = () => {
     return (
       <SignUpContainer>
         <GridForm onSubmit={handleSubmit(signUp)}>
-          <StyledTypography fontWeight="bold" variant="h5">
+          <StyledTypographyDark fontWeight="bold" variant="h5">
             Create an account
-          </StyledTypography>
+          </StyledTypographyDark>
           <InputLabel shrink>SCHOOL/ORGANISATION'S NAME</InputLabel>
           <Controller
             name="organisation"
@@ -106,9 +106,9 @@ const SignUp = () => {
   const FillInYourProfile = () => {
     return (
       <SignUpContainer>
-        <StyledTypography fontWeight="bold" variant="h5">
+        <StyledTypographyDark fontWeight="bold" variant="h5">
           Fill in your profile
-        </StyledTypography>
+        </StyledTypographyDark>
         <span>
           <CameraIcon />
           <StyledLink to="/" margin="0 2em">
