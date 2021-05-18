@@ -1,6 +1,5 @@
 import React from "react";
 import ReactPlotly from "react-plotly.js";
-import styled from "styled-components";
 
 const Plotly = ({ data, layout, title }) => {
   return (
@@ -21,7 +20,6 @@ const Plotly = ({ data, layout, title }) => {
       }}
       style={{
         width: "100%",
-        height: "50%",
       }}
       useResizeHandler={true}
     />
