@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Home, SignIn, SignUp, SeedSetUp } from "./pages";
+import * as Pages from "./pages";
 import styled from "styled-components";
-import Header from "./components/nav/Header";
-
-// Context
+import { AppNavBar } from "./components/nav";
 import { UserContext } from "./components/context/User";
 
 const AppContainer = styled.div`
@@ -17,20 +15,30 @@ const App = () => {
   return (
     <AppContainer>
       <Router>
-        <Header />
+        <AppNavBar />
         {loggedIn && (
           <>
             <Switch>
-              <Route exact path="/seed-setup" component={SeedSetUp} />
-              <Route exact path="/" component={Home} />
+              <Route exact path="/seed-setup" component={Pages.SeedSetUp} />
+              <Route exact path="/dashboard" component={Pages.Dashboard} />
+              <Route exact path="/" component={Pages.Home} />
             </Switch>
           </>
         )}
         {!loggedIn && (
           <>
             <Switch>
-              <Route exact path="/signup" component={SignUp} />
-              <Route exact path="*" component={SignIn} />
+              <Route exact path="/signin" component={Pages.SignIn} />
+              <Route exact path="/signup" component={Pages.SignUp} />
+              <Route exact path="/about" component={Pages.AboutUs} />
+              <Route
+                exact
+                path="/schools"
+                component={Pages.ParticipatingSchools}
+              />
+              <Route exact path="/faq" component={Pages.Faq} />
+
+              <Route exact path="*" component={Pages.SignIn} />
             </Switch>
           </>
         )}

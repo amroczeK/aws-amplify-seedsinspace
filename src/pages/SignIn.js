@@ -9,7 +9,7 @@ import Logo from "../assets/logo.png";
 import { Controller, useForm } from "react-hook-form";
 
 const SignIn = () => {
-  const { control, handleSubmit, formState } = useForm();
+  const { control, handleSubmit } = useForm();
 
   const login = async ({ email, password }) => {
     var AmplifySetup = false;
@@ -17,6 +17,7 @@ const SignIn = () => {
     if (AmplifySetup) {
       try {
         const user = await Auth.signIn(email, password);
+        console.log(user);
       } catch (error) {
         console.log("error signing in", error);
       }
@@ -34,15 +35,20 @@ const SignIn = () => {
             name="email"
             defaultValue=""
             control={control}
-            render={({ field }) => <TextField {...field} type="email" required />}
+            render={({ field }) => (
+              <TextField {...field} type="email" required />
+            )}
           />
+
           <InputLabel shrink>PASSWORD</InputLabel>
           <Controller
             name="password"
             defaultValue=""
             control={control}
             required
-            render={({ field }) => <TextField {...field} type="password" required />}
+            render={({ field }) => (
+              <TextField {...field} type="password" required />
+            )}
           />
           <StyledButton type="submit" disableElevation variant="contained">
             Log in
