@@ -59,7 +59,7 @@ const SignUp = () => {
     // }
   }
 
-  const Stepper = () => {
+  const stepContent = () => {
     return {
       0: <CreateAnAccount />,
       1: <FillInYourProfile />,
@@ -148,11 +148,7 @@ const SignUp = () => {
     );
   };
 
-  return (
-    <Container>
-      <Stepper />
-    </Container>
-  );
+  return <Container>{stepContent()}</Container>;
 };
 
 export default SignUp;

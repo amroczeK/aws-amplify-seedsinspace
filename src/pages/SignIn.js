@@ -53,9 +53,6 @@ const SignIn = () => {
           <StyledButton type="submit" disableElevation variant="contained">
             Log in
           </StyledButton>
-          <StyledLink to="/signup" decoration="underline">
-            Don't have an account?
-          </StyledLink>
           <StyledLink to="/" decoration="underline">
             Forgot password
           </StyledLink>

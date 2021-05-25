@@ -64,7 +64,7 @@ const StyledButtonLight = styled(Button)`
 const SeedSetUp = () => {
   const [step, setStep] = useState(0);
 
-  const Stepper = () => {
+  const stepContent = () => {
     return {
       0: <SeedsPlantedQuery />,
       1: <SeedsPlantedSetUp />,
@@ -115,11 +115,7 @@ const SeedSetUp = () => {
     );
   };
 
-  return (
-    <Container>
-      <Stepper />
-    </Container>
-  );
+  return <Container>{stepContent()}</Container>;
 };
 
 export default SeedSetUp;

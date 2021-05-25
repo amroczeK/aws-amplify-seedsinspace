@@ -9,7 +9,12 @@ const Dashboard = () => {
   return (
     <Container>
       <DashboardContainer>
-        <StyledButton type="submit" disableElevation variant="contained">
+        <StyledButton
+          type="submit"
+          disableElevation
+          variant="contained"
+          color="primary"
+        >
           Add seed entry
         </StyledButton>
         <Weather />

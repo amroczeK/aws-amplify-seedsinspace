@@ -1,3 +1,5 @@
+import { createMuiTheme } from "@material-ui/core/styles";
+
 /**
  * Colour scheme reference:
  * https://visme.co/blog/website-color-schemes/
@@ -12,3 +14,14 @@ export const theme = {
   secondaryLight: "#6BBE93",
   mobile: "576px",
 };
+
+export const muitheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#358C5F",
+    },
+    secondary: {
+      main: "#2B7A78",
+    },
+  },
+});
