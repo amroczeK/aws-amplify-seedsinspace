@@ -1,11 +1,20 @@
 import React from "react";
+import { Auth } from "aws-amplify";
 import { LogOut } from "@styled-icons/boxicons-regular/LogOut";
 import styled from "styled-components";
 
 const LogoutButton = () => {
+  const logout = async () => {
+    try {
+      console.log('here')
+      await Auth.signOut();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Container>
-      <LogoutBtn />
+      <LogoutBtn onClick={logout} />
       <h1>LOGOUT</h1>
     </Container>
   );
