@@ -1,21 +1,24 @@
-import React from "react";
-import { Auth } from "aws-amplify";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { StyledLink } from "../styled-components/Links";
+import { UserContext } from "../context/User";
 
-const TopMenu = ({ history }) => {
-  const logout = async () => {
+const TopMenu = () => {
+  const { signOut } = useContext(UserContext);
+
+  const signOutHandler = async () => {
     try {
-      await Auth.signOut();
+      await signOut();
       window.location.replace("/");
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <>
       <StyledLink padding="0 0 4px 2em" color="white" to="/">
@@ -33,7 +36,7 @@ const TopMenu = ({ history }) => {
         </StyledListItem>
         <Expander />
         <StyledListItem style={{ marginRight: "0.65em" }} component={Link} to="/logout">
-          <ListItemText onClick={logout} primary="Logout" />
+          <ListItemText onClick={signOutHandler} primary="Logout" />
         </StyledListItem>
       </StyledList>
     </>

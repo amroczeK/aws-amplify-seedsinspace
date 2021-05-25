@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { Auth } from "aws-amplify";
-import styled from "styled-components";
+import React, { useState, useEffect, useContext } from "react";
 import { StyledLink } from "../components/styled-components/Links";
 import { StyledButton } from "../components/styled-components/Buttons";
 import TextField from "@material-ui/core/TextField";
@@ -9,26 +6,29 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Alert from "@material-ui/lab/Alert";
 import Logo from "../assets/logo.png";
 import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signInSchema } from "../components/validation/schemas";
+import { UserContext } from "../components/context/User";
+import styled from "styled-components";
 
 const SignIn = () => {
   const [error, setError] = useState(null);
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, formState } = useForm({
+    resolver: yupResolver(signInSchema),
+  });
 
-  const login = async ({ email, password }) => {
-    var AmplifySetup = true;
+  const { errors } = formState;
 
-    if (AmplifySetup) {
-      try {
-        const user = await Auth.signIn(email, password);
-        setError(null); // Always clear potential previous errors on successful signin
-        console.log(user);
-        window.location.replace("/");
-      } catch (error) {
-        console.log("error signing in", error);
-        setError(error);
-      }
+  const { signIn } = useContext(UserContext);
+
+  const signInHandler = async ({ email, password }) => {
+    try {
+      await signIn({ email, password });
+      setError(null); // Always clear potential previous errors on successful signin
+    } catch (error) {
+      console.log(error);
+      setError(error);
     }
-    console.log(`User email: ${email}, password: ${password}`);
   };
 
   useEffect(() => {
@@ -39,13 +39,19 @@ const SignIn = () => {
     <Container>
       <SignInContainer>
         <StyledImg src={Logo}></StyledImg>
-        <GridForm onSubmit={handleSubmit(login)}>
+        <GridForm onSubmit={handleSubmit(signInHandler)}>
           <InputLabel shrink>EMAIL ADDRESS</InputLabel>
           <Controller
             name="email"
             defaultValue=""
             control={control}
-            render={({ field }) => <TextField {...field} type="email" required />}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                error={errors?.email}
+                helperText={errors?.email?.message}
+              />
+            )}
           />
 
           <InputLabel shrink>PASSWORD</InputLabel>
@@ -53,8 +59,14 @@ const SignIn = () => {
             name="password"
             defaultValue=""
             control={control}
-            required
-            render={({ field }) => <TextField {...field} type="password" required />}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="password"
+                error={errors?.password}
+                helperText={errors?.password?.message}
+              />
+            )}
           />
           {error && <Alert severity="error">{error.message}</Alert>}
           <StyledButton type="submit" disableElevation variant="contained">

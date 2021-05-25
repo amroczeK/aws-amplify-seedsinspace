@@ -7,6 +7,53 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
+  const signUp = async formData => {
+    const { email, password, organisation, address } = formData;
+    console.log(formData);
+    try {
+      await Auth.signUp({
+        username: email,
+        password,
+        attributes: { email, name: organisation, address },
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const confirmSignUp = async formData => {
+    const { email, authCode } = formData;
+    try {
+      await Auth.confirmSignUp(email, authCode);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const signIn = async ({ email, password }) => {
+    var AmplifySetup = true;
+
+    if (AmplifySetup) {
+      try {
+        await Auth.signIn(email, password);
+        setLoggedIn(true);
+      } catch (error) {
+        throw error;
+      }
+    }
+    console.log(`User email: ${email}, password: ${password}`);
+  };
+
+  const signOut = async () => {
+    try {
+      await Auth.signOut();
+      setLoggedIn(false);
+      setUserData(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     Auth.currentAuthenticatedUser()
       .then(user => {
@@ -22,7 +69,7 @@ export const UserProvider = ({ children }) => {
       });
   }, []);
 
-  const values = { userData, loggedIn, setUserData, setLoggedIn };
+  const values = { userData, loggedIn, signIn, signUp, confirmSignUp, signOut };
 
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 };

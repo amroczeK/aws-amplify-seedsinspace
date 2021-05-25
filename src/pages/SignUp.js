@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Auth } from "aws-amplify";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Camera } from "@styled-icons/bootstrap/Camera";
 import { StyledButton } from "../components/styled-components/Buttons";
@@ -7,48 +6,41 @@ import { StyledLink } from "../components/styled-components/Links";
 import { StyledTypographyDark } from "../components/styled-components/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
+import Alert from "@material-ui/lab/Alert";
 import { Controller, useForm } from "react-hook-form";
+import { UserContext } from "../components/context/User";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signUpSchema } from "../components/validation/schemas";
 
 const SignUp = () => {
   const [step, setStep] = useState(0);
   const [error, setError] = useState(null);
-  const { control, handleSubmit, formState } = useForm();
+  const { control, handleSubmit, formState } = useForm({
+    resolver: yupResolver(signUpSchema),
+  });
   const { errors } = formState;
 
-  const signUp = async formData => {
-    const { email, password, confirmPassword, organisation, address } = formData;
-    console.log(formData);
+  const { signUp, confirmSignUp } = useContext(UserContext);
+
+  const signUpHandler = async formData => {
     try {
-      if (password === confirmPassword) {
-        await Auth.signUp({
-          username: email,
-          password,
-          attributes: { email, name: organisation, address },
-        });
-        setStep(1);
-      } else {
-        throw new Error("Passwords do not match.");
-      }
+      await signUp(formData);
+      setStep(1);
     } catch (error) {
       console.log(error);
       setError(error);
     }
   };
 
-  const confirmSignUp = async formData => {
-    const { email, authCode } = formData;
+  const confirmSignUpHandler = async formData => {
     try {
-      await Auth.confirmSignUp(email, authCode);
+      await confirmSignUp(formData);
       setStep(2);
     } catch (error) {
       console.log(error);
       setError(error);
     }
   };
-
-  useEffect(() => {
-    if (error) console.log(error);
-  }, [error]);
 
   const Stepper = () => {
     return {
@@ -61,23 +53,37 @@ const SignUp = () => {
   const CreateAnAccount = () => {
     return (
       <SignUpContainer>
-        <GridForm onSubmit={handleSubmit(signUp)}>
+        <GridForm onSubmit={handleSubmit(signUpHandler)}>
           <StyledTypographyDark fontWeight="bold" variant="h5">
             Create an account
           </StyledTypographyDark>
-          <InputLabel shrink>SCHOOL/ORGANISATION'S NAME</InputLabel>
+          <InputLabel shrink>SCHOOL/ORGANISATION NAME</InputLabel>
           <Controller
             name="organisation"
             control={control}
             defaultValue=""
-            render={({ field }) => <TextField {...field} required variant="outlined" />}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                error={errors?.organisation}
+                helperText={errors?.organisation?.message}
+              />
+            )}
           />
-          <InputLabel shrink>SCHOOL/ORGANISATION'S ADDRESS</InputLabel>
+          <InputLabel shrink>SCHOOL/ORGANISATION ADDRESS</InputLabel>
           <Controller
             name="address"
             control={control}
             defaultValue=""
-            render={({ field }) => <TextField {...field} required variant="outlined" />}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                error={errors?.address}
+                helperText={errors?.address?.message}
+              />
+            )}
           />
           <InputLabel shrink>EMAIL ADDRESS</InputLabel>
           <Controller
@@ -85,7 +91,12 @@ const SignUp = () => {
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <TextField {...field} type="email" required variant="outlined" />
+              <TextField
+                {...field}
+                variant="outlined"
+                error={errors?.email}
+                helperText={errors?.email?.message}
+              />
             )}
           />
           <InputLabel shrink>PASSWORD</InputLabel>
@@ -94,7 +105,13 @@ const SignUp = () => {
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <TextField {...field} type="password" required variant="outlined" />
+              <TextField
+                {...field}
+                type="password"
+                variant="outlined"
+                error={errors?.password}
+                helperText={errors?.password?.message}
+              />
             )}
           />
           <InputLabel shrink>CONFIRM PASSWORD</InputLabel>
@@ -103,7 +120,13 @@ const SignUp = () => {
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <TextField {...field} type="password" required variant="outlined" />
+              <TextField
+                {...field}
+                type="password"
+                variant="outlined"
+                error={errors?.confirmPassword}
+                helperText={errors?.confirmPassword?.message}
+              />
             )}
           />
           <StyledLink to="/">SIS disclaimer / terms and conditions</StyledLink>
@@ -118,7 +141,7 @@ const SignUp = () => {
   const ConfirmSignUp = () => {
     return (
       <SignUpContainer>
-        <GridForm onSubmit={handleSubmit(confirmSignUp)}>
+        <GridForm onSubmit={handleSubmit(confirmSignUpHandler)}>
           <InputLabel shrink>EMAIL ADDRESS</InputLabel>
           <Controller
             name="email"
@@ -135,6 +158,7 @@ const SignUp = () => {
             defaultValue=""
             render={({ field }) => <TextField {...field} required variant="outlined" />}
           />
+          {error && <Alert severity="error">{error.message}</Alert>}
           <StyledButton disableElevation variant="contained" type="submit">
             Create account
           </StyledButton>
