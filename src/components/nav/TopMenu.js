@@ -1,30 +1,42 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { StyledLink } from "../styled-components/Links";
+import { UserContext } from "../context/User";
 
 const TopMenu = () => {
+  const { signOut } = useContext(UserContext);
+
+  const signOutHandler = async () => {
+    try {
+      await signOut();
+      window.location.replace("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
-      <StyledLink padding='0 0 4px 2em' color='white' to='/'>
+      <StyledLink padding="0 0 4px 2em" color="white" to="/">
         <h2>Seeds in space</h2>
       </StyledLink>
-      <StyledList component='nav'>
-        <StyledListItem component={Link} to='/dashboard'>
-          <ListItemText primary='Dashboard' />
+      <StyledList component="nav">
+        <StyledListItem component={Link} to="/dashboard">
+          <ListItemText primary="Dashboard" />
         </StyledListItem>
-        <StyledListItem component={Link} to='/about'>
-          <ListItemText primary='Resources' />
+        <StyledListItem component={Link} to="/about">
+          <ListItemText primary="Resources" />
         </StyledListItem>
-        <StyledListItem component={Link} to='/profile'>
-          <ListItemText primary='Profile' />
+        <StyledListItem component={Link} to="/profile">
+          <ListItemText primary="Profile" />
         </StyledListItem>
         <Expander />
-        <StyledListItem style={{ marginRight: '0.65em' }} component={Link} to='/logout'>
-          <ListItemText primary='Logout' />
+        <StyledListItem style={{ marginRight: "0.65em" }} component={Link} to="/logout">
+          <ListItemText onClick={signOutHandler} primary="Logout" />
         </StyledListItem>
       </StyledList>
     </>
