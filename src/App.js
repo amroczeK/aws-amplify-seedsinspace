@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import GlobalStyle from "./GlobalStyle";
-import { theme } from "./theme";
-import { Base } from "./components";
-import { Home, Dashboard } from "./pages";
-import { Header, Footer } from "./components/Nav";
-import DatePicker from "./components/DatePicker/DatePicker";
+import * as Pages from "./pages";
+import styled from "styled-components";
+import { AppNavBar } from "./components/nav";
+import { UserContext } from "./components/context/User";
+
+const AppContainer = styled.div`
+  height: 100vh;
+`;
 
 const App = () => {
   const { loggedIn } = useContext(UserContext);
@@ -14,20 +15,30 @@ const App = () => {
   return (
     <AppContainer>
       <Router>
-        <Header />
+        <AppNavBar />
         {loggedIn && (
           <>
             <Switch>
-              <Route exact path="/seed-setup" component={SeedSetUp} />
-              <Route exact path="/" component={Home} />
+              <Route exact path="/seed-setup" component={Pages.SeedSetUp} />
+              <Route exact path="/dashboard" component={Pages.Dashboard} />
+              <Route exact path="/" component={Pages.Home} />
             </Switch>
           </>
         )}
         {!loggedIn && (
           <>
             <Switch>
-              <Route exact path="/signup" component={SignUp} />
-              <Route exact path="*" component={SignIn} />
+              <Route exact path="/signin" component={Pages.SignIn} />
+              <Route exact path="/signup" component={Pages.SignUp} />
+              <Route exact path="/about" component={Pages.AboutUs} />
+              <Route
+                exact
+                path="/schools"
+                component={Pages.ParticipatingSchools}
+              />
+              <Route exact path="/faq" component={Pages.Faq} />
+
+              <Route exact path="*" component={Pages.SignIn} />
             </Switch>
           </>
         )}

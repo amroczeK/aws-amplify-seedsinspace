@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 
 // Styled Components
 import styled from "styled-components";
+import { StyledTypographyDark } from "../components/styled-components/Typography";
 
 const Container = styled.div`
   display: flex;
@@ -54,11 +55,6 @@ const StyledButtonLight = styled(Button)`
   text-transform: none;
 `;
 
-const StyledTypography = styled(Typography)`
-  font-weight: bold;
-  color: ${({ theme }) => theme.primaryDark};
-`;
-
 // const StyledNavLink = styled.a`
 //   color: ${({ theme }) => theme.primaryBackground};
 //   align-self: center;
@@ -79,9 +75,9 @@ const SeedSetUp = () => {
   const SeedsPlantedQuery = () => {
     return (
       <SeedSetUpContainer>
-        <StyledTypography variant="h5">
+        <StyledTypographyDark variant="h5">
           Have you planted your seeds?
-        </StyledTypography>
+        </StyledTypographyDark>
         <StyledButtonContainer>
           <StyledButton disableElevation variant="contained">
             Yes

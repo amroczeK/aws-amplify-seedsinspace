@@ -3,25 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hookform/resolvers": "^2.5.1",
     "@material-ui/core": "^4.11.4",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
-    "aws-amplify": "^3.4.0",
+    "aws-amplify": "^3.4.3",
+    "date-fns": "^2.21.3",
+    "plotly.js": "^1.58.4",
     "react": "^17.0.2",
     "react-calendar": "^3.4.0",
     "react-dom": "^17.0.2",
-<<<<<<< Updated upstream
+
     "react-hook-form": "^7.4.2",
-=======
     "react-jss": "^10.6.0",
->>>>>>> Stashed changes
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
     "recharts": "^2.0.9",
+    "react-plotly.js": "^2.5.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
     "styled-components": "^5.2.3",
     "styled-icons": "^10.33.0",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,14 +51,17 @@
       "last 1 safari version"
     ]
   },
+
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "ssh://seedsinspace/v1/repos/seedsinspace"
+  "prettier": {
+    "printWidth": 90,
+    "bracketSpacing": true,
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "arrowParens": "avoid"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "prettier": "^2.3.0"
+  }
 }

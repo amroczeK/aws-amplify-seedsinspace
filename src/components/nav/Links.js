@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { DashboardBtn, ResourcesBtn, ProfileBtn, ContactBtn, LoginBtn, LogoutBtn } from "./Buttons";
+import { DashboardBtn, ResourcesBtn, ProfileBtn, ContactBtn, LoginBtn, LogoutBtn } from "./buttons";
 import styled from "styled-components";
 
 const Links = () => {

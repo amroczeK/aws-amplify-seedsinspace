@@ -1,20 +1,26 @@
 {
   "dev": {
     "awscloudformation": {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       "AuthRoleName": "amplify-seedsinspace-dev-160927-authRole",
       "UnauthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-160927-unauthRole",
       "AuthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-160927-authRole",
+=======
+      "AuthRoleName": "amplify-seedsinspace-dev-151425-authRole",
+      "UnauthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-151425-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-151425-authRole",
+>>>>>>> f044b960472717839b40a8001397527663c90d9a
       "Region": "ap-southeast-2",
-      "DeploymentBucketName": "amplify-seedsinspace-dev-160927-deployment",
-      "UnauthRoleName": "amplify-seedsinspace-dev-160927-unauthRole",
-      "StackName": "amplify-seedsinspace-dev-160927",
-      "StackId": "arn:aws:cloudformation:ap-southeast-2:526519863507:stack/amplify-seedsinspace-dev-160927/abdf67b0-91e7-11eb-80fd-0662dd0ea9f8",
-      "AmplifyAppId": "dcms5i0fdnx1j"
+      "DeploymentBucketName": "amplify-seedsinspace-dev-151425-deployment",
+      "UnauthRoleName": "amplify-seedsinspace-dev-151425-unauthRole",
+      "StackName": "amplify-seedsinspace-dev-151425",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:526519863507:stack/amplify-seedsinspace-dev-151425/ae6d0f30-bc5f-11eb-b65d-02dd7379711a",
+      "AmplifyAppId": "d39wzf3jimvjw9"
     },
     "categories": {
       "auth": {
-        "seedsinspace26ea3cbc": {}
+        "seedsinspace35d8b738": {}
       }
 =======
       "AuthRoleName": "amplify-seedsinspace-dev-203027-authRole",
