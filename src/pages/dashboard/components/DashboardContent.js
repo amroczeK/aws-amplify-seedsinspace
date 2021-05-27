@@ -3,9 +3,11 @@ import styled from "styled-components";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import TabPanel from "./TabPanel"
 
 import { Calendar3 } from "@styled-icons/bootstrap/Calendar3";
 import { BarGraph } from "@styled-icons/entypo/BarGraph";
+import DatePicker from "./DatePicker";
 
 const DashboardContent = () => {
   const [tab, setTab] = React.useState(0);
@@ -42,6 +44,7 @@ const DashboardContent = () => {
           }
         />
       </Tabs>
+      <TabPanel value={tab} index={0}><DatePicker/></TabPanel>
     </Container>
   );
 };
