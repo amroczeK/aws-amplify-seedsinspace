@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import Providers from "./Providers";
+import Providers from "./AppProviders";
 import reportWebVitals from "./reportWebVitals";
 
 import Amplify from "aws-amplify";
