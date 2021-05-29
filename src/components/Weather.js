@@ -64,6 +64,7 @@ const Weather = () => {
       </StyledWeather>
     );
 
+  // NOTE: Need to add city
   return (
     <StyledWeather>
       <img
