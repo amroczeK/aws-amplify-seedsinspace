@@ -36,6 +36,7 @@ export default WeatherApp;
 const Weather = () => {
   const [location, setLocation] = useState({});
 
+  // NOTE: Change this to be schools position
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function (position) {
       setLocation({
@@ -43,18 +44,18 @@ const Weather = () => {
         long: position.coords.longitude,
       });
     });
-  }, []);
+  }, [setLocation]);
 
   const { isLoading, error, data } = useQuery(
     "weatherData",
     () =>
       fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.long}&units=metric&APPID=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`
-      ).then((res) => res.json()),
+      ).then(res => res.json()),
     { enabled: "lat" in location && "long" in location }
   );
 
-  if (isLoading) return <LinearProgress />;
+  if (isLoading || !("lat" in location && "long" in location)) return <LinearProgress />;
 
   if (error)
     return (
@@ -63,20 +64,15 @@ const Weather = () => {
       </StyledWeather>
     );
 
-  if (data)
-    return (
-      <StyledWeather>
-        <img
-          alt="weather-icon"
-          src={`https://openweathermap.org/img/wn/${data?.weather?.[0].icon}.png`}
-        />
-        {`${Math.round(data?.main?.temp)}\xB0, ${
-          data?.weather?.[0].description
-        }`}
-      </StyledWeather>
-    );
-
-  return <LinearProgress />;
+  return (
+    <StyledWeather>
+      <img
+        alt="weather-icon"
+        src={`https://openweathermap.org/img/wn/${data?.weather?.[0].icon}.png`}
+      />
+      {`${Math.round(data?.main?.temp)}\xB0, ${data?.weather?.[0].description}`}
+    </StyledWeather>
+  );
 };
 
 const StyledWeather = styled.div`

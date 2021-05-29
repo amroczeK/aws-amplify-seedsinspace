@@ -1,6 +1,6 @@
 {
   "auth": {
-    "seedsinspace26ea3cbc": {
+    "seedsinspace35d8b738": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
