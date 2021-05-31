@@ -69,7 +69,15 @@ export const UserProvider = ({ children }) => {
       });
   }, []);
 
-  const values = { userData, loggedIn, signIn, signUp, confirmSignUp, signOut };
+  const values = {
+    userData,
+    loggedIn,
+    setLoggedIn,
+    signIn,
+    signUp,
+    confirmSignUp,
+    signOut,
+  };
 
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
 };

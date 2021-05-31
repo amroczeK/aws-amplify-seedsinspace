@@ -1,45 +1,62 @@
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import * as Pages from "./pages";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import styled from "styled-components";
-import DeveloperTools from "./DeveloperTools";
+import * as Pages from "./pages";
 import { AppNavBar } from "./components/nav";
 import { UserContext } from "./components/context/User";
-
+import DevTools from "./DevTools";
 const AppContainer = styled.div`
   height: 100vh;
 `;
+
+const ConditionalRoute = ({ component: Component, condition, redirect, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      condition ? <Component {...props} /> : <Redirect to={redirect || "/signin"} />
+    }
+  />
+);
 
 const App = () => {
   const { loggedIn } = useContext(UserContext);
 
   return (
     <AppContainer>
-      <Router>
-        <DeveloperTools />
+      <BrowserRouter>
         <AppNavBar />
-        {loggedIn && (
-          <>
-            <Switch>
-              <Route exact path="/seed-setup" component={Pages.SeedSetUp} />
-              <Route exact path="/dashboard" component={Pages.Dashboard} />
-              <Route exact path="/" component={Pages.Home} />
-            </Switch>
-          </>
-        )}
-        {!loggedIn && (
-          <>
-            <Switch>
-              <Route exact path="/signin" component={Pages.SignIn} />
-              <Route exact path="/signup" component={Pages.SignUp} />
-              <Route exact path="/about" component={Pages.AboutUs} />
-              <Route exact path="/schools" component={Pages.ParticipatingSchools} />
-              <Route exact path="/faq" component={Pages.Faq} />
-              <Route exact path="*" component={Pages.SignIn} />
-            </Switch>
-          </>
-        )}
-      </Router>
+        <DevTools />
+        <Switch>
+          <ConditionalRoute exact path="/" condition={loggedIn} component={Pages.Home} />
+          <ConditionalRoute
+            path="/seed-setup"
+            condition={loggedIn}
+            component={Pages.SeedSetUp}
+          />
+          <ConditionalRoute
+            path="/dashboard"
+            condition={loggedIn}
+            component={Pages.Dashboard}
+          />
+          <ConditionalRoute
+            path="/signin"
+            condition={!loggedIn}
+            component={Pages.SignIn}
+            auth={loggedIn}
+            redirect="/"
+          />
+          <ConditionalRoute
+            path="/signup"
+            condition={!loggedIn}
+            component={Pages.SignUp}
+            redirect="/"
+          />
+          <Route path="/about" component={Pages.AboutUs} />
+          <Route path="/schools" component={Pages.ParticipatingSchools} />
+          <Route path="/faq" component={Pages.Faq} />
+          <Route path="*" component={Pages.SignIn} />
+        </Switch>
+      </BrowserRouter>
     </AppContainer>
   );
 };

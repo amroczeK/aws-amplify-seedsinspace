@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import Plotly from "../components/charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,7 +9,7 @@ import {
   dataLabelsHover,
   groupedBars,
   stackedBars,
-} from "../chartMockData";
+} from "../components/charts/chartMockData";
 
 const useStyles = makeStyles(theme => ({
   root: {
