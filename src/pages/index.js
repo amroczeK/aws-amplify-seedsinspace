@@ -6,3 +6,4 @@ export { default as SeedSetUp } from "./SeedSetUp.js";
 export { default as AboutUs } from "./AboutUs.js";
 export { default as ParticipatingSchools } from "./ParticipatingSchools.js";
 export { default as Faq } from "./Faq.js";
+export { default as Tables } from "./Tables.js";
