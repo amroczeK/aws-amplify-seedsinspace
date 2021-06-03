@@ -95,6 +95,9 @@ const RouteShortcuts = () => (
         <li>
           <Link to="/profile">Profile</Link>
         </li>
+        <li>
+          <Link to="/imageupload">Test</Link>
+        </li>
       </ul>
     </nav>
   </PaddedDiv>
