@@ -29,7 +29,7 @@ const CameraIcon = styled(Camera)`
   margin: 1em 0;
 `;
 
-const ImageUpload = ({ preview, register, setValue, name }) => {
+const ImageUpload = ({ preview = true, register, setValue, name }) => {
   const [imageUrl, setImageUrl] = useState();
   const [imageFile, setImageFile] = useState("None");
 

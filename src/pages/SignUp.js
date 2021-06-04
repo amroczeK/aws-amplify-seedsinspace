@@ -173,12 +173,7 @@ const SignUp = () => {
         <StyledTypographyDark fontWeight="bold" variant="h5">
           Fill in your profile
         </StyledTypographyDark>
-        <ImageUpload
-          preview={false}
-          register={register}
-          setValue={setValue}
-          name="profile-image"
-        />
+        <ImageUpload register={register} setValue={setValue} name="profile-image" />
         <InputLabel shrink>LOCATION</InputLabel>
         <Controller
           name="location"
