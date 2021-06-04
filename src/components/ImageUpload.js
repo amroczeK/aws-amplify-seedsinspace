@@ -18,6 +18,10 @@ const Image = styled.img`
   border: 1px solid #358c5f;
 `;
 
+const ImageText = styled.p`
+  font-size: 12px;
+`;
+
 const CameraIcon = styled(Camera)`
   width: 2em;
   height: 2em;
@@ -26,7 +30,8 @@ const CameraIcon = styled(Camera)`
 `;
 
 const ImageUpload = ({ preview, register, setValue, name }) => {
-  const [imagePreview, setImagePreview] = useState();
+  const [imageUrl, setImageUrl] = useState();
+  const [imageFile, setImageFile] = useState("None");
 
   register(name); // register the field with react hook form
 
@@ -34,14 +39,15 @@ const ImageUpload = ({ preview, register, setValue, name }) => {
     const imageFiles = e.target.files;
     if (imageFiles[0]) {
       const preview = URL.createObjectURL(imageFiles[0]);
-      setImagePreview(preview);
+      setImageUrl(preview);
+      setImageFile(imageFiles[0]);
       setValue(name, imageFiles); // updated react hook form
     }
   };
 
   return (
     <>
-      {preview && <Image src={imagePreview || DefaultImage} alt="seed image" />}
+      {preview && <Image src={imageUrl || DefaultImage} alt="seed image" />}
       <div>
         <CameraIcon />
         <StyledButton component="label">
@@ -54,6 +60,7 @@ const ImageUpload = ({ preview, register, setValue, name }) => {
             onChange={e => handleUpload(e)}
           />
         </StyledButton>
+        <ImageText>{`Image: ${imageFile.name || "None"}`}</ImageText>
       </div>
     </>
   );
