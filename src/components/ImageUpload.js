@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
+import DefaultImage from "../assets/SeedlingsPreviewImage.jpg";
 import { Camera } from "@styled-icons/bootstrap/Camera";
 
 const StyledButton = styled(Button)`
@@ -24,7 +25,7 @@ const CameraIcon = styled(Camera)`
   margin: 1em 0;
 `;
 
-const ImageUpload = ({ preview, register, name, setValue }) => {
+const ImageUpload = ({ preview, register, setValue, name }) => {
   const [imagePreview, setImagePreview] = useState();
 
   register(name); // register the field with react hook form
@@ -40,17 +41,17 @@ const ImageUpload = ({ preview, register, name, setValue }) => {
 
   return (
     <>
-      {preview && <Image src={imagePreview || null} alt="None" />}
+      {preview && <Image src={imagePreview || DefaultImage} alt="seed image" />}
       <div>
         <CameraIcon />
         <StyledButton component="label">
           + Add your logo
           <input
-            onChange={e => handleUpload(e)}
-            hidden
             id="image-upload"
             type="file"
             accept="image/*"
+            hidden
+            onChange={e => handleUpload(e)}
           />
         </StyledButton>
       </div>

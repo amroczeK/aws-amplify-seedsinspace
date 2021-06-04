@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import { makeStyles } from "@material-ui/core/styles";
-import styled from "styled-components";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -10,14 +9,6 @@ const useStyles = makeStyles(theme => ({
     },
   },
 }));
-
-const Wrapper = styled.div`
-  flex-grow: 1;
-  .MuiToolbar-regular,
-  .MuiDataGrid-footer {
-    display: none;
-  }
-`;
 
 export const scrollCell = params => {
   return (
@@ -58,15 +49,6 @@ export const DataGridTable = ({ rowData, defaultColumns, loading, setSelectedRow
   };
 
   const onColumnHeaderOverHandler = e => {
-    // let htmlCollection = e?.element?.children;
-    // if (htmlCollection) {
-    //   for (let div of htmlCollection) {
-    //     let className = div.classList;
-    //     if (className?.value === "MuiDataGrid-columnSeparator") {
-    //       className.add("MuiDataGrid-columnSeparatorResizable");
-    //     }
-    //   }
-    // }
     let resizableClass = "MuiDataGrid-columnSeparator";
 
     var elements = document.getElementsByClassName(resizableClass);

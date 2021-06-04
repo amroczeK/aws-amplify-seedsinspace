@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Plotly from "../components/charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -62,14 +61,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// const Container = styled.div`
-//   background: pink;
-//   display: flex;
-//   position: relative;
-//   flex-direction: column;
-//   width: 100vw;
-//   height: 100%;
-//   //max-width: 100%;
-//   //padding: 1rem;
-// `;

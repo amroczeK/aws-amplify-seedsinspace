@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import * as Pages from "./pages";
-import ImageUploadTest from "./imageUploadTest";
 import { AppNavBar } from "./components/nav";
 import { UserContext } from "./components/context/User";
 import DevTools from "./DevTools";
@@ -56,7 +55,6 @@ const App = () => {
           <Route path="/about" component={Pages.AboutUs} />
           <Route path="/schools" component={Pages.ParticipatingSchools} />
           <Route path="/faq" component={Pages.Faq} />
-          <Route path="/imageupload" component={ImageUploadTest} />
           <Route path="*" component={Pages.SignIn} />
         </Switch>
       </BrowserRouter>

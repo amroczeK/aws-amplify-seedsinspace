@@ -55,8 +55,11 @@ const Tables = () => {
   const [rowData, setRowData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
+  console.log(selectedRows);
+
   useEffect(() => {
     setRowData(defaultRowData);
+    setLoading(false);
   }, []);
 
   return (
