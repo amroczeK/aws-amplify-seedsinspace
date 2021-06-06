@@ -1,26 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { StyledButton } from "../../components/styled-components/Buttons";
 import Weather from "../../components/Weather";
 import DashboardContent from "./components/DashboardContent";
+import AddSeed from "./components/AddSeed";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 
 const Dashboard = () => {
+  const [openAddSeed, setOpenAddSeed] = useState(false);
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const addSeedHandler = () => {
+    setOpenAddSeed(!openAddSeed);
+  };
+
   return (
-    <Container>
-      <DashboardContainer>
-        <StyledButton
-          type="submit"
-          disableElevation
-          variant="contained"
-          color="primary"
-        >
-          Add seed entry
-        </StyledButton>
-        <Weather />
-        <DashboardContent />
-      </DashboardContainer>
-    </Container>
+    <>
+      {isSmall && (
+        <Container>
+          <>
+            <AddSeed open={openAddSeed} onClose={addSeedHandler} />
+            <DashboardContainer>
+              <StyledButton
+                type="submit"
+                disableElevation
+                variant="contained"
+                color="primary"
+                onClick={addSeedHandler}
+              >
+                Add seed entry
+              </StyledButton>
+              <Weather />
+              <DashboardContent />
+            </DashboardContainer>
+          </>
+        </Container>
+      )}
+      {!isSmall && <DashboardContent />}
+    </>
   );
 };
 

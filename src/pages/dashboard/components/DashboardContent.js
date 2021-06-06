@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import TabPanel from "./TabPanel"
+import TabPanel from "./TabPanel";
 
 import { Calendar3 } from "@styled-icons/bootstrap/Calendar3";
 import { BarGraph } from "@styled-icons/entypo/BarGraph";
@@ -20,12 +20,11 @@ const DashboardContent = () => {
       <Tabs
         value={tab}
         onChange={handleChange}
-        TabIndicatorProps={{
-          style: { background: "#6BBE93" },
-        }}
         variant="fullWidth"
+        indicatorColor="primary"
+        textColor="primary"
       >
-        <StyledTab
+        <Tab
           label={
             <>
               <StyledTabDiv>
@@ -34,7 +33,7 @@ const DashboardContent = () => {
             </>
           }
         />
-        <StyledTab
+        <Tab
           label={
             <>
               <StyledTabDiv>
@@ -44,7 +43,9 @@ const DashboardContent = () => {
           }
         />
       </Tabs>
-      <TabPanel value={tab} index={0}><DatePicker/></TabPanel>
+      <TabPanel value={tab} index={0}>
+        <DatePicker />
+      </TabPanel>
     </Container>
   );
 };
@@ -55,12 +56,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 300px;
-`;
-
-const StyledTab = styled(Tab)`
-  selected: {
-    color: ${({ theme }) => theme.primaryBackground};
-  }
 `;
 
 const StyledTabDiv = styled.div`
