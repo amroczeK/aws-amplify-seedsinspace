@@ -28,6 +28,9 @@ const TopMenu = () => {
         <StyledListItem component={Link} to="/dashboard">
           <ListItemText primary="Dashboard" />
         </StyledListItem>
+        <StyledListItem component={Link} to="/tables">
+          <ListItemText primary="Tables" />
+        </StyledListItem>
         <StyledListItem component={Link} to="/about">
           <ListItemText primary="Resources" />
         </StyledListItem>

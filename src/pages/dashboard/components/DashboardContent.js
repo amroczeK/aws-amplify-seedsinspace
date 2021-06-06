@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import Tabs from "@material-ui/core/Tabs";
@@ -10,7 +10,7 @@ import { BarGraph } from "@styled-icons/entypo/BarGraph";
 import DatePicker from "./DatePicker";
 
 const DashboardContent = () => {
-  const [tab, setTab] = React.useState(0);
+  const [tab, setTab] = useState(0);
 
   const handleChange = (event, newTab) => {
     setTab(newTab);

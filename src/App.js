@@ -51,6 +51,7 @@ const App = () => {
             component={Pages.SignUp}
             redirect="/"
           />
+          <Route path="/tables" component={Pages.Tables} />
           <Route path="/about" component={Pages.AboutUs} />
           <Route path="/schools" component={Pages.ParticipatingSchools} />
           <Route path="/faq" component={Pages.Faq} />
