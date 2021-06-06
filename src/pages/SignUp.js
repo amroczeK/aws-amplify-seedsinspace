@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Camera } from "@styled-icons/bootstrap/Camera";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
-import { StyledTypographyDark } from "../components/styled-components/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import Alert from "@material-ui/lab/Alert";
@@ -11,6 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 import { UserContext } from "../components/context/User";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "../components/validation/schemas";
+import Typography from "@material-ui/core/Typography";
 
 const SignUp = () => {
   const [step, setStep] = useState(0);
@@ -54,9 +54,9 @@ const SignUp = () => {
     return (
       <SignUpContainer>
         <GridForm onSubmit={handleSubmit(signUpHandler)}>
-          <StyledTypographyDark fontWeight="bold" variant="h5">
+          <Typography style={{ fontWeight: "bold" }} variant="h5">
             Create an account
-          </StyledTypographyDark>
+          </Typography>
           <InputLabel shrink>SCHOOL/ORGANISATION NAME</InputLabel>
           <Controller
             name="organisation"
@@ -170,9 +170,9 @@ const SignUp = () => {
   const FillInYourProfile = () => {
     return (
       <SignUpContainer>
-        <StyledTypographyDark fontWeight="bold" variant="h5">
+        <Typography style={{ fontWeight: "bold" }} variant="h5">
           Fill in your profile
-        </StyledTypographyDark>
+        </Typography>
         <span>
           <CameraIcon />
           <StyledLink to="/" margin="0 2em">

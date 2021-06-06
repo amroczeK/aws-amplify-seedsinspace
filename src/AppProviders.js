@@ -1,33 +1,43 @@
 import React from "react";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
 import { UserProvider } from "./components/context/User";
 import {
   createMuiTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@material-ui/core/styles";
-
-const GlobalStyle = createGlobalStyle`
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    background: ${({ theme }) => theme.primaryLight};
-    font-family: 'Montserrat', sans-serif;
-}
-`;
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
       main: "#6BBE93",
+      dark: "#358C5F",
+    },
+    text: {
+      primary: "#616161",
+    },
+  },
+  typography: {
+    fontFamily: ["Montserrat", "sans-serif"].join(","),
+  },
+
+  overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        "@font-face": ["Montserrat"],
+      },
     },
   },
 });
 
 const theme = {
+  palette: {
+    primary: {
+      main: "#6BBE93",
+      dark: "#358C5F",
+    },
+  },
   primaryBackground: "#358C5F",
   primaryDark: "#17252A",
   primaryLight: "#FCFCFC",
@@ -42,7 +52,7 @@ const Providers = ({ children }) => {
     <MuiThemeProvider theme={muiTheme}>
       <ThemeProvider theme={theme}>
         <StylesProvider injectFirst>
-          <GlobalStyle />
+          <CssBaseline />
           <UserProvider>{children}</UserProvider>
         </StylesProvider>
       </ThemeProvider>

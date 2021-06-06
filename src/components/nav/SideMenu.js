@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import Slide from '@material-ui/core/Slide';
-import styled from 'styled-components';
-import { Menu } from '@styled-icons/heroicons-solid/Menu';
-import { Close } from '@styled-icons/evaicons-solid/Close';
-import { StyledTypographyLight } from '../styled-components/Typography';
-import { StyledLink } from '../styled-components/Links';
-import { SideMenuItems } from './SideMenuItems';
+import React, { useState } from "react";
+import Dialog from "@material-ui/core/Dialog";
+import IconButton from "@material-ui/core/IconButton";
+import Slide from "@material-ui/core/Slide";
+import styled from "styled-components";
+import { Menu } from "@styled-icons/heroicons-solid/Menu";
+import { Close } from "@styled-icons/evaicons-solid/Close";
+import { StyledLink } from "../styled-components/Links";
+import { SideMenuItems } from "./SideMenuItems";
+import Typography from "@material-ui/core/Typography";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='right' ref={ref} {...props} />;
+  return <Slide direction="right" ref={ref} {...props} />;
 });
 
 const StyledMenuIcon = styled(Menu)`
-  color: ${({ theme }) => theme.primaryLight};
+  color: #fff;
   width: 1.5em;
   height: 1.5em;
 `;
 
 const StyledCloseIcon = styled(Close)`
-  color: ${({ theme }) => theme.primaryLight};
+  color: #fff;
   width: 1.5em;
   height: 1.5em;
 `;
@@ -31,13 +31,13 @@ const StyledAppBar = styled.div`
   justify-content: space-between;
   padding-top: 1em;
   padding-left: 2em;
-  background: ${({ theme }) => theme.primaryBackground};
+  background: ${({ theme }) => theme.palette.primary.dark};
 `;
 
 const StyledMenuContent = styled.div`
   padding: 1em 0em 0em 1em;
   height: 100%;
-  background: ${({ theme }) => theme.primaryBackground};
+  background: ${({ theme }) => theme.palette.primary.dark};
 `;
 
 const SideMenu = () => {
@@ -53,16 +53,18 @@ const SideMenu = () => {
 
   return (
     <>
-      <IconButton style={{ marginLeft: '0.25em' }} onClick={handleOpen}>
+      <IconButton style={{ marginLeft: "0.25em" }} onClick={handleOpen}>
         <StyledMenuIcon />
       </IconButton>
-      <StyledLink color='white' to='/'>
-        <h2>Seeds in space</h2>
+      <StyledLink color="white" to="/">
+        <StyledTypography variant="h5">Seeds in space</StyledTypography>
       </StyledLink>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
         <StyledAppBar>
-          <StyledTypographyLight variant='h5'>Seeds in Space</StyledTypographyLight>
-          <IconButton style={{ marginRight: '0.5em' }} onClick={handleClose}>
+          <StyledTypography style={{ color: "white" }} variant="h5">
+            Seeds in Space
+          </StyledTypography>
+          <IconButton style={{ marginRight: "0.5em" }} onClick={handleClose}>
             <StyledCloseIcon />
           </IconButton>
         </StyledAppBar>
@@ -75,3 +77,7 @@ const SideMenu = () => {
 };
 
 export default SideMenu;
+
+const StyledTypography = styled(Typography)`
+  font-weight: bold;
+`;

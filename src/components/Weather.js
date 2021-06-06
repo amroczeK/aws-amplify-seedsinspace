@@ -4,7 +4,6 @@ import { format } from "date-fns";
 
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { StyledTypographyDark } from "../components/styled-components/Typography";
 
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -20,9 +19,9 @@ const WeatherApp = () => {
   return (
     <Card>
       <CardContent>
-        <StyledTypographyDark variant="h6">
+        <Typography style={{ fontWeight: "bold" }} variant="h6">
           {format(date, "eeee dd MMMM")}
-        </StyledTypographyDark>
+        </Typography>
         <QueryClientProvider client={queryClient}>
           <Weather />
         </QueryClientProvider>

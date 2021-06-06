@@ -3,10 +3,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-
-// Styled Components
 import styled from "styled-components";
-import { StyledTypographyDark } from "../components/styled-components/Typography";
 
 const Container = styled.div`
   display: flex;
@@ -26,7 +23,7 @@ const SeedSetUpContainer = styled.div`
 `;
 
 const StyledLink = styled.a`
-  color: ${({ theme }) => theme.primaryBackground};
+  /* color: ${({ theme }) => theme.primaryBackground}; */
   font-size: 0.75em;
 `;
 
@@ -55,12 +52,6 @@ const StyledButtonLight = styled(Button)`
   text-transform: none;
 `;
 
-// const StyledNavLink = styled.a`
-//   color: ${({ theme }) => theme.primaryBackground};
-//   align-self: center;
-//   font-size: 0.75em;
-// `;
-
 const SeedSetUp = () => {
   const [step, setStep] = useState(0);
 
@@ -75,9 +66,7 @@ const SeedSetUp = () => {
   const SeedsPlantedQuery = () => {
     return (
       <SeedSetUpContainer>
-        <StyledTypographyDark variant="h5">
-          Have you planted your seeds?
-        </StyledTypographyDark>
+        <Typography variant="h5">Have you planted your seeds?</Typography>
         <StyledButtonContainer>
           <StyledButton disableElevation variant="contained">
             Yes
@@ -102,8 +91,8 @@ const SeedSetUp = () => {
         <Card>
           <CardContent>
             <Typography variant="body2">
-              You won't be able to enter seed data until you've confirmed that
-              you've planted your seeds.
+              You won't be able to enter seed data until you've confirmed that you've
+              planted your seeds.
             </Typography>
           </CardContent>
         </Card>
