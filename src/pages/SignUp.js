@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Camera } from "@styled-icons/bootstrap/Camera";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
-import InputLabel from "@material-ui/core/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import Alert from "@material-ui/lab/Alert";
 import { Controller, useForm } from "react-hook-form";
@@ -11,6 +10,7 @@ import { UserContext } from "../components/context/User";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "../components/validation/schemas";
 import Typography from "@material-ui/core/Typography";
+import { StyledInputLabel } from "../components/styled-components/InputLabel";
 
 const SignUp = () => {
   const [step, setStep] = useState(0);
@@ -57,7 +57,7 @@ const SignUp = () => {
           <Typography style={{ fontWeight: "bold" }} variant="h5">
             Create an account
           </Typography>
-          <InputLabel shrink>SCHOOL/ORGANISATION NAME</InputLabel>
+          <StyledInputLabel shrink>SCHOOL/ORGANISATION NAME</StyledInputLabel>
           <Controller
             name="organisation"
             control={control}
@@ -71,7 +71,7 @@ const SignUp = () => {
               />
             )}
           />
-          <InputLabel shrink>SCHOOL/ORGANISATION ADDRESS</InputLabel>
+          <StyledInputLabel shrink>SCHOOL/ORGANISATION ADDRESS</StyledInputLabel>
           <Controller
             name="address"
             control={control}
@@ -85,7 +85,7 @@ const SignUp = () => {
               />
             )}
           />
-          <InputLabel shrink>EMAIL ADDRESS</InputLabel>
+          <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
           <Controller
             name="email"
             control={control}
@@ -99,7 +99,7 @@ const SignUp = () => {
               />
             )}
           />
-          <InputLabel shrink>PASSWORD</InputLabel>
+          <StyledInputLabel shrink>PASSWORD</StyledInputLabel>
           <Controller
             name="password"
             control={control}
@@ -114,7 +114,7 @@ const SignUp = () => {
               />
             )}
           />
-          <InputLabel shrink>CONFIRM PASSWORD</InputLabel>
+          <StyledInputLabel shrink>CONFIRM PASSWORD</StyledInputLabel>
           <Controller
             name="confirmPassword"
             control={control}
@@ -130,7 +130,12 @@ const SignUp = () => {
             )}
           />
           <StyledLink to="/">SIS disclaimer / terms and conditions</StyledLink>
-          <StyledButton disableElevation variant="contained" type="submit">
+          <StyledButton
+            color="primary"
+            disableElevation
+            variant="contained"
+            type="submit"
+          >
             Create account
           </StyledButton>
         </GridForm>
@@ -142,7 +147,7 @@ const SignUp = () => {
     return (
       <SignUpContainer>
         <GridForm onSubmit={handleSubmit(confirmSignUpHandler)}>
-          <InputLabel shrink>EMAIL ADDRESS</InputLabel>
+          <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
           <Controller
             name="email"
             control={control}
@@ -151,7 +156,7 @@ const SignUp = () => {
               <TextField {...field} type="email" required variant="outlined" />
             )}
           />
-          <InputLabel shrink>CONFIRMATION CODE</InputLabel>
+          <StyledInputLabel shrink>CONFIRMATION CODE</StyledInputLabel>
           <Controller
             name="authCode"
             control={control}
@@ -159,7 +164,12 @@ const SignUp = () => {
             render={({ field }) => <TextField {...field} required variant="outlined" />}
           />
           {error && <Alert severity="error">{error.message}</Alert>}
-          <StyledButton disableElevation variant="contained" type="submit">
+          <StyledButton
+            color="primary"
+            disableElevation
+            variant="contained"
+            type="submit"
+          >
             Create account
           </StyledButton>
         </GridForm>
@@ -179,7 +189,7 @@ const SignUp = () => {
             + Add your logo
           </StyledLink>
         </span>
-        <InputLabel shrink>LOCATION</InputLabel>
+        <StyledInputLabel shrink>LOCATION</StyledInputLabel>
         <Controller
           name="location"
           defaultValue=""
@@ -187,7 +197,7 @@ const SignUp = () => {
           render={({ field }) => <TextField {...field} variant="outlined" />}
         />
 
-        <InputLabel shrink>TELL US ABOUT YOURSELF</InputLabel>
+        <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
         <Controller
           name="about"
           defaultValue=""
@@ -196,7 +206,12 @@ const SignUp = () => {
             <TextField {...field} multiline variant="outlined" rows={10} />
           )}
         />
-        <StyledButton disableElevation variant="contained" onClick={() => setStep(2)}>
+        <StyledButton
+          color="primary"
+          disableElevation
+          variant="contained"
+          onClick={() => setStep(2)}
+        >
           Next
         </StyledButton>
         <StyledLink to="/" alignself="center">

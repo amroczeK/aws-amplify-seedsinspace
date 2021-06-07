@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-
 import { format } from "date-fns";
-
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import LinearProgress from "@material-ui/core/LinearProgress";
-
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
 
