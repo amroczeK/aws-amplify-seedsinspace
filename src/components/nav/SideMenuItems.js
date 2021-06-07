@@ -11,9 +11,7 @@ const StyledListItemText = styled(ListItemText)`
 `;
 
 export const SideMenuItems = ({ callback }) => {
-  const { userData, loggedIn } = useContext(UserContext);
-
-  console.log(userData);
+  const { loggedIn } = useContext(UserContext);
 
   return (
     <List component="nav">

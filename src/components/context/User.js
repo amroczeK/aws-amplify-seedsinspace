@@ -9,12 +9,11 @@ export const UserProvider = ({ children }) => {
 
   const signUp = async formData => {
     const { email, password, organisation, address } = formData;
-    console.log(formData);
     try {
       await Auth.signUp({
         username: email,
         password,
-        attributes: { email, name: organisation, address },
+        attributes: { email, organisation, address },
       });
     } catch (error) {
       throw error;
@@ -41,7 +40,6 @@ export const UserProvider = ({ children }) => {
         throw error;
       }
     }
-    console.log(`User email: ${email}, password: ${password}`);
   };
 
   const signOut = async () => {
