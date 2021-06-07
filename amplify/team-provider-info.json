@@ -1,23 +1,32 @@
 {
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-seedsinspace-dev-164030-authRole",
-            "UnauthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-164030-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-164030-authRole",
-            "Region": "ap-southeast-2",
-            "DeploymentBucketName": "amplify-seedsinspace-dev-164030-deployment",
-            "UnauthRoleName": "amplify-seedsinspace-dev-164030-unauthRole",
-            "StackName": "amplify-seedsinspace-dev-164030",
-            "StackId": "arn:aws:cloudformation:ap-southeast-2:526519863507:stack/amplify-seedsinspace-dev-164030/060c0ae0-c76c-11eb-a79d-0a2bc827dcf8",
-            "AmplifyAppId": "d1jwsixynu798g"
-        },
-        "categories": {
-            "hosting": {
-                "amplifyhosting": {
-                    "appId": "d1jwsixynu798g",
-                    "type": "cicd"
-                }
-            }
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-seedsinspace-dev-164030-authRole",
+      "UnauthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-164030-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-164030-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-seedsinspace-dev-164030-deployment",
+      "UnauthRoleName": "amplify-seedsinspace-dev-164030-unauthRole",
+      "StackName": "amplify-seedsinspace-dev-164030",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:526519863507:stack/amplify-seedsinspace-dev-164030/060c0ae0-c76c-11eb-a79d-0a2bc827dcf8",
+      "AmplifyAppId": "d1jwsixynu798g"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1jwsixynu798g",
+          "type": "cicd"
         }
+      },
+      "auth": {
+        "seedsinspacead1eb3ec": {}
+      },
+      "storage": {
+        "seedsinspacec1d8a673": {
+          "bucketName": "amplify-seedsinspace-dev-164030-deployment",
+          "region": "ap-southeast-2"
+        }
+      }
     }
+  }
 }

@@ -5,5 +5,21 @@
       "type": "cicd",
       "lastPushTimeStamp": "2021-06-07T08:50:46.695Z"
     }
+  },
+  "auth": {
+    "seedsinspacead1eb3ec": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
+  "storage": {
+    "seedsinspacec1d8a673": {
+      "service": "S3",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }
