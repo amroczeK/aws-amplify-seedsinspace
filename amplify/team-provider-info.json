@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-seedsinspace-dev-192500-authRole",
+      "UnauthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-192500-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-dev-192500-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
+      "UnauthRoleName": "amplify-seedsinspace-dev-192500-unauthRole",
+      "StackName": "amplify-seedsinspace-dev-192500",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:526519863507:stack/amplify-seedsinspace-dev-192500/015b3590-c783-11eb-8d76-06eb164db5a6",
+      "AmplifyAppId": "d2ug6ia1qfm5r4"
+    }
+  }
+}
