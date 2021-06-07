@@ -49,15 +49,6 @@ export const DataGridTable = ({ rowData, defaultColumns, loading, setSelectedRow
   };
 
   const onColumnHeaderOverHandler = e => {
-    // let htmlCollection = e?.element?.children;
-    // if (htmlCollection) {
-    //   for (let div of htmlCollection) {
-    //     let className = div.classList;
-    //     if (className?.value === "MuiDataGrid-columnSeparator") {
-    //       className.add("MuiDataGrid-columnSeparatorResizable");
-    //     }
-    //   }
-    // }
     let resizableClass = "MuiDataGrid-columnSeparator";
 
     var elements = document.getElementsByClassName(resizableClass);

@@ -61,14 +61,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// const Container = styled.div`
-//   background: pink;
-//   display: flex;
-//   position: relative;
-//   flex-direction: column;
-//   width: 100vw;
-//   height: 100%;
-//   //max-width: 100%;
-//   //padding: 1rem;
-// `;

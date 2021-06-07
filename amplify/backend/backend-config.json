@@ -1,14 +1,31 @@
-<<<<<<< Updated upstream
 {
   "auth": {
-    "seedsinspace35d8b738": {
+    "seedsinspace0877655c": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false
     }
+  },
+  "storage": {
+    "Seeds": {
+      "service": "DynamoDB",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    },
+    "seedsinspace021aaad3": {
+      "service": "S3",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
+  },
+  "hosting": {
+    "amplifyhosting": {
+      "service": "amplifyhosting",
+      "type": "cicd",
+      "lastPushTimeStamp": "2021-06-07T12:02:07.349Z"
+    }
   }
 }
-=======
-{}
->>>>>>> Stashed changes

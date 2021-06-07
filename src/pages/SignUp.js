@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { Camera } from "@styled-icons/bootstrap/Camera";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
 import TextField from "@material-ui/core/TextField";
@@ -11,11 +10,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "../components/validation/schemas";
 import Typography from "@material-ui/core/Typography";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
+import ImageUpload from "../components/ImageUpload";
 
 const SignUp = () => {
   const [step, setStep] = useState(0);
   const [error, setError] = useState(null);
-  const { control, handleSubmit, formState } = useForm({
+  const { control, register, setValue, handleSubmit, formState } = useForm({
     resolver: yupResolver(signUpSchema),
   });
   const { errors } = formState;
@@ -183,12 +183,7 @@ const SignUp = () => {
         <Typography style={{ fontWeight: "bold" }} variant="h5">
           Fill in your profile
         </Typography>
-        <span>
-          <CameraIcon />
-          <StyledLink to="/" margin="0 2em">
-            + Add your logo
-          </StyledLink>
-        </span>
+        <ImageUpload register={register} setValue={setValue} name="profile-image" />
         <StyledInputLabel shrink>LOCATION</StyledInputLabel>
         <Controller
           name="location"
@@ -242,13 +237,6 @@ const SignUpContainer = styled.div`
   margin: 2em 1em 1em 1em;
   padding: 1em;
   gap: 1em;
-`;
-
-const CameraIcon = styled(Camera)`
-  width: 2em;
-  height: 2em;
-  color: black;
-  margin: 1em 0;
 `;
 
 const GridForm = styled.form`
