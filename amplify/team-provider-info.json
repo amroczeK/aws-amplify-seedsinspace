@@ -14,6 +14,15 @@
     "categories": {
       "auth": {
         "seedsinspace0877655c": {}
+      },
+      "storage": {
+        "Seeds": {
+          "tableName": "Seeds",
+          "region": "ap-southeast-2",
+          "arn": "arn:aws:dynamodb:ap-southeast-2:526519863507:table/Seeds",
+          "partitionKeyName": "id",
+          "partitionKeyType": "S"
+        }
       }
     }
   }
