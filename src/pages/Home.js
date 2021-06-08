@@ -1,3 +1,4 @@
+import { useState, useEffect, useContext } from "react";
 import Plotly from "../components/charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -9,6 +10,8 @@ import {
   groupedBars,
   stackedBars,
 } from "../components/charts/chartMockData";
+import { S3BucketContext } from "../components/context/S3Bucket";
+import { UserContext } from "../components/context/User";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,6 +25,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Home = () => {
+  const [profileImage, setProfileImage] = useState(null);
+
   const classes = useStyles();
 
   const lineChart = lineAndScatterPlot();
@@ -29,9 +34,34 @@ const Home = () => {
   const groupedBarsChart = groupedBars();
   const stackedBarsChart = stackedBars();
 
+  const { fetchProfileImage } = useContext(S3BucketContext);
+  const { userData, loggedIn } = useContext(UserContext);
+
+  const getProfileImage = async () => {
+    try {
+      let profileImageURL = await fetchProfileImage({
+        path: "AME Swirl Colour.png",
+        level: "private", // Retrieve profile image from users private folder
+      });
+      console.log(profileImageURL);
+      setProfileImage(profileImageURL);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Set user profile image on component mount if authenticated
+  useEffect(() => {
+    if (loggedIn && userData) {
+      getProfileImage();
+    }
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <Container maxWidth="xl">
       <h1>HOME</h1>
+      <img src={profileImage} alt="profile" />
       <div className={classes.root}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>

@@ -2,6 +2,8 @@ import React from "react";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
 import { UserProvider } from "./components/context/User";
+import { DataProvider } from "./components/context/Data";
+import { S3BucketProvider } from "./components/context/S3Bucket";
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -30,7 +32,11 @@ const Providers = ({ children }) => {
     <ThemeProvider theme={theme}>
       <StylesProvider injectFirst>
         <GlobalStyle />
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          <DataProvider>
+            <S3BucketProvider>{children}</S3BucketProvider>
+          </DataProvider>
+        </UserProvider>
       </StylesProvider>
     </ThemeProvider>
   );

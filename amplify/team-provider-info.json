@@ -23,8 +23,8 @@
           "partitionKeyName": "id",
           "partitionKeyType": "S"
         },
-        "seedsinspace021aaad3": {
-          "bucketName": "amplify-seedsinspace-dev-192500-deployment",
+        "seedsinspaced78ce747": {
+          "bucketName": "seeds-in-space-app",
           "region": "ap-southeast-2"
         }
       },

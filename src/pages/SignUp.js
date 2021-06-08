@@ -13,7 +13,7 @@ import { signUpSchema } from "../components/validation/schemas";
 import ImageUpload from "../components/ImageUpload";
 
 const SignUp = () => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
   const [error, setError] = useState(null);
   const { control, register, setValue, handleSubmit, formState } = useForm({
     resolver: yupResolver(signUpSchema),
@@ -173,7 +173,14 @@ const SignUp = () => {
         <StyledTypographyDark fontWeight="bold" variant="h5">
           Fill in your profile
         </StyledTypographyDark>
-        <ImageUpload register={register} setValue={setValue} name="profile-image" />
+        <ImageUpload
+          register={register}
+          setValue={setValue}
+          name="profile-image"
+          path="private/"
+          level="private"
+          setError={setError}
+        />
         <InputLabel shrink>LOCATION</InputLabel>
         <Controller
           name="location"

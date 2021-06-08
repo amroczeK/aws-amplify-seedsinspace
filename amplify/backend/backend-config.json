@@ -14,7 +14,7 @@
       "providerPlugin": "awscloudformation",
       "dependsOn": []
     },
-    "seedsinspace021aaad3": {
+    "seedsinspaced78ce747": {
       "service": "S3",
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",

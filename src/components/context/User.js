@@ -58,7 +58,7 @@ export const UserProvider = ({ children }) => {
         const { attributes } = user;
         setUserData(attributes);
         setLoggedIn(true);
-        console.log(typeof user);
+        console.log(user);
       })
       .catch(() => {
         // Returns error 'The user is not authenticated'
