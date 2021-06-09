@@ -13,6 +13,10 @@
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": []
+    },
+    "WattleSeeds": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
     }
   },
   "hosting": {
