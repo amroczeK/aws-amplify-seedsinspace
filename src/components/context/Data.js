@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export const DataContext = React.createContext();
 
 export const DataProvider = ({ children }) => {
   const [earthSeedData, setEarthSeedData] = useState(null);
   const [spaceSeedData, setSpaceSeedData] = useState(null);
-
-  useEffect(() => {}, []);
 
   const values = {
     earthSeedData,

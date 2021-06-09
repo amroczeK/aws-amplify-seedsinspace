@@ -13,6 +13,17 @@ const StyledListItemText = styled(ListItemText)`
 export const SideMenuItems = ({ callback }) => {
   const { loggedIn } = useContext(UserContext);
 
+  const { signOut } = useContext(UserContext);
+
+  const signOutHandler = async () => {
+    try {
+      await signOut();
+      window.location.replace("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <List component="nav">
       {loggedIn && (
@@ -41,7 +52,7 @@ export const SideMenuItems = ({ callback }) => {
         <StyledListItemText primary="FAQ" />
       </ListItem>
       {loggedIn ? (
-        <ListItem button component={Link} onClick={callback} to="/logout">
+        <ListItem button component={Link} onClick={signOutHandler} to="/logout">
           <StyledListItemText primary="Logout" />
         </ListItem>
       ) : (

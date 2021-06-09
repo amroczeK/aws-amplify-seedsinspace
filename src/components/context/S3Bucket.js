@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Storage } from "aws-amplify";
 
 export const S3BucketContext = React.createContext();
@@ -51,10 +51,8 @@ export const S3BucketProvider = ({ children }) => {
         return { name: key.replace(/\.[^/.]+$/, ""), url: signedURL, lastModified }; // Return signed URL
       })
     );
-    setSeedImages(seedImages); // Array of objects
+    setSeedImages(seedImageKeys); // Array of objects
   };
-
-  useEffect(() => {}, []);
 
   const values = {
     seedImages,

@@ -35,7 +35,6 @@ export const UserProvider = ({ children }) => {
     if (AmplifySetup) {
       try {
         await Auth.signIn(email, password);
-        setLoggedIn(true);
       } catch (error) {
         throw error;
       }

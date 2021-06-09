@@ -38,6 +38,7 @@ const Home = () => {
   const { userData, loggedIn } = useContext(UserContext);
 
   const getProfileImage = async () => {
+    console.log(userData);
     try {
       let profileImageURL = await fetchProfileImage({
         path: "AME Swirl Colour.png",
