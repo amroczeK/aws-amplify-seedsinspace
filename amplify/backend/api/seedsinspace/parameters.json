@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "seedsinspace",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authseedsinspace0877655c",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

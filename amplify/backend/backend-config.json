@@ -11,6 +11,10 @@
     "WattleSeeds": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
+    },
+    "SeedsInSpaceImages": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
     }
   },
   "hosting": {
@@ -21,5 +25,29 @@
     }
   },
   "function": {},
-  "api": {}
+  "api": {
+    "seedsinspace": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authseedsinspace0877655c"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "API_KEY",
+              "apiKeyConfig": {
+                "apiKeyExpirationDays": 7,
+                "description": "Guest user access to seed data and images"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
 }
