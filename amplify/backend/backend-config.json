@@ -8,12 +8,6 @@
     }
   },
   "storage": {
-    "Seeds": {
-      "service": "DynamoDB",
-      "serviceType": "imported",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": []
-    },
     "seedsinspaced78ce747": {
       "service": "S3",
       "serviceType": "imported",
@@ -28,26 +22,6 @@
       "lastPushTimeStamp": "2021-06-07T12:02:07.349Z"
     }
   },
-  "function": {
-    "seedsfunction": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "Seeds",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
-    }
-  },
+  "function": {},
   "api": {}
 }
