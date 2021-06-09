@@ -49,20 +49,5 @@
       ]
     }
   },
-  "api": {
-    "SeedsAPI": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "seedsfunction",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
-    }
-  }
+  "api": {}
 }
