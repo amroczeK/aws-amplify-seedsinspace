@@ -177,8 +177,8 @@ const SignUp = () => {
           register={register}
           setValue={setValue}
           name="profile-image"
-          path="private/"
-          level="private"
+          path="protected/"
+          level="protected"
           setError={setError}
         />
         <InputLabel shrink>LOCATION</InputLabel>
