@@ -11,10 +11,6 @@
     "WattleSeeds": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
-    },
-    "s33880cb09": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation"
     }
   },
   "hosting": {
