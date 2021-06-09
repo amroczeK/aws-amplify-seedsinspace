@@ -8,14 +8,12 @@
     }
   },
   "storage": {
-    "seedsinspaced78ce747": {
-      "service": "S3",
-      "serviceType": "imported",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": []
-    },
     "WattleSeeds": {
       "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "s33880cb09": {
+      "service": "S3",
       "providerPlugin": "awscloudformation"
     }
   },

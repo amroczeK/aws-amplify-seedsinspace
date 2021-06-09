@@ -15,12 +15,6 @@
       "auth": {
         "seedsinspace0877655c": {}
       },
-      "storage": {
-        "seedsinspaced78ce747": {
-          "bucketName": "seeds-in-space-app",
-          "region": "ap-southeast-2"
-        }
-      },
       "hosting": {
         "amplifyhosting": {
           "appId": "d2ug6ia1qfm5r4",
