@@ -26,10 +26,10 @@ type WattleSeeds
     fields: ["type", "createdAt"]
     queryField: "seedTypeSearchByDate"
   ) {
-  id: ID!
+  entry_id: ID! # UUIDv4
   entry: String
-  type: String
-  school: String
+  type: String # earth / space
+  school_id: String # name_state_postcode
   height: Float
   stemLength: Float
   leafLength: Float
@@ -57,5 +57,5 @@ type School
   id: ID!
   name: String!
   address: String
-  profileImage: Float
+  profileImage: String
 }
