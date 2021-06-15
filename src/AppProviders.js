@@ -7,6 +7,8 @@ import {
   ThemeProvider as MuiThemeProvider,
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { DataProvider } from "./components/context/Data";
+import { S3BucketProvider } from "./components/context/S3Bucket";
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -62,7 +64,12 @@ const Providers = ({ children }) => {
       <ThemeProvider theme={theme}>
         <StylesProvider injectFirst>
           <CssBaseline />
-          <UserProvider>{children}</UserProvider>
+          <UserProvider>
+            <DataProvider>
+              {children}
+              <S3BucketProvider></S3BucketProvider>
+            </DataProvider>
+          </UserProvider>
         </StylesProvider>
       </ThemeProvider>
     </MuiThemeProvider>

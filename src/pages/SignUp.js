@@ -13,7 +13,7 @@ import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import ImageUpload from "../components/ImageUpload";
 
 const SignUp = () => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
   const [error, setError] = useState(null);
   const { control, register, setValue, handleSubmit, formState } = useForm({
     resolver: yupResolver(signUpSchema),
@@ -183,7 +183,14 @@ const SignUp = () => {
         <Typography style={{ fontWeight: "bold" }} variant="h5">
           Fill in your profile
         </Typography>
-        <ImageUpload register={register} setValue={setValue} name="profile-image" />
+        <ImageUpload
+          register={register}
+          setValue={setValue}
+          name="profile-image"
+          path="protected/"
+          level="protected"
+          setError={setError}
+        />
         <StyledInputLabel shrink>LOCATION</StyledInputLabel>
         <Controller
           name="location"

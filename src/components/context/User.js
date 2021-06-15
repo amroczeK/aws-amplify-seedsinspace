@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
       await Auth.signUp({
         username: email,
         password,
-        attributes: { email, name: organisation, address },
+        attributes: { email, organisation, address },
       });
     } catch (error) {
       throw error;
@@ -30,14 +30,15 @@ export const UserProvider = ({ children }) => {
   };
 
   const signIn = async ({ email, password }) => {
-    try {
-      await Auth.signIn(email, password);
-      setLoggedIn(true);
-    } catch (error) {
-      throw error;
-    }
+    var AmplifySetup = true;
 
-    console.log(`User email: ${email}, password: ${password}`);
+    if (AmplifySetup) {
+      try {
+        await Auth.signIn(email, password);
+      } catch (error) {
+        throw error;
+      }
+    }
   };
 
   const signOut = async () => {
@@ -56,7 +57,7 @@ export const UserProvider = ({ children }) => {
         const { attributes } = user;
         setUserData(attributes);
         setLoggedIn(true);
-        console.log(typeof user);
+        console.log(user);
       })
       .catch(() => {
         // Returns error 'The user is not authenticated'

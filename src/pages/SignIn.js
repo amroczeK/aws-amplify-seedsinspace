@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { StyledLink } from "../components/styled-components/Links";
 import { StyledButton } from "../components/styled-components/Buttons";
 import TextField from "@material-ui/core/TextField";
@@ -24,16 +24,13 @@ const SignIn = () => {
   const signInHandler = async ({ email, password }) => {
     try {
       await signIn({ email, password });
+      window.location.replace("/");
       setError(null); // Always clear potential previous errors on successful signin
     } catch (error) {
       console.log(error);
       setError(error);
     }
   };
-
-  useEffect(() => {
-    if (error) console.log(error);
-  }, [error]);
 
   return (
     <Container>
@@ -75,7 +72,7 @@ const SignIn = () => {
             disableElevation
             variant="contained"
           >
-            Log in
+            Login
           </StyledButton>
           <StyledLink to="/" decoration="underline">
             Forgot password
