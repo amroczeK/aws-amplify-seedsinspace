@@ -68,6 +68,7 @@ const Home = () => {
     const requestInfo = {
       headers: {
         Authorization: token,
+        "Access-Control-Allow-Origin":"*"
       },
     };
     try {

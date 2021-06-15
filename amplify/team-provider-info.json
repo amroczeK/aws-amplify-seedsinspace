@@ -35,12 +35,6 @@
           "sortKeyName": "type",
           "sortKeyType": "S"
         }
-      },
-      "function": {
-        "SeedsFunction": {
-          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SeedsFunction-50573843776f61533945-build.zip"
-        }
       }
     }
   }
