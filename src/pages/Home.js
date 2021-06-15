@@ -70,7 +70,7 @@ const Home = () => {
         Authorization: token,
       },
     };
-    const data = await API.get("SeedsInSpaceAPI", "/seeds");
+    const data = await API.get("SeedsInSpaceAPI", "/seeds", requestInfo);
     console.log({ data });
   };
 
