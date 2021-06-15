@@ -12,6 +12,7 @@ import {
 } from "../components/charts/chartMockData";
 import { S3BucketContext } from "../components/context/S3Bucket";
 import { UserContext } from "../components/context/User";
+import { API, Auth } from "aws-amplify";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,9 +60,24 @@ const Home = () => {
     // eslint-disable-next-line
   }, []);
 
+  const callAPI = async () => {
+    const user = await Auth.currentAuthenticatedUser();
+    const token = user.signInUserSession.idToken.jwtToken;
+    console.log({ token });
+
+    const requestInfo = {
+      headers: {
+        Authorization: token,
+      },
+    };
+    const data = await API.get("SeedsInSpaceAPI", "/seeds");
+    console.log({ data });
+  };
+
   return (
     <Container maxWidth="xl">
       <h1>HOME</h1>
+      <button onClick={callAPI}>API CALL</button>
       <img src={profileImage} alt="profile" />
       <div className={classes.root}>
         <Grid container spacing={2}>

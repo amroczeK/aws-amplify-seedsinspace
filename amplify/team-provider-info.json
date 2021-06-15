@@ -25,6 +25,25 @@
         "seedsinspaced78ce747": {
           "bucketName": "seeds-in-space-app",
           "region": "ap-southeast-2"
+        },
+        "WattleSeeds": {
+          "tableName": "WattleSeeds",
+          "region": "ap-southeast-2",
+          "arn": "arn:aws:dynamodb:ap-southeast-2:526519863507:table/WattleSeeds",
+          "partitionKeyName": "entry_id",
+          "partitionKeyType": "S",
+          "sortKeyName": "type",
+          "sortKeyType": "S"
+        }
+      },
+      "function": {
+        "GetAllSchools": {
+          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
+          "s3Key": "amplify-builds/GetAllSchools-61456a4f547272394771-build.zip"
+        },
+        "GetAllSeeds": {
+          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
+          "s3Key": "amplify-builds/GetAllSeeds-67794a36366c58323766-build.zip"
         }
       }
     }
