@@ -15,6 +15,12 @@
     "SeedsInSpaceImages": {
       "service": "S3",
       "providerPlugin": "awscloudformation"
+    },
+    "seedsinspaced78ce747": {
+      "service": "S3",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
     }
   },
   "hosting": {

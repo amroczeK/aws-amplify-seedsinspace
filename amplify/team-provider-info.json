@@ -20,6 +20,12 @@
           "appId": "d2ug6ia1qfm5r4",
           "type": "cicd"
         }
+      },
+      "storage": {
+        "seedsinspaced78ce747": {
+          "bucketName": "seeds-in-space-app",
+          "region": "ap-southeast-2"
+        }
       }
     }
   }
