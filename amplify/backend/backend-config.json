@@ -32,7 +32,27 @@
       "lastPushTimeStamp": "2021-06-07T12:02:07.349Z"
     }
   },
-  "function": {},
+  "function": {
+    "SeedsFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "WattleSeeds",
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "attributeEnvMap": {
+            "Name": "TABLE_NAME",
+            "Arn": "TABLE_ARN"
+          }
+        }
+      ]
+    }
+  },
   "api": {
     "seedsinspace": {
       "service": "AppSync",
@@ -56,6 +76,20 @@
           ]
         }
       }
+    },
+    "SeedsInSpaceAPI": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "SeedsFunction",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   }
 }
