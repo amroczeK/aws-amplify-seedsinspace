@@ -20,8 +20,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const AddSeed = ({ open, onClose }) => {
   const [error, setError] = useState(null);
-  const { control, handleSubmit, formState } = useForm();
+  const { control, handleSubmit, formState, watch } = useForm();
   const { errors } = formState;
+
+  // Any unsaved changes will be wiped
 
   const [seedTab, setSeedTab] = useState(1);
   const handleChange = (event, newTab) => {
