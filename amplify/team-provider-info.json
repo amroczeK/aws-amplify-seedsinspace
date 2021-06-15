@@ -35,16 +35,6 @@
           "sortKeyName": "type",
           "sortKeyType": "S"
         }
-      },
-      "function": {
-        "GetAllSchools": {
-          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/GetAllSchools-61456a4f547272394771-build.zip"
-        },
-        "GetAllSeeds": {
-          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/GetAllSeeds-6c54794852484a4b2f77-build.zip"
-        }
       }
     }
   }

@@ -32,18 +32,7 @@
       "lastPushTimeStamp": "2021-06-07T12:02:07.349Z"
     }
   },
-  "function": {
-    "GetAllSeeds": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "GetAllSchools": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  },
+  "function": {},
   "api": {
     "seedsinspace": {
       "service": "AppSync",
@@ -67,28 +56,6 @@
           ]
         }
       }
-    },
-    "SeedsInSpaceAPI": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "GetAllSeeds",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "GetAllSchools",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
     }
   }
 }
