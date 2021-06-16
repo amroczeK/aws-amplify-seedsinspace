@@ -1,6 +1,6 @@
 import { useState } from "react";
-import LocationSearch from "./components/map/LocationSearch";
-import LeafletMap from "./components/map/LeafletMap";
+import LocationSearch from "./LocationSearch";
+import LeafletMap from "./LeafletMap";
 
 const MapExample = () => {
   const [map, setMap] = useState(null);
