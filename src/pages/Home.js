@@ -67,12 +67,12 @@ const Home = () => {
 
     const requestInfo = {
       headers: {
+        "Access-Control-Allow-Origin": "*",
         Authorization: token,
-        "Access-Control-Allow-Origin":"*"
       },
     };
     try {
-      const data = await API.get("SeedsInSpaceAPI", "/seeds", requestInfo);
+      const data = await API.get("SeedsAPI", "/seeds", requestInfo);
       console.log({ data });
     } catch (error) {
       console.log({ error });

@@ -8,12 +8,6 @@
     }
   },
   "storage": {
-    "WattleSeeds": {
-      "service": "DynamoDB",
-      "serviceType": "imported",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": []
-    },
     "SeedsInSpaceImages": {
       "service": "S3",
       "providerPlugin": "awscloudformation"
