@@ -5,7 +5,7 @@ import * as Pages from "./pages";
 import { AppNavBar } from "./components/nav";
 import { UserContext } from "./components/context/User";
 import DevTools from "./DevTools";
-import LeafletMap from "./components/LeafletMap";
+import MapExample from "./MapExample";
 
 const AppContainer = styled.div`
   height: 100vh;
@@ -57,7 +57,7 @@ const App = () => {
           <Route path="/about" component={Pages.AboutUs} />
           <Route path="/schools" component={Pages.ParticipatingSchools} />
           <Route path="/faq" component={Pages.Faq} />
-          <Route path="/maptest" component={() => <LeafletMap />} />
+          <Route path="/maptest" component={() => <MapExample />} />
           <Route path="*" component={Pages.SignIn} />
         </Switch>
       </BrowserRouter>
