@@ -1,6 +1,6 @@
 {
     "identityPoolName": "seedsinspace0877655c_identitypool_0877655c",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "seedsi0877655c",
     "userPoolName": "seedsinspace0877655c_userpool_0877655c",
     "autoVerifiedAttributes": [

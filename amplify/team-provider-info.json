@@ -33,6 +33,16 @@
           "appId": "d2ug6ia1qfm5r4",
           "type": "cicd"
         }
+      },
+      "function": {
+        "SeedsLambda": {
+          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
+          "s3Key": "amplify-builds/SeedsLambda-72627431732f6d49355a-build.zip"
+        },
+        "SchoolsLambda": {
+          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
+          "s3Key": "amplify-builds/SchoolsLambda-437856383170704c4d72-build.zip"
+        }
       }
     }
   }
