@@ -65,14 +65,14 @@ const Home = () => {
     const token = user.signInUserSession.idToken.jwtToken;
     console.log({ token });
 
-    const requestInfo = {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: token,
-      },
-    };
+    // const requestInfo = {
+    //   headers: {
+    //     "Access-Control-Allow-Origin": "*",
+    //     Authorization: token,
+    //   },
+    // };
     try {
-      const data = await API.get("SeedsAPI", "/seeds", requestInfo);
+      const data = await API.get("SeedsAPI", "/seeds", {});
       console.log({ data });
     } catch (error) {
       console.log({ error });

@@ -26,6 +26,16 @@
           "bucketName": "seeds-in-space-app",
           "region": "ap-southeast-2"
         }
+      },
+      "function": {
+        "SchoolsLambda": {
+          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
+          "s3Key": "amplify-builds/SchoolsLambda-437856383170704c4d72-build.zip"
+        },
+        "SeedsLambda": {
+          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
+          "s3Key": "amplify-builds/SeedsLambda-6f6c3849513864664645-build.zip"
+        }
       }
     }
   }
