@@ -12,7 +12,13 @@ import {
 } from "../components/charts/chartMockData";
 import { S3BucketContext } from "../components/context/S3Bucket";
 import { UserContext } from "../components/context/User";
-import { API, Auth } from "aws-amplify";
+import {
+  getAllSeeds,
+  getSeedById,
+  addSeedEntry,
+  updateSeedEntry,
+  deleteSeedEntry,
+} from "../apis";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,29 +66,14 @@ const Home = () => {
     // eslint-disable-next-line
   }, []);
 
-  const callAPI = async () => {
-    const user = await Auth.currentAuthenticatedUser();
-    const token = user.signInUserSession.idToken.jwtToken;
-    console.log({ token });
-
-    // const requestInfo = {
-    //   headers: {
-    //     "Access-Control-Allow-Origin": "*",
-    //     Authorization: token,
-    //   },
-    // };
-    try {
-      const data = await API.get("SeedsAPI", "/seeds", {});
-      console.log({ data });
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-
   return (
     <Container maxWidth="xl">
       <h1>HOME</h1>
-      <button onClick={callAPI}>API CALL</button>
+      <button onClick={getAllSeeds}>GET SEEDS API CALL</button>
+      <button onClick={getSeedById}>GET SEEDS API CALL</button>
+      <button onClick={addSeedEntry}>GET SEEDS API CALL</button>
+      <button onClick={updateSeedEntry}>GET SEEDS API CALL</button>
+      <button onClick={deleteSeedEntry}>GET SEEDS API CALL</button>
       <img src={profileImage} alt="profile" />
       <div className={classes.root}>
         <Grid container spacing={2}>

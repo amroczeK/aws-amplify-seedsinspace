@@ -10,6 +10,7 @@ const AWS = require("aws-sdk");
 var awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 var bodyParser = require("body-parser");
 var express = require("express");
+const { v4: uuidv4 } = require("uuid");
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 
@@ -38,25 +39,195 @@ app.use(awsServerlessExpressMiddleware.eventContext());
 // Enable CORS for all methods
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  res.header("Access-Control-Allow-Headers", "*");
   next();
 });
 
+const getUserId = req => {
+  try {
+    const reqContext = req.apiGateway.event.requestContext;
+    const authProvider = reqContext.identity.cognitoAuthenticationProvider;
+    return authProvider ? authProvider.split(":CognitoSignIn:").pop() : "UNAUTH";
+  } catch (error) {
+    console.log("Error - getUserId():", error);
+    return "UNAUTH";
+  }
+};
+
 app.get("/seeds", function (req, res) {
-  let params = {
+  const params = {
     TableName: tableName,
     limit: 100,
   };
   dynamodb.scan(params, (error, data) => {
     if (error) {
-      res.json({ statusCode: 500, error: error.message });
+      console.log("DYNAMO DB SCAN ERROR:", error);
+      res.json({
+        statusCode: 500,
+        error: error.message,
+      });
     } else {
-      res.json({ statusCode: 200, url: request.url, body: JSON.stringify(data.Items) });
+      console.log("DYNAMO DB SCAN RESP:", data);
+      res.json({
+        statusCode: 200,
+        url: req.url,
+        body: JSON.stringify(data.Items),
+      });
     }
   });
+});
+
+app.get("/seeds/:id", function (req, res) {
+  const params = {
+    TableName: tableName,
+    Keys: {
+      id: req.params.id,
+    },
+  };
+  dynamodb.get(params, (error, data) => {
+    if (error) {
+      res.json({
+        statusCode: 500,
+        error: error.message,
+      });
+    } else {
+      res.json({
+        statusCode: 200,
+        url: req.url,
+        body: JSON.stringify(data.Item),
+      });
+    }
+  });
+});
+
+app.post("/seeds", function (req, res) {
+  const timestamp = new Date().toISOString();
+  const params = {
+    TableName: tableName,
+    Item: {
+      ...req.body,
+      entry_id: uuidv4(),
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      school_id: getUserId(req),
+    },
+  };
+  dynamodb.put(params, (error, data) => {
+    if (error) {
+      res.json({
+        statusCode: 500,
+        error: error.message,
+        url: req.url,
+      });
+    } else {
+      res.json({
+        statusCode: 200,
+        url: req.url,
+        body: JSON.stringify(params.Item),
+      });
+    }
+  });
+});
+
+// Add schema validation middleware later
+app.put("/seeds", function (req, res) {
+  const timestamp = new Date().toISOString();
+  let params = {
+    TableName: tableName,
+    Key: {
+      id: req.body.id,
+    },
+    ExpressionAttributeNames: { "#type": "type" },
+    ExpressionAttributeValues: {},
+    ReturnValues: "UPDATED_NEW",
+  };
+  params.UpdateExpression = "SET ";
+
+  let {
+    type,
+    height,
+    leaf_count,
+    leaf_length,
+    leaf_width,
+    leaf_colour,
+    stem_length,
+    ph_level,
+    water_volume,
+    humidity,
+    temperature,
+  } = req.body;
+
+  if (type) {
+    params.ExpressionAttributeValues[":type"] = req.body.type;
+    params.UpdateExpression += "#type = :type, ";
+  }
+  if (height) {
+    params.ExpressionAttributeValues[":height"] = req.body.height;
+    params.UpdateExpression += "#height = :height, ";
+  }
+  if (leaf_count) {
+    params.ExpressionAttributeValues[":leaf_count"] = req.body.leaf_count;
+    params.UpdateExpression += "#leaf_count = :leaf_count, ";
+  }
+  if (leaf_length) {
+    params.ExpressionAttributeValues[":leaf_length"] = req.body.leaf_length;
+    params.UpdateExpression += "#leaf_length = :leaf_length, ";
+  }
+  if (leaf_width) {
+    params.ExpressionAttributeValues[":leaf_width"] = req.body.leaf_width;
+    params.UpdateExpression += "#leaf_width = :leaf_width, ";
+  }
+  if (leaf_colour) {
+    params.ExpressionAttributeValues[":leaf_colour"] = req.body.leaf_colour;
+    params.UpdateExpression += "#leaf_colour = :leaf_colour, ";
+  }
+  if (stem_length) {
+    params.ExpressionAttributeValues[":stem_length"] = req.body.stem_length;
+    params.UpdateExpression += "#stem_length = :stem_length, ";
+  }
+  if (ph_level) {
+    params.ExpressionAttributeValues[":ph_level"] = req.body.ph_level;
+    params.UpdateExpression += "#ph_level = :ph_level, ";
+  }
+  if (water_volume) {
+    params.ExpressionAttributeValues[":water_volume"] = req.body.water_volume;
+    params.UpdateExpression += "#water_volume = :water_volume, ";
+  }
+  if (humidity) {
+    params.ExpressionAttributeValues[":humidity"] = req.body.humidity;
+    params.UpdateExpression += "#humidity = :humidity, ";
+  }
+  if (temperature) {
+    params.ExpressionAttributeValues[":temperature"] = req.body.temperature;
+    params.UpdateExpression += "#temperature = :temperature, ";
+  }
+  params.ExpressionAttributeValues[":updatedAt"] = timestamp;
+  params.UpdateExpression += "#updatedAt = :updatedAt";
+
+  dynamodb.update(params, (error, data) => {
+    if (error) {
+      res.json({
+        statusCode: 500,
+        error: error.message,
+        url: req.url,
+      });
+    } else {
+      res.json({
+        statusCode: 200,
+        url: req.url,
+        body: JSON.stringify(params.Attributes),
+      });
+    }
+  });
+});
+
+app.delete("/seeds/:id", function (req, res) {
+  const params = {
+    TableName: tableName,
+    Key: {
+      entry_id: req.params.id,
+    },
+  };
 });
 
 // // convert url string param to expected Type

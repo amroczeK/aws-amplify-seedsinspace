@@ -632,7 +632,7 @@
         
         
 
-      "DeploymentAPIGWSeedsAPId97f7fc9": {
+      "DeploymentAPIGWSeedsAPI": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",

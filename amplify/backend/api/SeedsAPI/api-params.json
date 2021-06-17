@@ -1,75 +1,74 @@
 {
-    "paths": [
-        {
-            "name": "/seeds",
-            "lambdaFunction": "SeedsLambda",
-            "privacy": {
-                "protected": true,
-                "auth": [
-                    "/POST",
-                    "/GET",
-                    "/PUT",
-                    "/PATCH",
-                    "/DELETE"
-                ],
-                "unauth": [
-                    "/GET"
-                ]
-            },
-            "policyResourceName": "/seeds"
-        },
-        {
-            "name": "/schools",
-            "lambdaFunction": "SchoolsLambda",
-            "privacy": {
-                "protected": true,
-                "auth": [
-                    "/POST",
-                    "/GET",
-                    "/PUT",
-                    "/PATCH",
-                    "/DELETE"
-                ],
-                "unauth": [
-                    "/GET"
-                ]
-            },
-            "policyResourceName": "/schools"
-        }
-    ],
-    "resourceName": "SeedsAPI",
-    "apiName": "SeedsAPI",
-    "functionArns": [
-        {
-            "lambdaFunction": "SeedsLambda"
-        },
-        {
-            "lambdaFunction": "SchoolsLambda"
-        }
-    ],
-    "privacy": {
-        "auth": 2,
-        "unauth": 2,
-        "authRoleName": "amplify-seedsinspace-dev-192500-authRole",
-        "unAuthRoleName": "amplify-seedsinspace-dev-192500-unauthRole"
+  "paths": [
+    {
+      "name": "/seeds",
+      "lambdaFunction": "SeedsLambda",
+      "privacy": {
+        "protected": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ],
+        "unauth": [
+          "/GET"
+        ]
+      },
+      "policyResourceName": "/seeds"
     },
-    "dependsOn": [
-        {
-            "category": "function",
-            "resourceName": "SeedsLambda",
-            "attributes": [
-                "Name",
-                "Arn"
-            ]
-        },
-        {
-            "category": "function",
-            "resourceName": "SchoolsLambda",
-            "attributes": [
-                "Name",
-                "Arn"
-            ]
-        }
-    ],
-    "uuid": "d97f7fc9"
+    {
+      "name": "/schools",
+      "lambdaFunction": "SchoolsLambda",
+      "privacy": {
+        "protected": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ],
+        "unauth": [
+          "/GET"
+        ]
+      },
+      "policyResourceName": "/schools"
+    }
+  ],
+  "resourceName": "SeedsAPI",
+  "apiName": "SeedsAPI",
+  "functionArns": [
+    {
+      "lambdaFunction": "SeedsLambda"
+    },
+    {
+      "lambdaFunction": "SchoolsLambda"
+    }
+  ],
+  "privacy": {
+    "auth": 2,
+    "unauth": 2,
+    "authRoleName": "amplify-seedsinspace-dev-192500-authRole",
+    "unAuthRoleName": "amplify-seedsinspace-dev-192500-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "SeedsLambda",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    },
+    {
+      "category": "function",
+      "resourceName": "SchoolsLambda",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
 }
