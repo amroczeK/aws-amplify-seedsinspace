@@ -39,35 +39,15 @@ const muiTheme = createMuiTheme({
   },
 });
 
-const theme = {
-  palette: {
-    primary: {
-      main: "#6BBE93",
-      dark: "#358C5F",
-    },
-    secondary: {
-      main: "#616161",
-    },
-  },
-  primaryBackground: "#358C5F",
-  primaryDark: "#17252A",
-  primaryLight: "#FCFCFC",
-  primaryHover: "#CBCBCB",
-  secondaryDark: "#2B7A78",
-  secondaryLight: "#6BBE93",
-  mobile: "576px",
-};
-
 const Providers = ({ children }) => {
   return (
     <MuiThemeProvider theme={muiTheme}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={muiTheme}>
         <StylesProvider injectFirst>
           <CssBaseline />
           <UserProvider>
             <DataProvider>
-              {children}
-              <S3BucketProvider></S3BucketProvider>
+              <S3BucketProvider>{children}</S3BucketProvider>
             </DataProvider>
           </UserProvider>
         </StylesProvider>

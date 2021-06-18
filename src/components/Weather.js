@@ -16,7 +16,7 @@ const WeatherApp = () => {
     <Card>
       <CardContent>
         <Typography style={{ fontWeight: "bold" }} variant="h6">
-          {format(date, "eeee dd MMMM")}
+          {format(date, "eeee dd MMMM yyyy")}
         </Typography>
         <QueryClientProvider client={queryClient}>
           <Weather />
@@ -49,6 +49,9 @@ const Weather = () => {
       ).then(res => res.json()),
     { enabled: "lat" in location && "long" in location }
   );
+
+  console.log(isLoading, error, data);
+  console.log(location);
 
   if (isLoading || !("lat" in location && "long" in location)) return <LinearProgress />;
 

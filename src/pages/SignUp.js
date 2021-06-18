@@ -216,7 +216,7 @@ const SignUp = () => {
         >
           Next
         </StyledButton>
-        <StyledLink to="/" alignself="center">
+        <StyledLink to="/seed-setup" alignself="center">
           Skip for now
         </StyledLink>
       </SignUpContainer>

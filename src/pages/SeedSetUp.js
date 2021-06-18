@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import styled from "styled-components";
+import { StyledLink } from "../components/styled-components/Links";
 
 const Container = styled.div`
   display: flex;
@@ -20,11 +21,6 @@ const SeedSetUpContainer = styled.div`
   margin: 2em 1em 1em 1em;
   padding: 1em;
   gap: 1em;
-`;
-
-const StyledLink = styled.a`
-  /* color: ${({ theme }) => theme.primaryBackground}; */
-  font-size: 0.75em;
 `;
 
 const StyledButtonContainer = styled.div`
@@ -80,7 +76,9 @@ const SeedSetUp = () => {
             No
           </StyledButtonLight>
         </StyledButtonContainer>
-        <StyledLink href="/">Need help planting the seeds?</StyledLink>
+        <StyledLink decoration="underline" to="/">
+          Need help planting the seeds?
+        </StyledLink>
       </SeedSetUpContainer>
     );
   };
@@ -99,7 +97,9 @@ const SeedSetUp = () => {
         <StyledButton disableElevation variant="contained">
           I have planted my seeds
         </StyledButton>
-        <StyledLink href="/">Need help planting the seeds?</StyledLink>
+        <StyledLink decoration="underline" to="/">
+          Need help planting the seeds?
+        </StyledLink>
       </SeedSetUpContainer>
     );
   };
