@@ -5,6 +5,7 @@ import * as Pages from "./pages";
 import { AppNavBar } from "./components/nav";
 import { UserContext } from "./components/context/User";
 import DevTools from "./DevTools";
+
 const AppContainer = styled.div`
   height: 100vh;
 `;

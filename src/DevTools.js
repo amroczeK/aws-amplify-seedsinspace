@@ -15,7 +15,6 @@ const ContentDiv = styled.div`
   background-color: white;
   border: 2px solid black;
   padding: 1em;
-  width: 500px;
   height: 700px;
 `;
 
