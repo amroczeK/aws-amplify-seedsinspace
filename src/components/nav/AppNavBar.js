@@ -22,5 +22,5 @@ const Container = styled.div`
   align-items: center;
   gap: 2em;
   height: 70px;
-  background-color: ${({ theme }) => theme.primaryBackground};
+  background-color: ${({ theme }) => theme.palette.primary.dark};
 `;

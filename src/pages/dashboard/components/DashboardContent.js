@@ -20,12 +20,11 @@ const DashboardContent = () => {
       <Tabs
         value={tab}
         onChange={handleChange}
-        TabIndicatorProps={{
-          style: { background: "#6BBE93" },
-        }}
         variant="fullWidth"
+        indicatorColor="primary"
+        textColor="primary"
       >
-        <StyledTab
+        <Tab
           label={
             <>
               <StyledTabDiv>
@@ -34,7 +33,7 @@ const DashboardContent = () => {
             </>
           }
         />
-        <StyledTab
+        <Tab
           label={
             <>
               <StyledTabDiv>
@@ -57,12 +56,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 300px;
-`;
-
-const StyledTab = styled(Tab)`
-  selected: {
-    color: ${({ theme }) => theme.primaryBackground};
-  }
+  gap: 1em;
 `;
 
 const StyledTabDiv = styled.div`

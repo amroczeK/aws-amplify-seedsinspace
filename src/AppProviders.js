@@ -1,44 +1,58 @@
 import React from "react";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
 import { UserProvider } from "./components/context/User";
+import {
+  createMuiTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { DataProvider } from "./components/context/Data";
 import { S3BucketProvider } from "./components/context/S3Bucket";
 
-const GlobalStyle = createGlobalStyle`
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    background: ${({ theme }) => theme.primaryLight};
-    font-family: 'Montserrat', sans-serif;
-}
-`;
+const muiTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#6BBE93",
+      dark: "#358C5F",
+      contrastText: "#ffffff",
+    },
+    secondary: {
+      main: "#616161",
+      light: "#9E9E9E",
+      contrastText: "#ffffff",
+    },
+    text: {
+      primary: "#616161",
+    },
+  },
+  typography: {
+    fontFamily: ["Montserrat", "sans-serif"].join(","),
+  },
 
-const theme = {
-  primaryBackground: "#358C5F",
-  primaryDark: "#17252A",
-  primaryLight: "#FCFCFC",
-  primaryHover: "#CBCBCB",
-  secondaryDark: "#2B7A78",
-  secondaryLight: "#6BBE93",
-  mobile: "576px",
-};
+  overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        "@font-face": ["Montserrat"],
+      },
+    },
+  },
+});
 
 const Providers = ({ children }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <StylesProvider injectFirst>
-        <GlobalStyle />
-        <UserProvider>
-          <DataProvider>
-            <S3BucketProvider>{children}</S3BucketProvider>
-          </DataProvider>
-        </UserProvider>
-      </StylesProvider>
-    </ThemeProvider>
+    <MuiThemeProvider theme={muiTheme}>
+      <ThemeProvider theme={muiTheme}>
+        <StylesProvider injectFirst>
+          <CssBaseline />
+          <UserProvider>
+            <DataProvider>
+              <S3BucketProvider>{children}</S3BucketProvider>
+            </DataProvider>
+          </UserProvider>
+        </StylesProvider>
+      </ThemeProvider>
+    </MuiThemeProvider>
   );
 };
 

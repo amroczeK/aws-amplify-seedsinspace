@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
       await Auth.signUp({
         username: email,
         password,
-        attributes: { email, organisation, address },
+        attributes: { email, address },
       });
     } catch (error) {
       throw error;

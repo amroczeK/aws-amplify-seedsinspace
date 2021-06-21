@@ -11,7 +11,7 @@ export const S3BucketProvider = ({ children }) => {
    * Upload image controller to S3 Bucket
    * @param {File} file Image file blob
    * @param {String} path Folder path in S3 Bucket e.g. public/
-   * @param {String} level S3 bucket resource level e.g. public, private
+   * @param {String} level S3 bucket resource level e.g. public, protected, private
    * @returns {Object} Key for filename e.g. { key: "Capture2.PNG" }
    *
    * Refer to https://docs.amplify.aws/lib/storage/upload/q/platform/js#amazon-s3-bucket-cors-policy-setup
@@ -26,6 +26,10 @@ export const S3BucketProvider = ({ children }) => {
    *
    * Default level is public, you can specify folders within public/ and only authenticated users have
    * write permissions to it as per IAM role amplify-seedsinspace-dev-192500-authRole inline policies.
+   * 
+   * public - accessible by all users
+   * protected - readable by all users, but writable only by user that created it (use for profile pics)
+   * private - only accessible for the individual authenticated user
    */
   const uploadImage = async ({ file, path, level = "public" }) => {
     let destPath = path ? file.name : path + file.name;

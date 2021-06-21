@@ -7,7 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { UserContext } from "../context/User";
 
 const StyledListItemText = styled(ListItemText)`
-  color: ${({ theme }) => theme.primaryLight};
+  color: #fff;
 `;
 
 export const SideMenuItems = ({ callback }) => {

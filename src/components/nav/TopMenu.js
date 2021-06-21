@@ -6,6 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { StyledLink } from "../styled-components/Links";
 import { UserContext } from "../context/User";
+import Typography from "@material-ui/core/Typography";
 
 const TopMenu = () => {
   const { signOut } = useContext(UserContext);
@@ -22,7 +23,7 @@ const TopMenu = () => {
   return (
     <>
       <StyledLink padding="0 0 4px 2em" color="white" to="/">
-        <h2>Seeds in space</h2>
+        <StyledTypography variant="h5">Seeds in space</StyledTypography>
       </StyledLink>
       <StyledList component="nav">
         <StyledListItem component={Link} to="/dashboard">
@@ -46,6 +47,8 @@ const TopMenu = () => {
   );
 };
 
+export default TopMenu;
+
 const Expander = styled.div`
   flex: 1 0;
 `;
@@ -57,7 +60,7 @@ const StyledList = styled(List)`
 `;
 
 const StyledListItem = styled(ListItem)`
-  color: ${({ theme }) => theme.primaryLight};
+  color: #fff;
   width: 115px;
   text-align: center;
   &:hover {
@@ -65,4 +68,6 @@ const StyledListItem = styled(ListItem)`
   }
 `;
 
-export default TopMenu;
+const StyledTypography = styled(Typography)`
+  font-weight: bold;
+`;

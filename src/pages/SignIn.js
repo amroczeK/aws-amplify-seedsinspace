@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { StyledLink } from "../components/styled-components/Links";
 import { StyledButton } from "../components/styled-components/Buttons";
 import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
 import Alert from "@material-ui/lab/Alert";
 import Logo from "../assets/logo.png";
 import { Controller, useForm } from "react-hook-form";
@@ -10,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signInSchema } from "../components/validation/schemas";
 import { UserContext } from "../components/context/User";
 import styled from "styled-components";
+import { StyledInputLabel } from "../components/styled-components/InputLabel";
 
 const SignIn = () => {
   const [error, setError] = useState(null);
@@ -37,7 +37,7 @@ const SignIn = () => {
       <SignInContainer>
         <StyledImg src={Logo}></StyledImg>
         <GridForm onSubmit={handleSubmit(signInHandler)}>
-          <InputLabel shrink>EMAIL ADDRESS</InputLabel>
+          <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
           <Controller
             name="email"
             defaultValue=""
@@ -51,7 +51,7 @@ const SignIn = () => {
             )}
           />
 
-          <InputLabel shrink>PASSWORD</InputLabel>
+          <StyledInputLabel shrink>PASSWORD</StyledInputLabel>
           <Controller
             name="password"
             defaultValue=""
@@ -66,7 +66,12 @@ const SignIn = () => {
             )}
           />
           {error && <Alert severity="error">{error.message}</Alert>}
-          <StyledButton type="submit" disableElevation variant="contained">
+          <StyledButton
+            color="primary"
+            type="submit"
+            disableElevation
+            variant="contained"
+          >
             Login
           </StyledButton>
           <StyledLink to="/signup" decoration="underline">

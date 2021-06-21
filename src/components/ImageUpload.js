@@ -6,7 +6,7 @@ import { Camera } from "@styled-icons/bootstrap/Camera";
 import { S3BucketContext } from "../components/context/S3Bucket";
 
 const StyledButton = styled(Button)`
-  color: ${props => props.color || props.theme.primaryBackground};
+  color: ${props => props.color || props.theme.palette.primary.main};
   text-transform: ${props => props.textTransform || "none"};
   margin-left: 1em;
   padding: 0;
@@ -26,11 +26,19 @@ const ImageText = styled.p`
 const CameraIcon = styled(Camera)`
   width: 2em;
   height: 2em;
-  color: ${props => props.color || props.theme.primaryBackground};
+  color: ${props => props.color || props.theme.palette.primary.main};
   margin: 1em 0;
 `;
 
-const ImageUpload = ({ preview = true, register, setValue, name, path, level, setError }) => {
+const ImageUpload = ({
+  preview = true,
+  register,
+  setValue,
+  name,
+  path,
+  level,
+  setError,
+}) => {
   const [imageUrl, setImageUrl] = useState();
   const [imageFile, setImageFile] = useState("None");
 
