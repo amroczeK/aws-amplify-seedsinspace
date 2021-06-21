@@ -34,7 +34,7 @@
         },
         "SeedsLambda": {
           "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SeedsLambda-71364b4572356c496761-build.zip"
+          "s3Key": "amplify-builds/SeedsLambda-54667369392b55375442-build.zip"
         }
       }
     }
