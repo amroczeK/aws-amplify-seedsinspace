@@ -30,11 +30,11 @@
       "function": {
         "SchoolsLambda": {
           "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SchoolsLambda-77714644504772306e56-build.zip"
+          "s3Key": "amplify-builds/SchoolsLambda-5259666f486257765761-build.zip"
         },
         "SeedsLambda": {
           "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SeedsLambda-32343564716d47795338-build.zip"
+          "s3Key": "amplify-builds/SeedsLambda-71364b4572356c496761-build.zip"
         }
       }
     }

@@ -1,28 +1,42 @@
 import { API } from "aws-amplify";
 
+/**
+ * Function to retrieve all existing seed entries using PK: entry_id and SK: type which are mandatory
+ * @param {Object} req Object of attributes e.g. { entry_id: "123", type: "Earth" }
+ * @returns result response
+ */
 export const getAllSeeds = async () => {
   try {
     const data = await API.get("SeedsAPI", "/seeds", {});
-    console.log("seeds:", data);
-    //return data;
+    return data;
   } catch (error) {
     console.log(error);
-    //throw error;
+    throw error;
   }
 };
 
+/**
+ * Function to retrieve a singular existing seed entry using PK: entry_id and SK: type which are mandatory
+ * @param {Object} req Object of attributes e.g. { entry_id: "123", type: "Earth" }
+ * @returns result response
+ */
 export const getSeedById = async req => {
-  let { entry_id } = req;
+  let { entry_id, type } = req;
+  
   try {
-    const data = await API.get("SeedsAPI", `/seeds/${entry_id}`, {});
-    console.log("seed:", data);
-    //return data;
+    const data = await API.get("SeedsAPI", `/seeds/${entry_id}/${type}`, {});
+    return data;
   } catch (error) {
     console.log(error);
-    //throw error;
+    throw error;
   }
 };
 
+/**
+ * Function to add new seed entry using PK: entry_id and SK: type which are mandatory
+ * @param {Object} req Object of attributes e.g. { entry_id: "123", type: "Earth" }
+ * @returns result response
+ */
 export const addSeedEntry = async req => {
   try {
     const data = await API.post("SeedsAPI", "/seeds", {
@@ -30,37 +44,45 @@ export const addSeedEntry = async req => {
         ...req,
       },
     });
-    console.log("added seed:", data);
-    //return data;
+    return data;
   } catch (error) {
     console.log(error);
-    //throw error;
+    throw error;
   }
 };
 
+/**
+ * Function to update existing seed entry using PK: entry_id and SK: type which are mandatory
+ * @param {Object} req Object of attributes e.g. { entry_id: "123", type: "Earth", height: 2 }
+ * @returns result response
+ */
 export const updateSeedEntry = async req => {
+  const { entry_id, type, ...Attributes } = req;
   try {
-    const data = await API.put("SeedsAPI", "/seeds", {
+    const data = await API.put("SeedsAPI", `/seeds/${entry_id}/${type}`, {
       body: {
-        ...req,
+        ...Attributes,
       },
     });
-    console.log("updated seed:", data);
-    //return data;
+    return data;
   } catch (error) {
     console.log(error);
-    //throw error;
+    throw error;
   }
 };
 
+/**
+ * Function to delete existing seed entry using PK: entry_id and SK: type which are mandatory
+ * @param {Object} req Object of attributes e.g. { entry_id: "123", type: "Earth" }
+ * @returns result response
+ */
 export const deleteSeedEntry = async req => {
-  let { entry_id } = req;
+  let { entry_id, type } = req;
   try {
-    const data = await API.get("SeedsAPI", `/seeds/${entry_id}`, {});
-    console.log("deleted seed:", data);
-    //return data;
+    const data = await API.del("SeedsAPI", `/seeds/${entry_id}/${type}`, {});
+    return data;
   } catch (error) {
     console.log(error);
-    //throw error;
+    throw error;
   }
 };

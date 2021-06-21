@@ -70,10 +70,10 @@ const Home = () => {
     <Container maxWidth="xl">
       <h1>HOME</h1>
       <button onClick={getAllSeeds}>GET SEEDS API CALL</button>
-      <button onClick={getSeedById}>GET SEEDS API CALL</button>
-      <button onClick={addSeedEntry}>GET SEEDS API CALL</button>
-      <button onClick={updateSeedEntry}>GET SEEDS API CALL</button>
-      <button onClick={deleteSeedEntry}>GET SEEDS API CALL</button>
+      <button onClick={getSeedById}>GET SEED BY ID</button>
+      <button onClick={addSeedEntry}>ADD SEED ENTRY API CALL</button>
+      <button onClick={updateSeedEntry}>UPDATE SEED ENTRY API CALL</button>
+      <button onClick={deleteSeedEntry}>DELETE SEED ENTRY API CALL</button>
       <img src={profileImage} alt="profile" />
       <div className={classes.root}>
         <Grid container spacing={2}>
