@@ -8,7 +8,7 @@ export const UserProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const signUp = async formData => {
-    const { email, password, organisation, address } = formData;
+    const { email, password, address } = formData;
     try {
       await Auth.signUp({
         username: email,

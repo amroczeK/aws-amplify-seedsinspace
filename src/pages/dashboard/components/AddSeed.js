@@ -19,8 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const AddSeed = ({ open, onClose }) => {
-  const [error, setError] = useState(null);
-  const { control, handleSubmit, formState, watch } = useForm();
+  const { control, formState } = useForm();
   const { errors } = formState;
 
   // Any unsaved changes will be wiped
@@ -111,22 +110,22 @@ const AddSeed = ({ open, onClose }) => {
             <StyledTab label="S - 6" />
           </Tabs>
           <TabPanel value={seedTab} index={0}>
-            <SeedForm name="Space Seed - 1" />
+            <SeedForm name="Space Seed - 1" control={control} errors={errors} />
           </TabPanel>
           <TabPanel value={seedTab} index={1}>
-            <SeedForm name="Space Seed - 2" />
+            <SeedForm name="Space Seed - 2" control={control} errors={errors} />
           </TabPanel>
           <TabPanel value={seedTab} index={2}>
-            <SeedForm name="Space Seed - 3" />
+            <SeedForm name="Space Seed - 3" control={control} errors={errors} />
           </TabPanel>
           <TabPanel value={seedTab} index={3}>
-            <SeedForm name="Space Seed - 4" />
+            <SeedForm name="Space Seed - 4" control={control} errors={errors} />
           </TabPanel>
           <TabPanel value={seedTab} index={4}>
-            <SeedForm name="Space Seed - 5" />
+            <SeedForm name="Space Seed - 5" control={control} errors={errors} />
           </TabPanel>
           <TabPanel value={seedTab} index={5}>
-            <SeedForm name="Space Seed - 6" />
+            <SeedForm name="Space Seed - 6" control={control} errors={errors} />
           </TabPanel>
         </AddSeedContainer>
       </Dialog>

@@ -60,9 +60,9 @@
     "arrowParens": "avoid"
   },
   "devDependencies": {
-    "@testing-library/react-hooks": "^7.0.0",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
+    "@testing-library/react-hooks": "^7.0.0",
     "@testing-library/user-event": "^12.8.3",
     "mockdate": "^3.0.5",
     "nock": "^13.1.0",

@@ -22,11 +22,12 @@ export const DataProvider = ({ children }) => {
         setError({ isError: true, message: error.message });
       }
     };
+
     if (!seedData?.length) {
       setLoading(true);
       fetchSeedData();
     }
-  }, []);
+  }, [seedData]);
 
   const values = {
     seedData,
