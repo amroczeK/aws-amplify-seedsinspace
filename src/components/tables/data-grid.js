@@ -39,9 +39,10 @@ export const DataGridTable = ({
   loading,
   setSelectedRows,
   getRowId,
+  error,
 }) => {
-  console.log(rowData);
   const classes = useStyles();
+  console.log("error", error);
 
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -84,6 +85,7 @@ export const DataGridTable = ({
       components={{
         Toolbar: GridToolbar,
       }}
+      error={error}
     />
   );
 };

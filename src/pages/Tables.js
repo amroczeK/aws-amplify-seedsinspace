@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { DataGridTable } from "../components/tables/data-grid";
 import styled from "styled-components";
 import { DataContext } from "../components/context/Data";
+import Alert from "@material-ui/lab/Alert";
 
 const defaultColumns = [
   { field: "entry_id", headerName: "ID", width: 100 },
@@ -22,26 +23,25 @@ const defaultColumns = [
 ];
 
 const Tables = () => {
-  const [loading, setLoading] = useState(false);
-  const [rowData, setRowData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
-  const { seedData } = useContext(DataContext);
-
-  useEffect(() => {
-    setRowData(seedData);
-    setLoading(false);
-  }, [seedData]);
+  const { seedData, loading, error } = useContext(DataContext);
 
   return (
     <Container>
       <TableContainer>
+        {error?.isError && error?.message && (
+          <Alert style={{ marginBottom: "1rem" }} severity="error">
+            {error.message || "An error occurred."}
+          </Alert>
+        )}
         <DataGridTable
-          rowData={rowData}
+          rowData={seedData || []}
           defaultColumns={defaultColumns}
           loading={loading}
           setSelectedRows={setSelectedRows}
           getRowId={r => r.entry_id}
+          error={error?.isError ? true : null}
         />
       </TableContainer>
     </Container>
