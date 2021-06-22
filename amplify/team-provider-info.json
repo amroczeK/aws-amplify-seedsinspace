@@ -28,23 +28,13 @@
         }
       },
       "function": {
-        "SchoolsLambda": {
-          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SchoolsLambda-5259666f486257765761-build.zip"
-        },
         "SeedsLambda": {
           "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
           "s3Key": "amplify-builds/SeedsLambda-54667369392b55375442-build.zip"
-        }
-      },
-      "function": {
-        "SeedsLambda": {
-          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SeedsLambda-72627431732f6d49355a-build.zip"
         },
         "SchoolsLambda": {
           "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SchoolsLambda-437856383170704c4d72-build.zip"
+          "s3Key": "amplify-builds/SchoolsLambda-5259666f486257765761-build.zip"
         }
       }
     }
