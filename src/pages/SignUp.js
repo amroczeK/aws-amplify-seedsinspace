@@ -10,17 +10,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "../components/validation/schemas";
 import Typography from "@material-ui/core/Typography";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
-import ImageUpload from "../components/ImageUpload";
 
 const SignUp = () => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [error, setError] = useState(null);
   const { control, register, setValue, handleSubmit, formState } = useForm({
     resolver: yupResolver(signUpSchema),
   });
   const { errors } = formState;
 
-  const { signUp, confirmSignUp } = useContext(UserContext);
+  const { signUp, confirmSignUp, signIn } = useContext(UserContext);
 
   const signUpHandler = async formData => {
     try {
@@ -35,7 +34,10 @@ const SignUp = () => {
   const confirmSignUpHandler = async formData => {
     try {
       await confirmSignUp(formData);
-      setStep(2);
+
+      await signIn(formData);
+      console.log("navigating to profile");
+      window.location.replace("/profile");
     } catch (error) {
       console.log(error);
       setError(error);
@@ -46,7 +48,6 @@ const SignUp = () => {
     return {
       0: <CreateAnAccount />,
       1: <ConfirmSignUp />,
-      2: <FillInYourProfile />,
     }[step];
   };
 
@@ -173,52 +174,6 @@ const SignUp = () => {
             Create account
           </StyledButton>
         </GridForm>
-      </SignUpContainer>
-    );
-  };
-
-  const FillInYourProfile = () => {
-    return (
-      <SignUpContainer>
-        <Typography style={{ fontWeight: "bold" }} variant="h5">
-          Fill in your profile
-        </Typography>
-        <ImageUpload
-          register={register}
-          setValue={setValue}
-          name="profile-image"
-          path="protected/"
-          level="protected"
-          setError={setError}
-        />
-        <StyledInputLabel shrink>LOCATION</StyledInputLabel>
-        <Controller
-          name="location"
-          defaultValue=""
-          control={control}
-          render={({ field }) => <TextField {...field} variant="outlined" />}
-        />
-
-        <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
-        <Controller
-          name="about"
-          defaultValue=""
-          control={control}
-          render={({ field }) => (
-            <TextField {...field} multiline variant="outlined" rows={10} />
-          )}
-        />
-        <StyledButton
-          color="primary"
-          disableElevation
-          variant="contained"
-          onClick={() => setStep(2)}
-        >
-          Next
-        </StyledButton>
-        <StyledLink to="/seed-setup" alignself="center">
-          Skip for now
-        </StyledLink>
       </SignUpContainer>
     );
   };

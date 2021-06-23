@@ -19,12 +19,12 @@ const SignIn = () => {
 
   const { errors } = formState;
 
-  const { signIn } = useContext(UserContext);
+  const { signIn, setLoggedIn } = useContext(UserContext);
 
   const signInHandler = async ({ email, password }) => {
     try {
       await signIn({ email, password });
-      window.location.replace("/");
+      window.location.replace(window.location.pathname);
       setError(null); // Always clear potential previous errors on successful signin
     } catch (error) {
       console.log(error);

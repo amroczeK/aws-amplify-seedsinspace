@@ -26,15 +26,19 @@ export const S3BucketProvider = ({ children }) => {
    *
    * Default level is public, you can specify folders within public/ and only authenticated users have
    * write permissions to it as per IAM role amplify-seedsinspace-dev-192500-authRole inline policies.
-   * 
+   *
    * public - accessible by all users
    * protected - readable by all users, but writable only by user that created it (use for profile pics)
    * private - only accessible for the individual authenticated user
    */
-  const uploadImage = async ({ file, path, level = "public" }) => {
-    let destPath = path ? file.name : path + file.name;
+  const uploadImage = async ({ file, path, newName = "", level = "public" }) => {
+    let name = newName ? newName : file.name;
+    let contentType = `image/${file.name.split(".").pop()}`; // Get extension to store as content-type
+
+    let destPath = path ? name : path + name;
     await Storage.put(destPath, file, {
       level,
+      contentType,
     });
   };
 

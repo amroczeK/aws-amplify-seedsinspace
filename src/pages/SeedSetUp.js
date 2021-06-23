@@ -64,7 +64,7 @@ const SeedSetUp = () => {
       <SeedSetUpContainer>
         <Typography variant="h5">Have you planted your seeds?</Typography>
         <StyledButtonContainer>
-          <StyledButton disableElevation variant="contained">
+          <StyledButton color="primary" disableElevation variant="contained">
             Yes
           </StyledButton>
 
@@ -94,7 +94,7 @@ const SeedSetUp = () => {
             </Typography>
           </CardContent>
         </Card>
-        <StyledButton disableElevation variant="contained">
+        <StyledButton color="primary" disableElevation variant="contained">
           I have planted my seeds
         </StyledButton>
         <StyledLink decoration="underline" to="/">

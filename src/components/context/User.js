@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
+import { useLocation } from "react-router-dom";
 
 export const UserContext = React.createContext();
 
 export const UserProvider = ({ children }) => {
-  const [userData, setUserData] = useState(null);
+  const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
   const signUp = async formData => {
@@ -13,7 +14,7 @@ export const UserProvider = ({ children }) => {
       await Auth.signUp({
         username: email,
         password,
-        attributes: { email, address },
+        attributes: { email, address, "custom:organisation": organisation },
       });
     } catch (error) {
       throw error;
@@ -45,9 +46,21 @@ export const UserProvider = ({ children }) => {
     try {
       await Auth.signOut();
       setLoggedIn(false);
-      setUserData(null);
+      setUser(null);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const updateDetails = async formData => {
+    const { address, about } = formData;
+    try {
+      await Auth.updateUserAttributes(user, {
+        address,
+        "custom:about": about,
+      });
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -55,25 +68,26 @@ export const UserProvider = ({ children }) => {
     Auth.currentAuthenticatedUser()
       .then(user => {
         const { attributes } = user;
-        setUserData(attributes);
+        setUser(user);
         setLoggedIn(true);
         console.log(user);
       })
       .catch(() => {
         // Returns error 'The user is not authenticated'
-        setUserData(null);
+        setUser(null);
         setLoggedIn(false);
       });
   }, []);
 
   const values = {
-    userData,
+    user,
     loggedIn,
     setLoggedIn,
     signIn,
     signUp,
     confirmSignUp,
     signOut,
+    updateDetails,
   };
 
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;

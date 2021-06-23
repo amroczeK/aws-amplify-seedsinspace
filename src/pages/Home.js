@@ -42,14 +42,13 @@ const Home = () => {
   const stackedBarsChart = stackedBars();
 
   const { fetchProfileImage } = useContext(S3BucketContext);
-  const { userData, loggedIn } = useContext(UserContext);
+  const { user, loggedIn } = useContext(UserContext);
 
   const getProfileImage = async () => {
-    console.log(userData);
     try {
       let profileImageURL = await fetchProfileImage({
-        path: "AME Swirl Colour.png",
-        level: "private", // Retrieve profile image from users private folder
+        path: "profile",
+        level: "protected", // Retrieve profile image from users private folder
       });
       console.log(profileImageURL);
       setProfileImage(profileImageURL);
@@ -60,7 +59,7 @@ const Home = () => {
 
   // Set user profile image on component mount if authenticated
   useEffect(() => {
-    if (loggedIn && userData) {
+    if (loggedIn && user) {
       getProfileImage();
     }
     // eslint-disable-next-line

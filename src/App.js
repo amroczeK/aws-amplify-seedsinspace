@@ -10,14 +10,34 @@ const AppContainer = styled.div`
   height: 100vh;
 `;
 
-const ConditionalRoute = ({ component: Component, condition, redirect, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      condition ? <Component {...props} /> : <Redirect to={redirect || "/signin"} />
-    }
-  />
-);
+const PrivateRoutes = () => {
+  return (
+    <Switch>
+      <Route exact path="/" component={Pages.Home} />
+      <Route exact path="/profile" component={Pages.Profile} />
+      <Route exact path="/seed-setup" component={Pages.SeedSetUp} />
+      <Route exact path="/dashboard" component={Pages.Dashboard} />
+      <Route exact path="/tables" component={Pages.Tables} />
+      <Route exact path="/about" component={Pages.AboutUs} />
+      <Route exact path="/schools" component={Pages.ParticipatingSchools} />
+      <Route exact path="/faq" component={Pages.Faq} />
+      <Route path="*" component={Pages.Home} />
+    </Switch>
+  );
+};
+
+const PublicRoutes = () => {
+  return (
+    <Switch>
+      <Route exact path="/signin" component={Pages.SignIn} />
+      <Route exact path="/signup" component={Pages.SignUp} />
+      <Route exact path="/about" component={Pages.AboutUs} />
+      <Route exact path="/schools" component={Pages.ParticipatingSchools} />
+      <Route exact path="/faq" component={Pages.Faq} />
+      <Route path="*" component={Pages.SignIn} />
+    </Switch>
+  );
+};
 
 const App = () => {
   const { loggedIn } = useContext(UserContext);
@@ -27,37 +47,8 @@ const App = () => {
       <BrowserRouter>
         <AppNavBar />
         <DevTools />
-        <Switch>
-          <ConditionalRoute exact path="/" condition={loggedIn} component={Pages.Home} />
-          <ConditionalRoute
-            path="/seed-setup"
-            condition={loggedIn}
-            component={Pages.SeedSetUp}
-          />
-          <ConditionalRoute
-            path="/dashboard"
-            condition={loggedIn}
-            component={Pages.Dashboard}
-          />
-          <ConditionalRoute
-            path="/signin"
-            condition={!loggedIn}
-            component={Pages.SignIn}
-            auth={loggedIn}
-            redirect="/"
-          />
-          <ConditionalRoute
-            path="/signup"
-            condition={!loggedIn}
-            component={Pages.SignUp}
-            redirect="/"
-          />
-          <Route path="/tables" component={Pages.Tables} />
-          <Route path="/about" component={Pages.AboutUs} />
-          <Route path="/schools" component={Pages.ParticipatingSchools} />
-          <Route path="/faq" component={Pages.Faq} />
-          <Route path="*" component={Pages.SignIn} />
-        </Switch>
+        {loggedIn && <PrivateRoutes />}
+        {!loggedIn && <PublicRoutes />}
       </BrowserRouter>
     </AppContainer>
   );
