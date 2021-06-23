@@ -9,6 +9,7 @@ import {
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { DataProvider } from "./components/context/Data";
 import { S3BucketProvider } from "./components/context/S3Bucket";
+import { BrowserRouter } from "react-router-dom";
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -45,11 +46,13 @@ const Providers = ({ children }) => {
       <ThemeProvider theme={muiTheme}>
         <StylesProvider injectFirst>
           <CssBaseline />
-          <UserProvider>
-            <DataProvider>
-              <S3BucketProvider>{children}</S3BucketProvider>
-            </DataProvider>
-          </UserProvider>
+          <BrowserRouter>
+            <UserProvider>
+              <DataProvider>
+                <S3BucketProvider>{children}</S3BucketProvider>
+              </DataProvider>
+            </UserProvider>
+          </BrowserRouter>
         </StylesProvider>
       </ThemeProvider>
     </MuiThemeProvider>

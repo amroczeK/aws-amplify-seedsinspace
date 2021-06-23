@@ -42,7 +42,7 @@ const Home = () => {
   const stackedBarsChart = stackedBars();
 
   const { fetchProfileImage } = useContext(S3BucketContext);
-  const { user, loggedIn } = useContext(UserContext);
+  const { cognitoUser, loggedIn } = useContext(UserContext);
 
   const getProfileImage = async () => {
     try {
@@ -59,7 +59,7 @@ const Home = () => {
 
   // Set user profile image on component mount if authenticated
   useEffect(() => {
-    if (loggedIn && user) {
+    if (loggedIn && cognitoUser) {
       getProfileImage();
     }
     // eslint-disable-next-line

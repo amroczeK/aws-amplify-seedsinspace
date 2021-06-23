@@ -10,7 +10,6 @@ const common = {
 
 export const signUpSchema = yup.object().shape({
   organisation: yup.string().required("Organisation name is required"),
-  address: yup.string().required("Organisation address is required"),
   email: common.email,
   password: common.password,
   confirmPassword: yup

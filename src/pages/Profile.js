@@ -15,7 +15,7 @@ const Profile = () => {
   const { control, register, setValue, handleSubmit, formState } = useForm();
 
   const { uploadImage } = useContext(S3BucketContext);
-  const { user, updateDetails } = useContext(UserContext);
+  const { updateUserProfileDetails } = useContext(UserContext);
 
   const confirmProfileHandler = async formData => {
     console.log(formData);
@@ -27,14 +27,12 @@ const Profile = () => {
         level: "protected",
       });
 
-      await updateDetails(formData);
+      await updateUserProfileDetails(formData);
     } catch (error) {
       console.log(error);
       //setError(error)
     }
   };
-
-  useEffect(() => {});
 
   return (
     <Container>

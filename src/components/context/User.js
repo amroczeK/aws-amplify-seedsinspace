@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Auth } from "aws-amplify";
-import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export const UserContext = React.createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [cognitoUser, setCognitoUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const history = useHistory();
 
+  console.log("history", history);
+
+  // NOTE: DELETE THIS WHEN DONE
   const signUp = async formData => {
-    const { email, password, address } = formData;
+    const { email, password, organisation, address } = formData;
     try {
       await Auth.signUp({
         username: email,
@@ -21,6 +25,7 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  // NOTE: DO WE NEED THIS
   const confirmSignUp = async formData => {
     const { email, authCode } = formData;
     try {
@@ -31,14 +36,31 @@ export const UserProvider = ({ children }) => {
   };
 
   const signIn = async ({ email, password }) => {
-    var AmplifySetup = true;
+    try {
+      const user = await Auth.signIn(email, password);
 
-    if (AmplifySetup) {
-      try {
-        await Auth.signIn(email, password);
-      } catch (error) {
-        throw error;
+      // We want to redirect new users (those with temporary passwords)
+      // to the create account page.
+      setCognitoUser(user);
+      if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+        console.log(user.challengeName);
+        console.log(user.challengeParam.userAttributes);
+        history.push("/signup", { email });
+      } else {
+        history.push(window.location.pathname);
       }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const createNewPassword = async ({ password, organisation }) => {
+    try {
+      await Auth.completeNewPassword(cognitoUser, password, {
+        "custom:organisation": organisation,
+      });
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -46,16 +68,16 @@ export const UserProvider = ({ children }) => {
     try {
       await Auth.signOut();
       setLoggedIn(false);
-      setUser(null);
+      setCognitoUser(null);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateDetails = async formData => {
+  const updateUserProfileDetails = async formData => {
     const { address, about } = formData;
     try {
-      await Auth.updateUserAttributes(user, {
+      await Auth.updateUserAttributes(cognitoUser, {
         address,
         "custom:about": about,
       });
@@ -67,27 +89,29 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     Auth.currentAuthenticatedUser()
       .then(user => {
-        const { attributes } = user;
-        setUser(user);
+        setCognitoUser(user);
         setLoggedIn(true);
         console.log(user);
       })
-      .catch(() => {
+      .catch(error => {
         // Returns error 'The user is not authenticated'
-        setUser(null);
-        setLoggedIn(false);
+        console.log(error);
+        console.log("user", cognitoUser);
+        // setCognitoUser(null);
+        // setLoggedIn(false);
       });
   }, []);
 
   const values = {
-    user,
+    cognitoUser,
     loggedIn,
     setLoggedIn,
     signIn,
     signUp,
     confirmSignUp,
     signOut,
-    updateDetails,
+    createNewPassword,
+    updateUserProfileDetails,
   };
 
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;

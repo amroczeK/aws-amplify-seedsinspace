@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import * as Pages from "./pages";
 import { AppNavBar } from "./components/nav";
@@ -44,12 +44,10 @@ const App = () => {
 
   return (
     <AppContainer>
-      <BrowserRouter>
-        <AppNavBar />
-        <DevTools />
-        {loggedIn && <PrivateRoutes />}
-        {!loggedIn && <PublicRoutes />}
-      </BrowserRouter>
+      <AppNavBar />
+      <DevTools />
+      {loggedIn && <PrivateRoutes />}
+      {!loggedIn && <PublicRoutes />}
     </AppContainer>
   );
 };

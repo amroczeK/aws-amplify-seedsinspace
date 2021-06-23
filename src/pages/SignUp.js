@@ -3,56 +3,36 @@ import styled from "styled-components";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
 import TextField from "@material-ui/core/TextField";
-import Alert from "@material-ui/lab/Alert";
 import { Controller, useForm } from "react-hook-form";
 import { UserContext } from "../components/context/User";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpSchema } from "../components/validation/schemas";
 import Typography from "@material-ui/core/Typography";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
+import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
-  const [step, setStep] = useState(0);
+  const history = useHistory();
   const [error, setError] = useState(null);
   const { control, register, setValue, handleSubmit, formState } = useForm({
     resolver: yupResolver(signUpSchema),
+    defaultValues: { ...history.location.state },
   });
   const { errors } = formState;
 
-  const { signUp, confirmSignUp, signIn } = useContext(UserContext);
+  const { createNewPassword } = useContext(UserContext);
 
   const signUpHandler = async formData => {
     try {
-      await signUp(formData);
-      setStep(1);
-    } catch (error) {
-      console.log(error);
-      setError(error);
-    }
-  };
-
-  const confirmSignUpHandler = async formData => {
-    try {
-      await confirmSignUp(formData);
-
-      await signIn(formData);
-      console.log("navigating to profile");
+      await createNewPassword(formData);
       window.location.replace("/profile");
     } catch (error) {
       console.log(error);
       setError(error);
     }
   };
-
-  const stepContent = () => {
-    return {
-      0: <CreateAnAccount />,
-      1: <ConfirmSignUp />,
-    }[step];
-  };
-
-  const CreateAnAccount = () => {
-    return (
+  return (
+    <Container>
       <SignUpContainer>
         <GridForm onSubmit={handleSubmit(signUpHandler)}>
           <Typography style={{ fontWeight: "bold" }} variant="h5">
@@ -72,25 +52,10 @@ const SignUp = () => {
               />
             )}
           />
-          <StyledInputLabel shrink>SCHOOL/ORGANISATION ADDRESS</StyledInputLabel>
-          <Controller
-            name="address"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                variant="outlined"
-                error={errors?.address}
-                helperText={errors?.address?.message}
-              />
-            )}
-          />
           <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
           <Controller
             name="email"
             control={control}
-            defaultValue=""
             render={({ field }) => (
               <TextField
                 {...field}
@@ -100,7 +65,7 @@ const SignUp = () => {
               />
             )}
           />
-          <StyledInputLabel shrink>PASSWORD</StyledInputLabel>
+          <StyledInputLabel shrink>NEW PASSWORD</StyledInputLabel>
           <Controller
             name="password"
             control={control}
@@ -115,7 +80,7 @@ const SignUp = () => {
               />
             )}
           />
-          <StyledInputLabel shrink>CONFIRM PASSWORD</StyledInputLabel>
+          <StyledInputLabel shrink>CONFIRM NEW PASSWORD</StyledInputLabel>
           <Controller
             name="confirmPassword"
             control={control}
@@ -141,44 +106,8 @@ const SignUp = () => {
           </StyledButton>
         </GridForm>
       </SignUpContainer>
-    );
-  };
-
-  const ConfirmSignUp = () => {
-    return (
-      <SignUpContainer>
-        <GridForm onSubmit={handleSubmit(confirmSignUpHandler)}>
-          <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
-          <Controller
-            name="email"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField {...field} type="email" required variant="outlined" />
-            )}
-          />
-          <StyledInputLabel shrink>CONFIRMATION CODE</StyledInputLabel>
-          <Controller
-            name="authCode"
-            control={control}
-            defaultValue=""
-            render={({ field }) => <TextField {...field} required variant="outlined" />}
-          />
-          {error && <Alert severity="error">{error.message}</Alert>}
-          <StyledButton
-            color="primary"
-            disableElevation
-            variant="contained"
-            type="submit"
-          >
-            Create account
-          </StyledButton>
-        </GridForm>
-      </SignUpContainer>
-    );
-  };
-
-  return <Container>{stepContent()}</Container>;
+    </Container>
+  );
 };
 
 export default SignUp;

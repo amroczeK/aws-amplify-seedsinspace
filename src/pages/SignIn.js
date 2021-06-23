@@ -24,7 +24,7 @@ const SignIn = () => {
   const signInHandler = async ({ email, password }) => {
     try {
       await signIn({ email, password });
-      window.location.replace(window.location.pathname);
+
       setError(null); // Always clear potential previous errors on successful signin
     } catch (error) {
       console.log(error);

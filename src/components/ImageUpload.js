@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import DefaultImage from "../assets/SeedlingsPreviewImage.jpg";
