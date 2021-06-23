@@ -1,35 +1,30 @@
-import React, { useState, useContext } from "react";
-import { StyledLink } from "../components/styled-components/Links";
-import { StyledButton } from "../components/styled-components/Buttons";
+import { useState, useContext } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { signInResolver } from "../components/validation/schemas";
 import TextField from "@material-ui/core/TextField";
 import Alert from "@material-ui/lab/Alert";
-import Logo from "../assets/logo.png";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { signInSchema } from "../components/validation/schemas";
-import { UserContext } from "../components/context/User";
 import styled from "styled-components";
+import { StyledLink } from "../components/styled-components/Links";
+import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
+import Logo from "../assets/logo.png";
+import { UserContext } from "../components/context/User";
 
 const SignIn = () => {
   const [error, setError] = useState(null);
+  const { signIn } = useContext(UserContext);
   const { control, handleSubmit, formState } = useForm({
-    resolver: yupResolver(signInSchema),
+    resolver: signInResolver,
   });
-
   const { errors } = formState;
 
-  const { signIn, setLoggedIn } = useContext(UserContext);
-
   const signInHandler = async ({ email, password }) => {
-    try {
-      await signIn({ email, password });
-
-      setError(null); // Always clear potential previous errors on successful signin
-    } catch (error) {
-      console.log(error);
-      setError(error);
-    }
+    signIn({ email, password })
+      .then(() => setError(null))
+      .catch(error => {
+        console.error(error);
+        setError(error);
+      });
   };
 
   return (
@@ -97,6 +92,7 @@ const SignInContainer = styled.div`
   flex-direction: column;
   align-self: center;
   width: 100%;
+  min-width: 300px;
   max-width: 350px;
   margin: 1em;
   padding: 1em;

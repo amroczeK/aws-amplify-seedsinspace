@@ -1,21 +1,19 @@
-import React, { useState, useContext } from "react";
+import { useContext } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { signUpResolver } from "../components/validation/schemas";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import styled from "styled-components";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
-import TextField from "@material-ui/core/TextField";
-import { Controller, useForm } from "react-hook-form";
 import { UserContext } from "../components/context/User";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { signUpSchema } from "../components/validation/schemas";
-import Typography from "@material-ui/core/Typography";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
   const history = useHistory();
-  const [error, setError] = useState(null);
-  const { control, register, setValue, handleSubmit, formState } = useForm({
-    resolver: yupResolver(signUpSchema),
+  const { control, handleSubmit, formState } = useForm({
+    resolver: signUpResolver,
     defaultValues: { ...history.location.state },
   });
   const { errors } = formState;
@@ -23,13 +21,11 @@ const SignUp = () => {
   const { createNewPassword } = useContext(UserContext);
 
   const signUpHandler = async formData => {
-    try {
-      await createNewPassword(formData);
-      window.location.replace("/profile");
-    } catch (error) {
-      console.log(error);
-      setError(error);
-    }
+    createNewPassword(formData)
+      .then(() => {
+        window.location.replace("/profile");
+      })
+      .catch(console.error);
   };
   return (
     <Container>

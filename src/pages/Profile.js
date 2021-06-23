@@ -1,24 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
-import styled from "styled-components";
-import ImageUpload from "../components/ImageUpload";
-import { StyledInputLabel } from "../components/styled-components/InputLabel";
-import TextField from "@material-ui/core/TextField";
+import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { StyledButton } from "../components/styled-components/Buttons";
-import Typography from "@material-ui/core/Typography";
-import { StyledLink } from "../components/styled-components/Links";
 import { S3BucketContext } from "../components/context/S3Bucket";
 import { UserContext } from "../components/context/User";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import ImageUpload from "../components/ImageUpload";
+import styled from "styled-components";
+import { StyledInputLabel } from "../components/styled-components/InputLabel";
+import { StyledButton } from "../components/styled-components/Buttons";
+import { StyledLink } from "../components/styled-components/Links";
 
 const Profile = () => {
-  const [error, setError] = useState(null);
-  const { control, register, setValue, handleSubmit, formState } = useForm();
-
+  const { control, register, setValue, handleSubmit } = useForm();
   const { uploadImage } = useContext(S3BucketContext);
   const { updateUserProfileDetails } = useContext(UserContext);
 
   const confirmProfileHandler = async formData => {
-    console.log(formData);
     try {
       await uploadImage({
         file: formData["profile-image"][0],
@@ -30,7 +27,6 @@ const Profile = () => {
       await updateUserProfileDetails(formData);
     } catch (error) {
       console.log(error);
-      //setError(error)
     }
   };
 
@@ -41,12 +37,7 @@ const Profile = () => {
           <Typography style={{ fontWeight: "bold" }} variant="h5">
             Fill in your profile
           </Typography>
-          <ImageUpload
-            register={register}
-            setValue={setValue}
-            name="profile-image"
-            setError={setError}
-          />
+          <ImageUpload register={register} setValue={setValue} name="profile-image" />
           <StyledInputLabel shrink>LOCATION</StyledInputLabel>
           <Controller
             name="address"
