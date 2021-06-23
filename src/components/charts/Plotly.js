@@ -14,7 +14,7 @@ const Plotly = ({ data, layout, title }) => {
           r: 35,
           b: 30,
           t: 60,
-          pad: 5,
+          pad: 1,
         },
         ...layout,
       }}

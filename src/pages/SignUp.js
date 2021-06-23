@@ -13,7 +13,7 @@ import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import ImageUpload from "../components/ImageUpload";
 
 const SignUp = () => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [error, setError] = useState(null);
   const { control, register, setValue, handleSubmit, formState } = useForm({
     resolver: yupResolver(signUpSchema),
@@ -130,6 +130,7 @@ const SignUp = () => {
             )}
           />
           <StyledLink to="/">SIS disclaimer / terms and conditions</StyledLink>
+          {error && <Alert severity="error">{error.message}</Alert>}
           <StyledButton
             color="primary"
             disableElevation

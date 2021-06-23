@@ -4,21 +4,19 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import MultiSelect from "../components/selects/MultiSelect";
+import ClearFiltersBtn from "../components/inputs/Button";
 import {
   lineAndScatterPlot,
   dataLabelsHover,
   groupedBars,
   stackedBars,
 } from "../components/charts/chartMockData";
+import { DataContext } from "../components/context/Data";
 import { S3BucketContext } from "../components/context/S3Bucket";
 import { UserContext } from "../components/context/User";
-import {
-  getAllSeeds,
-  getSeedById,
-  addSeedEntry,
-  updateSeedEntry,
-  deleteSeedEntry,
-} from "../apis";
+import { getChartData } from "../components/charts/PlotlyAdaptor";
+import styled from "styled-components";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,8 +29,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const selections = [
+  "All Seeds",
+  "Type",
+  "Height",
+  "Leaf Count",
+  "Leaf Length",
+  "Leaf Width",
+  "Leaf Colour",
+];
+
 const Home = () => {
   const [profileImage, setProfileImage] = useState(null);
+  const [selectedFilters, setSelectedFilters] = useState(["All Seeds"]);
 
   const classes = useStyles();
 
@@ -41,8 +50,13 @@ const Home = () => {
   const groupedBarsChart = groupedBars();
   const stackedBarsChart = stackedBars();
 
+  const { seedData, loading, error } = useContext(DataContext);
   const { fetchProfileImage } = useContext(S3BucketContext);
   const { userData, loggedIn } = useContext(UserContext);
+
+  const selecedFiltesrHandler = event => {
+    setSelectedFilters(event.target.value);
+  };
 
   const getProfileImage = async () => {
     console.log(userData);
@@ -69,17 +83,29 @@ const Home = () => {
   return (
     <Container maxWidth="xl">
       <h1>HOME</h1>
-      <button onClick={getAllSeeds}>GET SEEDS API CALL</button>
-      <button onClick={getSeedById}>GET SEED BY ID</button>
-      <button onClick={addSeedEntry}>ADD SEED ENTRY API CALL</button>
-      <button onClick={updateSeedEntry}>UPDATE SEED ENTRY API CALL</button>
-      <button onClick={deleteSeedEntry}>DELETE SEED ENTRY API CALL</button>
       <img src={profileImage} alt="profile" />
       <div className={classes.root}>
-        <Grid container spacing={2}>
+        <SelectContainer>
+          <MultiSelect
+            title={"Seed Filters"}
+            selections={selections}
+            selectedFilters={selectedFilters}
+            onChange={selecedFiltesrHandler}
+          />
+          <ClearFiltersBtn
+            title={"Clear"}
+            onClickHandler={() => {
+              setSelectedFilters(["All Seeds"]);
+            }}
+          />
+        </SelectContainer>
+        <Paper className={classes.paper}>
+          <Plotly {...getChartData({ type: "scatter", data: seedData })} />
+        </Paper>
+        {/* <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
             <Paper className={classes.paper}>
-              <Plotly {...lineChart} />
+              <Plotly {...getChartData({ type: "scatter", data: seedData })} />
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -97,10 +123,15 @@ const Home = () => {
               <Plotly {...stackedBarsChart} />
             </Paper>
           </Grid>
-        </Grid>
+        </Grid> */}
       </div>
     </Container>
   );
 };
 
 export default Home;
+
+const SelectContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
