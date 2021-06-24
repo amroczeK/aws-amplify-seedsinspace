@@ -22,8 +22,9 @@ const SignUp = () => {
 
   const signUpHandler = async formData => {
     createNewPassword(formData)
-      .then(() => {
-        window.location.replace("/profile");
+      .then(user => {
+        history.push("/profile");
+        // window.location.replace("/profile");
       })
       .catch(console.error);
   };

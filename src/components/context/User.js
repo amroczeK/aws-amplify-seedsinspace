@@ -34,11 +34,17 @@ export const UserProvider = ({ children }) => {
   };
 
   const createNewPassword = async ({ password, organisation }) => {
+    console.log("changing pw for user", cognitoUser);
     Auth.completeNewPassword(cognitoUser, password, {
       "custom:organisation": organisation,
-    }).catch(error => {
-      throw error;
-    });
+    })
+      .then(async _user => {
+        await checkUser();
+      })
+      .catch(error => {
+        console.log("change pw error", error);
+        throw error;
+      });
   };
 
   const updateUserProfileDetails = async ({ address, about }) => {
@@ -50,14 +56,20 @@ export const UserProvider = ({ children }) => {
     });
   };
 
+  const checkUser = async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+
+      setCognitoUser(user);
+      setLoggedIn(true);
+    } catch (error) {
+      console.error(`Error from checkUser ${error}`);
+    }
+  };
+
   useEffect(() => {
-    Auth.currentAuthenticatedUser()
-      .then(user => {
-        setCognitoUser(user);
-        setLoggedIn(true);
-        console.log(user);
-      })
-      .catch(console.error);
+    checkUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const values = {
