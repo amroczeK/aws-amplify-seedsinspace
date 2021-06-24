@@ -1,4 +1,3 @@
-import React from "react";
 import { ThemeProvider } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
 import { UserProvider } from "./components/context/User";
@@ -40,23 +39,31 @@ const muiTheme = createMuiTheme({
   },
 });
 
-const Providers = ({ children }) => {
-  return (
-    <MuiThemeProvider theme={muiTheme}>
-      <ThemeProvider theme={muiTheme}>
-        <StylesProvider injectFirst>
-          <CssBaseline />
-          <BrowserRouter>
-            <UserProvider>
-              <DataProvider>
-                <S3BucketProvider>{children}</S3BucketProvider>
-              </DataProvider>
-            </UserProvider>
-          </BrowserRouter>
-        </StylesProvider>
-      </ThemeProvider>
-    </MuiThemeProvider>
-  );
-};
+const StyleProviders = ({ children }) => (
+  <MuiThemeProvider theme={muiTheme}>
+    <ThemeProvider theme={muiTheme}>
+      <StylesProvider injectFirst>
+        <CssBaseline />
+        {children}
+      </StylesProvider>
+    </ThemeProvider>
+  </MuiThemeProvider>
+);
 
-export default Providers;
+const ContextProviders = ({ children }) => (
+  <UserProvider>
+    <DataProvider>
+      <S3BucketProvider>{children}</S3BucketProvider>
+    </DataProvider>
+  </UserProvider>
+);
+
+const AppProviders = ({ children }) => (
+  <BrowserRouter>
+    <StyleProviders>
+      <ContextProviders>{children}</ContextProviders>
+    </StyleProviders>
+  </BrowserRouter>
+);
+
+export default AppProviders;
