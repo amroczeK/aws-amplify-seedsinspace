@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import styled from "styled-components";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
-import { UserContext } from "../components/context/User";
+import { UserContext } from "../context/User";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { useHistory } from "react-router-dom";
 
@@ -22,8 +22,8 @@ const SignUp = () => {
 
   const signUpHandler = async formData => {
     createNewPassword(formData)
-      .then(user => {
-        history.push("/profile");
+      .then(_user => {
+        history.push("/profile", { isNewUser: true });
         // window.location.replace("/profile");
       })
       .catch(console.error);

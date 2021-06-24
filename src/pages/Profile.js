@@ -1,30 +1,48 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { S3BucketContext } from "../components/context/S3Bucket";
-import { UserContext } from "../components/context/User";
+import { useHistory } from "react-router-dom";
+import { S3BucketContext } from "../context/S3Bucket";
+import { useProfile } from "../context/User";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import ImageUpload from "../components/ImageUpload";
+import { SuccessSnackbar } from "../components/Snackbars";
 import styled from "styled-components";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
 
 const Profile = () => {
-  const { control, register, setValue, handleSubmit } = useForm();
+  const history = useHistory();
+  const locationState = history.location.state;
+  const [showSnack, setShowSnack] = useState(false);
+  const { updateUserProfileDetails, cognitoUser, profileImage } = useProfile();
   const { uploadImage } = useContext(S3BucketContext);
-  const { updateUserProfileDetails } = useContext(UserContext);
+
+  const { control, register, setValue, handleSubmit } = useForm({
+    defaultValues: {
+      address: cognitoUser.attributes.address,
+      about: cognitoUser.attributes["custom:about"],
+    },
+  });
 
   const confirmProfileHandler = async formData => {
     try {
-      await uploadImage({
-        file: formData["profile-image"][0],
-        path: "protected/",
-        newName: "profile",
-        level: "protected",
-      });
+      if (formData.profileImage) {
+        await uploadImage({
+          file: formData["profileImage"][0],
+          path: "protected/",
+          newName: "profile",
+          level: "protected",
+        });
+      }
 
       await updateUserProfileDetails(formData);
+      if (locationState?.isNewUser) {
+        history.push("/seed-setup");
+      } else {
+        setShowSnack(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -37,7 +55,12 @@ const Profile = () => {
           <Typography style={{ fontWeight: "bold" }} variant="h5">
             Fill in your profile
           </Typography>
-          <ImageUpload register={register} setValue={setValue} name="profile-image" />
+          <ImageUpload
+            name="profileImage"
+            image={profileImage}
+            register={register}
+            setValue={setValue}
+          />
           <StyledInputLabel shrink>LOCATION</StyledInputLabel>
           <Controller
             name="address"
@@ -55,19 +78,34 @@ const Profile = () => {
               <TextField {...field} multiline variant="outlined" rows={10} />
             )}
           />
-          <StyledButton
-            color="primary"
-            type="submit"
-            disableElevation
-            variant="contained"
-          >
-            Next
-          </StyledButton>
-          <StyledLink to="/seed-setup" alignself="center">
-            Skip for now
-          </StyledLink>
+          {locationState?.isNewUser && (
+            <>
+              <StyledButton
+                color="primary"
+                type="submit"
+                disableElevation
+                variant="contained"
+              >
+                Next
+              </StyledButton>
+              <StyledLink to="/seed-setup" alignself="center">
+                Skip for now
+              </StyledLink>
+            </>
+          )}
+          {!locationState?.isNewUser && (
+            <StyledButton
+              color="primary"
+              type="submit"
+              disableElevation
+              variant="contained"
+            >
+              Save
+            </StyledButton>
+          )}
         </GridForm>
       </SignUpContainer>
+      <SuccessSnackbar open={showSnack} onClose={() => setShowSnack(false)} />
     </Container>
   );
 };

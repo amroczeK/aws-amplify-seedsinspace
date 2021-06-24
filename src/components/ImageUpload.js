@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
-import DefaultImage from "../assets/SeedlingsPreviewImage.jpg";
+import NoImage from "../assets/SeedlingsPreviewImage.jpg";
 import { Camera } from "@styled-icons/bootstrap/Camera";
 
 const StyledButton = styled(Button)`
@@ -29,7 +29,8 @@ const CameraIcon = styled(Camera)`
   margin: 1em 0;
 `;
 
-const ImageUpload = ({ preview = true, register, setValue, name }) => {
+const ImageUpload = ({ preview = true, register, setValue, name, image }) => {
+  console.log("image", image);
   const [imageUrl, setImageUrl] = useState();
   const [imageFile, setImageFile] = useState("None");
 
@@ -47,7 +48,13 @@ const ImageUpload = ({ preview = true, register, setValue, name }) => {
 
   return (
     <>
-      {preview && <Image src={imageUrl || DefaultImage} alt="seed image" />}
+      {preview && (
+        <Image
+          src={imageUrl || image}
+          alt="seed image"
+          onError={() => setImageUrl(NoImage)}
+        />
+      )}
       <div>
         <CameraIcon />
         <StyledButton component="label">
