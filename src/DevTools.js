@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "./components/context/User";
+import { UserContext } from "./context/User";
 import styled from "styled-components";
 
 const PositionedDiv = styled.div`

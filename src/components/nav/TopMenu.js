@@ -5,7 +5,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { StyledLink } from "../styled-components/Links";
-import { UserContext } from "../context/User";
+import { UserContext } from "../../context/User";
 import Typography from "@material-ui/core/Typography";
 
 const TopMenu = () => {

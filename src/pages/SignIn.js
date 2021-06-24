@@ -8,7 +8,7 @@ import { StyledLink } from "../components/styled-components/Links";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import Logo from "../assets/logo.png";
-import { UserContext } from "../components/context/User";
+import { UserContext } from "../context/User";
 
 const SignIn = () => {
   const [error, setError] = useState(null);

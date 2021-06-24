@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { DataGridTable } from "../components/tables/data-grid";
 import styled from "styled-components";
-import { DataContext } from "../components/context/Data";
+import { DataContext } from "../context/Data";
 import Alert from "@material-ui/lab/Alert";
 
 const defaultColumns = [

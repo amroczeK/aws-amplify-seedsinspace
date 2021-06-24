@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Auth } from "aws-amplify";
 import { useHistory } from "react-router-dom";
+import { S3BucketContext } from "./S3Bucket";
 
 export const UserContext = React.createContext();
 
 export const UserProvider = ({ children }) => {
-  const [cognitoUser, setCognitoUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [cognitoUser, setCognitoUser] = useState(null);
   const history = useHistory();
 
   const signIn = async ({ email, password }) => {
@@ -38,9 +39,7 @@ export const UserProvider = ({ children }) => {
     Auth.completeNewPassword(cognitoUser, password, {
       "custom:organisation": organisation,
     })
-      .then(async _user => {
-        await checkUser();
-      })
+      .then(() => checkUser())
       .catch(error => {
         console.log("change pw error", error);
         throw error;
@@ -51,9 +50,11 @@ export const UserProvider = ({ children }) => {
     Auth.updateUserAttributes(cognitoUser, {
       address,
       "custom:about": about,
-    }).catch(error => {
-      throw error;
-    });
+    })
+      .then(() => checkUser())
+      .catch(error => {
+        throw error;
+      });
   };
 
   const checkUser = async () => {
@@ -83,4 +84,25 @@ export const UserProvider = ({ children }) => {
   };
 
   return <UserContext.Provider value={values}>{children}</UserContext.Provider>;
+};
+
+export const useProfile = () => {
+  const [profileImage, setProfileImage] = useState(null);
+  const userContext = useContext(UserContext);
+  const { fetchProfileImage } = useContext(S3BucketContext);
+
+  useEffect(() => {
+    fetchProfileImage({ path: "profile", level: "protected" })
+      .then(imageUrl => {
+        console.log("retrieved imageUrl");
+        setProfileImage(imageUrl);
+      })
+      .catch(error => {
+        console.log("fetchimage failed");
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return { ...userContext, profileImage };
 };

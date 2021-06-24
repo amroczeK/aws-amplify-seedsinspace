@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState, createContext } from "react";
 import { Storage } from "aws-amplify";
 
-export const S3BucketContext = React.createContext();
+export const S3BucketContext = createContext();
 
 export const S3BucketProvider = ({ children }) => {
   const [seedImages, setSeedImages] = useState([]);
