@@ -21,10 +21,6 @@
     "SeedsInSpaceDB": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
-    },
-    "SchoolsTable": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
     }
   },
   "hosting": {
@@ -43,25 +39,6 @@
         {
           "category": "storage",
           "resourceName": "SeedsInSpaceDB",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
-    },
-    "SchoolsLambda": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "SchoolsTable",
           "attributes": [
             "Name",
             "Arn"
@@ -105,14 +82,6 @@
         {
           "category": "function",
           "resourceName": "SeedsLambda",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "SchoolsLambda",
           "attributes": [
             "Name",
             "Arn"

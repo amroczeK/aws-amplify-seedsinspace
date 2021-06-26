@@ -1,7 +1,0 @@
-{
-    "tableName": "SchoolsTable",
-    "partitionKeyName": "school_id",
-    "partitionKeyType": "S",
-    "sortKeyName": "school_name",
-    "sortKeyType": "S"
-}
