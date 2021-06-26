@@ -1,35 +1,57 @@
 import React, { useState } from "react";
-import { Dialog, InputAdornment } from "@material-ui/core";
+import { Controller, useForm } from "react-hook-form";
 import styled from "styled-components";
 import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
-import { ArrowIosBack } from "@styled-icons/evaicons-solid/ArrowIosBack";
-import TextField from "@material-ui/core/TextField";
-import { Controller, useForm } from "react-hook-form";
-import { Calendar3 } from "@styled-icons/bootstrap/Calendar3";
-import Typography from "@material-ui/core/Typography";
-import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import TabPanel from "./TabPanel";
-import { StyledInputLabel } from "../../../components/styled-components/InputLabel";
-import SeedForm from "./SeedForm";
+import Tabs from "@material-ui/core/Tabs";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import { Dialog, InputAdornment } from "@material-ui/core";
+import { ArrowIosBack } from "@styled-icons/evaicons-solid/ArrowIosBack";
+import { Calendar3 } from "@styled-icons/bootstrap/Calendar3";
+import { StyledInputLabel } from "./styled-components/InputLabel";
+import { StyledButton } from "./styled-components/Buttons";
+import AddSeedFormFields from "./AddSeedFormFields";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-const AddSeed = ({ open, onClose }) => {
-  const { control, formState } = useForm();
-  const { errors } = formState;
+const defaultValues = {
+  date: "",
+  type: "Earth",
+  height: "",
+  image: "",
+  leafColor: "",
+  leafSize: "",
+  notes: "",
+  stemLength: "",
+};
+
+const AddSeedDialog = ({ open, onClose }) => {
+  const [seedTab, setSeedTab] = useState(0);
+  const seedOptions = ["Earth", "Space"];
+
+  const { control, handleSubmit, formState, register, setValue, watch, reset } = useForm({
+    defaultValues,
+  });
 
   // Any unsaved changes will be wiped
-
-  const [seedTab, setSeedTab] = useState(1);
-  const handleChange = (event, newTab) => {
-    setSeedTab(newTab);
+  const sendInfo = formData => {
+    console.log(formData);
+    console.log("FORM IS BEING SUBMIT");
   };
 
-  const seedOptions = ["Earth seeds", "Space seeds"];
+  const handleChange = (event, newTab) => {
+    setSeedTab(newTab);
+    reset();
+  };
+
+  const seedType = watch("type");
+  const { errors } = formState;
+
+  console.log({ errors });
 
   return (
     <>
@@ -41,7 +63,7 @@ const AddSeed = ({ open, onClose }) => {
           <StyledTypography variant="h5">Seeds in Space</StyledTypography>
         </StyledAppBar>
         <AddSeedContainer>
-          <GridForm>
+          <GridForm name="seedForm" onSubmit={handleSubmit(sendInfo)}>
             <StyledInputLabel shrink>DATE</StyledInputLabel>
             <Controller
               name="date"
@@ -66,74 +88,67 @@ const AddSeed = ({ open, onClose }) => {
 
             <StyledInputLabel shrink>SEED</StyledInputLabel>
             <Controller
-              name="seed"
-              defaultValue=""
+              name="type"
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
                   select
                   variant="outlined"
-                  error={errors?.seed}
-                  helperText={errors?.seed?.message}
+                  error={errors?.seedType ? true : false}
+                  helperText={errors?.seedType?.message}
                   SelectProps={{
                     native: true,
                   }}
                 >
                   {seedOptions.map(option => (
                     <option key={option} value={option}>
-                      {option}
+                      {option} seeds
                     </option>
                   ))}
                 </TextField>
               )}
             />
+
+            <Tabs
+              value={seedTab}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              centered
+              TabIndicatorProps={{ style: { width: "50px" } }}
+            >
+              {[...Array(6)].map((value, index) => {
+                let nIndex = index + 1;
+                let prepend = "S";
+                if (seedType === "Earth") prepend = "E";
+                let label = `${prepend} - ${nIndex}`;
+
+                return <StyledTab key={label} label={label} />;
+              })}
+            </Tabs>
+            <AddSeedFormFields
+              name={`${seedType} Seed - ${seedTab + 1}`}
+              register={register}
+              control={control}
+              setValue={setValue}
+            />
+            <StyledButton
+              color="primary"
+              type="submit"
+              disableElevation
+              variant="contained"
+            >
+              Save entry
+            </StyledButton>
           </GridForm>
-          <Tabs
-            value={seedTab}
-            onChange={handleChange}
-            indicatorColor="primary"
-            scrollable
-            textColor="primary"
-            centered
-            TabIndicatorProps={{
-              style: {
-                width: "50px",
-              },
-            }}
-          >
-            <StyledTab label="S - 1" />
-            <StyledTab label="S - 2" />
-            <StyledTab label="S - 3" />
-            <StyledTab label="S - 4" />
-            <StyledTab label="S - 5" />
-            <StyledTab label="S - 6" />
-          </Tabs>
-          <TabPanel value={seedTab} index={0}>
-            <SeedForm name="Space Seed - 1" control={control} errors={errors} />
-          </TabPanel>
-          <TabPanel value={seedTab} index={1}>
-            <SeedForm name="Space Seed - 2" control={control} errors={errors} />
-          </TabPanel>
-          <TabPanel value={seedTab} index={2}>
-            <SeedForm name="Space Seed - 3" control={control} errors={errors} />
-          </TabPanel>
-          <TabPanel value={seedTab} index={3}>
-            <SeedForm name="Space Seed - 4" control={control} errors={errors} />
-          </TabPanel>
-          <TabPanel value={seedTab} index={4}>
-            <SeedForm name="Space Seed - 5" control={control} errors={errors} />
-          </TabPanel>
-          <TabPanel value={seedTab} index={5}>
-            <SeedForm name="Space Seed - 6" control={control} errors={errors} />
-          </TabPanel>
         </AddSeedContainer>
       </Dialog>
     </>
   );
 };
 
-export default AddSeed;
+export default AddSeedDialog;
 
 const AddSeedContainer = styled.div`
   display: flex;
