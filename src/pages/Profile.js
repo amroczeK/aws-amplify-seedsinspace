@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
+import LocationSearch from "../components/map/LocationSearch";
 
 const Profile = () => {
   const history = useHistory();
@@ -21,10 +22,16 @@ const Profile = () => {
 
   const { control, register, setValue, handleSubmit } = useForm({
     defaultValues: {
-      address: cognitoUser.attributes.address,
       about: cognitoUser.attributes["custom:about"],
     },
   });
+
+  const onLocationSelection = locationValue => {
+    const { display_name, lat, lon } = locationValue;
+
+    setValue("address", display_name);
+    setValue("location", JSON.stringify({ lat, lon }));
+  };
 
   const confirmProfileHandler = async formData => {
     try {
@@ -62,13 +69,10 @@ const Profile = () => {
             setValue={setValue}
           />
           <StyledInputLabel shrink>LOCATION</StyledInputLabel>
-          <Controller
-            name="address"
-            defaultValue=""
-            control={control}
-            render={({ field }) => <TextField {...field} variant="outlined" />}
+          <LocationSearch
+            onSelected={onLocationSelection}
+            defaultValue={cognitoUser?.attributes?.address}
           />
-
           <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
           <Controller
             name="about"

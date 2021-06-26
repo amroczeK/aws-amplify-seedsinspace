@@ -46,10 +46,11 @@ export const UserProvider = ({ children }) => {
       });
   };
 
-  const updateUserProfileDetails = async ({ address, about }) => {
+  const updateUserProfileDetails = async ({ address, about, location }) => {
     Auth.updateUserAttributes(cognitoUser, {
       address,
       "custom:about": about,
+      "custom:location": location,
     })
       .then(() => checkUser())
       .catch(error => {
@@ -94,7 +95,6 @@ export const useProfile = () => {
   useEffect(() => {
     fetchProfileImage({ path: "profile", level: "protected" })
       .then(imageUrl => {
-        console.log("retrieved imageUrl");
         setProfileImage(imageUrl);
       })
       .catch(error => {
