@@ -27,8 +27,8 @@
         }
     ],
     "privacy": {
-        "auth": 2,
-        "unauth": 2,
+        "auth": 1,
+        "unauth": 1,
         "authRoleName": "amplify-seedsinspace-dev-192500-authRole",
         "unAuthRoleName": "amplify-seedsinspace-dev-192500-unauthRole"
     },
@@ -42,5 +42,5 @@
             ]
         }
     ],
-    "uuid": "0f695d8e"
+    "uuid": "06dc6984"
 }

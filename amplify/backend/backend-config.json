@@ -21,6 +21,10 @@
     "SeedsInSpaceDB": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
+    },
+    "SeedsInSpaceTable": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
     }
   },
   "hosting": {
