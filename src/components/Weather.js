@@ -30,19 +30,18 @@ const WeatherApp = () => {
 export default WeatherApp;
 
 const Weather = () => {
-  const [location, setLocation] = useState({});
   const { cognitoUser } = useProfile();
+  const [location, setLocation] = useState({});
 
   const hasLocation = "lat" in location && "lon" in location ? true : false;
 
   useEffect(() => {
-    const location = cognitoUser.attributes?.["custom:location"];
-
-    if (location) {
-      setLocation(JSON.parse(location));
+    const locationData = cognitoUser?.attributes?.["custom:location"];
+    if (locationData) {
+      setLocation(JSON.parse(locationData));
     }
     // eslint-disable-next-line
-  }, [setLocation]);
+  }, []);
 
   const { isLoading, error, data } = useQuery(
     "weatherData",
@@ -52,8 +51,6 @@ const Weather = () => {
       ).then(res => res.json()),
     { enabled: hasLocation }
   );
-
-  console.log(data);
 
   if (isLoading) return <LinearProgress />;
 

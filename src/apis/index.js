@@ -1,6 +1,20 @@
 import { API } from "aws-amplify";
 
 /**
+ * Function to retrieve all existing schools entries using PK
+ * @returns result response
+ */
+export const getAllSchools = async () => {
+  try {
+    const data = await API.get("SeedsAPI", "/schools", {});
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+/**
  * Function to retrieve all existing seed entries using PK: entry_id and SK: type which are mandatory
  * @param {Object} req Object of attributes e.g. { entry_id: "123", type: "Earth" }
  * @returns result response
@@ -22,7 +36,7 @@ export const getAllSeeds = async () => {
  */
 export const getSeedById = async req => {
   let { entry_id, type } = req;
-  
+
   try {
     const data = await API.get("SeedsAPI", `/seeds/${entry_id}/${type}`, {});
     return data;
