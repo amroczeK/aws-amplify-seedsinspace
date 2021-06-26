@@ -1,4 +1,3 @@
-import { useState, useEffect, useContext } from "react";
 import Plotly from "../components/charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -12,11 +11,13 @@ import {
   groupedBars,
   stackedBars,
 } from "../components/charts/chartMockData";
-import { DataContext } from "../components/context/Data";
-import { S3BucketContext } from "../components/context/S3Bucket";
-import { UserContext } from "../components/context/User";
-import { getChartData } from "../components/charts/PlotlyAdaptor";
-import styled from "styled-components";
+import {
+  getAllSeeds,
+  getSeedById,
+  addSeedEntry,
+  updateSeedEntry,
+  deleteSeedEntry,
+} from "../apis";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,9 +41,6 @@ const selections = [
 ];
 
 const Home = () => {
-  const [profileImage, setProfileImage] = useState(null);
-  const [selectedFilters, setSelectedFilters] = useState(["All Seeds"]);
-
   const classes = useStyles();
 
   const lineChart = lineAndScatterPlot();
@@ -50,40 +48,14 @@ const Home = () => {
   const groupedBarsChart = groupedBars();
   const stackedBarsChart = stackedBars();
 
-  const { seedData, loading, error } = useContext(DataContext);
-  const { fetchProfileImage } = useContext(S3BucketContext);
-  const { userData, loggedIn } = useContext(UserContext);
-
-  const selecedFiltesrHandler = event => {
-    setSelectedFilters(event.target.value);
-  };
-
-  const getProfileImage = async () => {
-    console.log(userData);
-    try {
-      let profileImageURL = await fetchProfileImage({
-        path: "AME Swirl Colour.png",
-        level: "private", // Retrieve profile image from users private folder
-      });
-      console.log(profileImageURL);
-      setProfileImage(profileImageURL);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Set user profile image on component mount if authenticated
-  useEffect(() => {
-    if (loggedIn && userData) {
-      getProfileImage();
-    }
-    // eslint-disable-next-line
-  }, []);
-
   return (
     <Container maxWidth="xl">
       <h1>HOME</h1>
-      <img src={profileImage} alt="profile" />
+      <button onClick={getAllSeeds}>GET SEEDS API CALL</button>
+      <button onClick={getSeedById}>GET SEED BY ID</button>
+      <button onClick={addSeedEntry}>ADD SEED ENTRY API CALL</button>
+      <button onClick={updateSeedEntry}>UPDATE SEED ENTRY API CALL</button>
+      <button onClick={deleteSeedEntry}>DELETE SEED ENTRY API CALL</button>
       <div className={classes.root}>
         <SelectContainer>
           <MultiSelect

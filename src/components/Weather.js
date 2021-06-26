@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
+import { useProfile } from "../context/User";
 
 const queryClient = new QueryClient();
 
@@ -30,32 +31,33 @@ export default WeatherApp;
 
 const Weather = () => {
   const [location, setLocation] = useState({});
+  const { cognitoUser } = useProfile();
 
-  // NOTE: Change this to be schools position
+  const hasLocation = "lat" in location && "lon" in location ? true : false;
+
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setLocation({
-        lat: position.coords.latitude,
-        long: position.coords.longitude,
-      });
-    });
+    const location = cognitoUser.attributes?.["custom:location"];
+
+    if (location) {
+      setLocation(JSON.parse(location));
+    }
+    // eslint-disable-next-line
   }, [setLocation]);
 
   const { isLoading, error, data } = useQuery(
     "weatherData",
     () =>
       fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.long}&units=metric&APPID=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=metric&APPID=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`
       ).then(res => res.json()),
-    { enabled: "lat" in location && "long" in location }
+    { enabled: hasLocation }
   );
 
-  console.log(isLoading, error, data);
-  console.log(location);
+  console.log(data);
 
-  if (isLoading || !("lat" in location && "long" in location)) return <LinearProgress />;
+  if (isLoading) return <LinearProgress />;
 
-  if (error)
+  if (error || !hasLocation)
     return (
       <StyledWeather>
         <Typography>Weather data currently unavailable</Typography>

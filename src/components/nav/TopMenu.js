@@ -5,20 +5,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { StyledLink } from "../styled-components/Links";
-import { UserContext } from "../context/User";
+import { UserContext } from "../../context/User";
 import Typography from "@material-ui/core/Typography";
 
 const TopMenu = () => {
-  const { signOut } = useContext(UserContext);
-
-  const signOutHandler = async () => {
-    try {
-      await signOut();
-      window.location.replace("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { signOut, loggedIn } = useContext(UserContext);
 
   return (
     <>
@@ -39,9 +30,15 @@ const TopMenu = () => {
           <ListItemText primary="Profile" />
         </StyledListItem>
         <Expander />
-        <StyledListItem style={{ marginRight: "0.65em" }} component={Link} to="/logout">
-          <ListItemText onClick={signOutHandler} primary="Logout" />
-        </StyledListItem>
+        {loggedIn ? (
+          <StyledListItem style={{ marginRight: "0.65em" }} component={Link} to="/signin">
+            <ListItemText onClick={signOut} primary="Logout" />
+          </StyledListItem>
+        ) : (
+          <StyledListItem style={{ marginRight: "0.65em" }} component={Link} to="/signin">
+            <ListItemText primary="Login" />
+          </StyledListItem>
+        )}
       </StyledList>
     </>
   );

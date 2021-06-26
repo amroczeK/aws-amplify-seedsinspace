@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { getAllSeeds } from "../../apis";
+import { useState, useEffect, createContext } from "react";
+import { getAllSeeds } from "../apis";
 
-export const DataContext = React.createContext();
+export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const [seedData, setSeedData] = useState([]);
@@ -22,11 +22,12 @@ export const DataProvider = ({ children }) => {
         setError({ isError: true, message: error.message });
       }
     };
+
     if (!seedData?.length) {
       setLoading(true);
       fetchSeedData();
     }
-  }, []);
+  }, [seedData]);
 
   const values = {
     seedData,

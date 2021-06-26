@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { UserContext } from "../context/User";
+import { UserContext } from "../../context/User";
 
 const StyledListItemText = styled(ListItemText)`
   color: #fff;
@@ -14,15 +14,6 @@ export const SideMenuItems = ({ callback }) => {
   const { loggedIn } = useContext(UserContext);
 
   const { signOut } = useContext(UserContext);
-
-  const signOutHandler = async () => {
-    try {
-      await signOut();
-      window.location.replace("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <List component="nav">
@@ -52,7 +43,7 @@ export const SideMenuItems = ({ callback }) => {
         <StyledListItemText primary="FAQ" />
       </ListItem>
       {loggedIn ? (
-        <ListItem button component={Link} onClick={signOutHandler} to="/logout">
+        <ListItem button component={Link} onClick={signOut} to="/signin">
           <StyledListItemText primary="Logout" />
         </ListItem>
       ) : (

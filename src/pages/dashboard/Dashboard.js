@@ -39,7 +39,12 @@ const Dashboard = () => {
           </>
         </Container>
       )}
-      {!isSmall && <DashboardContent />}
+      {!isSmall && (
+        <Container>
+          <Weather />
+          <DashboardContent />
+        </Container>
+      )}
     </>
   );
 };
@@ -50,6 +55,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 300px;
+  margin: 1em;
 `;
 
 const DashboardContainer = styled.div`
@@ -58,7 +64,6 @@ const DashboardContainer = styled.div`
   align-self: center;
   width: 100%;
   max-width: 350px;
-  margin: 1em;
   padding: 1em;
   gap: 1em;
 `;

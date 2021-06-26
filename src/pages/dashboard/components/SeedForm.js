@@ -1,19 +1,14 @@
-import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { StyledButton } from "../../../components/styled-components/Buttons";
 import styled from "styled-components";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { StyledInputLabel } from "../../../components/styled-components/InputLabel";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { InputAdornment } from "@material-ui/core";
 
-const SeedForm = ({ name }) => {
-  const [error, setError] = useState(null);
-  const { control, handleSubmit, formState } = useForm();
-  const { errors } = formState;
-
+const SeedForm = ({ name, control, errors }) => {
   return (
     <StyledTabPanel>
       <Card>
