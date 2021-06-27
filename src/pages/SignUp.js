@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signUpResolver } from "../components/validation/schemas";
 import TextField from "@material-ui/core/TextField";
@@ -9,8 +9,10 @@ import { StyledLink } from "../components/styled-components/Links";
 import { UserContext } from "../context/User";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { useHistory } from "react-router-dom";
+import Alert from "@material-ui/lab/Alert";
 
 const SignUp = () => {
+  const [error, setError] = useState(null);
   const history = useHistory();
   const { control, handleSubmit, formState } = useForm({
     resolver: signUpResolver,
@@ -26,8 +28,12 @@ const SignUp = () => {
         history.push("/profile", { isNewUser: true });
         // window.location.replace("/profile");
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error(error);
+        setError(error);
+      });
   };
+
   return (
     <Container>
       <SignUpContainer>

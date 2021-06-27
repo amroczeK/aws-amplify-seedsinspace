@@ -1,45 +1,63 @@
 {
-  "paths": [
-    {
-      "name": "/seeds",
-      "lambdaFunction": "SeedsInSpaceFunction",
-      "privacy": {
-        "protected": true,
-        "auth": [
-          "/POST",
-          "/GET",
-          "/PUT",
-          "/PATCH",
-          "/DELETE"
-        ],
-        "unauth": [
-          "/GET"
-        ]
-      },
-      "policyResourceName": "/seeds"
-    }
-  ],
-  "resourceName": "SeedsInSpaceAPI",
-  "apiName": "SeedsInSpaceAPI",
-  "functionArns": [
-    {
-      "lambdaFunction": "SeedsInSpaceFunction"
-    }
-  ],
-  "privacy": {
-    "auth": 1,
-    "unauth": 1,
-    "authRoleName": "amplify-seedsinspace-dev-192500-authRole",
-    "unAuthRoleName": "amplify-seedsinspace-dev-192500-unauthRole"
-  },
-  "dependsOn": [
-    {
-      "category": "function",
-      "resourceName": "SeedsInSpaceFunction",
-      "attributes": [
-        "Name",
-        "Arn"
-      ]
-    }
-  ]
+    "paths": [
+        {
+            "name": "/seeds",
+            "lambdaFunction": "SeedsInSpaceFunction",
+            "privacy": {
+                "protected": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ],
+                "unauth": [
+                    "/GET"
+                ]
+            },
+            "policyResourceName": "/seeds"
+        },
+        {
+            "name": "/schools",
+            "lambdaFunction": "SeedsInSpaceFunction",
+            "privacy": {
+                "protected": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH"
+                ],
+                "unauth": [
+                    "/GET"
+                ]
+            },
+            "policyResourceName": "/schools"
+        }
+    ],
+    "resourceName": "SeedsInSpaceAPI",
+    "apiName": "SeedsInSpaceAPI",
+    "functionArns": [
+        {
+            "lambdaFunction": "SeedsInSpaceFunction"
+        }
+    ],
+    "privacy": {
+        "auth": 2,
+        "unauth": 2,
+        "authRoleName": "amplify-seedsinspace-dev-192500-authRole",
+        "unAuthRoleName": "amplify-seedsinspace-dev-192500-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "SeedsInSpaceFunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "6ca3f1ce"
 }

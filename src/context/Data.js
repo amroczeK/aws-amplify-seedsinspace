@@ -6,28 +6,29 @@ export const DataContext = createContext();
 export const DataProvider = ({ children }) => {
   const [seedData, setSeedData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({ isError: false, message: null });
+  const [error, setError] = useState(null);
   const [earthSeedData, setEarthSeedData] = useState(null);
   const [spaceSeedData, setSpaceSeedData] = useState(null);
 
-  useEffect(() => {
-    const fetchSeedData = async () => {
-      try {
-        let { body } = await getAllSeeds();
-        setSeedData(JSON.parse(body));
-        setLoading(false);
-        setError({ isError: false, message: null });
-      } catch (error) {
-        console.log(error);
-        setError({ isError: true, message: error.message });
-      }
-    };
+  // useEffect(() => {
+  //   const fetchSeedData = async () => {
+  //     try {
+  //       let { body } = await getAllSeeds();
+  //       setSeedData(JSON.parse(body));
+  //       setLoading(false);
+  //       setError(null);
+  //     } catch (error) {
+  //       console.log(error);
+  //       setError({ message: error });
+  //     }
+  //   };
 
-    if (!seedData?.length) {
-      setLoading(true);
-      fetchSeedData();
-    }
-  }, [seedData]);
+  //   if (seedData?.length === 0) {
+  //     setLoading(true);
+  //     fetchSeedData();
+  //   }
+  //   // eslint-disable-next-line
+  // }, []);
 
   const values = {
     seedData,

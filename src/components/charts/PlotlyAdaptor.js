@@ -1,5 +1,4 @@
 export const getChartData = ({ type, data }) => {
-  let chartData = {};
   let dates = [];
   let traces = [];
   let lines = {};
