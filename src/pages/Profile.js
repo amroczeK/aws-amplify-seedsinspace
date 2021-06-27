@@ -22,6 +22,8 @@ const Profile = () => {
 
   const { control, register, setValue, handleSubmit } = useForm({
     defaultValues: {
+      address: cognitoUser.attributes.address,
+      location: cognitoUser.attributes["custom:location"],
       about: cognitoUser.attributes["custom:about"],
     },
   });
@@ -35,22 +37,31 @@ const Profile = () => {
 
   const confirmProfileHandler = async formData => {
     try {
+      // Upload profile image with reference to school id
       if (formData.profileImage) {
         await uploadImage({
           file: formData["profileImage"][0],
-          path: "protected/",
-          newName: "profile",
-          level: "protected",
+          path: "profiles/",
+          newName: `${cognitoUser?.username}_profile`,
+          level: "public",
         });
       }
 
       await updateUserProfileDetails(formData);
+
+      // Create user in DynamoDB and
+      // Redirect to Seed Setup Page if new user
       if (locationState?.isNewUser) {
+        // Create user in DynamoDB
+
         history.push("/seed-setup");
       } else {
+        // Update User in DynamoDB?
+
         setShowSnack(true);
       }
     } catch (error) {
+      // add alert here
       console.log(error);
     }
   };

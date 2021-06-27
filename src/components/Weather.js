@@ -36,7 +36,7 @@ const Weather = () => {
   const hasLocation = "lat" in location && "lon" in location ? true : false;
 
   useEffect(() => {
-    const location = cognitoUser.attributes?.["custom:location"];
+    const location = cognitoUser?.attributes?.["custom:location"];
 
     if (location) {
       setLocation(JSON.parse(location));

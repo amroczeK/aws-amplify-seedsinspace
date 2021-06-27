@@ -35,11 +35,16 @@ export const S3BucketProvider = ({ children }) => {
     let name = newName ? newName : file.name;
     let contentType = `image/${file.name.split(".").pop()}`; // Get extension to store as content-type
 
-    let destPath = path ? name : path + name;
+    let destPath = path ? path + name : name;
     await Storage.put(destPath, file, {
       level,
       contentType,
     });
+  };
+
+  const fetchFile = async (path, level) => {
+    const fileURL = await Storage.get(path, { expires: 60, level });
+    return fileURL;
   };
 
   const fetchProfileImage = async ({ path, level }) => {
@@ -70,6 +75,7 @@ export const S3BucketProvider = ({ children }) => {
     fetchSeedImages,
     fetchProfileImage,
     uploadImage,
+    fetchFile,
   };
 
   return <S3BucketContext.Provider value={values}>{children}</S3BucketContext.Provider>;

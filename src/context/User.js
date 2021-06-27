@@ -48,9 +48,9 @@ export const UserProvider = ({ children }) => {
 
   const updateUserProfileDetails = async ({ address, about, location }) => {
     Auth.updateUserAttributes(cognitoUser, {
-      address,
-      "custom:about": about,
-      "custom:location": location,
+      address: address || "",
+      "custom:about": about || "",
+      "custom:location": location || "",
     })
       .then(() => checkUser())
       .catch(error => {
@@ -93,7 +93,10 @@ export const useProfile = () => {
   const { fetchProfileImage } = useContext(S3BucketContext);
 
   useEffect(() => {
-    fetchProfileImage({ path: "profile", level: "protected" })
+    fetchProfileImage({
+      path: `profiles/${userContext?.cognitoUser?.username}_profile`,
+      level: "public",
+    })
       .then(imageUrl => {
         setProfileImage(imageUrl);
       })
