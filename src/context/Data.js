@@ -16,14 +16,14 @@ export const DataProvider = ({ children }) => {
         let { body } = await getAllSeeds();
         setSeedData(JSON.parse(body));
         setLoading(false);
-        setError({ isError: false, message: null });
+        setError(null);
       } catch (error) {
         console.log(error);
-        setError({ isError: true, message: error.message });
+        setError({ message: error });
       }
     };
 
-    if (!seedData && !seedData?.length) {
+    if (seedData?.length === 0) {
       setLoading(true);
       fetchSeedData();
     }

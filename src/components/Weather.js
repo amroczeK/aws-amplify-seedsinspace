@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
-import { useProfile } from "../context/User";
+import { useAws } from "../context/AWSContext";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +30,7 @@ const WeatherApp = () => {
 export default WeatherApp;
 
 const Weather = () => {
-  const { cognitoUser } = useProfile();
+  const { cognitoUser } = useAws();
   const [location, setLocation] = useState({});
 
   const hasLocation = "lat" in location && "lon" in location ? true : false;

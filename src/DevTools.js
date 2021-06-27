@@ -1,6 +1,6 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "./context/User";
+import { useAws } from "./context/AWSContext";
 import styled from "styled-components";
 
 const PositionedDiv = styled.div`
@@ -24,7 +24,7 @@ const PaddedDiv = styled.div`
 
 export default function DevTools() {
   const [hidden, setHidden] = useState(true);
-  const { loggedIn, setLoggedIn } = useContext(UserContext);
+  const { loggedIn, setLoggedIn } = useAws();
 
   if (hidden) {
     return (

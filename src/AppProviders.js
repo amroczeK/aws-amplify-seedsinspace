@@ -1,14 +1,13 @@
 import { ThemeProvider } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
+import { BrowserRouter } from "react-router-dom";
 import {
   createMuiTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { UserProvider } from "./context/User";
 import { DataProvider } from "./context/Data";
-import { S3BucketProvider } from "./context/S3Bucket";
-import { BrowserRouter } from "react-router-dom";
+import { AWSProvider } from "./context/AWSContext";
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -51,11 +50,9 @@ const StyleProviders = ({ children }) => (
 );
 
 const ContextProviders = ({ children }) => (
-  <S3BucketProvider>
-    <UserProvider>
-      <DataProvider>{children}</DataProvider>
-    </UserProvider>
-  </S3BucketProvider>
+  <AWSProvider>
+    <DataProvider>{children}</DataProvider>
+  </AWSProvider>
 );
 
 const AppProviders = ({ children }) => (

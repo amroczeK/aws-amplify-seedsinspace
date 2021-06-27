@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { S3BucketContext } from "../context/S3Bucket";
-import { useProfile } from "../context/User";
+import { useAws } from "../context/AWSContext";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import ImageUpload from "../components/ImageUpload";
@@ -17,12 +16,13 @@ const Profile = () => {
   const history = useHistory();
   const locationState = history.location.state;
   const [showSnack, setShowSnack] = useState(false);
-  const { updateUserProfileDetails, cognitoUser, profileImage } = useProfile();
-  const { uploadImage } = useContext(S3BucketContext);
+  const { updateUserProfileDetails, cognitoUser, profileImage, uploadImage } = useAws();
 
   const { control, register, setValue, handleSubmit } = useForm({
     defaultValues: {
       about: cognitoUser.attributes["custom:about"],
+      address: cognitoUser.attributes["address"],
+      location: cognitoUser.attributes["custom:location"],
     },
   });
 

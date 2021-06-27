@@ -1,19 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { UserContext } from "../../context/User";
+import { useAws } from "../../context/AWSContext";
 
 const StyledListItemText = styled(ListItemText)`
   color: #fff;
 `;
 
 export const SideMenuItems = ({ callback }) => {
-  const { loggedIn } = useContext(UserContext);
-
-  const { signOut } = useContext(UserContext);
+  const { loggedIn, signOut } = useAws();
 
   return (
     <List component="nav">

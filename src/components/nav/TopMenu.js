@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { StyledLink } from "../styled-components/Links";
-import { UserContext } from "../../context/User";
+import { useAws } from "../../context/AWSContext";
 import Typography from "@material-ui/core/Typography";
 
 const TopMenu = () => {
-  const { signOut, loggedIn } = useContext(UserContext);
+  const { signOut, loggedIn } = useAws();
 
   return (
     <>

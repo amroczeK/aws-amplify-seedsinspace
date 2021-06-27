@@ -55,6 +55,7 @@ const ParticipatingSchools = () => {
     }[step];
   };
 
+  // return null;
   return (
     <Container>
       <ParticipatingSchoolsContainer>

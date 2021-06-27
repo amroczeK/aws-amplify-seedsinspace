@@ -53,6 +53,7 @@ const LeafletMap = ({ mapData, handlePopupClick }) => {
             </Marker>
           );
         }
+        return null;
       })}
     </MapContainer>
   );

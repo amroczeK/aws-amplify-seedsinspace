@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { useContext } from "react";
-import { UserContext } from "./context/User";
+import { useAws } from "./context/AWSContext";
 import { AppNavBar } from "./components/nav";
 import { PrivateRoutes, PublicRoutes } from "./AppRoutes";
 import DevTools from "./DevTools";
@@ -10,7 +9,7 @@ const AppContainer = styled.div`
 `;
 
 const App = () => {
-  const { loggedIn } = useContext(UserContext);
+  const { loggedIn } = useAws();
 
   return (
     <AppContainer>
