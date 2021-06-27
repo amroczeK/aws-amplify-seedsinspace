@@ -3,12 +3,13 @@ import Weather from "../components/Weather";
 import styled from "styled-components";
 import LeafletMap from "../components/map/LeafletMap";
 import { getAllSchools } from "../apis";
-import { StyledLink } from "../components/styled-components/Links";
 import Link from "@material-ui/core/Link";
 
 const tempData = [
   {
     name: "Narrabundah College",
+    address:
+      "Narrabundah College, Jerrabomberra Avenue, Narrabundah, Canberra, District of Canberra Central, Australian Capital Territory, 2604, Australia",
     lat: "-35.33687195",
     lon: "149.14736472974613",
     profileLink: "",
@@ -33,12 +34,13 @@ const ParticipatingSchools = () => {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    getAllSchools().then(res => {
-      // Note: Temp solution - delete after API works
-      setSchools(tempData);
+    // Note: Temp solution - delete after API works
+    setSchools(tempData);
 
-      // setSchools(res);
-    });
+    // getAllSchools().then(res => {
+
+    //   // setSchools(res);
+    // });
   }, []);
 
   const handleSchoolClick = index => {
@@ -68,9 +70,14 @@ export default ParticipatingSchools;
 const SchoolProfile = ({ school, setStep }) => {
   return (
     <Container>
-      <Link component="button" variant="body2" onClick={() => setStep(0)}>
-        Back to map
-      </Link>
+      <StyledLink
+        underline="none"
+        component="button"
+        variant="body2"
+        onClick={() => setStep(0)}
+      >
+        {String.fromCharCode(8592)} Back to map
+      </StyledLink>
       <ParticipatingSchoolsContainer>{school.name}</ParticipatingSchoolsContainer>
     </Container>
   );
@@ -91,4 +98,9 @@ const ParticipatingSchoolsContainer = styled.div`
   margin: 1em;
   padding: 1em;
   gap: 1em;
+`;
+
+const StyledLink = styled(Link)`
+  align-self: flex-start;
+  text-decoration: none;
 `;

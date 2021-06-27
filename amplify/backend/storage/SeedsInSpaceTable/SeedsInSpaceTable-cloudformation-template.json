@@ -40,12 +40,17 @@
                 "AttributeDefinitions": [
                   
                   {
-                      "AttributeName": "school_id",
+                      "AttributeName": "Pk",
                       "AttributeType": "S"
                   }  , 
                   
                   {
-                      "AttributeName": "school_name",
+                      "AttributeName": "Sk",
+                      "AttributeType": "S"
+                  }  , 
+                  
+                  {
+                      "AttributeName": "Type",
                       "AttributeType": "S"
                   } 
                   
@@ -53,12 +58,12 @@
                 "KeySchema": [
                   
                   {
-                    "AttributeName": "school_id",
+                    "AttributeName": "Pk",
                     "KeyType": "HASH"
                   }  , 
                   
                   {
-                    "AttributeName": "school_name",
+                    "AttributeName": "Sk",
                     "KeyType": "RANGE"
                   } 
                   
@@ -93,6 +98,34 @@
                         }
                     ]
                 }
+                
+                ,"GlobalSecondaryIndexes": [
+                  
+                    {
+                        "IndexName": "TypeAndSkIndex",
+                        "KeySchema": [
+                            
+                            {
+                                "AttributeName": "Type",
+                                "KeyType": "HASH"
+                            }  , 
+                            
+                            {
+                                "AttributeName": "Sk",
+                                "KeyType": "RANGE"
+                            } 
+                            
+                        ],
+                        "Projection": {
+                            "ProjectionType": "ALL"
+                        },
+                        "ProvisionedThroughput": {
+                            "ReadCapacityUnits": "5",
+                            "WriteCapacityUnits": "5"
+                        }
+                    } 
+                  
+                ]
                 
             }
         }

@@ -23,11 +23,12 @@ export const DataProvider = ({ children }) => {
       }
     };
 
-    if (!seedData?.length) {
+    if (!seedData && !seedData?.length) {
       setLoading(true);
       fetchSeedData();
     }
-  }, [seedData]);
+    // eslint-disable-next-line
+  }, []);
 
   const values = {
     seedData,

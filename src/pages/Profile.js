@@ -29,6 +29,8 @@ const Profile = () => {
   const onLocationSelection = locationValue => {
     const { display_name, lat, lon } = locationValue;
 
+    console.log(locationValue);
+
     setValue("address", display_name);
     setValue("location", JSON.stringify({ lat, lon }));
   };

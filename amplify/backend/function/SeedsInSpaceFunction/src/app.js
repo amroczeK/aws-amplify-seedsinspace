@@ -8,7 +8,7 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 
 const db = new AWS.DynamoDB.DocumentClient();
 
-let tableName = "WattleSeeds";
+let tableName = "SeedsInSpaceTable";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + "-" + process.env.ENV;
 }
@@ -36,6 +36,17 @@ const getUserId = req => {
     return "UNAUTH";
   }
 };
+
+// convert url string param to expected Type
+const convertUrlType = (param, type) => {
+  switch (type) {
+    case "N":
+      return Number.parseInt(param);
+    default:
+      return param;
+  }
+};
+// params[sortKeyName] = convertUrlType(req.params[sortKeyName], sortKeyType);
 
 /**
  * @desc    Fetch all seed entries
