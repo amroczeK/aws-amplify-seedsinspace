@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signUpResolver } from "../components/validation/schemas";
 import TextField from "@material-ui/core/TextField";
@@ -6,38 +5,26 @@ import Typography from "@material-ui/core/Typography";
 import styled from "styled-components";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
-import { UserContext } from "../context/User";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
+import { useAws } from "../context/AWSContext";
 import { useHistory } from "react-router-dom";
 import { addSchoolEntry } from "../apis";
 
 const SignUp = () => {
+  const { createNewPassword } = useAws();
   const history = useHistory();
+
   const { control, handleSubmit, formState } = useForm({
     resolver: signUpResolver,
     defaultValues: { ...history.location.state },
   });
-  const { errors } = formState;
 
-  const { cognitoUser, createNewPassword } = useContext(UserContext);
+  const { errors } = formState;
 
   const signUpHandler = formData => {
     createNewPassword(formData)
-      .then(async () => {
-        console.log(cognitoUser);
-        console.log("adding seed entry");
-        await addSchoolEntry({
-          SchoolName: formData.name,
-        });
-      })
-      .then(() => {
-        console.log("pushing to profile");
-        history.push("/profile", { isNewUser: true });
-      })
-      .catch(error => {
-        console.error(error);
-        throw error;
-      });
+      .then(_user => history.push("/profile", { isNewUser: true }))
+      .catch(console.error);
   };
   return (
     <Container>

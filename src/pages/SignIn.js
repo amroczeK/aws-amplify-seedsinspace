@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signInResolver } from "../components/validation/schemas";
 import TextField from "@material-ui/core/TextField";
@@ -8,11 +8,12 @@ import { StyledLink } from "../components/styled-components/Links";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import Logo from "../assets/logo.png";
-import { UserContext } from "../context/User";
+import { useAws } from "../context/AWSContext";
 
 const SignIn = () => {
   const [error, setError] = useState(null);
-  const { signIn } = useContext(UserContext);
+  const { signIn } = useAws();
+
   const { control, handleSubmit, formState } = useForm({
     resolver: signInResolver,
   });

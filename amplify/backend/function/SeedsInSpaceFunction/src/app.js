@@ -12,8 +12,6 @@ let tableName = "SeedsInSpaceTable";
 if (process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + "-" + process.env.ENV;
 }
-const seedsRoute = "/seeds";
-const schoolsRoute = "/schools";
 
 // declare a new express app
 var app = express();
@@ -51,15 +49,11 @@ const convertUrlType = (param, type) => {
 // params[sortKeyName] = convertUrlType(req.params[sortKeyName], sortKeyType);
 
 /**
- * Seeds resource API routes
- */
-
-/**
  * @desc    Fetch all seed entries
  * @route   GET /seeds
  * @access  Public
  */
-app.get(seedsRoute, async function (req, res) {
+app.get("/seeds", async function (req, res) {
   const params = {
     TableName: tableName,
   };
@@ -80,159 +74,11 @@ app.get(seedsRoute, async function (req, res) {
 });
 
 /**
- * @desc    Fetch all seed entries for a particular school
- * @route   GET /seeds/school/:Pk
- * @access  Public
- */
-app.get(`${seedsRoute}/school/:Pk`, async function (req, res) {
-  const { Pk } = req.params;
-
-  if (!Pk) {
-    res.json({
-      statusCode: 400,
-      error: "Partition key and sort key is required to make this request.",
-    });
-  }
-
-  const params = {
-    TableName: tableName,
-    Key: {
-      Pk,
-    },
-  };
-
-  try {
-    const result = await db.query(params).promise();
-    res.json({
-      statusCode: 200,
-      url: req.url,
-      body: JSON.stringify(result.Items),
-    });
-  } catch (error) {
-    res.json({
-      statusCode: 500,
-      error: error.message,
-    });
-  }
-});
-
-/**
- * @desc    Fetch all seed entries by the user
- * @route   GET /seeds/school
- * @access  Public
- */
-app.get(`${seedsRoute}/school`, async function (req, res) {
-  const params = {
-    TableName: tableName,
-    KeyConditionExpression: "Pk = :Pk",
-    ExpressionAttributeValues: {
-      ":Pk": "SCHOOL#" + getUserId(req),
-    },
-  };
-
-  try {
-    const result = await db.query(params).promise();
-    res.json({
-      statusCode: 200,
-      url: req.url,
-      body: JSON.stringify(result.Items),
-    });
-  } catch (error) {
-    res.json({
-      statusCode: 500,
-      error: error.message,
-    });
-  }
-});
-
-/**
- * @desc    Fetch all seed entries for particular school with sort key
- * @route   GET /seeds/school/:Pk/:Sk
- * @access  Public
- * @patterns Sort Key patterns: Begins_With year, year & month, date, date & type
- * @examples Sort key examples: 2021, 2021-05, 2021-05-11, 2021-05-11_Earth
- */
-app.get(`${seedsRoute}/school/:Pk/:Sk`, async function (req, res) {
-  const { Pk, Sk } = req.params;
-
-  if (!Pk || !Sk) {
-    res.json({
-      statusCode: 400,
-      error: "Partition key and sort key is required to make this request.",
-    });
-  }
-
-  const params = {
-    TableName: tableName,
-    KeyConditionExpression: "Pk = :Pk AND begins_with ( Sk , :Sk )",
-    ExpressionAttributeValues: {
-      ":Pk": { S: Pk },
-      ":Sk": { S: "SEED#" + Sk },
-    },
-  };
-
-  try {
-    const result = await db.query(params).promise();
-    res.json({
-      statusCode: 200,
-      url: req.url,
-      body: JSON.stringify(result.Items),
-    });
-  } catch (error) {
-    res.json({
-      statusCode: 500,
-      error: error.message,
-    });
-  }
-});
-
-/**
- * @desc    Fetch all seed entries for particular school with sort key
- * @route   GET /seeds/school/:Pk
- * @access  Public
- * @patterns Sort Key patterns: Begins_With year, year & month, date, date & type
- * @examples Sort key examples: 2021, 2021-05, 2021-05-11, 2021-05-11_Earth
- */
-app.get(`${seedsRoute}/school/:Pk/:Sk`, async function (req, res) {
-  const { Pk, Sk } = req.params;
-
-  if (!Pk || !Sk) {
-    res.json({
-      statusCode: 400,
-      error: "Partition key and sort key is required to make this request.",
-    });
-  }
-
-  const params = {
-    TableName: tableName,
-    KeyConditionExpression: "Pk = :Pk AND begins_with ( Sk , :Sk )",
-    ExpressionAttributeValues: {
-      ":Pk": { S: Pk },
-      ":Sk": { S: "SEED#" + Sk },
-    },
-  };
-
-  try {
-    const result = await db.query(params).promise();
-    res.json({
-      statusCode: 200,
-      url: req.url,
-      body: JSON.stringify(result.Items),
-    });
-  } catch (error) {
-    res.json({
-      statusCode: 500,
-      error: error.message,
-    });
-  }
-});
-
-/**
  * @desc    Fetch seed entry using Primary Key (PK + SK)
- * @route   GET /seeds/:Pk/:Sk
+ * @route   GET /seeds/:entry_id/:type
  * @access  Public
  */
-app.get(`${seedsRoute}/:Pk/:Sk`, async function (req, res) {
+app.get("/seeds/:entry_id/:type", async function (req, res) {
   const { entry_id, type } = req.params;
 
   if (!entry_id || !type) {
@@ -270,15 +116,16 @@ app.get(`${seedsRoute}/:Pk/:Sk`, async function (req, res) {
  * @route   POST /seeds
  * @access  Private
  */
-app.post(seedsRoute, async function (req, res) {
+app.post("/seeds", async function (req, res) {
   const timestamp = new Date().toISOString();
   const params = {
     TableName: tableName,
     Item: {
-      Pk: "SCHOOL#" + getUserId(req),
       ...req.body,
+      entry_id: uuidv4(),
       createdAt: timestamp,
       updatedAt: timestamp,
+      school_id: getUserId(req),
     },
   };
 
@@ -304,7 +151,7 @@ app.post(seedsRoute, async function (req, res) {
  * @route   PUT /seeds/:entry_id/:type
  * @access  Private
  */
-app.put(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
+app.put(`/seeds/:entry_id/:type`, async function (req, res) {
   const { entry_id, type } = req.params;
   const Attributes = { ...req.body };
 
@@ -362,7 +209,7 @@ app.put(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
  * @route   DELETE /seeds/:entry_id/:type
  * @access  Private
  */
-app.delete(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
+app.delete("/seeds/:entry_id/:type", async function (req, res) {
   const { entry_id, type } = req.params;
 
   if (!entry_id) {
@@ -389,118 +236,6 @@ app.delete(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
     });
   } catch (error) {
     console.log("Delete Seed Entry Error:", error);
-    res.json({
-      statusCode: 500,
-      error: error.message,
-      url: req.url,
-    });
-  }
-});
-
-/**
- * Schools resource API routes
- */
-
-/**
- * @desc    Fetch all schools entries
- * @route   GET /schools
- * @access  Public
- */
-app.get(schoolsRoute, async function (req, res) {
-  const params = {
-    TableName: tableName,
-    Key: {
-      Pk: "School",
-    },
-  };
-
-  try {
-    const result = await db.scan(params).promise();
-    res.json({
-      statusCode: 200,
-      url: req.url,
-      body: JSON.stringify(result.Items),
-    });
-  } catch (error) {
-    res.json({
-      statusCode: 500,
-      error: error.message,
-    });
-  }
-});
-
-/**
- * @desc    Add school entry to dynamodb
- * @route   POST /schools
- * @access  Private
- */
-app.post(schoolsRoute, async function (req, res) {
-  const timestamp = new Date().toISOString();
-  const params = {
-    TableName: tableName,
-    Item: {
-      Pk: "School",
-      Sk: "SCHOOL#" + getUserId(req),
-      createdAt: timestamp,
-      updatedAt: timestamp,
-      ...req.body,
-    },
-  };
-
-  try {
-    const result = await db.put(params).promise();
-    res.json({
-      statusCode: 200,
-      url: req.url,
-      body: JSON.stringify(params.Item),
-    });
-  } catch (error) {
-    console.log("Add Seeds Entry Error:", error);
-    res.json({
-      statusCode: 500,
-      error: error.message,
-      url: req.url,
-    });
-  }
-});
-
-/**
- * @desc    Update users schools details
- * @route   PUT /schools/details
- * @access  Private
- */
-app.put(`${seedsRoute}/details`, async function (req, res) {
-  const Attributes = { ...req.body };
-
-  const timestamp = new Date().toISOString();
-
-  let params = {
-    TableName: tableName,
-    Key: {
-      Pk: "School",
-      Sk: "SCHOOL#" + getUserId(req),
-    },
-    UpdateExpression: "SET ", // Start of update expression before dynamic population
-    ExpressionAttributeNames: {},
-    ExpressionAttributeValues: {},
-    ReturnValues: "UPDATED_NEW", // Return updated attributes in result response
-  };
-
-  for (const attr in Attributes) {
-    params.UpdateExpression += `${attr} = :${attr}, `;
-    params.ExpressionAttributeValues[`:${attr}`] = Attributes[attr];
-  }
-  params.UpdateExpression += "updatedAt = :updatedAt";
-  params.ExpressionAttributeValues[":updatedAt"] = timestamp;
-
-  try {
-    const result = await db.update(params).promise();
-    res.json({
-      statusCode: 200,
-      url: req.url,
-      body: `Updated school entry with ${result}`,
-    });
-  } catch (error) {
     res.json({
       statusCode: 500,
       error: error.message,

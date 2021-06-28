@@ -1,8 +1,7 @@
-import { useContext, useState } from "react";
+import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { S3BucketContext } from "../context/S3Bucket";
-import { useProfile } from "../context/User";
+import { useAws } from "../context/AWSContext";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import ImageUpload from "../components/ImageUpload";
@@ -17,19 +16,29 @@ const Profile = () => {
   const history = useHistory();
   const locationState = history.location.state;
   const [showSnack, setShowSnack] = useState(false);
-  const { updateUserProfileDetails, cognitoUser, profileImage } = useProfile();
-  const { uploadImage } = useContext(S3BucketContext);
+  const [profileImage, setProfileImage] = useState();
+  const { updateUserProfileDetails, cognitoUser, fetchS3, uploadImage } = useAws();
+
+  useEffect(() => {
+    fetchS3({ path: "profile", level: "protected" }).then(url => {
+      setProfileImage(url);
+    });
+  }, [fetchS3]);
 
   const { control, register, setValue, handleSubmit } = useForm({
     defaultValues: {
       address: cognitoUser.attributes.address,
       location: cognitoUser.attributes["custom:location"],
       about: cognitoUser.attributes["custom:about"],
+      address: cognitoUser.attributes["address"],
+      location: cognitoUser.attributes["custom:location"],
     },
   });
 
   const onLocationSelection = locationValue => {
     const { display_name, lat, lon } = locationValue;
+
+    console.log(locationValue);
 
     setValue("address", display_name);
     setValue("location", JSON.stringify({ lat, lon }));
