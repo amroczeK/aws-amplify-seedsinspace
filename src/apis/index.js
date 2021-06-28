@@ -15,7 +15,18 @@ const schoolsRoute = "/schools";
 export const getAllSeeds = async () => {
   try {
     const data = await API.get(API_RESOURCE, "/seeds", {});
-    console.log("All seeds:", data)
+    console.log("All seeds:", data);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getUsersSeedEntries = async () => {
+  try {
+    const data = await API.get(API_RESOURCE, "/seeds/school", {});
+    console.log("Users seeds:", data);
     return data;
   } catch (error) {
     console.log(error);
@@ -33,7 +44,7 @@ export const getSeedById = async req => {
 
   try {
     const data = await API.get(API_RESOURCE, `${seedsRoute}/${entry_id}/${type}`, {});
-    console.log("Seed retrieved:", data)
+    console.log("Seed retrieved:", data);
     return data;
   } catch (error) {
     console.log(error);
@@ -71,7 +82,7 @@ export const addSeedEntry = async req => {
         ...Attributes,
       },
     });
-    console.log("Seed added:", data)
+    console.log("Seed added:", data);
     return data;
   } catch (error) {
     console.log(error);
@@ -92,7 +103,7 @@ export const updateSeedEntry = async req => {
         ...Attributes,
       },
     });
-    console.log("Seed updated:", data)
+    console.log("Seed updated:", data);
     return data;
   } catch (error) {
     console.log(error);
@@ -109,7 +120,7 @@ export const deleteSeedEntry = async req => {
   let { entry_id, type } = req;
   try {
     const data = await API.del(API_RESOURCE, `${seedsRoute}/${entry_id}/${type}`, {});
-    console.log("Seed deleted:", data)
+    console.log("Seed deleted:", data);
     return data;
   } catch (error) {
     console.log(error);
@@ -128,7 +139,7 @@ export const deleteSeedEntry = async req => {
 export const getAllSchools = async () => {
   try {
     const data = await API.get(API_RESOURCE, schoolsRoute, {});
-    console.log("Schools:", data)
+    console.log("Schools:", data);
     return data;
   } catch (error) {
     console.log(error);
@@ -154,7 +165,7 @@ export const addSchoolEntry = async req => {
         ...req,
       },
     });
-    console.log("Added school:" data)
+    console.log("Added school:", data);
     return data;
   } catch (error) {
     console.log(error);
@@ -182,7 +193,7 @@ export const updateSchoolDetails = async req => {
         ...req,
       },
     });
-    console.log("School updated:", data)
+    console.log("School updated:", data);
     return data;
   } catch (error) {
     console.log(error);

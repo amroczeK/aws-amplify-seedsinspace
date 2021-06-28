@@ -4,11 +4,8 @@ import { getAllSeeds } from "../apis";
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
+  console.log("DATA PROVIDER RENDERED?")
   const [seedData, setSeedData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [earthSeedData, setEarthSeedData] = useState(null);
-  const [spaceSeedData, setSpaceSeedData] = useState(null);
 
   // useEffect(() => {
   //   const fetchSeedData = async () => {
@@ -30,14 +27,13 @@ export const DataProvider = ({ children }) => {
   //   // eslint-disable-next-line
   // }, []);
 
+  useEffect(() => {
+    if (seedData?.length) console.log(seedData);
+  }, []);
+
   const values = {
     seedData,
-    loading,
-    error,
-    earthSeedData,
-    setEarthSeedData,
-    spaceSeedData,
-    setSpaceSeedData,
+    setSeedData,
   };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;

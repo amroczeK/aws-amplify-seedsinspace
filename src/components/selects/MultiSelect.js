@@ -4,6 +4,7 @@ import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
 
@@ -45,7 +46,13 @@ function getStyles(selected, selectedFilters, theme) {
   };
 }
 
-export default function MultipleSelect({ title, selections, selectedFilters, onChange }) {
+export default function MultipleSelect({
+  title,
+  selections,
+  selectedFilters,
+  handleChange,
+  helperText,
+}) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -59,7 +66,7 @@ export default function MultipleSelect({ title, selections, selectedFilters, onC
           id="demo-mutiple-chip"
           multiple
           value={selectedFilters}
-          onChange={onChange}
+          onChange={handleChange}
           input={<Input id="select-multiple-chip" />}
           renderValue={selected => (
             <div className={classes.chips}>
@@ -80,6 +87,7 @@ export default function MultipleSelect({ title, selections, selectedFilters, onC
             </MenuItem>
           ))}
         </Select>
+        <FormHelperText>{helperText}</FormHelperText>
       </FormControl>
     </div>
   );

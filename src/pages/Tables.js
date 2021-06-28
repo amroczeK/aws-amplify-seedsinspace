@@ -5,21 +5,18 @@ import { DataContext } from "../context/Data";
 import Alert from "@material-ui/lab/Alert";
 
 const defaultColumns = [
-  { field: "entry_id", headerName: "ID", width: 100 },
-  { field: "school_id", headerName: "School ID", width: 145 },
-  { field: "type", headerName: "Type", width: 110 },
-  { field: "height", headerName: "Height", width: 125 },
-  { field: "stem_length", headerName: "Stem Length (mm)", type: "number", width: 215 },
-  { field: "leaf_length", headerName: "Leaf Length (mm)", type: "number", width: 210 },
-  { field: "leaf_width", headerName: "Leaf Width (mm)", type: "number", width: 200 },
-  { field: "leaf_colour", headerName: "Leaf Colour", width: 160 },
-  { field: "leaf_count", headerName: "Leaf Count", type: "number", width: 155 },
-  { field: "temperature", headerName: "Temp (C)", type: "number", width: 140 },
-  { field: "humidity", headerName: "Humidify (%)", type: "number", width: 170 },
-  { field: "water_volume", headerName: "Water Volume (mL)", type: "number", width: 220 },
-  { field: "ph_level", headerName: "PH Level", type: "number", width: 140 },
-  { field: "createdAt", headerName: "Entry Date", width: 120 },
-  { field: "updatedAt", headerName: "Updated Date", width: 120 },
+  { field: "Type", headerName: "Type", width: 110 },
+  { field: "Height", headerName: "Height", type: "number", width: 125 },
+  { field: "StemLength", headerName: "Stem Length (mm)", type: "number", width: 215 },
+  { field: "LeafLength", headerName: "Leaf Length (mm)", type: "number", width: 210 },
+  { field: "LeafWidth", headerName: "Leaf Width (mm)", type: "number", width: 200 },
+  { field: "LeafCount", headerName: "Leaf Count", type: "number", width: 155 },
+  { field: "LeafColour", headerName: "Leaf Colour", width: 160 },
+  { field: "Temperature", headerName: "Temp (C)", type: "number", width: 140 },
+  { field: "Humidity", headerName: "Humidify (%)", type: "number", width: 170 },
+  { field: "WaterVolume", headerName: "Water Volume (mL)", type: "number", width: 220 },
+  { field: "PhLevel", headerName: "PH Level", type: "number", width: 140 },
+  { field: "Date", headerName: "Date", width: 120 },
 ];
 
 const Tables = () => {
@@ -27,9 +24,15 @@ const Tables = () => {
 
   // Temporary incase we want to do something with
   // the selected row data
-  console.log(selectedRows);
+  //console.log(selectedRows);
 
   const { seedData, loading, error } = useContext(DataContext);
+
+  const mutateRowId = (r, idx) => {
+    console.log("HERE");
+    console.log(r, idx);
+    return r => r.Sk;
+  };
 
   return (
     <Container>
@@ -44,7 +47,7 @@ const Tables = () => {
           defaultColumns={defaultColumns}
           loading={loading}
           setSelectedRows={setSelectedRows}
-          getRowId={r => r.entry_id}
+          getRowId={mutateRowId}
           error={error?.isError ? true : null}
         />
       </TableContainer>
@@ -56,12 +59,13 @@ export default Tables;
 
 const Container = styled.div`
   margin: auto;
-  max-width: 1200px;
+  max-width: 1920px;
 `;
 
 const TableContainer = styled.div`
   padding: 1rem;
   margin-top: 2rem;
-  height: 900px;
+  min-height: 600px;
+  height: 600px;
   width: 100%;
 `;

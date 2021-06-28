@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../context/Data";
 import Plotly from "../components/charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,6 +6,8 @@ import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import MultiSelect from "../components/selects/MultiSelect";
+import Select from "../components/selects/Select";
+import QueryBtn from "../components/inputs/Button";
 import ClearFiltersBtn from "../components/inputs/Button";
 import styled from "styled-components";
 import Alert from "@material-ui/lab/Alert";
@@ -16,16 +18,8 @@ import {
   stackedBars,
 } from "../components/charts/chartMockData";
 import { getChartData } from "../components/charts/PlotlyAdaptor";
-import {
-  getAllSeeds,
-  getSeedById,
-  addSeedEntry,
-  updateSeedEntry,
-  deleteSeedEntry,
-  getAllSchools,
-  addSchoolEntry,
-  updateSchoolDetails,
-} from "../apis";
+import * as API from "../apis";
+import Table from "./Tables";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -48,76 +42,112 @@ const selections = [
   "Leaf Colour",
 ];
 
+const dataQueries = ["All Entries", "My Seed Entries"];
+
 const Home = () => {
   const classes = useStyles();
 
-  const [selectedFilters, setSelectedFilters] = useState(["All Seeds"]);
+  const [plotlyData, setPlotlyData] = useState(null);
+  const [selectedQuery, setSelectedQuery] = useState(""); // Must be "" or index value else MUI out of range warning
+  const [selectedFilters, setSelectedFilters] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const { seedData, loading, error } = useContext(DataContext);
-
-  const lineChart = lineAndScatterPlot();
-  const dataLabelChart = dataLabelsHover();
-  const groupedBarsChart = groupedBars();
-  const stackedBarsChart = stackedBars();
+  const { seedData, setSeedData } = useContext(DataContext);
 
   const selecedFiltesrHandler = event => {
     setSelectedFilters(event.target.value);
   };
 
+  const selectedQueryHandler = event => {
+    console.log("here", event.target.value);
+    setSelectedQuery(event.target.value);
+  };
+
+  const queryHandler = async selected => {
+    switch (selected) {
+      case "All Entries":
+        console.log(selected);
+        break;
+      case "My Seed Entries":
+        console.log(selected);
+        const data = await API.getUsersSeedEntries().catch(error => {
+          console.log(error);
+          setError(error);
+        });
+        console.log(data.body);
+        if (data && !error) {
+          console.log("IN HERE");
+          setSeedData(JSON.parse(data.body));
+        }
+        setLoading(false);
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    if (seedData.length) {
+      let pData = getChartData({ type: "scatter", data: seedData });
+      console.log("plotly data", pData);
+      setPlotlyData(pData);
+    }
+  }, [seedData]);
+
   return (
     <Container maxWidth="xl">
       <h1>HOME</h1>
       <APIContainer>
-        <button onClick={getAllSeeds}>GET SEEDS API CALL</button>
-        <button onClick={getSeedById}>GET SEED BY ID</button>
-        <button onClick={addSeedEntry}>ADD SEED ENTRY API CALL</button>
-        <button onClick={updateSeedEntry}>UPDATE SEED ENTRY API CALL</button>
-        <button onClick={deleteSeedEntry}>DELETE SEED ENTRY API CALL</button>
-        <button onClick={getAllSchools}>GET SCHOOLS API CALL</button>
-        <button onClick={addSchoolEntry}>ADD SCHOOLS ENTRY API CALL</button>
-        <button onClick={updateSchoolDetails}>UPDATE SCHOOLS ENTRY API CALL</button>
+        {/* <button onClick={API.getAllSeeds}>GET SEEDS API CALL</button>
+        <button onClick={API.getSeedById}>GET SEED BY ID</button>
+        <button onClick={API.addSeedEntry}>ADD SEED ENTRY API CALL</button>
+        <button onClick={API.updateSeedEntry}>UPDATE SEED ENTRY API CALL</button>
+        <button onClick={API.deleteSeedEntry}>DELETE SEED ENTRY API CALL</button>
+        <button onClick={API.getAllSchools}>GET SCHOOLS API CALL</button>
+        <button onClick={API.addSchoolEntry}>ADD SCHOOLS ENTRY API CALL</button>
+        <button onClick={API.updateSchoolDetails}>UPDATE SCHOOLS ENTRY API CALL</button> */}
       </APIContainer>
       <div className={classes.root}>
         {error?.message && <Alert severity="error">{error.message}</Alert>}
         <SelectContainer>
+          <Select
+            title={"Data Queries"}
+            handleChange={selectedQueryHandler}
+            selected={selectedQuery}
+            items={dataQueries}
+            helperText={"Select data query"}
+          />
           <MultiSelect
             title={"Seed Filters"}
             selections={selections}
             selectedFilters={selectedFilters}
-            onChange={selecedFiltesrHandler}
+            handleChange={selecedFiltesrHandler}
+            helperText={"Select data filter"}
+          />
+          <QueryBtn
+            title={"Fetch Data"}
+            onClickHandler={() => {
+              if (selectedQuery) {
+                setLoading(true);
+                queryHandler(dataQueries[selectedQuery]);
+              }
+            }}
           />
           <ClearFiltersBtn
             title={"Clear"}
             onClickHandler={() => {
-              setSelectedFilters(["All Seeds"]);
+              setSeedData([]);
+              setSelectedFilters([]);
+              setSelectedQuery("");
             }}
           />
         </SelectContainer>
         <Paper className={classes.paper}>
           <Plotly {...getChartData({ type: "scatter", data: seedData })} />
+          {/* <Plotly {...lineAndScatterPlot()} /> */}
         </Paper>
-        {/* <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-            <Paper className={classes.paper}>
-              <Plotly {...getChartData({ type: "scatter", data: seedData })} />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-            <Paper className={classes.paper}>
-              <Plotly {...dataLabelChart} />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-            <Paper className={classes.paper}>
-              <Plotly {...groupedBarsChart} />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-            <Paper className={classes.paper}>
-              <Plotly {...stackedBarsChart} />
-            </Paper>
-          </Grid>
-        </Grid> */}
+        <Table />
       </div>
     </Container>
   );

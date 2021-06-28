@@ -124,8 +124,9 @@ app.get(`${seedsRoute}/school/:Pk`, async function (req, res) {
 app.get(`${seedsRoute}/school`, async function (req, res) {
   const params = {
     TableName: tableName,
-    Key: {
-      Pk: getUserId(req),
+    KeyConditionExpression: "Pk = :Pk",
+    ExpressionAttributeValues: {
+      ":Pk": "SCHOOL#" + getUserId(req),
     },
   };
 
