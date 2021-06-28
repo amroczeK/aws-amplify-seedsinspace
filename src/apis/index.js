@@ -61,17 +61,17 @@ export const addSeedEntry = async req => {
   req = {};
   req.Date = "2021-06-27";
   req.Type = "Space";
-  req.SeedNumber = 1;
-  req.Height = 2;
-  req.LeafCount = 2;
-  req.LeafLength = 1;
-  req.LeafWidth = 1;
+  req.SeedNumber = 2;
+  req.Height = 3;
+  req.LeafCount = 3;
+  req.LeafLength = 3;
+  req.LeafWidth = 4;
   req.LeafColour = "Green";
-  req.StemLength = 3;
-  req.Temperature = 20;
-  req.Humidity = 10;
-  req.PhLevel = 5;
-  req.WaterVolume = 100;
+  req.StemLength = 4;
+  req.Temperature = 15;
+  req.Humidity =8;
+  req.PhLevel = 3;
+  req.WaterVolume = 70;
   const { SeedNumber, Date, Type, ...Attributes } = req;
   try {
     const data = await API.post(API_RESOURCE, `${seedsRoute}`, {

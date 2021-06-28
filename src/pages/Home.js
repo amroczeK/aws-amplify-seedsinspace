@@ -47,7 +47,6 @@ const dataQueries = ["All Entries", "My Seed Entries"];
 const Home = () => {
   const classes = useStyles();
 
-  const [plotlyData, setPlotlyData] = useState(null);
   const [selectedQuery, setSelectedQuery] = useState(""); // Must be "" or index value else MUI out of range warning
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -60,7 +59,6 @@ const Home = () => {
   };
 
   const selectedQueryHandler = event => {
-    console.log("here", event.target.value);
     setSelectedQuery(event.target.value);
   };
 
@@ -75,9 +73,7 @@ const Home = () => {
           console.log(error);
           setError(error);
         });
-        console.log(data.body);
         if (data && !error) {
-          console.log("IN HERE");
           setSeedData(JSON.parse(data.body));
         }
         setLoading(false);
@@ -87,73 +83,72 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    if (seedData.length) {
-      let pData = getChartData({ type: "scatter", data: seedData });
-      console.log("plotly data", pData);
-      setPlotlyData(pData);
-    }
-  }, [seedData]);
-
   return (
     <Container maxWidth="xl">
-      <h1>HOME</h1>
-      <APIContainer>
-        {/* <button onClick={API.getAllSeeds}>GET SEEDS API CALL</button>
+      <DataContainer>
+        {/* <APIContainer>
+        <button onClick={API.getAllSeeds}>GET SEEDS API CALL</button>
         <button onClick={API.getSeedById}>GET SEED BY ID</button>
         <button onClick={API.addSeedEntry}>ADD SEED ENTRY API CALL</button>
         <button onClick={API.updateSeedEntry}>UPDATE SEED ENTRY API CALL</button>
         <button onClick={API.deleteSeedEntry}>DELETE SEED ENTRY API CALL</button>
         <button onClick={API.getAllSchools}>GET SCHOOLS API CALL</button>
         <button onClick={API.addSchoolEntry}>ADD SCHOOLS ENTRY API CALL</button>
-        <button onClick={API.updateSchoolDetails}>UPDATE SCHOOLS ENTRY API CALL</button> */}
-      </APIContainer>
-      <div className={classes.root}>
-        {error?.message && <Alert severity="error">{error.message}</Alert>}
-        <SelectContainer>
-          <Select
-            title={"Data Queries"}
-            handleChange={selectedQueryHandler}
-            selected={selectedQuery}
-            items={dataQueries}
-            helperText={"Select data query"}
-          />
-          <MultiSelect
-            title={"Seed Filters"}
-            selections={selections}
-            selectedFilters={selectedFilters}
-            handleChange={selecedFiltesrHandler}
-            helperText={"Select data filter"}
-          />
-          <QueryBtn
-            title={"Fetch Data"}
-            onClickHandler={() => {
-              if (selectedQuery) {
-                setLoading(true);
-                queryHandler(dataQueries[selectedQuery]);
-              }
-            }}
-          />
-          <ClearFiltersBtn
-            title={"Clear"}
-            onClickHandler={() => {
-              setSeedData([]);
-              setSelectedFilters([]);
-              setSelectedQuery("");
-            }}
-          />
-        </SelectContainer>
-        <Paper className={classes.paper}>
-          <Plotly {...getChartData({ type: "scatter", data: seedData })} />
-          {/* <Plotly {...lineAndScatterPlot()} /> */}
-        </Paper>
-        <Table />
-      </div>
+        <button onClick={API.updateSchoolDetails}>UPDATE SCHOOLS ENTRY API CALL</button>
+      </APIContainer> */}
+        <div className={classes.root}>
+          {error?.message && <Alert severity="error">{error.message}</Alert>}
+          <SelectContainer>
+            <Select
+              title={"Data Queries"}
+              handleChange={selectedQueryHandler}
+              selected={selectedQuery}
+              items={dataQueries}
+              helperText={"Select data query"}
+            />
+            <MultiSelect
+              title={"Seed Filters"}
+              selections={selections}
+              selectedFilters={selectedFilters}
+              handleChange={selecedFiltesrHandler}
+              helperText={"Select data filter"}
+            />
+            <QueryBtn
+              title={"Fetch Data"}
+              onClickHandler={() => {
+                if (selectedQuery) {
+                  setLoading(true);
+                  queryHandler(dataQueries[selectedQuery]);
+                }
+              }}
+            />
+            <ClearFiltersBtn
+              title={"Clear"}
+              onClickHandler={() => {
+                setSeedData([]);
+                setSelectedFilters([]);
+                setSelectedQuery("");
+              }}
+            />
+          </SelectContainer>
+          <Paper className={classes.paper}>
+            <Plotly {...getChartData({ type: "bar", data: seedData })} />
+            {/* <Plotly {...lineAndScatterPlot()} /> */}
+          </Paper>
+          <Table />
+        </div>
+      </DataContainer>
     </Container>
   );
 };
 
 export default Home;
+
+const DataContainer = styled.div`
+  margin-top: 3rem;
+  position: relative;
+  height: 100%;
+`
 
 const SelectContainer = styled.div`
   display: flex;

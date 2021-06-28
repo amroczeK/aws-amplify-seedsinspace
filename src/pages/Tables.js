@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { DataGridTable } from "../components/tables/data-grid";
 import styled from "styled-components";
 import { DataContext } from "../context/Data";
@@ -22,17 +22,7 @@ const defaultColumns = [
 const Tables = () => {
   const [selectedRows, setSelectedRows] = useState([]);
 
-  // Temporary incase we want to do something with
-  // the selected row data
-  //console.log(selectedRows);
-
   const { seedData, loading, error } = useContext(DataContext);
-
-  const mutateRowId = (r, idx) => {
-    console.log("HERE");
-    console.log(r, idx);
-    return r => r.Sk;
-  };
 
   return (
     <Container>
@@ -47,7 +37,7 @@ const Tables = () => {
           defaultColumns={defaultColumns}
           loading={loading}
           setSelectedRows={setSelectedRows}
-          getRowId={mutateRowId}
+          getRowId={r => r.createdAt}
           error={error?.isError ? true : null}
         />
       </TableContainer>
@@ -65,7 +55,7 @@ const Container = styled.div`
 const TableContainer = styled.div`
   padding: 1rem;
   margin-top: 2rem;
-  min-height: 600px;
-  height: 600px;
+  min-height: 500px;
+  height: 550px;
   width: 100%;
 `;
