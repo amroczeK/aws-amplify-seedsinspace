@@ -16,13 +16,13 @@
     "s3Key": {
       "Type": "String"
     },
-    "storageSeedsInSpaceDBName": {
+    "storageSeedsInSpaceTableName": {
       "Type": "String",
-      "Default": "storageSeedsInSpaceDBName"
+      "Default": "storageSeedsInSpaceTableName"
     },
-    "storageSeedsInSpaceDBArn": {
+    "storageSeedsInSpaceTableArn": {
       "Type": "String",
-      "Default": "storageSeedsInSpaceDBArn"
+      "Default": "storageSeedsInSpaceTableArn"
     }
   },
   "Conditions": {
@@ -55,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "SeedsLambda",
+            "SeedsInSpaceFunction",
             {
               "Fn::Join": [
                 "",
                 [
-                  "SeedsLambda",
+                  "SeedsInSpaceFunction",
                   "-",
                   {
                     "Ref": "env"
@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "seedsinspaceLambdaRole5804b662",
+            "seedsinspaceLambdaRole308121a5",
             {
               "Fn::Join": [
                 "",
                 [
-                  "seedsinspaceLambdaRole5804b662",
+                  "seedsinspaceLambdaRole308121a5",
                   "-",
                   {
                     "Ref": "env"
@@ -182,14 +182,14 @@
               ],
               "Resource": [
                 {
-                  "Ref": "storageSeedsInSpaceDBArn"
+                  "Ref": "storageSeedsInSpaceTableArn"
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storageSeedsInSpaceDBArn"
+                        "Ref": "storageSeedsInSpaceTableArn"
                       },
                       "index/*"
                     ]

@@ -37,7 +37,7 @@ const Profile = () => {
 
   const confirmProfileHandler = async formData => {
     try {
-      // Upload profile image with reference to school id
+      // Upload profile image with reference to sub id
       if (formData.profileImage) {
         await uploadImage({
           file: formData["profileImage"][0],
@@ -48,16 +48,11 @@ const Profile = () => {
       }
 
       await updateUserProfileDetails(formData);
+      // Update User in DynamoDB?
 
-      // Create user in DynamoDB and
-      // Redirect to Seed Setup Page if new user
       if (locationState?.isNewUser) {
-        // Create user in DynamoDB
-
         history.push("/seed-setup");
       } else {
-        // Update User in DynamoDB?
-
         setShowSnack(true);
       }
     } catch (error) {

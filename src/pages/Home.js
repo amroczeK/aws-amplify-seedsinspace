@@ -15,6 +15,7 @@ import {
   addSeedEntry,
   updateSeedEntry,
   deleteSeedEntry,
+  addSchoolEntry,
 } from "../apis";
 
 const useStyles = makeStyles(theme => ({
@@ -44,6 +45,7 @@ const Home = () => {
       <button onClick={addSeedEntry}>ADD SEED ENTRY API CALL</button>
       <button onClick={updateSeedEntry}>UPDATE SEED ENTRY API CALL</button>
       <button onClick={deleteSeedEntry}>DELETE SEED ENTRY API CALL</button>
+      <button onClick={addSchoolEntry}>SCHOOL ENTRY API CALL</button>
       <div className={classes.root}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>

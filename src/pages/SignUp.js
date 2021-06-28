@@ -9,6 +9,7 @@ import { StyledLink } from "../components/styled-components/Links";
 import { UserContext } from "../context/User";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { useHistory } from "react-router-dom";
+import { addSchoolEntry } from "../apis";
 
 const SignUp = () => {
   const history = useHistory();
@@ -18,19 +19,30 @@ const SignUp = () => {
   });
   const { errors } = formState;
 
-  const { createNewPassword } = useContext(UserContext);
+  const { cognitoUser, createNewPassword } = useContext(UserContext);
 
-  const signUpHandler = async formData => {
+  const signUpHandler = formData => {
     createNewPassword(formData)
-      .then(_user => {
-        history.push("/profile", { isNewUser: true });
-        // window.location.replace("/profile");
+      .then(async () => {
+        console.log(cognitoUser);
+        console.log("adding seed entry");
+        await addSchoolEntry({
+          SchoolName: formData.name,
+        });
       })
-      .catch(console.error);
+      .then(() => {
+        console.log("pushing to profile");
+        history.push("/profile", { isNewUser: true });
+      })
+      .catch(error => {
+        console.error(error);
+        throw error;
+      });
   };
   return (
     <Container>
       <SignUpContainer>
+        <button onClick={addSchoolEntry}>SCHOOL ENTRY API CALL</button>
         <GridForm onSubmit={handleSubmit(signUpHandler)}>
           <Typography style={{ fontWeight: "bold" }} variant="h5">
             Create an account
