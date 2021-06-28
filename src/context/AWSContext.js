@@ -1,41 +1,65 @@
-import React from "react";
+import React, { createContext, useEffect, useState, useContext } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import { Auth, Storage } from "aws-amplify";
 import { useHistory } from "react-router-dom";
 
-export const AWSContext = React.createContext();
+export const AWSContext = createContext();
+
+export const fetchS3 = async ({ path, level }) => {
+  const result = await Storage.get(path, { expires: 60, level });
+  return result;
+};
+
+const uploadImage = async ({ file, path, newName = "", level = "public" }) => {
+  let name = newName || file.name;
+  let contentType = `image/${file.name.split(".").pop()}`; // Get extension to store as content-type
+
+  let destPath = path ? name : path + name;
+  await Storage.put(destPath, file, { level, contentType });
+};
+
+const fetchSeedImages = async () => {
+  let seedImageKeys = await Storage.list("/seed_images");
+  // For security sign each key and give it a temp URL to be used
+  // to render the images in our app
+  seedImageKeys = await Promise.all(
+    seedImageKeys.map(async ({ key, lastModified }) => {
+      const signedURL = await Storage.get(key);
+      // Remove file extension from filename e.g. key
+      return { name: key.replace(/\.[^/.]+$/, ""), url: signedURL, lastModified }; // Return signed URL
+    })
+  );
+  return seedImageKeys; // Array of objects
+};
 
 export const AWSProvider = ({ children }) => {
-  const [loading, setLoading] = React.useState(true);
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [cognitoUser, setCognitoUser] = React.useState(null);
-  const [profileImage, setProfileImage] = React.useState(null);
+  const [loading, setLoading] = useState(true);
+  const [cognitoUser, setCognitoUser] = useState(null);
   const history = useHistory();
+
+  useEffect(() => {
+    // Fetch user data from LocalStorage
+    if (!cognitoUser) {
+      checkAuthenticatedUser();
+    }
+  }, [cognitoUser]);
 
   const signOut = async () => {
     Auth.signOut()
-      .then(() => {
-        setLoggedIn(false);
-        setCognitoUser(null);
-      })
+      .then(() => setCognitoUser(null))
+      .then(() => history.push("/signin"))
       .catch(console.error);
   };
 
   const signIn = async ({ email, password }) => {
-    try {
-      const user = await Auth.signIn(email, password);
-      setCognitoUser(user);
-
-      if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-        history.push("/signup", { email });
-      } else {
-        setLoggedIn(true);
-      }
-    } catch (error) {
-      console.log("Error signing in user");
-      console.error(error);
-      throw error;
-    }
+    Auth.signIn(email, password)
+      .then(user => {
+        setCognitoUser(user);
+        if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+          history.push("/signup", { email });
+        }
+      })
+      .catch(console.error);
   };
 
   const createNewPassword = async ({ password, organisation }) => {
@@ -58,7 +82,6 @@ export const AWSProvider = ({ children }) => {
       .then(() => {
         console.log("User Profile updated");
         checkAuthenticatedUser();
-        fetchProfileImage();
       })
       .catch(error => {
         throw error;
@@ -66,71 +89,25 @@ export const AWSProvider = ({ children }) => {
   };
 
   const checkAuthenticatedUser = async () => {
-    try {
-      console.log("Checking for Authenticated user data");
-      const user = await Auth.currentAuthenticatedUser();
-      console.log("Authencticated user data found");
-      unstable_batchedUpdates(() => {
-        setLoading(false);
-        setLoggedIn(true);
-        setCognitoUser(user);
-      });
-    } catch (error) {
-      console.log("Authenticated user data not found");
-    }
-  };
-
-  const uploadImage = async ({ file, path, newName = "", level = "public" }) => {
-    let name = newName || file.name;
-    let contentType = `image/${file.name.split(".").pop()}`; // Get extension to store as content-type
-
-    let destPath = path ? name : path + name;
-    await Storage.put(destPath, file, { level, contentType });
-  };
-
-  const fetchProfileImage = async () => {
-    console.log("Fetching user profile image");
-    Storage.get("profile", { expires: 60, level: "protected" }).then(image =>
-      setProfileImage(image)
-    );
-  };
-
-  const fetchSeedImages = async () => {
-    let seedImageKeys = await Storage.list("/seed_images");
-    // For security sign each key and give it a temp URL to be used
-    // to render the images in our app
-    seedImageKeys = await Promise.all(
-      seedImageKeys.map(async ({ key, lastModified }) => {
-        const signedURL = await Storage.get(key);
-        // Remove file extension from filename e.g. key
-        return { name: key.replace(/\.[^/.]+$/, ""), url: signedURL, lastModified }; // Return signed URL
+    Auth.currentAuthenticatedUser()
+      .then(user => {
+        unstable_batchedUpdates(() => {
+          setLoading(false);
+          setCognitoUser(user);
+        });
       })
-    );
-    return seedImageKeys; // Array of objects
+      .catch(console.log);
   };
-
-  // Fetch user data from LocalStorage
-  React.useEffect(() => {
-    if (loggedIn) {
-      fetchProfileImage();
-    }
-    // This isn't right but it's a lot better
-    if (!loggedIn) {
-      checkAuthenticatedUser();
-    }
-  }, [loggedIn]);
 
   const values = {
     loading,
-    loggedIn,
     cognitoUser,
-    profileImage,
     signIn,
     signOut,
     createNewPassword,
     updateUserProfileDetails,
     uploadImage,
-    fetchProfileImage,
+    fetchS3,
     fetchSeedImages,
   };
 
@@ -138,6 +115,6 @@ export const AWSProvider = ({ children }) => {
 };
 
 export const useAws = () => {
-  const context = React.useContext(AWSContext);
+  const context = useContext(AWSContext);
   return { ...context };
 };

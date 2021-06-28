@@ -11,11 +11,11 @@ const StyledListItemText = styled(ListItemText)`
 `;
 
 export const SideMenuItems = ({ callback }) => {
-  const { loggedIn, signOut } = useAws();
+  const { cognitoUser, signOut } = useAws();
 
   return (
     <List component="nav">
-      {loggedIn && (
+      {cognitoUser && (
         <>
           <ListItem button component={Link} onClick={callback} to="/dashboard">
             <StyledListItemText primary="Dashboard" />
@@ -40,7 +40,7 @@ export const SideMenuItems = ({ callback }) => {
       <ListItem button component={Link} onClick={callback} to="/faq">
         <StyledListItemText primary="FAQ" />
       </ListItem>
-      {loggedIn ? (
+      {cognitoUser ? (
         <ListItem button component={Link} onClick={signOut} to="/signin">
           <StyledListItemText primary="Logout" />
         </ListItem>

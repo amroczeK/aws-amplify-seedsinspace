@@ -9,14 +9,14 @@ const AppContainer = styled.div`
 `;
 
 const App = () => {
-  const { loggedIn } = useAws();
+  const { cognitoUser } = useAws();
 
   return (
     <AppContainer>
       <AppNavBar />
       <DevTools />
-      {loggedIn && <PrivateRoutes />}
-      {!loggedIn && <PublicRoutes />}
+      {cognitoUser && <PrivateRoutes />}
+      {!cognitoUser && <PublicRoutes />}
     </AppContainer>
   );
 };

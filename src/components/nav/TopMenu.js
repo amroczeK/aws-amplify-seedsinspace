@@ -6,12 +6,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { StyledLink } from "../styled-components/Links";
 import { useAws } from "../../context/AWSContext";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 const TopMenu = () => {
-  const { signOut, loggedIn } = useAws();
+  const { signOut, cognitoUser } = useAws();
 
   return (
-    <>
+    <StyledNav>
       <StyledLink padding="0 0 4px 2em" color="white" to="/">
         <StyledTypography variant="h5">Seeds in space</StyledTypography>
       </StyledLink>
@@ -29,17 +30,17 @@ const TopMenu = () => {
           <ListItemText primary="Profile" />
         </StyledListItem>
         <Expander />
-        {loggedIn ? (
-          <StyledListItem style={{ marginRight: "0.65em" }} component={Link} to="/signin">
-            <ListItemText onClick={signOut} primary="Logout" />
-          </StyledListItem>
+        {cognitoUser ? (
+          <Button style={{ marginRight: "0.65em" }} as={Link} onClick={signOut}>
+            Logout
+          </Button>
         ) : (
-          <StyledListItem style={{ marginRight: "0.65em" }} component={Link} to="/signin">
-            <ListItemText primary="Login" />
-          </StyledListItem>
+          <Button style={{ marginRight: "0.65em" }} component={Link} to="/signin">
+            Login
+          </Button>
         )}
       </StyledList>
-    </>
+    </StyledNav>
   );
 };
 
@@ -50,6 +51,12 @@ const Expander = styled.div`
 `;
 
 const StyledList = styled(List)`
+  display: flex;
+  flex: 1 0;
+  padding: 0;
+`;
+
+const StyledNav = styled.nav`
   display: flex;
   flex: 1 0;
   padding: 0;

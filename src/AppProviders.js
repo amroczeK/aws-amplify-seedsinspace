@@ -6,9 +6,9 @@ import { DataProvider } from "./context/Data";
 import { AWSProvider } from "./context/AWSContext";
 
 // https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode
-// See answer 2 for reasoning, fixes findDOMNode was passed an instance of Transition which is inside StrictMode
+// findDOMNode was passed an instance of Transition which is inside StrictMode, causes other crash
 import {
-  unstable_createMuiStrictModeTheme as createMuiTheme,
+  createMuiTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@material-ui/core/styles";
 

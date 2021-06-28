@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useAws } from "../context/AWSContext";
@@ -16,7 +16,14 @@ const Profile = () => {
   const history = useHistory();
   const locationState = history.location.state;
   const [showSnack, setShowSnack] = useState(false);
-  const { updateUserProfileDetails, cognitoUser, profileImage, uploadImage } = useAws();
+  const [profileImage, setProfileImage] = useState();
+  const { updateUserProfileDetails, cognitoUser, fetchS3, uploadImage } = useAws();
+
+  useEffect(() => {
+    fetchS3({ path: "profile", level: "protected" }).then(url => {
+      setProfileImage(url);
+    });
+  }, [fetchS3]);
 
   const { control, register, setValue, handleSubmit } = useForm({
     defaultValues: {
