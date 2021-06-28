@@ -52,14 +52,25 @@ export const AWSProvider = ({ children }) => {
   };
 
   const signIn = async ({ email, password }) => {
-    Auth.signIn(email, password)
-      .then(user => {
+    try {
+      setLoading(true);
+
+      const user = await Auth.signIn(email, password);
+
+      unstable_batchedUpdates(() => {
         setCognitoUser(user);
-        if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-          history.push("/signup", { email });
-        }
-      })
-      .catch(console.error);
+        setLoading(false);
+      });
+
+      if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+        history.push("/signup", { email });
+      }
+
+      return user;
+    } catch (error) {
+      setLoading(false);
+      throw error;
+    }
   };
 
   const createNewPassword = async ({ password, organisation }) => {
@@ -73,7 +84,7 @@ export const AWSProvider = ({ children }) => {
       });
   };
 
-  const updateUserProfileDetails = async ({ address, about, location }) => {
+  const updateCognitoUser = async ({ address, about, location }) => {
     Auth.updateUserAttributes(cognitoUser, {
       address,
       "custom:about": about,
@@ -96,16 +107,18 @@ export const AWSProvider = ({ children }) => {
           setCognitoUser(user);
         });
       })
-      .catch(console.log);
+      .catch(console.log)
+      .finally(setLoading(false));
   };
 
   const values = {
     loading,
+    setLoading,
     cognitoUser,
     signIn,
     signOut,
     createNewPassword,
-    updateUserProfileDetails,
+    updateCognitoUser,
     uploadImage,
     fetchS3,
     fetchSeedImages,
