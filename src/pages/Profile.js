@@ -17,7 +17,7 @@ const Profile = () => {
   const locationState = history.location.state;
   const [showSnack, setShowSnack] = useState(false);
   const [profileImage, setProfileImage] = useState();
-  const { updateUserProfileDetails, cognitoUser, fetchS3, uploadImage } = useAws();
+  const { updateCognitoUser, cognitoUser, fetchS3, uploadImage } = useAws();
 
   useEffect(() => {
     fetchS3({ path: "profile", level: "protected" }).then(url => {
@@ -56,9 +56,7 @@ const Profile = () => {
         });
       }
 
-      await updateUserProfileDetails(formData);
-      // Update User in DynamoDB?
-
+      await updateCognitoUser(formData);
       if (locationState?.isNewUser) {
         history.push("/seed-setup");
       } else {
