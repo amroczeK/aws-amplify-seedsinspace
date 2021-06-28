@@ -9,19 +9,17 @@ import { TextField, InputAdornment, Link } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { Calendar3 } from "@styled-icons/bootstrap/Calendar3";
-import { S3BucketContext } from "../context/S3Bucket";
+import { useAws } from "../context/AWSContext";
 
 const SeedSetUp = () => {
   const [step, setStep] = useState(0);
   const [signedURL, setSignedURL] = useState(null);
   const { control, register, setValue, handleSubmit } = useForm();
-  const { fetchFile } = useContext(S3BucketContext);
+  const { fetchS3 } = useAws();
 
   useEffect(() => {
     const getFile = async () => {
-      console.log("hello");
-      const url = await fetchFile("SeedsInSpaceSeedSetup.pdf", "public");
-      console.log(url);
+      const url = await fetchS3({ path: "SeedsInSpaceSeedSetup.pdf", level: "public" });
       setSignedURL(url);
     };
     getFile();

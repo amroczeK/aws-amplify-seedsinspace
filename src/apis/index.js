@@ -2,22 +2,6 @@ import { API } from "aws-amplify";
 const API_RESOURCE = "SeedsInSpaceAPI";
 const seedsRoute = "/seeds";
 const schoolsRoute = "/schools";
-/**
- * Seed API requests
- */
-/**
- * Function to retrieve all existing schools entries using PK
- * @returns result response
- */
-export const getAllSchools = async () => {
-  try {
-    const data = await API.get("SeedsAPI", "/schools", {});
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
 
 /**
  * Function to retrieve all existing seed entries using PK: entry_id and SK: type which are mandatory
