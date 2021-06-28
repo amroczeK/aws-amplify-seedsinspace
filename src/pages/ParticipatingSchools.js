@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Weather from "../components/Weather";
 import styled from "styled-components";
 import LeafletMap from "../components/map/LeafletMap";
-import { getAllSchools } from "../apis";
 import Link from "@material-ui/core/Link";
+
+// import { getAllSchools } from "../apis";
 
 const tempData = [
   {
