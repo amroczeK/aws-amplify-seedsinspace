@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState, useContext } from "react";
+import React, { createContext, useEffect, useState, useContext, useRef } from "react";
 import { unstable_batchedUpdates } from "react-dom";
 import { Auth, Storage } from "aws-amplify";
 import { useHistory } from "react-router-dom";
@@ -35,6 +35,7 @@ const fetchSeedImages = async () => {
 export const AWSProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [cognitoUser, setCognitoUser] = useState(null);
+  const tempUser = useRef();
   const history = useHistory();
 
   useEffect(() => {
@@ -55,33 +56,34 @@ export const AWSProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const user = await Auth.signIn(email, password);
-
-      unstable_batchedUpdates(() => {
-        setCognitoUser(user);
-        setLoading(false);
+      Auth.signIn(email, password).then(user => {
+        if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+          tempUser.current = user;
+          history.push("/signup", { email });
+        } else {
+          setCognitoUser(user);
+          setLoading(false);
+        }
       });
-
-      if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-        history.push("/signup", { email });
-      }
-
-      return user;
     } catch (error) {
+      console.log(error);
       setLoading(false);
       throw error;
     }
   };
 
   const createNewPassword = async ({ password, organisation }) => {
-    Auth.completeNewPassword(cognitoUser, password, {
-      "custom:organisation": organisation,
-    })
-      .then(() => checkAuthenticatedUser())
-      .catch(error => {
-        console.error("change pw error", error);
-        throw error;
+    try {
+      await Auth.completeNewPassword(tempUser.current, password, {
+        "custom:organisation": organisation,
       });
+
+      await checkAuthenticatedUser();
+      return Promise.resolve(); // Maybe return the user here
+    } catch (error) {
+      console.error("change pw error", error);
+      throw error;
+    }
   };
 
   const updateCognitoUser = async ({ address, about, location }) => {

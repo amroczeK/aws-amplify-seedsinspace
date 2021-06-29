@@ -22,14 +22,24 @@ const SignUp = () => {
   const { errors } = formState;
 
   const signUpHandler = formData => {
+    const { organisation } = formData;
+    console.log("running create password");
+
     createNewPassword(formData)
-      .then(_user => history.push("/profile", { isNewUser: true }))
+      .then(() => {
+        console.log("running add schools");
+        addSchoolEntry({ SchoolName: organisation })
+          .then(() => console.log("user created"))
+          .catch(error => {
+            throw error;
+          });
+      })
+      .then(() => history.push("/profile", { isNewUser: true, organisation }))
       .catch(console.error);
   };
   return (
     <Container>
       <SignUpContainer>
-        <button onClick={addSchoolEntry}>SCHOOL ENTRY API CALL</button>
         <GridForm onSubmit={handleSubmit(signUpHandler)}>
           <Typography style={{ fontWeight: "bold" }} variant="h5">
             Create an account

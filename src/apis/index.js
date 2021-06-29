@@ -140,12 +140,6 @@ export const getAllSchools = async () => {
  */
 export const addSchoolEntry = async req => {
   try {
-    req = {
-      SchoolName: "Test 1Catholic College",
-      Address: "34 Test St, WA 6164",
-      Environment: "Greenhouse",
-      Planting_Date: "2021-06-27",
-    };
     const data = await API.post(API_RESOURCE, schoolsRoute, {
       body: {
         ...req,
@@ -167,13 +161,7 @@ export const addSchoolEntry = async req => {
  */
 export const updateSchoolDetails = async req => {
   try {
-    req = {
-      SchoolName: "Emmanuel Catholic College",
-      Address: "22 Test St, WA 6164",
-      Environment: "Greenhouse",
-      Planting_Date: "2021-06-27",
-    };
-    const data = await API.post(API_RESOURCE, schoolsRoute, {
+    const data = await API.put(API_RESOURCE, `${schoolsRoute}`, {
       body: {
         ...req,
       },

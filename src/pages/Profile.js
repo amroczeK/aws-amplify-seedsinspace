@@ -11,10 +11,13 @@ import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
 import LocationSearch from "../components/map/LocationSearch";
+import { updateSchoolDetails } from "../apis";
+import Alert from "@material-ui/lab/Alert";
 
 const Profile = () => {
   const history = useHistory();
   const locationState = history.location.state;
+  const [setUpError, setSetUpError] = useState(null);
   const [showSnack, setShowSnack] = useState(false);
   const [profileImage, setProfileImage] = useState();
   const { updateCognitoUser, cognitoUser, fetchS3, uploadImage } = useAws();
@@ -27,8 +30,6 @@ const Profile = () => {
 
   const { control, register, setValue, handleSubmit } = useForm({
     defaultValues: {
-      address: cognitoUser.attributes.address,
-      location: cognitoUser.attributes["custom:location"],
       about: cognitoUser.attributes["custom:about"],
       address: cognitoUser.attributes["address"],
       location: cognitoUser.attributes["custom:location"],
@@ -37,8 +38,6 @@ const Profile = () => {
 
   const onLocationSelection = locationValue => {
     const { display_name, lat, lon } = locationValue;
-
-    console.log(locationValue);
 
     setValue("address", display_name);
     setValue("location", JSON.stringify({ lat, lon }));
@@ -57,13 +56,20 @@ const Profile = () => {
       }
 
       await updateCognitoUser(formData);
+
+      // update database entry
+      await updateSchoolDetails({
+        SchoolName: cognitoUser.attributes["custom:organisation"],
+        Address: formData.address,
+      });
+
       if (locationState?.isNewUser) {
         history.push("/seed-setup");
       } else {
         setShowSnack(true);
       }
     } catch (error) {
-      // add alert here
+      setSetUpError(error);
       console.log(error);
     }
   };
@@ -95,6 +101,7 @@ const Profile = () => {
               <TextField {...field} multiline variant="outlined" rows={10} />
             )}
           />
+          {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
           {locationState?.isNewUser && (
             <>
               <StyledButton
@@ -122,7 +129,11 @@ const Profile = () => {
           )}
         </GridForm>
       </SignUpContainer>
-      <SuccessSnackbar open={showSnack} onClose={() => setShowSnack(false)} />
+      <SuccessSnackbar
+        open={showSnack}
+        text="Success! Profile updated"
+        onClose={() => setShowSnack(false)}
+      />
     </Container>
   );
 };

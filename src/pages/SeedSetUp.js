@@ -1,21 +1,28 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import styled from "styled-components";
 import { StyledLink } from "../components/styled-components/Links";
-import { TextField, InputAdornment, Link } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
-import { Calendar3 } from "@styled-icons/bootstrap/Calendar3";
 import { useAws } from "../context/AWSContext";
+import MaterialUIPicker from "../components/MaterialUIPicker";
+import { useHistory } from "react-router-dom";
+import { updateSchoolDetails } from "../apis";
+import { seedSetupResolver } from "../components/validation/schemas";
+import Alert from "@material-ui/lab/Alert";
 
 const SeedSetUp = () => {
+  const history = useHistory();
   const [step, setStep] = useState(0);
+  const [setUpError, setSetUpError] = useState(null);
   const [signedURL, setSignedURL] = useState(null);
-  const { control, register, setValue, handleSubmit } = useForm();
-  const { fetchS3 } = useAws();
+  const { control, handleSubmit, formState } = useForm({ resolver: seedSetupResolver });
+  const { cognitoUser, fetchS3 } = useAws();
+  const { errors } = formState;
 
   useEffect(() => {
     const getFile = async () => {
@@ -23,6 +30,7 @@ const SeedSetUp = () => {
       setSignedURL(url);
     };
     getFile();
+    // eslint-disable-next-line
   }, []);
 
   const stepContent = () => {
@@ -31,6 +39,24 @@ const SeedSetUp = () => {
       1: <SeedsNotPlanted />,
       2: <SeedsPlanted />,
     }[step];
+  };
+
+  const confirmSeedSetup = async formData => {
+    // update Database
+    try {
+      await updateSchoolDetails({
+        SchoolName: cognitoUser.attributes["custom:organisation"],
+        Address: cognitoUser.attributes["address"],
+        Environment: formData.environment,
+        Planting_Date: formData.date,
+      });
+
+      // redirect to dashboard/home
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+      setSetUpError(error);
+    }
   };
 
   // Note: Should probably be a separate section
@@ -92,39 +118,37 @@ const SeedSetUp = () => {
   const SeedsPlanted = () => {
     return (
       <SeedSetUpContainer>
-        <StyledInputLabel shrink>WHEN DID YOU PLANT YOUR SEEDS?</StyledInputLabel>
-        <Controller
-          name="seedPlanted"
-          defaultValue=""
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment>
-                    <StyledCalendarIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
-        <StyledInputLabel shrink>
-          WHAT TYPE OF ENVIRONMENT ARE THE SEEDS GROWING IN?
-        </StyledInputLabel>
-        <Controller
-          name="environment"
-          defaultValue=""
-          control={control}
-          render={({ field }) => (
-            <TextField {...field} multiline variant="outlined" rows={10} />
-          )}
-        />
-        <StyledButton color="primary" type="submit" disableElevation variant="contained">
-          Save
-        </StyledButton>
+        <GridForm onSubmit={handleSubmit(confirmSeedSetup)}>
+          <StyledInputLabel shrink>WHEN DID YOU PLANT YOUR SEEDS?</StyledInputLabel>
+          <MaterialUIPicker control={control} errors={errors} />
+          <StyledInputLabel shrink>
+            WHAT TYPE OF ENVIRONMENT ARE THE SEEDS GROWING IN?
+          </StyledInputLabel>
+          <Controller
+            name="environment"
+            defaultValue=""
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                multiline
+                variant="outlined"
+                error={errors?.environment ? true : false}
+                helperText={errors?.environment?.message}
+                rows={10}
+              />
+            )}
+          />
+          {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
+          <StyledButton
+            color="primary"
+            type="submit"
+            disableElevation
+            variant="contained"
+          >
+            Save
+          </StyledButton>
+        </GridForm>
       </SeedSetUpContainer>
     );
   };
@@ -176,7 +200,7 @@ const StyledButtonLight = styled(Button)`
   text-transform: none;
 `;
 
-const StyledCalendarIcon = styled(Calendar3)`
-  width: 1.5em;
-  height: 1.5em;
+const GridForm = styled.form`
+  display: grid;
+  gap: 1em;
 `;

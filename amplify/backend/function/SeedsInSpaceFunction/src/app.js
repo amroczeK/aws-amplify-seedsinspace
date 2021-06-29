@@ -72,6 +72,7 @@ app.get(seedsRoute, async function (req, res) {
       body: JSON.stringify(result.Items),
     });
   } catch (error) {
+    console.log("GET /seeds - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -109,6 +110,7 @@ app.get(`${seedsRoute}/school/:Pk`, async function (req, res) {
       body: JSON.stringify(result.Items),
     });
   } catch (error) {
+    console.log("GET /seeds/school/:Pk - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -138,6 +140,7 @@ app.get(`${seedsRoute}/school`, async function (req, res) {
       body: JSON.stringify(result.Items),
     });
   } catch (error) {
+    console.log("GET /seeds/school - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -179,6 +182,7 @@ app.get(`${seedsRoute}/school/:Pk/:Sk`, async function (req, res) {
       body: JSON.stringify(result.Items),
     });
   } catch (error) {
+    console.log("GET /seeds/school/:Pk/:Sk - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -220,6 +224,7 @@ app.get(`${seedsRoute}/school/:Pk/:Sk`, async function (req, res) {
       body: JSON.stringify(result.Items),
     });
   } catch (error) {
+    console.log("GET /seeds/school/:Pk/:Sk - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -233,20 +238,20 @@ app.get(`${seedsRoute}/school/:Pk/:Sk`, async function (req, res) {
  * @access  Public
  */
 app.get(`${seedsRoute}/:Pk/:Sk`, async function (req, res) {
-  const { entry_id, type } = req.params;
+  const { Pk, Sk } = req.params;
 
-  if (!entry_id || !type) {
+  if (!Pk || !Sk) {
     res.json({
       statusCode: 400,
-      error: "entry_id and type is required to make this request.",
+      error: "Partition key and sort key is required to make this request.",
     });
   }
 
   const params = {
     TableName: tableName,
     Key: {
-      entry_id,
-      type,
+      Pk,
+      Sk,
     },
   };
 
@@ -258,6 +263,7 @@ app.get(`${seedsRoute}/:Pk/:Sk`, async function (req, res) {
       body: JSON.stringify(result.Item),
     });
   } catch (error) {
+    console.log("POST /seeds - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -290,7 +296,7 @@ app.post(seedsRoute, async function (req, res) {
       body: JSON.stringify(params.Item),
     });
   } catch (error) {
-    console.log("Add Seeds Entry Error:", error);
+    console.log("POST /seeds - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -304,11 +310,11 @@ app.post(seedsRoute, async function (req, res) {
  * @route   PUT /seeds/:entry_id/:type
  * @access  Private
  */
-app.put(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
-  const { entry_id, type } = req.params;
+app.put(`${seedsRoute}/:Pk/:Sk`, async function (req, res) {
+  const { Pk, Sk } = req.params;
   const Attributes = { ...req.body };
 
-  if (!entry_id) {
+  if (!Pk) {
     res.json({
       statusCode: 400,
       error: "entry_id is required to make this request.",
@@ -320,8 +326,8 @@ app.put(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
   let params = {
     TableName: tableName,
     Key: {
-      entry_id,
-      type,
+      Pk,
+      Sk,
     },
     UpdateExpression: "SET ", // Start of update expression before dynamic population
     ExpressionAttributeNames: {},
@@ -329,12 +335,12 @@ app.put(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
     ReturnValues: "UPDATED_NEW", // Return updated attributes in result response
   };
 
-  if (type) {
-    params.UpdateExpression += `#${type} = :${type}, `;
-    params.ExpressionAttributeNames[`#${type}`] = type; // Type is a dynamodb reserved keyword
-    params.ExpressionAttributeValues[`:${type}`] = type;
-  }
   for (const attr in Attributes) {
+    if (attr === "type") {
+      params.UpdateExpression += `#${attr} = :${attr}, `;
+      params.ExpressionAttributeNames[`#${attr}`] = attr; // Type is a dynamodb reserved keyword
+      params.ExpressionAttributeValues[`:${attr}`] = attr;
+    }
     params.UpdateExpression += `${attr} = :${attr}, `;
     params.ExpressionAttributeValues[`:${attr}`] = Attributes[attr];
   }
@@ -346,9 +352,10 @@ app.put(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
     res.json({
       statusCode: 200,
       url: req.url,
-      body: `Updated seed entry ${entry_id} with ${result}`,
+      body: `Updated seed entry ${Pk}#${Sk} with ${result}`,
     });
   } catch (error) {
+    console.log("PUT /seeds/:Pk/:Sk - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -359,13 +366,13 @@ app.put(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
 
 /**
  * @desc    Delete seed entry using Primary Key (PK + SK)
- * @route   DELETE /seeds/:entry_id/:type
+ * @route   DELETE /seeds/:Pk/:Sk
  * @access  Private
  */
-app.delete(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
-  const { entry_id, type } = req.params;
+app.delete(`${seedsRoute}/:Pk/:Sk`, async function (req, res) {
+  const { Pk, Sk } = req.params;
 
-  if (!entry_id) {
+  if (!Pk) {
     res.json({
       statusCode: 400,
       error: "entry_id is required to make this request.",
@@ -375,8 +382,8 @@ app.delete(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
   const params = {
     TableName: tableName,
     Key: {
-      entry_id,
-      type,
+      Pk,
+      Sk,
     },
   };
 
@@ -385,10 +392,10 @@ app.delete(`${seedsRoute}/:entry_id/:type`, async function (req, res) {
     res.json({
       statusCode: 200,
       url: req.url,
-      body: `Deleted seed entry ${entry_id}`,
+      body: `Deleted seed entry ${Pk}`,
     });
   } catch (error) {
-    console.log("Delete Seed Entry Error:", error);
+    console.log("DEL /seeds/:Pk/:Sk - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -422,6 +429,7 @@ app.get(schoolsRoute, async function (req, res) {
       body: JSON.stringify(result.Items),
     });
   } catch (error) {
+    console.log("GET /schools - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -455,7 +463,7 @@ app.post(schoolsRoute, async function (req, res) {
       body: JSON.stringify(params.Item),
     });
   } catch (error) {
-    console.log("Add Seeds Entry Error:", error);
+    console.log("POST /schools - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -469,7 +477,7 @@ app.post(schoolsRoute, async function (req, res) {
  * @route   PUT /schools/details
  * @access  Private
  */
-app.put(`${seedsRoute}/details`, async function (req, res) {
+app.put(`${schoolsRoute}`, async function (req, res) {
   const Attributes = { ...req.body };
 
   const timestamp = new Date().toISOString();
@@ -487,10 +495,12 @@ app.put(`${seedsRoute}/details`, async function (req, res) {
   };
 
   for (const attr in Attributes) {
-    params.UpdateExpression += `${attr} = :${attr}, `;
+    params.UpdateExpression += `#${attr} = :${attr}, `;
+    params.ExpressionAttributeNames[`#${attr}`] = attr;
     params.ExpressionAttributeValues[`:${attr}`] = Attributes[attr];
   }
-  params.UpdateExpression += "updatedAt = :updatedAt";
+  params.UpdateExpression += "#updatedAt = :updatedAt";
+  params.ExpressionAttributeNames[`#updatedAt`] = "updatedAt";
   params.ExpressionAttributeValues[":updatedAt"] = timestamp;
 
   try {
@@ -501,10 +511,55 @@ app.put(`${seedsRoute}/details`, async function (req, res) {
       body: `Updated school entry with ${result}`,
     });
   } catch (error) {
+    console.log("PUT /schools/details - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
       url: req.url,
+    });
+  }
+});
+
+/**
+ * Global Search Index routes
+ */
+
+/**
+ * @desc    Fetch all seed entries by type
+ * @route   GET /seeds/:Type
+ * @access  Public
+ */
+app.get(`${seedsRoute}/:Type`, async function (req, res) {
+  const { Type } = req.params;
+
+  if (!Type) {
+    res.json({
+      statusCode: 400,
+      error: "Type is required to make this request.",
+    });
+  }
+
+  const params = {
+    TableName: tableName,
+    IndexName: "TypeAndSkIndex",
+    KeyConditionExpression: "#Type = :Type",
+    ExpressionAttributeValues: {
+      ":Type": { S: Type },
+    },
+  };
+
+  try {
+    const result = await db.query(params).promise();
+    res.json({
+      statusCode: 200,
+      url: req.url,
+      body: JSON.stringify(result.Items),
+    });
+  } catch (error) {
+    console.log("GET /seeds/:Type - Error:", error);
+    res.json({
+      statusCode: 500,
+      error: error.message,
     });
   }
 });

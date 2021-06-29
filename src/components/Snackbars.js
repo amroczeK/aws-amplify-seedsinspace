@@ -5,7 +5,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export const SuccessSnackbar = ({ open, onClose }) => {
+export const SuccessSnackbar = ({ open, onClose, text }) => {
   return (
     <Snackbar
       open={open}
@@ -14,7 +14,7 @@ export const SuccessSnackbar = ({ open, onClose }) => {
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert onClose={onClose} severity="success">
-        Success! Profile updated
+        {text}
       </Alert>
     </Snackbar>
   );
