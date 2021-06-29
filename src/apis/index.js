@@ -69,7 +69,7 @@ export const addSeedEntry = async req => {
   req.LeafColour = "Green";
   req.StemLength = 4;
   req.Temperature = 15;
-  req.Humidity =8;
+  req.Humidity = 8;
   req.PhLevel = 3;
   req.WaterVolume = 70;
   const { SeedNumber, Date, Type, ...Attributes } = req;
@@ -183,12 +183,12 @@ export const addSchoolEntry = async req => {
 export const updateSchoolDetails = async req => {
   try {
     req = {
-      SchoolName: "Emmanuel Catholic College",
-      Address: "22 Test St, WA 6164",
-      Environment: "Greenhouse",
-      Planting_Date: "2021-06-27",
+      SchoolName: "Emmanuel Catholic College1",
+      //Address: "22 Test St, WA 6164",
+      //Environment: "Greenhouse",
+      //Planting_Date: "2021-06-27",
     };
-    const data = await API.put(API_RESOURCE, `${schoolsRoute}/details`, {
+    const data = await API.put(API_RESOURCE, `${schoolsRoute}`, {
       body: {
         ...req,
       },

@@ -86,7 +86,7 @@ const Home = () => {
   return (
     <Container maxWidth="xl">
       <DataContainer>
-        {/* <APIContainer>
+        <APIContainer>
         <button onClick={API.getAllSeeds}>GET SEEDS API CALL</button>
         <button onClick={API.getSeedById}>GET SEED BY ID</button>
         <button onClick={API.addSeedEntry}>ADD SEED ENTRY API CALL</button>
@@ -95,7 +95,7 @@ const Home = () => {
         <button onClick={API.getAllSchools}>GET SCHOOLS API CALL</button>
         <button onClick={API.addSchoolEntry}>ADD SCHOOLS ENTRY API CALL</button>
         <button onClick={API.updateSchoolDetails}>UPDATE SCHOOLS ENTRY API CALL</button>
-      </APIContainer> */}
+      </APIContainer>
         <div className={classes.root}>
           {error?.message && <Alert severity="error">{error.message}</Alert>}
           <SelectContainer>
