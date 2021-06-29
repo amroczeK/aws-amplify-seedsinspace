@@ -4,7 +4,6 @@ import { getAllSeeds } from "../apis";
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-  console.log("DATA PROVIDER RENDERED?")
   const [seedData, setSeedData] = useState([]);
 
   // useEffect(() => {
