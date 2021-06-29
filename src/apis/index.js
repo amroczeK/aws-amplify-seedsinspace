@@ -188,7 +188,7 @@ export const updateSchoolDetails = async req => {
       Environment: "Greenhouse",
       Planting_Date: "2021-06-27",
     };
-    const data = await API.post(API_RESOURCE, schoolsRoute, {
+    const data = await API.put(API_RESOURCE, `${schoolsRoute}/details`, {
       body: {
         ...req,
       },
