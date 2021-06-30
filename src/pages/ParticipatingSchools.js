@@ -14,7 +14,7 @@ const ParticipatingSchools = () => {
 
   useEffect(() => {
     getAllSchools().then(res => {
-      setSchools(JSON.parse(res.body));
+      setSchools(JSON.parse(res.body)); // This may need to change
     });
   }, []);
 

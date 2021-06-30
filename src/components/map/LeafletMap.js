@@ -16,8 +16,6 @@ const LeafletMap = ({ mapData, handlePopupClick }) => {
     setMapView(map);
   };
 
-  console.log(mapData);
-
   return (
     <MapContainer
       zoom={3}
