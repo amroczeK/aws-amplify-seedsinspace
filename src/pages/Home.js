@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../context/Data";
+import { UserContext } from "../context/User";
 import Plotly from "../components/charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -42,7 +43,13 @@ const selections = [
   "Leaf Colour",
 ];
 
-const dataQueries = ["All Entries", "My Seed Entries"];
+const dataQueries = [
+  "All Entries",
+  "My Seed Entries",
+  "All Space Seeds",
+  "All Earth Seeds",
+  "All Space Seeds",
+];
 
 const Home = () => {
   const classes = useStyles();
@@ -53,28 +60,67 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   const { seedData, setSeedData } = useContext(DataContext);
+  const { cognitoUser } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log("user", cognitoUser);
+  }, [cognitoUser]);
 
   const selecedFiltesrHandler = event => {
     setSelectedFilters(event.target.value);
   };
 
   const selectedQueryHandler = event => {
+    console.log(event.target.value);
     setSelectedQuery(event.target.value);
   };
 
   const queryHandler = async selected => {
+    console.log(selected);
+    let data;
     switch (selected) {
       case "All Entries":
-        console.log(selected);
-        break;
-      case "My Seed Entries":
-        console.log(selected);
-        const data = await API.getUsersSeedEntries().catch(error => {
+        setLoading(true);
+        data = await API.getAllSeeds().catch(error => {
           console.log(error);
           setError(error);
         });
-        if (data && !error) {
-          setSeedData(JSON.parse(data.body));
+        if (data) {
+          setSeedData(data);
+        }
+        setLoading(false);
+        break;
+      case "My Seed Entries":
+        setLoading(true);
+        let sub = cognitoUser.attributes.sub;
+        data = await API.getUsersSeedEntries(sub).catch(error => {
+          console.log(error);
+          setError(error);
+        });
+        if (data) {
+          setSeedData(data);
+        }
+        setLoading(false);
+        break;
+      case "All Earth Seeds":
+        setLoading(true);
+        data = await API.getSeedsByType({ Type: "Earth" }).catch(error => {
+          console.log(error);
+          setError(error);
+        });
+        if (data) {
+          setSeedData(data);
+        }
+        setLoading(false);
+        break;
+      case "All Space Seeds":
+        setLoading(true);
+        data = await API.getSeedsByType({ Type: "Space" }).catch(error => {
+          console.log(error);
+          setError(error);
+        });
+        if (data) {
+          setSeedData(data);
         }
         setLoading(false);
         break;
@@ -87,15 +133,91 @@ const Home = () => {
     <Container maxWidth="xl">
       <DataContainer>
         <APIContainer>
-        <button onClick={API.getAllSeeds}>GET SEEDS API CALL</button>
-        <button onClick={API.getSeedById}>GET SEED BY ID</button>
-        <button onClick={API.addSeedEntry}>ADD SEED ENTRY API CALL</button>
-        <button onClick={API.updateSeedEntry}>UPDATE SEED ENTRY API CALL</button>
-        <button onClick={API.deleteSeedEntry}>DELETE SEED ENTRY API CALL</button>
-        <button onClick={API.getAllSchools}>GET SCHOOLS API CALL</button>
-        <button onClick={API.addSchoolEntry}>ADD SCHOOLS ENTRY API CALL</button>
-        <button onClick={API.updateSchoolDetails}>UPDATE SCHOOLS ENTRY API CALL</button>
-      </APIContainer>
+          <button onClick={API.getAllSeeds}>GET ALL SEEDS API</button>
+          <button
+            onClick={() => {
+              let req = {
+                Pk: cognitoUser.attributes.sub,
+                Sk: "2021-06-27_Earth_Seed_1",
+              };
+              API.getSeed(req);
+            }}
+          >
+            GET SEED API
+          </button>
+          <button
+            onClick={() => {
+              let req = {
+                Pk: cognitoUser.attributes.sub,
+              };
+              API.getUsersSeeds(req);
+            }}
+          >
+            GET USERS SEEDS API
+          </button>
+          <button
+            onClick={() => {
+              let req = {
+                Pk: cognitoUser.attributes.sub,
+                Sk: "2021-06-27_Earth",
+              };
+              API.getSeedsByFilter(req);
+            }}
+          >
+            GET SEEDS BY FILTER
+          </button>
+          <button
+            onClick={() => {
+              let req = {
+                Date: "2021-06-27",
+                Type: "Space",
+                SeedNumber: 2,
+                Height: 3,
+                LeafCount: 3,
+                LeafLength: 3,
+                LeafWidth: 4,
+                LeafColour: "Green",
+                StemLength: 4,
+                Temperature: 15,
+                Humidity: 8,
+                PhLevel: 3,
+                WaterVolume: 70,
+              };
+              API.addSeed(req);
+            }}
+          >
+            ADD SEED API CALL
+          </button>
+          <button
+            onClick={() => {
+              let req = {
+                Pk: cognitoUser.attributes.sub,
+                Sk: "2021-06-27_Earth_1",
+              };
+              API.updateSeed(req);
+            }}
+          >
+            UPDATE SEED API CALL
+          </button>
+          <button
+            onClick={() => {
+              let req = {
+                Pk: cognitoUser.attributes.sub,
+                Sk: "2021-06-27_Earth_1",
+              };
+              API.deleteSeed(req);
+            }}
+          >
+            DELETE SEED API CALL
+          </button>
+          <button onClick={API.getAllSchools}>GET SCHOOLS API CALL</button>
+          <button onClick={API.addSchoolEntry}>ADD SCHOOLS ENTRY API CALL</button>
+          <button
+            onClick={() => API.updateSchoolDetails(null, cognitoUser.attributes.sub)}
+          >
+            UPDATE SCHOOLS ENTRY API CALL
+          </button>
+        </APIContainer>
         <div className={classes.root}>
           {error?.message && <Alert severity="error">{error.message}</Alert>}
           <SelectContainer>
@@ -116,7 +238,8 @@ const Home = () => {
             <QueryBtn
               title={"Fetch Data"}
               onClickHandler={() => {
-                if (selectedQuery) {
+                // Index 0 evaluates to false
+                if (selectedQuery >= 0) {
                   setLoading(true);
                   queryHandler(dataQueries[selectedQuery]);
                 }
@@ -148,7 +271,7 @@ const DataContainer = styled.div`
   margin-top: 3rem;
   position: relative;
   height: 100%;
-`
+`;
 
 const SelectContainer = styled.div`
   display: flex;
