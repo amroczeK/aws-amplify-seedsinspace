@@ -7,6 +7,7 @@ const LeafletMap = ({ mapData, handlePopupClick }) => {
 
   const mapStyles = {
     height: 600,
+    "border-radius": "4px",
   };
 
   const defaultCenter = [-25.25, 133.4166]; // Middle of Australia
@@ -14,6 +15,8 @@ const LeafletMap = ({ mapData, handlePopupClick }) => {
   const setNewMap = map => {
     setMapView(map);
   };
+
+  console.log(mapData);
 
   return (
     <MapContainer
@@ -28,16 +31,16 @@ const LeafletMap = ({ mapData, handlePopupClick }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {mapData.map((entry, index) => {
-        if (entry.lat && entry.lon && entry.name) {
+        if (entry.Lat && entry.Lon && entry.SchoolName) {
           return (
             <Marker
               riseOnHover
               key={index}
-              position={[parseFloat(entry.lat), parseFloat(entry.lon)]}
+              position={[parseFloat(entry.Lat), parseFloat(entry.Lon)]}
               eventHandlers={{
                 click: e => {
                   e.target.openPopup();
-                  mapView.setView([entry.lat, entry.lon], 16);
+                  mapView.setView([entry.Lat, entry.Lon], 16);
                 },
                 mouseover: e => e.target.openPopup(),
               }}
@@ -47,7 +50,7 @@ const LeafletMap = ({ mapData, handlePopupClick }) => {
                   style={{ textTransform: "none" }}
                   onClick={() => handlePopupClick(index)}
                 >
-                  {entry.name}
+                  {entry.SchoolName}
                 </Button>
               </Popup>
             </Marker>

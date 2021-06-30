@@ -416,13 +416,14 @@ app.delete(`${seedsRoute}/:Pk/:Sk`, async function (req, res) {
 app.get(schoolsRoute, async function (req, res) {
   const params = {
     TableName: tableName,
-    Key: {
-      Pk: "School",
+    KeyConditionExpression: "Pk = :Pk",
+    ExpressionAttributeValues: {
+      ":Pk": "School",
     },
   };
 
   try {
-    const result = await db.scan(params).promise();
+    const result = await db.query(params).promise();
     res.json({
       statusCode: 200,
       url: req.url,

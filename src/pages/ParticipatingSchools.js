@@ -3,31 +3,9 @@ import Weather from "../components/Weather";
 import styled from "styled-components";
 import LeafletMap from "../components/map/LeafletMap";
 import Link from "@material-ui/core/Link";
-
-// import { getAllSchools } from "../apis";
-
-const tempData = [
-  {
-    name: "Narrabundah College",
-    address:
-      "Narrabundah College, Jerrabomberra Avenue, Narrabundah, Canberra, District of Canberra Central, Australian Capital Territory, 2604, Australia",
-    lat: "-35.33687195",
-    lon: "149.14736472974613",
-    profileLink: "",
-  },
-  {
-    name: "Figtree High School",
-    lat: "-34.438533750000005",
-    lon: "150.85507266152396",
-    profileLink: "",
-  },
-  {
-    name: "",
-    lat: "",
-    lon: "",
-    profileLink: "",
-  },
-];
+import { useAws } from "../context/AWSContext";
+import { getAllSchools } from "../apis";
+import { Typography } from "@material-ui/core";
 
 const ParticipatingSchools = () => {
   const [schools, setSchools] = useState([]);
@@ -35,13 +13,9 @@ const ParticipatingSchools = () => {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    // Note: Temp solution - delete after API works
-    setSchools(tempData);
-
-    // getAllSchools().then(res => {
-
-    //   // setSchools(res);
-    // });
+    getAllSchools().then(res => {
+      setSchools(JSON.parse(res.body));
+    });
   }, []);
 
   const handleSchoolClick = index => {
@@ -56,7 +30,6 @@ const ParticipatingSchools = () => {
     }[step];
   };
 
-  // return null;
   return (
     <Container>
       <ParticipatingSchoolsContainer>
@@ -70,17 +43,42 @@ const ParticipatingSchools = () => {
 export default ParticipatingSchools;
 
 const SchoolProfile = ({ school, setStep }) => {
+  const { fetchS3 } = useAws();
+  const [profileImage, setProfileImage] = useState();
+
+  const getProfile = () => {
+    const subId = school.Sk ? school.Sk.replace("SCHOOL#", "") : "";
+
+    fetchS3({ path: `${subId}_profile`, level: "public" }).then(url => {
+      setProfileImage(url);
+    });
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, [school]);
+
   return (
     <Container>
-      <StyledLink
-        underline="none"
-        component="button"
-        variant="body2"
-        onClick={() => setStep(0)}
-      >
-        {String.fromCharCode(8592)} Back to map
-      </StyledLink>
-      <ParticipatingSchoolsContainer>{school.name}</ParticipatingSchoolsContainer>
+      <ProfileContainer>
+        <StyledLink
+          underline="none"
+          component="button"
+          variant="body2"
+          onClick={() => setStep(0)}
+        >
+          {String.fromCharCode(8592)} Back to map
+        </StyledLink>
+        <Profile>
+          <Image src={profileImage}></Image>
+          <div>
+            <Typography>{school.SchoolName}</Typography>
+            <Typography variant="subtitle2">
+              {school.Address.split(",")[2]}, {school.Address.split(",")[5]}
+            </Typography>
+          </div>
+        </Profile>
+      </ProfileContainer>
     </Container>
   );
 };
@@ -102,7 +100,29 @@ const ParticipatingSchoolsContainer = styled.div`
   gap: 1em;
 `;
 
+const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1 0;
+  gap: 2em;
+`;
+
+const Profile = styled.div`
+  display: flex;
+  gap: 1em;
+  align-items: center;
+`;
+
 const StyledLink = styled(Link)`
   align-self: flex-start;
   text-decoration: none;
+`;
+
+const Image = styled.img`
+  width: 125px;
+  height: 125px;
+  padding: 10px;
+  object-fit: cover;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
 `;

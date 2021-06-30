@@ -23,7 +23,7 @@ const Profile = () => {
   const { updateCognitoUser, cognitoUser, fetchS3, uploadImage } = useAws();
 
   useEffect(() => {
-    fetchS3({ path: "profile", level: "protected" }).then(url => {
+    fetchS3({ path: `${cognitoUser?.username}_profile`, level: "public" }).then(url => {
       setProfileImage(url);
     });
   }, [fetchS3]);
@@ -61,6 +61,8 @@ const Profile = () => {
       await updateSchoolDetails({
         SchoolName: cognitoUser.attributes["custom:organisation"],
         Address: formData.address,
+        Lat: JSON.parse(formData.location).lat,
+        Lon: JSON.parse(formData.location).lon,
       });
 
       if (locationState?.isNewUser) {
