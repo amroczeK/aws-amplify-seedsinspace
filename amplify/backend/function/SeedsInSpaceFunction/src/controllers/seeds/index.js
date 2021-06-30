@@ -15,6 +15,15 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 async function getAllSeeds(req, res) {
   const params = {
     TableName: tableName,
+    // Specify which items in the results are returned.
+    FilterExpression: "begins_with (Pk, :filter)",
+    // Define the expression attribute value, which are substitutes for the values you want to compare.
+    ExpressionAttributeValues: {
+      ":filter": { S: "SCHOOL#" },
+    },
+    // Set the projection expression, which are the attributes that you want.
+    ProjectionExpression:
+      "Pk, Sk, Date, Height, Humidity, LeafColour, LeafCount, LeafLength, LeafWidth, PhLevel, StemLength, Temperature, WaterVolume, createdAt, updatedAt",
   };
 
   try {

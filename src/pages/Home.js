@@ -92,8 +92,8 @@ const Home = () => {
         break;
       case "My Seed Entries":
         setLoading(true);
-        let sub = cognitoUser.attributes.sub;
-        data = await API.getUsersSeedEntries(sub).catch(error => {
+        let req = { Pk: cognitoUser.attributes.sub };
+        data = await API.getUsersSeeds(req).catch(error => {
           console.log(error);
           setError(error);
         });
@@ -104,7 +104,7 @@ const Home = () => {
         break;
       case "All Earth Seeds":
         setLoading(true);
-        data = await API.getSeedsByType({ Type: "Earth" }).catch(error => {
+        data = await API.getAllSeedsByType({ Type: "Earth" }).catch(error => {
           console.log(error);
           setError(error);
         });
@@ -115,7 +115,7 @@ const Home = () => {
         break;
       case "All Space Seeds":
         setLoading(true);
-        data = await API.getSeedsByType({ Type: "Space" }).catch(error => {
+        data = await API.getAllSeedsByType({ Type: "Space" }).catch(error => {
           console.log(error);
           setError(error);
         });
@@ -211,10 +211,8 @@ const Home = () => {
             DELETE SEED API CALL
           </button>
           <button onClick={API.getAllSchools}>GET SCHOOLS API CALL</button>
-          <button onClick={API.addSchoolEntry}>ADD SCHOOLS ENTRY API CALL</button>
-          <button
-            onClick={() => API.updateSchoolDetails(null, cognitoUser.attributes.sub)}
-          >
+          <button onClick={API.addSchool}>ADD SCHOOLS ENTRY API CALL</button>
+          <button onClick={() => API.updateSchool(null, cognitoUser.attributes.sub)}>
             UPDATE SCHOOLS ENTRY API CALL
           </button>
         </APIContainer>
