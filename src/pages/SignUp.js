@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signUpResolver } from "../components/validation/schemas";
 import TextField from "@material-ui/core/TextField";
@@ -8,9 +9,11 @@ import { StyledLink } from "../components/styled-components/Links";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { useAws } from "../context/AWSContext";
 import { useHistory } from "react-router-dom";
-import { addSchoolEntry } from "../apis";
+import Alert from "@material-ui/lab/Alert";
+import { addSchool } from "../apis";
 
 const SignUp = () => {
+  const [error, setError] = useState(null);
   const { createNewPassword } = useAws();
   const history = useHistory();
 
@@ -28,15 +31,19 @@ const SignUp = () => {
     createNewPassword(formData)
       .then(() => {
         console.log("running add schools");
-        addSchoolEntry({ SchoolName: organisation })
+        addSchool({ SchoolName: organisation })
           .then(() => console.log("user created"))
           .catch(error => {
             throw error;
           });
       })
       .then(() => history.push("/profile", { isNewUser: true, organisation }))
-      .catch(console.error);
+      .catch((error)=>{
+        setError(error)
+        console.error(error)
+      });
   };
+
   return (
     <Container>
       <SignUpContainer>
@@ -102,6 +109,7 @@ const SignUp = () => {
             )}
           />
           <StyledLink to="/">SIS disclaimer / terms and conditions</StyledLink>
+          {error && <Alert severity="error">{error.message}</Alert>}
           <StyledButton
             color="primary"
             disableElevation

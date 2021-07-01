@@ -11,7 +11,7 @@ import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { useAws } from "../context/AWSContext";
 import MaterialUIPicker from "../components/MaterialUIPicker";
 import { useHistory } from "react-router-dom";
-import { updateSchoolDetails } from "../apis";
+import { updateSchool } from "../apis";
 import { seedSetupResolver } from "../components/validation/schemas";
 import Alert from "@material-ui/lab/Alert";
 
@@ -44,7 +44,7 @@ const SeedSetUp = () => {
   const confirmSeedSetup = async formData => {
     // update Database
     try {
-      await updateSchoolDetails({
+      await updateSchool({
         SchoolName: cognitoUser.attributes["custom:organisation"],
         Address: cognitoUser.attributes["address"],
         Environment: formData.environment,

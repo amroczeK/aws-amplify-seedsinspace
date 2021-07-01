@@ -42,7 +42,6 @@ export const DataGridTable = ({
   error,
 }) => {
   const classes = useStyles();
-  console.log("error", error);
 
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -66,8 +65,8 @@ export const DataGridTable = ({
   };
 
   useEffect(() => {
-    if (defaultColumns) setColumns(defaultColumns);
-    if (rowData) setRows(rowData);
+    if (defaultColumns && defaultColumns.length) setColumns(defaultColumns);
+    if (rowData && defaultColumns.length) setRows(rowData);
     // eslint-disable-next-line
   }, [rowData, defaultColumns]);
 

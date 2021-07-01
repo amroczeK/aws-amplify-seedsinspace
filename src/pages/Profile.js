@@ -11,7 +11,7 @@ import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
 import LocationSearch from "../components/map/LocationSearch";
-import { updateSchoolDetails } from "../apis";
+import { updateSchool } from "../apis";
 import Alert from "@material-ui/lab/Alert";
 
 const Profile = () => {
@@ -58,7 +58,7 @@ const Profile = () => {
       await updateCognitoUser(formData);
 
       // update database entry
-      await updateSchoolDetails({
+      await updateSchool({
         SchoolName: cognitoUser.attributes["custom:organisation"],
         Address: formData.address,
         Lat: JSON.parse(formData.location).lat,

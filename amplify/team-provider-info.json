@@ -28,17 +28,9 @@
         }
       },
       "function": {
-        "SeedsLambda": {
-          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SeedsLambda-54667369392b55375442-build.zip"
-        },
-        "SchoolsLambda": {
-          "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SchoolsLambda-5259666f486257765761-build.zip"
-        },
         "SeedsInSpaceFunction": {
           "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SeedsInSpaceFunction-68684f3039356271414e-build.zip"
+          "s3Key": "amplify-builds/SeedsInSpaceFunction-4877396442466e6f5775-build.zip"
         }
       }
     }
