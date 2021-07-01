@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import Providers from "./AppProviders";
+import AppProviders from "./AppProviders";
 import reportWebVitals from "./reportWebVitals";
 
 import Amplify from "aws-amplify";
@@ -10,9 +10,9 @@ Amplify.configure(config);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Providers>
+    <AppProviders>
       <App />
-    </Providers>
+    </AppProviders>
   </React.StrictMode>,
   document.getElementById("root")
 );

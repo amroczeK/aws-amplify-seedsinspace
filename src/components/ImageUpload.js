@@ -1,9 +1,8 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
-import DefaultImage from "../assets/SeedlingsPreviewImage.jpg";
+import NoImage from "../assets/SeedlingsPreviewImage.jpg";
 import { Camera } from "@styled-icons/bootstrap/Camera";
-import { S3BucketContext } from "../components/context/S3Bucket";
 
 const StyledButton = styled(Button)`
   color: ${props => props.color || props.theme.palette.primary.main};
@@ -30,21 +29,9 @@ const CameraIcon = styled(Camera)`
   margin: 1em 0;
 `;
 
-const ImageUpload = ({
-  preview = true,
-  register,
-  setValue,
-  name,
-  path,
-  level,
-  setError,
-}) => {
+const ImageUpload = ({ preview = true, setValue, name, image }) => {
   const [imageUrl, setImageUrl] = useState();
   const [imageFile, setImageFile] = useState("None");
-
-  const { uploadImage } = useContext(S3BucketContext);
-
-  register(name); // register the field with react hook form
 
   const handleUpload = async e => {
     const imageFiles = e.target.files;
@@ -53,22 +40,18 @@ const ImageUpload = ({
       setImageUrl(preview);
       setImageFile(imageFiles[0]);
       setValue(name, imageFiles); // updated react hook form
-      try {
-        await uploadImage({
-          file: imageFiles[0],
-          path,
-          level,
-        });
-      } catch (error) {
-        console.log(error);
-        //setError(error)
-      }
     }
   };
 
   return (
     <>
-      {preview && <Image src={imageUrl || DefaultImage} alt="seed image" />}
+      {preview && (
+        <Image
+          src={imageUrl || image}
+          alt="seed image"
+          onError={() => setImageUrl(NoImage)}
+        />
+      )}
       <div>
         <CameraIcon />
         <StyledButton component="label">

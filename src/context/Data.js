@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { getAllSeeds } from "../../apis";
+import { useState, useEffect, createContext } from "react";
+import { getAllSeeds } from "../apis";
 
-export const DataContext = React.createContext();
+export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const [seedData, setSeedData] = useState([]);
@@ -16,16 +16,18 @@ export const DataProvider = ({ children }) => {
         let { body } = await getAllSeeds();
         setSeedData(JSON.parse(body));
         setLoading(false);
-        setError({ isError: false, message: null });
+        setError(null);
       } catch (error) {
         console.log(error);
-        setError({ isError: true, message: error.message });
+        setError({ message: error });
       }
     };
-    if (!seedData?.length) {
+
+    if (seedData?.length === 0) {
       setLoading(true);
       fetchSeedData();
     }
+    // eslint-disable-next-line
   }, []);
 
   const values = {

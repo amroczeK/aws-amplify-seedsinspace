@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import IconButton from "@material-ui/core/IconButton";
 import Slide from "@material-ui/core/Slide";
 import styled from "styled-components";
 import { Menu } from "@styled-icons/heroicons-solid/Menu";
 import { Close } from "@styled-icons/evaicons-solid/Close";
-import { StyledLink } from "../styled-components/Links";
+
 import { SideMenuItems } from "./SideMenuItems";
 import Typography from "@material-ui/core/Typography";
 
@@ -56,14 +57,12 @@ const SideMenu = () => {
       <IconButton style={{ marginLeft: "0.25em" }} onClick={handleOpen}>
         <StyledMenuIcon />
       </IconButton>
-      <StyledLink color="white" to="/">
-        <StyledTypography variant="h5">Seeds in space</StyledTypography>
-      </StyledLink>
+      <StyledTypography component={Link} to="/" variant="h5">
+        Seeds in space
+      </StyledTypography>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
         <StyledAppBar>
-          <StyledTypography style={{ color: "white" }} variant="h5">
-            Seeds in Space
-          </StyledTypography>
+          <StyledTypography variant="h5">Seeds in Space</StyledTypography>
           <IconButton style={{ marginRight: "0.5em" }} onClick={handleClose}>
             <StyledCloseIcon />
           </IconButton>
@@ -80,4 +79,8 @@ export default SideMenu;
 
 const StyledTypography = styled(Typography)`
   font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  margin-left: 0.5em;
+  line-height: 2.8;
 `;

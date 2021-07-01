@@ -1,0 +1,7 @@
+{
+    "tableName": "SeedsInSpaceTable",
+    "partitionKeyName": "Pk",
+    "partitionKeyType": "S",
+    "sortKeyName": "Sk",
+    "sortKeyType": "S"
+}

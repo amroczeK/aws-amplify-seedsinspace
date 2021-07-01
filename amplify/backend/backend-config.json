@@ -22,7 +22,7 @@
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     },
-    "SchoolsTable": {
+    "SeedsInSpaceTable": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     }
@@ -35,33 +35,14 @@
     }
   },
   "function": {
-    "SeedsLambda": {
+    "SeedsInSpaceFunction": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
         {
           "category": "storage",
-          "resourceName": "SeedsInSpaceDB",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
-    },
-    "SchoolsLambda": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "SchoolsTable",
+          "resourceName": "SeedsInSpaceTable",
           "attributes": [
             "Name",
             "Arn"
@@ -98,21 +79,13 @@
         }
       }
     },
-    "SeedsAPI": {
+    "SeedsInSpaceAPI": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "SeedsLambda",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "SchoolsLambda",
+          "resourceName": "SeedsInSpaceFunction",
           "attributes": [
             "Name",
             "Arn"
