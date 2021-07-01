@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../context/Data";
-import { UserContext } from "../context/User";
+import { AWSContext } from "../context/AWSContext";
 import Plotly from "../components/charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -60,7 +60,7 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   const { seedData, setSeedData } = useContext(DataContext);
-  const { cognitoUser } = useContext(UserContext);
+  const { cognitoUser } = useContext(AWSContext);
 
   useEffect(() => {
     console.log("user", cognitoUser);
