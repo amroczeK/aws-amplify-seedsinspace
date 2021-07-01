@@ -24,6 +24,9 @@ const TopMenu = () => {
       <NavButton component={Link} to="/profile">
         Profile
       </NavButton>
+      <NavButton component={Link} to="/schools">
+        Schools
+      </NavButton>
       <Expander />
       {cognitoUser ? (
         <NavButton component={Link} onClick={signOut} to="/signin">

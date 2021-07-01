@@ -26,7 +26,7 @@ const Profile = () => {
     fetchS3({ path: `${cognitoUser?.username}_profile`, level: "public" }).then(url => {
       setProfileImage(url);
     });
-  }, [fetchS3]);
+  }, [fetchS3, cognitoUser]);
 
   const { control, register, setValue, handleSubmit } = useForm({
     defaultValues: {
@@ -78,59 +78,57 @@ const Profile = () => {
 
   return (
     <Container>
-      <SignUpContainer>
-        <GridForm onSubmit={handleSubmit(confirmProfileHandler)}>
-          <Typography style={{ fontWeight: "bold" }} variant="h5">
-            Fill in your profile
-          </Typography>
-          <ImageUpload
-            name="profileImage"
-            image={profileImage}
-            register={register}
-            setValue={setValue}
-          />
-          <StyledInputLabel shrink>LOCATION</StyledInputLabel>
-          <LocationSearch
-            onSelected={onLocationSelection}
-            defaultValue={cognitoUser?.attributes?.address}
-          />
-          <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
-          <Controller
-            name="about"
-            defaultValue=""
-            control={control}
-            render={({ field }) => (
-              <TextField {...field} multiline variant="outlined" rows={10} />
-            )}
-          />
-          {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
-          {locationState?.isNewUser && (
-            <>
-              <StyledButton
-                color="primary"
-                type="submit"
-                disableElevation
-                variant="contained"
-              >
-                Next
-              </StyledButton>
-              <StyledLink to="/seed-setup" alignself="center">
-                Skip for now
-              </StyledLink>
-            </>
+      <GridForm onSubmit={handleSubmit(confirmProfileHandler)}>
+        <Typography style={{ fontWeight: "bold" }} variant="h5">
+          Fill in your profile
+        </Typography>
+        <ImageUpload
+          name="profileImage"
+          image={profileImage}
+          register={register}
+          setValue={setValue}
+        />
+        <StyledInputLabel shrink>LOCATION</StyledInputLabel>
+        <LocationSearch
+          onSelected={onLocationSelection}
+          defaultValue={cognitoUser?.attributes?.address}
+        />
+        <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
+        <Controller
+          name="about"
+          defaultValue=""
+          control={control}
+          render={({ field }) => (
+            <TextField {...field} multiline variant="outlined" rows={10} />
           )}
-          {!locationState?.isNewUser && (
+        />
+        {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
+        {locationState?.isNewUser && (
+          <>
             <StyledButton
               color="primary"
               type="submit"
               disableElevation
               variant="contained"
             >
-              Save
+              Next
             </StyledButton>
-          )}
-        </GridForm>
-      </SignUpContainer>
+            <StyledLink to="/seed-setup" alignself="center">
+              Skip for now
+            </StyledLink>
+          </>
+        )}
+        {!locationState?.isNewUser && (
+          <StyledButton
+            color="primary"
+            type="submit"
+            disableElevation
+            variant="contained"
+          >
+            Save
+          </StyledButton>
+        )}
+      </GridForm>
       <SuccessSnackbar
         open={showSnack}
         text="Success! Profile updated"
@@ -145,23 +143,13 @@ export default Profile;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-width: 300px;
-`;
-
-const SignUpContainer = styled.div`
-  display: flex;
-  flex-direction: column;
   align-items: center;
   align-self: center;
-  width: 100%;
-  max-width: 350px;
-  margin: 2em 1em 1em 1em;
-  padding: 1em;
-  gap: 1em;
 `;
 
 const GridForm = styled.form`
   display: grid;
   gap: 1em;
+  min-width: 350px;
+  margin: 1em 0;
 `;

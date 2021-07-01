@@ -20,5 +20,8 @@ export const AppNavBar = () => {
 const NavBar = styled.nav`
   display: flex;
   height: 70px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
   background-color: ${({ theme }) => theme.palette.primary.dark};
 `;

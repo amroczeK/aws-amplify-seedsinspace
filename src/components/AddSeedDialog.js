@@ -51,8 +51,6 @@ const AddSeedDialog = ({ open, onClose }) => {
   const seedType = watch("type");
   const { errors } = formState;
 
-  console.log({ errors });
-
   return (
     <>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>

@@ -32,10 +32,8 @@ const ParticipatingSchools = () => {
 
   return (
     <Container>
-      <ParticipatingSchoolsContainer>
-        <Weather />
-        {stepContent()}
-      </ParticipatingSchoolsContainer>
+      <Weather />
+      {stepContent()}
     </Container>
   );
 };
@@ -46,17 +44,13 @@ const SchoolProfile = ({ school, setStep }) => {
   const { fetchS3 } = useAws();
   const [profileImage, setProfileImage] = useState();
 
-  const getProfile = () => {
+  useEffect(() => {
     const subId = school.Sk ? school.Sk.replace("SCHOOL#", "") : "";
 
     fetchS3({ path: `${subId}_profile`, level: "public" }).then(url => {
       setProfileImage(url);
     });
-  };
-
-  useEffect(() => {
-    getProfile();
-  }, [school]);
+  }, [school, fetchS3]);
 
   return (
     <Container>
@@ -87,16 +81,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 300px;
-`;
-
-const ParticipatingSchoolsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  width: 100%;
-  max-width: 350px;
   margin: 1em;
-  padding: 1em;
   gap: 1em;
 `;
 

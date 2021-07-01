@@ -7,7 +7,7 @@ const LeafletMap = ({ mapData, handlePopupClick }) => {
 
   const mapStyles = {
     height: 600,
-    "border-radius": "4px",
+    borderRadius: 10,
   };
 
   const defaultCenter = [-25.25, 133.4166]; // Middle of Australia
