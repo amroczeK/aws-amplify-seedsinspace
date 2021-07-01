@@ -26,10 +26,6 @@ export const DataProvider = ({ children }) => {
   //   // eslint-disable-next-line
   // }, []);
 
-  useEffect(() => {
-    if (seedData?.length) console.log(seedData);
-  }, []);
-
   const values = {
     seedData,
     setSeedData,

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signUpResolver } from "../components/validation/schemas";
 import TextField from "@material-ui/core/TextField";
@@ -6,32 +6,42 @@ import Typography from "@material-ui/core/Typography";
 import styled from "styled-components";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledLink } from "../components/styled-components/Links";
-import { UserContext } from "../context/User";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
+import { useAws } from "../context/AWSContext";
 import { useHistory } from "react-router-dom";
 import Alert from "@material-ui/lab/Alert";
+import { addSchool } from "../apis";
 
 const SignUp = () => {
   const [error, setError] = useState(null);
+  const { createNewPassword } = useAws();
   const history = useHistory();
+
   const { control, handleSubmit, formState } = useForm({
     resolver: signUpResolver,
     defaultValues: { ...history.location.state },
   });
+
   const { errors } = formState;
 
-  const { createNewPassword } = useContext(UserContext);
+  const signUpHandler = formData => {
+    const { organisation } = formData;
+    console.log("running create password");
 
-  const signUpHandler = async formData => {
     createNewPassword(formData)
-      .then(_user => {
-        history.push("/profile", { isNewUser: true });
-        // window.location.replace("/profile");
+      .then(() => {
+        console.log("running add schools");
+        addSchool({ SchoolName: organisation })
+          .then(() => console.log("user created"))
+          .catch(error => {
+            throw error;
+          });
       })
-      .catch(error => {
-        console.error(error);
-        setError(error);
-      });
+      .then(() => history.push("/profile", { isNewUser: true, organisation }))
+      .catch((error)=>{
+        setError(error)
+        console.error(error)
+      }));
   };
 
   return (

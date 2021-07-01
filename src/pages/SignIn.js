@@ -1,18 +1,20 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signInResolver } from "../components/validation/schemas";
-import TextField from "@material-ui/core/TextField";
-import Alert from "@material-ui/lab/Alert";
 import styled from "styled-components";
+import Alert from "@material-ui/lab/Alert";
+import TextField from "@material-ui/core/TextField";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { StyledLink } from "../components/styled-components/Links";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import Logo from "../assets/logo.png";
-import { UserContext } from "../context/User";
+import { useAws } from "../context/AWSContext";
 
 const SignIn = () => {
-  const [error, setError] = useState(null);
-  const { signIn } = useContext(UserContext);
+  const [signInError, setSignInError] = useState(null);
+  const { signIn, loading } = useAws();
+
   const { control, handleSubmit, formState } = useForm({
     resolver: signInResolver,
   });
@@ -20,17 +22,15 @@ const SignIn = () => {
 
   const signInHandler = async ({ email, password }) => {
     signIn({ email, password })
-      .then(() => setError(null))
-      .catch(error => {
-        console.error(error);
-        setError(error);
-      });
+      .then(() => setSignInError(null))
+      .catch(error => setSignInError(error));
   };
 
   return (
     <Container>
       <SignInContainer>
         <StyledImg src={Logo}></StyledImg>
+        {loading && <LinearProgress />}
         <GridForm onSubmit={handleSubmit(signInHandler)}>
           <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
           <Controller
@@ -40,7 +40,7 @@ const SignIn = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                error={errors?.email}
+                error={errors?.email ? true : false}
                 helperText={errors?.email?.message}
               />
             )}
@@ -55,12 +55,12 @@ const SignIn = () => {
               <TextField
                 {...field}
                 type="password"
-                error={errors?.password}
+                error={errors?.password ? true : false}
                 helperText={errors?.password?.message}
               />
             )}
           />
-          {error && <Alert severity="error">{error.message}</Alert>}
+          {signInError && <Alert severity="error">{signInError.message}</Alert>}
           <StyledButton
             color="primary"
             type="submit"

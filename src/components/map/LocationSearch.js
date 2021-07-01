@@ -47,7 +47,12 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
       const mappedData = searchResults.map((value, index) => {
         const [name, ...location] = value.display_name.split(",");
         return (
-          <ResultContainer key={value.place_id} onClick={() => onSelected(value)}>
+          <ResultContainer
+            key={value.place_id}
+            onClick={() => {
+              onSelected(value);
+            }}
+          >
             <p style={{ fontWeight: "bold" }}>{name}</p>
             <p>location: {location}</p>
           </ResultContainer>
