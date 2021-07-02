@@ -23,7 +23,10 @@ const SignIn = () => {
   const signInHandler = async ({ email, password }) => {
     signIn({ email, password })
       .then(() => setSignInError(null))
-      .catch(error => setSignInError(error));
+      .catch(error => {
+        console.log("here", error);
+        setSignInError(error);
+      });
   };
 
   return (

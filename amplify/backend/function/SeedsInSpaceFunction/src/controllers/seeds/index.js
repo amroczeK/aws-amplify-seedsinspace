@@ -16,10 +16,10 @@ async function getAllSeeds(req, res) {
   const params = {
     TableName: tableName,
     // Specify which items in the results are returned.
-    FilterExpression: "begins_with (Pk, :filter)",
+    FilterExpression: "begins_with(Pk, :Pk)",
     // Define the expression attribute value, which are substitutes for the values you want to compare.
     ExpressionAttributeValues: {
-      ":filter": { S: "SCHOOL#" },
+      ":Pk": { S: "SCHOOL#" },
     },
     // Set the projection expression, which are the attributes that you want.
     ProjectionExpression:
