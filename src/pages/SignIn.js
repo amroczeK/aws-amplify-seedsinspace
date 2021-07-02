@@ -21,6 +21,7 @@ const SignIn = () => {
   const { errors } = formState;
 
   const signInHandler = async ({ email, password }) => {
+    setSignInError(false);  // Always clear previous error when trying to login again
     signIn({ email, password })
       .then(() => setSignInError(null))
       .catch(error => {
@@ -33,7 +34,6 @@ const SignIn = () => {
     <Container>
       <SignInContainer>
         <StyledImg src={Logo}></StyledImg>
-        {loading && <LinearProgress />}
         <GridForm onSubmit={handleSubmit(signInHandler)}>
           <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
           <Controller
@@ -63,6 +63,7 @@ const SignIn = () => {
               />
             )}
           />
+          {loading && <LinearProgress />}
           {signInError && <Alert severity="error">{signInError.message}</Alert>}
           <StyledButton
             color="primary"
