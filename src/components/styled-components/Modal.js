@@ -31,7 +31,7 @@ export default function StyledModal({
       maxWidth={width ? width : "md"}
       fullWidth={fullWidth}
     >
-      <IconButton onClick={onClose}>
+      <IconButton onClick={onClose} style={{ alignSelf: "flex-end" }}>
         <CloseOutline width="1.5em" />
       </IconButton>
       <DialogTitle id="form-dialog-title">
@@ -40,7 +40,7 @@ export default function StyledModal({
       <DialogContent style={style}>
         <Flexbox direction="column">{children}</Flexbox>
       </DialogContent>
-      <DialogActions>{buttons}</DialogActions>
+      {buttons && <DialogActions>{buttons}</DialogActions>}
     </Dialog>
   );
 }

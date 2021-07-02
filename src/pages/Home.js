@@ -5,19 +5,12 @@ import Plotly from "../components/charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
 import MultiSelect from "../components/selects/MultiSelect";
 import Select from "../components/selects/Select";
 import QueryBtn from "../components/inputs/Button";
 import ClearFiltersBtn from "../components/inputs/Button";
 import styled from "styled-components";
 import Alert from "@material-ui/lab/Alert";
-import {
-  lineAndScatterPlot,
-  dataLabelsHover,
-  groupedBars,
-  stackedBars,
-} from "../components/charts/chartMockData";
 import { getChartData } from "../components/charts/PlotlyAdaptor";
 import * as API from "../apis";
 import Table from "./Tables";
@@ -58,6 +51,9 @@ const Home = () => {
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // TODO do something with loading
+  console.log("Home loading status: ", loading);
 
   const { seedData, setSeedData } = useContext(DataContext);
   const { cognitoUser } = useContext(AWSContext);
@@ -254,7 +250,6 @@ const Home = () => {
           </SelectContainer>
           <Paper className={classes.paper}>
             <Plotly {...getChartData({ type: "bar", data: seedData })} />
-            {/* <Plotly {...lineAndScatterPlot()} /> */}
           </Paper>
           <Table />
         </div>
