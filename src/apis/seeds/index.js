@@ -25,7 +25,7 @@ export const getAllSeeds = async () => {
 export const getSeed = async req => {
   let { Pk, Sk } = req;
 
-  if (!Pk || Sk)
+  if (!Pk || !Sk)
     throw new Error("Partition key e.g. Cognito Users sub and a Sort Key is required.");
 
   const { body, error } = await API.get(API_RESOURCE, `/seeds/${Pk}/${Sk}`, {});
@@ -66,7 +66,7 @@ export const getUsersSeeds = async req => {
 export const getSeedsByFilter = async req => {
   let { Pk, Sk } = req;
 
-  if (!Pk || Sk)
+  if (!Pk || !Sk)
     throw new Error("Partition key e.g. Cognito Users sub and a Sort Key is required.");
 
   const { body, error } = await API.post(API_RESOURCE, `/seeds/${Pk}`, {
