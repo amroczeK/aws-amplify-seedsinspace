@@ -9,7 +9,7 @@ import { TextField } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { useAws } from "../context/AWSContext";
-import MaterialUIPicker from "../components/MaterialUIPicker";
+import { ControlledPicker } from "../components/MaterialUIPicker";
 import { useHistory } from "react-router-dom";
 import { updateSchool } from "../apis";
 import { seedSetupResolver } from "../components/validation/schemas";
@@ -120,7 +120,7 @@ const SeedSetUp = () => {
       <SeedSetUpContainer>
         <GridForm onSubmit={handleSubmit(confirmSeedSetup)}>
           <StyledInputLabel shrink>WHEN DID YOU PLANT YOUR SEEDS?</StyledInputLabel>
-          <MaterialUIPicker control={control} errors={errors} />
+          <ControlledPicker control={control} errors={errors} />
           <StyledInputLabel shrink>
             WHAT TYPE OF ENVIRONMENT ARE THE SEEDS GROWING IN?
           </StyledInputLabel>
