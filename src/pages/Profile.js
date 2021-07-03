@@ -14,6 +14,26 @@ import LocationSearch from "../components/map/LocationSearch";
 import { updateSchool } from "../apis";
 import Alert from "@material-ui/lab/Alert";
 
+const stateOrTerritoryShort = {
+  "Australian Capital Territory": "ACT",
+  "New South Wales": "NSW",
+  "Western Australia": "WA",
+  "South Australia": "SA",
+  Victoria: "VIC",
+  "Northern Territory": "NA",
+  Queensland: "QLD",
+};
+
+const getFormattedAddress = address => {
+  const formattedAddress = `${
+    address.house_number ? `${address.house_number} ${address.road}` : address.road
+  }, ${address.suburb || address.city}, ${
+    stateOrTerritoryShort[address.state] || stateOrTerritoryShort[address.territory]
+  } ${address.postcode}, ${address.country}`;
+
+  return formattedAddress;
+};
+
 const Profile = () => {
   const history = useHistory();
   const locationState = history.location.state;
@@ -26,7 +46,7 @@ const Profile = () => {
     fetchS3({ path: `${cognitoUser?.username}_profile`, level: "public" }).then(url => {
       setProfileImage(url);
     });
-  }, [fetchS3]);
+  }, [fetchS3, cognitoUser]);
 
   const { control, register, setValue, handleSubmit } = useForm({
     defaultValues: {
@@ -37,9 +57,11 @@ const Profile = () => {
   });
 
   const onLocationSelection = locationValue => {
-    const { display_name, lat, lon } = locationValue;
+    const { address, lat, lon } = locationValue;
 
-    setValue("address", display_name);
+    const formatted_address = getFormattedAddress(address);
+
+    setValue("address", formatted_address);
     setValue("location", JSON.stringify({ lat, lon }));
   };
 
@@ -58,12 +80,15 @@ const Profile = () => {
       await updateCognitoUser(formData);
 
       // update database entry
-      await updateSchool({
-        SchoolName: cognitoUser.attributes["custom:organisation"],
-        Address: formData.address,
-        Lat: JSON.parse(formData.location).lat,
-        Lon: JSON.parse(formData.location).lon,
-      });
+      await updateSchool(
+        {
+          SchoolName: cognitoUser.attributes["custom:organisation"],
+          Address: formData.address,
+          Lat: JSON.parse(formData.location).lat,
+          Lon: JSON.parse(formData.location).lon,
+        },
+        cognitoUser?.username
+      );
 
       if (locationState?.isNewUser) {
         history.push("/seed-setup");
@@ -78,59 +103,57 @@ const Profile = () => {
 
   return (
     <Container>
-      <SignUpContainer>
-        <GridForm onSubmit={handleSubmit(confirmProfileHandler)}>
-          <Typography style={{ fontWeight: "bold" }} variant="h5">
-            Fill in your profile
-          </Typography>
-          <ImageUpload
-            name="profileImage"
-            image={profileImage}
-            register={register}
-            setValue={setValue}
-          />
-          <StyledInputLabel shrink>LOCATION</StyledInputLabel>
-          <LocationSearch
-            onSelected={onLocationSelection}
-            defaultValue={cognitoUser?.attributes?.address}
-          />
-          <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
-          <Controller
-            name="about"
-            defaultValue=""
-            control={control}
-            render={({ field }) => (
-              <TextField {...field} multiline variant="outlined" rows={10} />
-            )}
-          />
-          {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
-          {locationState?.isNewUser && (
-            <>
-              <StyledButton
-                color="primary"
-                type="submit"
-                disableElevation
-                variant="contained"
-              >
-                Next
-              </StyledButton>
-              <StyledLink to="/seed-setup" alignself="center">
-                Skip for now
-              </StyledLink>
-            </>
+      <GridForm onSubmit={handleSubmit(confirmProfileHandler)}>
+        <Typography style={{ fontWeight: "bold" }} variant="h5">
+          Fill in your profile
+        </Typography>
+        <ImageUpload
+          name="profileImage"
+          image={profileImage}
+          register={register}
+          setValue={setValue}
+        />
+        <StyledInputLabel shrink>LOCATION</StyledInputLabel>
+        <LocationSearch
+          onSelected={onLocationSelection}
+          defaultValue={cognitoUser?.attributes?.address}
+        />
+        <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
+        <Controller
+          name="about"
+          defaultValue=""
+          control={control}
+          render={({ field }) => (
+            <TextField {...field} multiline variant="outlined" rows={10} />
           )}
-          {!locationState?.isNewUser && (
+        />
+        {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
+        {locationState?.isNewUser && (
+          <>
             <StyledButton
               color="primary"
               type="submit"
               disableElevation
               variant="contained"
             >
-              Save
+              Next
             </StyledButton>
-          )}
-        </GridForm>
-      </SignUpContainer>
+            <StyledLink to="/seed-setup" alignself="center">
+              Skip for now
+            </StyledLink>
+          </>
+        )}
+        {!locationState?.isNewUser && (
+          <StyledButton
+            color="primary"
+            type="submit"
+            disableElevation
+            variant="contained"
+          >
+            Save
+          </StyledButton>
+        )}
+      </GridForm>
       <SuccessSnackbar
         open={showSnack}
         text="Success! Profile updated"
@@ -145,23 +168,13 @@ export default Profile;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-width: 300px;
-`;
-
-const SignUpContainer = styled.div`
-  display: flex;
-  flex-direction: column;
   align-items: center;
   align-self: center;
-  width: 100%;
-  max-width: 350px;
-  margin: 2em 1em 1em 1em;
-  padding: 1em;
-  gap: 1em;
 `;
 
 const GridForm = styled.form`
   display: grid;
   gap: 1em;
+  min-width: 350px;
+  margin: 1em 0;
 `;

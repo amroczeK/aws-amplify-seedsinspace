@@ -12,7 +12,6 @@ export const getAllSchools = async () => {
     console.error(error);
     throw error;
   }
-  console.log("Schools:", body);
   return JSON.parse(body);
 };
 
@@ -22,13 +21,6 @@ export const getAllSchools = async () => {
  * @returns result response
  */
 export const addSchool = async req => {
-  req = {
-    SchoolName: "Emmanuel Catholic College",
-    Address: "22 Test St, WA 6164",
-    Environment: "Greenhouse",
-    Planting_Date: "2021-06-27",
-  };
-
   const { body, error } = await API.post(API_RESOURCE, `/schools`, {
     body: {
       ...req,
@@ -49,12 +41,6 @@ export const addSchool = async req => {
  * @returns result response
  */
 export const updateSchool = async (req, Sk) => {
-  req = {
-    SchoolName: "Emmanuel Catholic College3",
-    //Address: "22 Test St, WA 6164",
-    //Environment: "Greenhouse",
-    //Planting_Date: "2021-06-27",
-  };
   const { body, error } = await API.put(API_RESOURCE, `/schools/${Sk}`, {
     body: {
       ...req,

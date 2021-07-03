@@ -13,6 +13,7 @@ const StyledButton = styled(Button)`
 
 const Image = styled.img`
   max-width: 350px;
+  width: 100%;
   height: auto;
   padding: 10px;
   border: 1px solid #358c5f;
