@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
+import { useAws } from "../context/AWSContext";
 
 const queryClient = new QueryClient();
 
@@ -29,33 +30,31 @@ const WeatherApp = () => {
 export default WeatherApp;
 
 const Weather = () => {
+  const { cognitoUser } = useAws();
   const [location, setLocation] = useState({});
 
-  // NOTE: Change this to be schools position
+  const hasLocation = "lat" in location && "lon" in location ? true : false;
+
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setLocation({
-        lat: position.coords.latitude,
-        long: position.coords.longitude,
-      });
-    });
-  }, [setLocation]);
+    const locationData = cognitoUser?.attributes?.["custom:location"];
+    if (locationData) {
+      setLocation(JSON.parse(locationData));
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const { isLoading, error, data } = useQuery(
     "weatherData",
     () =>
       fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.long}&units=metric&APPID=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=metric&APPID=${process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY}`
       ).then(res => res.json()),
-    { enabled: "lat" in location && "long" in location }
+    { enabled: hasLocation }
   );
 
-  console.log(isLoading, error, data);
-  console.log(location);
+  if (isLoading) return <LinearProgress />;
 
-  if (isLoading || !("lat" in location && "long" in location)) return <LinearProgress />;
-
-  if (error)
+  if (error || !hasLocation)
     return (
       <StyledWeather>
         <Typography>Weather data currently unavailable</Typography>

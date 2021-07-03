@@ -1,4 +1,8 @@
 import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { endOfToday } from "date-fns";
+
+const tomorrow = endOfToday();
 
 const common = {
   email: yup.string().email("Must be a valid email").required("Email is required"),
@@ -8,9 +12,8 @@ const common = {
     .required("Password is required"),
 };
 
-export const signUpSchema = yup.object().shape({
+const signUpSchema = yup.object().shape({
   organisation: yup.string().required("Organisation name is required"),
-  address: yup.string().required("Organisation address is required"),
   email: common.email,
   password: common.password,
   confirmPassword: yup
@@ -19,7 +22,21 @@ export const signUpSchema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
-export const signInSchema = yup.object().shape({
+export const signUpResolver = yupResolver(signUpSchema);
+
+const signInSchema = yup.object().shape({
   email: common.email,
   password: common.password,
 });
+
+export const signInResolver = yupResolver(signInSchema);
+
+const seedSetUpSchema = yup.object().shape({
+  date: yup
+    .date()
+    .max(tomorrow, "Date cannot be in the future")
+    .required("Planting Date required"),
+  environment: yup.string().required("Environment details requied"),
+});
+
+export const seedSetupResolver = yupResolver(seedSetUpSchema);

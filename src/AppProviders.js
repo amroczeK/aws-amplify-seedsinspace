@@ -1,14 +1,16 @@
-import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
-import { UserProvider } from "./components/context/User";
+import { DataProvider } from "./context/Data";
+import { AWSProvider } from "./context/AWSContext";
+
+// https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode
+// findDOMNode was passed an instance of Transition which is inside StrictMode, causes other crash
 import {
   createMuiTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { DataProvider } from "./components/context/Data";
-import { S3BucketProvider } from "./components/context/S3Bucket";
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -39,21 +41,29 @@ const muiTheme = createMuiTheme({
   },
 });
 
-const Providers = ({ children }) => {
-  return (
-    <MuiThemeProvider theme={muiTheme}>
-      <ThemeProvider theme={muiTheme}>
-        <StylesProvider injectFirst>
-          <CssBaseline />
-          <UserProvider>
-            <DataProvider>
-              <S3BucketProvider>{children}</S3BucketProvider>
-            </DataProvider>
-          </UserProvider>
-        </StylesProvider>
-      </ThemeProvider>
-    </MuiThemeProvider>
-  );
-};
+const StyleProviders = ({ children }) => (
+  <MuiThemeProvider theme={muiTheme}>
+    <ThemeProvider theme={muiTheme}>
+      <StylesProvider injectFirst>
+        <CssBaseline />
+        {children}
+      </StylesProvider>
+    </ThemeProvider>
+  </MuiThemeProvider>
+);
 
-export default Providers;
+const ContextProviders = ({ children }) => (
+  <AWSProvider>
+    <DataProvider>{children}</DataProvider>
+  </AWSProvider>
+);
+
+const AppProviders = ({ children }) => (
+  <BrowserRouter>
+    <StyleProviders>
+      <ContextProviders>{children}</ContextProviders>
+    </StyleProviders>
+  </BrowserRouter>
+);
+
+export default AppProviders;

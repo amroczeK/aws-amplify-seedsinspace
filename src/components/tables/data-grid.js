@@ -33,8 +33,14 @@ export const scrollCell = params => {
  * @param {array} defaultColumns Array of objects [{field: "test", headerName: "Test", flex: 1}, {field: "test2" headerName: "Test 2", flex: 0.5}]
  * @returns
  */
-export const DataGridTable = ({ rowData, defaultColumns, loading, setSelectedRows }) => {
-  console.log(rowData);
+export const DataGridTable = ({
+  rowData,
+  defaultColumns,
+  loading,
+  setSelectedRows,
+  getRowId,
+  error,
+}) => {
   const classes = useStyles();
 
   const [columns, setColumns] = useState([]);
@@ -59,8 +65,8 @@ export const DataGridTable = ({ rowData, defaultColumns, loading, setSelectedRow
   };
 
   useEffect(() => {
-    if (defaultColumns) setColumns(defaultColumns);
-    if (rowData) setRows(rowData);
+    if (defaultColumns && defaultColumns.length) setColumns(defaultColumns);
+    if (rowData && defaultColumns.length) setRows(rowData);
     // eslint-disable-next-line
   }, [rowData, defaultColumns]);
 
@@ -74,9 +80,11 @@ export const DataGridTable = ({ rowData, defaultColumns, loading, setSelectedRow
       showCellRightBorder
       onRowSelected={onRowSelectHandler}
       onColumnHeaderOver={onColumnHeaderOverHandler}
+      getRowId={getRowId}
       components={{
         Toolbar: GridToolbar,
       }}
+      error={error}
     />
   );
 };

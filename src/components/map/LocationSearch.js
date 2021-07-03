@@ -6,7 +6,6 @@ import styled from "styled-components";
 let typingTimer;
 
 const ResultContainer = styled.div`
-  margin: 10px;
   border: 1px solid black;
   padding: 10px;
   border-radius: 4px;
@@ -15,7 +14,7 @@ const ResultContainer = styled.div`
   }
 `;
 
-const LocationSearch = ({ onSelected }) => {
+const LocationSearch = ({ onSelected, defaultValue }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const searchRef = useRef(null);
@@ -48,7 +47,12 @@ const LocationSearch = ({ onSelected }) => {
       const mappedData = searchResults.map((value, index) => {
         const [name, ...location] = value.display_name.split(",");
         return (
-          <ResultContainer key={value.place_id} onClick={() => onSelected(value)}>
+          <ResultContainer
+            key={value.place_id}
+            onClick={() => {
+              onSelected(value);
+            }}
+          >
             <p style={{ fontWeight: "bold" }}>{name}</p>
             <p>location: {location}</p>
           </ResultContainer>
@@ -59,12 +63,12 @@ const LocationSearch = ({ onSelected }) => {
   };
 
   return (
-    <div>
+    <>
       <TextField
-        style={{ margin: 10, display: "flex", maxWidth: 600 }}
+        style={{ display: "flex" }}
         id="location search"
-        label="Location"
         variant="outlined"
+        defaultValue={defaultValue}
         inputRef={searchRef}
         onKeyUp={handleKeyChange}
         InputProps={{
@@ -74,7 +78,7 @@ const LocationSearch = ({ onSelected }) => {
         }}
       />
       {mappedResults()}
-    </div>
+    </>
   );
 };
 
