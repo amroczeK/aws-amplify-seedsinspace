@@ -70,7 +70,6 @@ export const AWSProvider = ({ children }) => {
 
       return user;
     } catch (error) {
-      console.log(error);
       setLoading(false);
       throw error;
     }

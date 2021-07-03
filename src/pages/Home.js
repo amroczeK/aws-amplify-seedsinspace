@@ -132,6 +132,7 @@ const Home = () => {
           <button onClick={API.getAllSeeds}>GET ALL SEEDS API</button>
           <button
             onClick={() => {
+              console.log(cognitoUser.attributes.sub);
               let req = {
                 Pk: cognitoUser.attributes.sub,
                 Sk: "2021-06-27_Earth_Seed_1",
