@@ -7,12 +7,12 @@ const stemLengthMsg =
 const leafSizeMsg =
   "Please add the leaf size for your seed using a numerical value e.g. 12 (use 0 if no leaves)";
 const leafColorMsg =
-  "Please indicate the current color of your leaves, if there are no leave please use none";
+  "Please indicate the current color of your leaves, if there are no leaves please use none";
 const notesMsg = "Please add notes to describe the current status of your seeds";
 
 const addSeedSchema = yup.object().shape({
   date: yup.string().required("Date is required"),
-  type: yup.string().required("A Stype must be selected"),
+  type: yup.string().required("A type must be selected"),
   image: yup.string().required("An image should be provided"),
   height: yup.number().required(heightMsg),
   stemLength: yup.number().required(stemLengthMsg),

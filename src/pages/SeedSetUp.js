@@ -120,7 +120,7 @@ const SeedSetUp = () => {
       <SeedSetUpContainer>
         <GridForm onSubmit={handleSubmit(confirmSeedSetup)}>
           <StyledInputLabel shrink>WHEN DID YOU PLANT YOUR SEEDS?</StyledInputLabel>
-          <ControlledPicker control={control} errors={errors} />
+          <ControlledPicker name="date" control={control} errors={errors} />
           <StyledInputLabel shrink>
             WHAT TYPE OF ENVIRONMENT ARE THE SEEDS GROWING IN?
           </StyledInputLabel>

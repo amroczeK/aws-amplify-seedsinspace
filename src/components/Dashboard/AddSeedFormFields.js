@@ -28,7 +28,6 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
       <StyledSeedInfo>
         <ImageUpload
           name="image" // need to add date to the name
-          preview={false}
           path="protected/"
           level="protected"
           text="Add photo"
