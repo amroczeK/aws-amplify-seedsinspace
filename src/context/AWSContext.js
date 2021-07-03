@@ -53,17 +53,25 @@ export const AWSProvider = ({ children }) => {
   };
 
   const signIn = async ({ email, password }) => {
-    setLoading(true);
-    let user = await Auth.signIn(email, password).catch(error => {
+    try {
+      setLoading(true);
+
+      const user = await Auth.signIn(email, password);
+
+      if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+        tempUser.current = user;
+        history.push("/signup", { email });
+      } else {
+        unstable_batchedUpdates(() => {
+          setLoading(false);
+          setCognitoUser(user);
+        });
+      }
+
+      return user;
+    } catch (error) {
       setLoading(false);
       throw error;
-    });
-    if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
-      tempUser.current = user;
-      history.push("/signup", { email });
-    } else {
-      setCognitoUser(user);
-      setLoading(false);
     }
   };
 

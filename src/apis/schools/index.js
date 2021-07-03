@@ -12,7 +12,6 @@ export const getAllSchools = async () => {
     console.error(error);
     throw error;
   }
-  console.log("Schools:", body);
   return JSON.parse(body);
 };
 

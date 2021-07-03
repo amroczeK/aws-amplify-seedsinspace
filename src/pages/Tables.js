@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { DataGridTable } from "../components/tables/data-grid";
 import styled from "styled-components";
 import { DataContext } from "../context/Data";
@@ -21,6 +21,9 @@ const defaultColumns = [
 
 const Tables = () => {
   const [selectedRows, setSelectedRows] = useState([]);
+
+  // TODO Do something with selected rows
+  console.log(selectedRows);
 
   const { seedData, loading, error } = useContext(DataContext);
 

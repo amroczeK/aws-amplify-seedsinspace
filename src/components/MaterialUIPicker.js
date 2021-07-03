@@ -4,31 +4,29 @@ import { Controller } from "react-hook-form";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
 
-const MaterialUIPickers = ({ control, errors }) => {
+export const ControlledPicker = ({ name, control, errors }) => {
   return (
-    <Controller
-      name="date"
-      control={control}
-      defaultValue={new Date()}
-      render={({ field: { onChange, value } }) => (
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={new Date()}
+        render={({ field: { ref, ...rest } }) => (
           <KeyboardDatePicker
+            {...rest}
             disableToolbar
+            minDate={"2021-07-01"}
             variant="outlined"
             inputVariant="outlined"
             format="eeee dd MMMM yyyy"
             error={errors?.date ? true : false}
             helperText={errors?.date?.message}
-            value={value}
-            onChange={onChange}
             KeyboardButtonProps={{
               "aria-label": "change date",
             }}
           />
-        </MuiPickersUtilsProvider>
-      )}
-    />
+        )}
+      />
+    </MuiPickersUtilsProvider>
   );
 };
-
-export default MaterialUIPickers;
