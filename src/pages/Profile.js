@@ -14,6 +14,26 @@ import LocationSearch from "../components/map/LocationSearch";
 import { updateSchool } from "../apis";
 import Alert from "@material-ui/lab/Alert";
 
+const stateOrTerritoryShort = {
+  "Australian Capital Territory": "ACT",
+  "New South Wales": "NSW",
+  "Western Australia": "WA",
+  "South Australia": "SA",
+  Victoria: "VIC",
+  "Northern Territory": "NA",
+  Queensland: "QLD",
+};
+
+const getFormattedAddress = address => {
+  const formattedAddress = `${
+    address.house_number ? `${address.house_number} ${address.road}` : address.road
+  }, ${address.suburb || address.city}, ${
+    stateOrTerritoryShort[address.state] || stateOrTerritoryShort[address.territory]
+  } ${address.postcode}, ${address.country}`;
+
+  return formattedAddress;
+};
+
 const Profile = () => {
   const history = useHistory();
   const locationState = history.location.state;
@@ -37,9 +57,11 @@ const Profile = () => {
   });
 
   const onLocationSelection = locationValue => {
-    const { display_name, lat, lon } = locationValue;
+    const { address, lat, lon } = locationValue;
 
-    setValue("address", display_name);
+    const formatted_address = getFormattedAddress(address);
+
+    setValue("address", formatted_address);
     setValue("location", JSON.stringify({ lat, lon }));
   };
 
@@ -58,12 +80,15 @@ const Profile = () => {
       await updateCognitoUser(formData);
 
       // update database entry
-      await updateSchool({
-        SchoolName: cognitoUser.attributes["custom:organisation"],
-        Address: formData.address,
-        Lat: JSON.parse(formData.location).lat,
-        Lon: JSON.parse(formData.location).lon,
-      });
+      await updateSchool(
+        {
+          SchoolName: cognitoUser.attributes["custom:organisation"],
+          Address: formData.address,
+          Lat: JSON.parse(formData.location).lat,
+          Lon: JSON.parse(formData.location).lon,
+        },
+        cognitoUser?.username
+      );
 
       if (locationState?.isNewUser) {
         history.push("/seed-setup");

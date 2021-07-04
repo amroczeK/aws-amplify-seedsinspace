@@ -31,7 +31,7 @@ const ParticipantProfile = ({ school, setStep }) => {
         <div>
           <Typography>{school.SchoolName}</Typography>
           <Typography variant="subtitle2">
-            {school.Address.split(",")[2]}, {school.Address.split(",")[5]}
+            {school.Address.split(", ")[1]}, {school.Address.split(", ")[2]}
           </Typography>
         </div>
       </Profile>

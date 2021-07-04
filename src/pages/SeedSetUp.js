@@ -44,12 +44,15 @@ const SeedSetUp = () => {
   const confirmSeedSetup = async formData => {
     // update Database
     try {
-      await updateSchool({
-        SchoolName: cognitoUser.attributes["custom:organisation"],
-        Address: cognitoUser.attributes["address"],
-        Environment: formData.environment,
-        Planting_Date: formData.date,
-      });
+      await updateSchool(
+        {
+          SchoolName: cognitoUser.attributes["custom:organisation"],
+          Address: cognitoUser.attributes["address"],
+          Environment: formData.environment,
+          Planting_Date: formData.date,
+        },
+        cognitoUser?.username
+      );
 
       // redirect to dashboard/home
       history.push("/");
