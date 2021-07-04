@@ -25,6 +25,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+todo
+email.html
+
 #amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*

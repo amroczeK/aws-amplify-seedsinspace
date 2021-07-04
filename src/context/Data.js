@@ -1,5 +1,6 @@
-import { useState, useEffect, createContext } from "react";
-import { getAllSeeds } from "../apis";
+import { useState, createContext } from "react";
+// import {useEffect} from "react";
+// import { getAllSeeds } from "../apis";
 
 export const DataContext = createContext();
 
@@ -25,10 +26,6 @@ export const DataProvider = ({ children }) => {
   //   }
   //   // eslint-disable-next-line
   // }, []);
-
-  useEffect(() => {
-    if (seedData?.length) console.log(seedData);
-  }, []);
 
   const values = {
     seedData,

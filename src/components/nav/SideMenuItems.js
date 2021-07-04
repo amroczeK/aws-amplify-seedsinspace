@@ -1,23 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { UserContext } from "../../context/User";
+import { useAws } from "../../context/AWSContext";
 
 const StyledListItemText = styled(ListItemText)`
   color: #fff;
 `;
 
 export const SideMenuItems = ({ callback }) => {
-  const { loggedIn } = useContext(UserContext);
-
-  const { signOut } = useContext(UserContext);
+  const { cognitoUser, signOut } = useAws();
 
   return (
     <List component="nav">
-      {loggedIn && (
+      {cognitoUser && (
         <>
           <ListItem button component={Link} onClick={callback} to="/dashboard">
             <StyledListItemText primary="Dashboard" />
@@ -42,7 +40,7 @@ export const SideMenuItems = ({ callback }) => {
       <ListItem button component={Link} onClick={callback} to="/faq">
         <StyledListItemText primary="FAQ" />
       </ListItem>
-      {loggedIn ? (
+      {cognitoUser ? (
         <ListItem button component={Link} onClick={signOut} to="/signin">
           <StyledListItemText primary="Logout" />
         </ListItem>

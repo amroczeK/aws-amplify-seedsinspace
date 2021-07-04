@@ -10,17 +10,18 @@ export const AppNavBar = () => {
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Container>
+    <NavBar>
       {isSmall && <SideMenu />}
       {!isSmall && <TopMenu />}
-    </Container>
+    </NavBar>
   );
 };
 
-const Container = styled.div`
+const NavBar = styled.nav`
   display: flex;
-  align-items: center;
-  gap: 2em;
   height: 70px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
   background-color: ${({ theme }) => theme.palette.primary.dark};
 `;

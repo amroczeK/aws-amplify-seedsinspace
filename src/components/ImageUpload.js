@@ -13,6 +13,7 @@ const StyledButton = styled(Button)`
 
 const Image = styled.img`
   max-width: 350px;
+  width: 100%;
   height: auto;
   padding: 10px;
   border: 1px solid #358c5f;
@@ -29,12 +30,9 @@ const CameraIcon = styled(Camera)`
   margin: 1em 0;
 `;
 
-const ImageUpload = ({ preview = true, register, setValue, name, image }) => {
-  console.log("image", image);
+const ImageUpload = ({ preview = true, setValue, name, image }) => {
   const [imageUrl, setImageUrl] = useState();
   const [imageFile, setImageFile] = useState("None");
-
-  register(name); // register the field with react hook form
 
   const handleUpload = async e => {
     const imageFiles = e.target.files;

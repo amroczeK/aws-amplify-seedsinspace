@@ -1,14 +1,16 @@
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
+import { DataProvider } from "./context/Data";
+import { AWSProvider } from "./context/AWSContext";
+
+// https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode
+// findDOMNode was passed an instance of Transition which is inside StrictMode, causes other crash
 import {
-  createMuiTheme,
+  unstable_createMuiStrictModeTheme as createMuiTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { UserProvider } from "./context/User";
-import { DataProvider } from "./context/Data";
-import { S3BucketProvider } from "./context/S3Bucket";
-import { BrowserRouter } from "react-router-dom";
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -51,11 +53,9 @@ const StyleProviders = ({ children }) => (
 );
 
 const ContextProviders = ({ children }) => (
-  <S3BucketProvider>
-    <UserProvider>
-      <DataProvider>{children}</DataProvider>
-    </UserProvider>
-  </S3BucketProvider>
+  <AWSProvider>
+    <DataProvider>{children}</DataProvider>
+  </AWSProvider>
 );
 
 const AppProviders = ({ children }) => (
