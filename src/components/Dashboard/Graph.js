@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { DataContext } from "../../context/Data";
 import { AWSContext } from "../../context/AWSContext";
 import Plotly from "../charts/Plotly";
@@ -125,46 +125,46 @@ const Graph = () => {
   };
 
   return (
-        <div className={classes.root}>
-          {error?.message && <Alert severity="error">{error.message}</Alert>}
-          <SelectContainer>
-            <Select
-              title={"Data Queries"}
-              handleChange={selectedQueryHandler}
-              selected={selectedQuery}
-              items={dataQueries}
-              helperText={"Select data query"}
-            />
-            <MultiSelect
-              title={"Seed Filters"}
-              selections={selections}
-              selectedFilters={selectedFilters}
-              handleChange={selecedFiltesrHandler}
-              helperText={"Select data filter"}
-            />
-            <QueryBtn
-              title={"Fetch Data"}
-              onClickHandler={() => {
-                // Index 0 evaluates to false
-                if (selectedQuery >= 0) {
-                  setLoading(true);
-                  queryHandler(dataQueries[selectedQuery]);
-                }
-              }}
-            />
-            <ClearFiltersBtn
-              title={"Clear"}
-              onClickHandler={() => {
-                setSeedData([]);
-                setSelectedFilters([]);
-                setSelectedQuery("");
-              }}
-            />
-          </SelectContainer>
-          <Paper className={classes.paper}>
-            <Plotly {...getChartData({ type: "bar", data: seedData })} />
-          </Paper>
-        </div>
+    <div className={classes.root}>
+      {error?.message && <Alert severity="error">{error.message}</Alert>}
+      <SelectContainer>
+        <Select
+          title={"Data Queries"}
+          handleChange={selectedQueryHandler}
+          selected={selectedQuery}
+          items={dataQueries}
+          helperText={"Select data query"}
+        />
+        <MultiSelect
+          title={"Seed Filters"}
+          selections={selections}
+          selectedFilters={selectedFilters}
+          handleChange={selecedFiltesrHandler}
+          helperText={"Select data filter"}
+        />
+        <QueryBtn
+          title={"Fetch Data"}
+          onClickHandler={() => {
+            // Index 0 evaluates to false
+            if (selectedQuery >= 0) {
+              setLoading(true);
+              queryHandler(dataQueries[selectedQuery]);
+            }
+          }}
+        />
+        <ClearFiltersBtn
+          title={"Clear"}
+          onClickHandler={() => {
+            setSeedData([]);
+            setSelectedFilters([]);
+            setSelectedQuery("");
+          }}
+        />
+      </SelectContainer>
+      <Paper className={classes.paper}>
+        <Plotly {...getChartData({ type: "bar", data: seedData })} />
+      </Paper>
+    </div>
   );
 };
 
