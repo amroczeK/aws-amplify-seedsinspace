@@ -16,20 +16,26 @@ import { StyledButton } from "../styled-components/Buttons";
 import { MuiPicker } from "../MaterialUIPicker";
 import AddSeedFormFields from "./AddSeedFormFields";
 import AddSeedResolver from "../validation/addSeedValidation";
+import * as API from "../../apis";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
 const defaultValues = {
-  height: "",
-  leafColor: "",
-  leafSize: "",
-  stemLength: "",
-  notes: "",
+  Height: "",
+  LeafColour: "",
+  LeafWidth: "",
+  StemLength: "",
+  Notes: "",
 };
 
 const seedOptions = ["Earth", "Space"];
+
+const formatDate = currentDate => {
+  const isoDateString = new Date(currentDate).toISOString();
+  return isoDateString.split("T")[0];
+};
 
 const AddSeedDialog = ({ open, onClose }) => {
   const [seedTab, setSeedTab] = useState(0);
@@ -38,16 +44,35 @@ const AddSeedDialog = ({ open, onClose }) => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { control, handleSubmit, formState, setValue, reset } = useForm({
+  console.log("typeof: ", typeof date);
+  console.log("Date: ", date);
+
+  const { control, handleSubmit, formState, setValue, reset, watch } = useForm({
     defaultValues,
     resolver: AddSeedResolver,
   });
 
+  console.log(watch());
+
   // Any unsaved changes will be wiped
   const sendInfo = formData => {
-    console.log({ formData });
-    console.log("Date: ", date);
-    console.log("Type: ", type);
+    const SeedNumber = seedTab + 1;
+    const formattedDate = formatDate(date);
+    console.log("Seed Number: ", SeedNumber);
+    console.log("Seed Type: ", type);
+    console.log("Form Data: ", { formData });
+    console.log("Formatted Date: ", formattedDate);
+
+    const seedReq = {
+      SeedNumber,
+      Type: type,
+      Date: formattedDate,
+      ...formData,
+    };
+
+    API.addSeed(seedReq)
+      .then(result => console.log(result))
+      .catch(error => console.error(error));
   };
 
   const handleChange = (_event, newTab) => {
@@ -57,7 +82,6 @@ const AddSeedDialog = ({ open, onClose }) => {
 
   const { errors } = formState;
   console.log(errors);
-
   return (
     <Dialog
       fullScreen
