@@ -15,14 +15,14 @@ const TopMenu = () => {
       <NavButton component={Link} to="/dashboard">
         Dashboard
       </NavButton>
-      <NavButton component={Link} to="/tables">
-        Tables
-      </NavButton>
       <NavButton component={Link} to="/about">
         Resources
       </NavButton>
       <NavButton component={Link} to="/profile">
         Profile
+      </NavButton>
+      <NavButton component={Link} to="/schools">
+        Schools
       </NavButton>
       <Expander />
       {cognitoUser ? (

@@ -34,6 +34,7 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
     searchUrl.searchParams.append("q", searchRef.current.value);
     searchUrl.searchParams.append("countrycodes", "au"); //Use this to restrict locations
     searchUrl.searchParams.append("polygon_geojson", 1);
+    searchUrl.searchParams.append("addressdetails", 1);
     searchUrl.searchParams.append("format", "jsonv2");
     fetch(searchUrl)
       .then(response => response.json())

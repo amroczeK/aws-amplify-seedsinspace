@@ -21,62 +21,59 @@ const SignIn = () => {
   const { errors } = formState;
 
   const signInHandler = async ({ email, password }) => {
+    setSignInError(false); // Always clear previous error when trying to login again
     signIn({ email, password })
       .then(() => setSignInError(null))
-      .catch(error => setSignInError(error));
+      .catch(error => {
+        console.log("here", error);
+        setSignInError(error);
+      });
   };
 
   return (
     <Container>
-      <SignInContainer>
-        <StyledImg src={Logo}></StyledImg>
-        {loading && <LinearProgress />}
-        <GridForm onSubmit={handleSubmit(signInHandler)}>
-          <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
-          <Controller
-            name="email"
-            defaultValue=""
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                error={errors?.email ? true : false}
-                helperText={errors?.email?.message}
-              />
-            )}
-          />
+      <StyledImg src={Logo}></StyledImg>
+      <GridForm onSubmit={handleSubmit(signInHandler)}>
+        <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
+        <Controller
+          name="email"
+          defaultValue=""
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              error={errors?.email ? true : false}
+              helperText={errors?.email?.message}
+            />
+          )}
+        />
 
-          <StyledInputLabel shrink>PASSWORD</StyledInputLabel>
-          <Controller
-            name="password"
-            defaultValue=""
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                type="password"
-                error={errors?.password ? true : false}
-                helperText={errors?.password?.message}
-              />
-            )}
-          />
-          {signInError && <Alert severity="error">{signInError.message}</Alert>}
-          <StyledButton
-            color="primary"
-            type="submit"
-            disableElevation
-            variant="contained"
-          >
-            Login
-          </StyledButton>
-          <StyledLink to="/signup" decoration="underline">
-            Don't have an account?
-          </StyledLink>
-          <StyledLink to="/" decoration="underline">
-            Forgot password
-          </StyledLink>
-        </GridForm>
-      </SignInContainer>
+        <StyledInputLabel shrink>PASSWORD</StyledInputLabel>
+        <Controller
+          name="password"
+          defaultValue=""
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              type="password"
+              error={errors?.password ? true : false}
+              helperText={errors?.password?.message}
+            />
+          )}
+        />
+        {loading && <LinearProgress />}
+        {signInError && <Alert severity="error">{signInError.message}</Alert>}
+        <StyledButton color="primary" type="submit" disableElevation variant="contained">
+          Login
+        </StyledButton>
+        <StyledLink to="/signup" decoration="underline">
+          Don't have an account?
+        </StyledLink>
+        <StyledLink to="/" decoration="underline">
+          Forgot password
+        </StyledLink>
+      </GridForm>
     </Container>
   );
 };
@@ -84,30 +81,22 @@ const SignIn = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 300px;
-`;
-
-const SignInContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  align-items: center;
   align-self: center;
-  width: 100%;
-  min-width: 300px;
-  max-width: 350px;
-  margin: 1em;
-  padding: 1em;
-  gap: 1em;
 `;
 
 const StyledImg = styled.img`
-  width: 65%;
+  width: 300px;
+  height: auto;
   align-self: center;
-  margin: 5% 0;
+  margin: 2em 0;
 `;
 
 const GridForm = styled.form`
   display: grid;
   gap: 1em;
+  min-width: 350px;
+  margin: 1em 0;
 `;
 
 export default SignIn;

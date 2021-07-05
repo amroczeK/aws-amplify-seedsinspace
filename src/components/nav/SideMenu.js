@@ -54,10 +54,15 @@ const SideMenu = () => {
 
   return (
     <>
-      <IconButton style={{ marginLeft: "0.25em" }} onClick={handleOpen}>
+      <IconButton style={{ marginLeft: "0.25em", width: "3em" }} onClick={handleOpen}>
         <StyledMenuIcon />
       </IconButton>
-      <StyledTypography component={Link} to="/" variant="h5">
+      <StyledTypography
+        component={Link}
+        to="/"
+        variant="h5"
+        style={{ marginLeft: "0.5em" }}
+      >
         Seeds in space
       </StyledTypography>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
@@ -81,6 +86,5 @@ const StyledTypography = styled(Typography)`
   font-weight: bold;
   text-decoration: none;
   color: #fff;
-  margin-left: 0.5em;
   line-height: 2.8;
 `;

@@ -1,15 +1,12 @@
+import React from "react";
 import Container from "@material-ui/core/Container";
-import Logo from "../assets/logo.png";
 import styled from "styled-components";
 
-const Home = () => {
+const Resources = () => {
   return (
     <Container maxWidth="md">
       <ContentContainer>
-        <LogoContainer>
-          <StyledImg src={Logo}></StyledImg>
-        </LogoContainer>
-        <h1>Welcome to Seeds In Space!</h1>
+        <h1>Resources Page</h1>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis condimentum
           erat. In dignissim euismod tortor a sodales. Pellentesque non porta turpis.
@@ -45,21 +42,11 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Resources;
 
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
   width: 100%;
-`
-const LogoContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`
-const StyledImg = styled.img`
-  width: 300px;
-  height: auto;
-  align-self: center;
-  margin: 2em 0;
 `;

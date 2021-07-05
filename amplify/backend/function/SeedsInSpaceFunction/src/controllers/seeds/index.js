@@ -16,14 +16,19 @@ async function getAllSeeds(req, res) {
   const params = {
     TableName: tableName,
     // Specify which items in the results are returned.
-    FilterExpression: "begins_with (Pk, :filter)",
+    FilterExpression: "begins_with(Pk, :Pk)",
     // Define the expression attribute value, which are substitutes for the values you want to compare.
+    // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html
+    // '<ExpressionAttributeNameVariable>': 'STRING_VALUE',
     ExpressionAttributeValues: {
-      ":filter": { S: "SCHOOL#" },
+      ":Pk": `SCHOOL#`,
+    },
+    ExpressionAttributeNames: {
+      "#Date": "Date",
     },
     // Set the projection expression, which are the attributes that you want.
     ProjectionExpression:
-      "Pk, Sk, Date, Height, Humidity, LeafColour, LeafCount, LeafLength, LeafWidth, PhLevel, StemLength, Temperature, WaterVolume, createdAt, updatedAt",
+      "Pk, Sk, #Date, Height, Humidity, LeafColour, LeafCount, LeafLength, LeafWidth, PhLevel, StemLength, Temperature, WaterVolume, createdAt, updatedAt",
   };
 
   try {
@@ -143,10 +148,10 @@ async function getSeedsByFilter(req, res) {
 
   const params = {
     TableName: tableName,
-    KeyConditionExpression: "Pk = :Pk AND begins_with ( Sk , :Sk )",
+    KeyConditionExpression: "Pk = :Pk AND begins_with(Sk, :Sk)",
     ExpressionAttributeValues: {
-      ":Pk": { S: "SCHOOL#" + Pk },
-      ":Sk": { S: "SEED#" + Sk },
+      ":Pk": `SCHOOL#${Pk}`,
+      ":Sk": `SEED#${Sk}`,
     },
   };
 
@@ -212,7 +217,7 @@ async function updateSeed(req, res) {
   if (!Pk) {
     res.json({
       statusCode: 400,
-      error: "entry_id is required to make this request.",
+      error: "Partition key is required to make this request.",
     });
   }
 
@@ -267,10 +272,10 @@ async function updateSeed(req, res) {
 async function deleteSeed(req, res) {
   const { Pk, Sk } = req.params;
 
-  if (!Pk) {
+  if (!Pk || !Sk) {
     res.json({
       statusCode: 400,
-      error: "entry_id is required to make this request.",
+      error: "Partition key and sort key is required to make this request.",
     });
   }
 
@@ -305,6 +310,7 @@ async function deleteSeed(req, res) {
  * @access  Public
  */
 async function getAllSeedsByType(req, res) {
+  console.log("getAllSeedsByType");
   const { Type } = req.params;
 
   if (!Type) {
@@ -318,13 +324,18 @@ async function getAllSeedsByType(req, res) {
     TableName: tableName,
     IndexName: "TypeAndSkIndex",
     KeyConditionExpression: "#Type = :Type",
+    ExpressionAttributeNames: {
+      "#Type": "Type",
+    },
     ExpressionAttributeValues: {
-      ":Type": { S: Type },
+      ":Type": Type,
     },
   };
+  console.log("getAllSeedsByType params:", params);
 
   try {
     const result = await db.query(params).promise();
+    console.log("getAllSeedsByType:", result);
     res.json({
       statusCode: 200,
       url: req.url,
@@ -341,10 +352,11 @@ async function getAllSeedsByType(req, res) {
 
 /**
  * @desc    Fetch all seed entries by type
- * @route   POST /seeds/:Type
+ * @route   POST /seeds/:Type/:Sk
  * @access  Public
  */
 async function getAllSeedsByTypeAndSortKey(req, res) {
+  console.log("getAllSeedsByTypeAndSortKey");
   const { Type } = req.params;
   const { Sk } = req.body;
 
@@ -359,9 +371,12 @@ async function getAllSeedsByTypeAndSortKey(req, res) {
     TableName: tableName,
     IndexName: "TypeAndSkIndex",
     KeyConditionExpression: "#Type = :Type AND begins_with ( Sk , :Sk )",
+    ExpressionAttributeNames: {
+      "#Type": "Type",
+    },
     ExpressionAttributeValues: {
-      ":Type": { S: Type },
-      ":Sk": { S: "SEED#" + Sk },
+      ":Type": Type,
+      ":Sk": `SEED#${Sk}`,
     },
   };
 

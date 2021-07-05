@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import { DataGridTable } from "../components/tables/data-grid";
+import { DataGridTable } from "../tables/data-grid";
 import styled from "styled-components";
-import { DataContext } from "../context/Data";
+import { DataContext } from "../../context/Data";
 import Alert from "@material-ui/lab/Alert";
 
 const defaultColumns = [
@@ -19,7 +19,7 @@ const defaultColumns = [
   { field: "Date", headerName: "Date", width: 120 },
 ];
 
-const Tables = () => {
+const Table = () => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   // TODO Do something with selected rows
@@ -28,7 +28,6 @@ const Tables = () => {
   const { seedData, loading, error } = useContext(DataContext);
 
   return (
-    <Container>
       <TableContainer>
         {error?.isError && error?.message && (
           <Alert style={{ marginBottom: "1rem" }} severity="error">
@@ -44,19 +43,12 @@ const Tables = () => {
           error={error?.isError ? true : null}
         />
       </TableContainer>
-    </Container>
   );
 };
 
-export default Tables;
-
-const Container = styled.div`
-  margin: auto;
-  max-width: 1920px;
-`;
+export default Table;
 
 const TableContainer = styled.div`
-  padding: 1rem;
   margin-top: 2rem;
   min-height: 500px;
   height: 550px;
