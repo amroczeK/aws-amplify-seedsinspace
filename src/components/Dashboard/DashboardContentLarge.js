@@ -1,10 +1,12 @@
 import Weather from "../Weather";
 import DatePicker from "../DatePicker";
+import GraphAndTable from "./GraphAndTable"
+import Container from "@material-ui/core/Container";
 import { StyledButton } from "../styled-components/Buttons";
 
 const DashboardContentLarge = ({ setOpenAddSeed }) => {
   return (
-    <>
+    <Container maxWidth="xl">
       <div style={{ display: "flex", position: "relative" }}>
         <div style={{ flexGrow: 1 }}>
           <Weather />
@@ -28,8 +30,9 @@ const DashboardContentLarge = ({ setOpenAddSeed }) => {
           </StyledButton>
         </div>
       </div>
-      <DatePicker />
-    </>
+      {/* <DatePicker /> */}
+      <GraphAndTable/>
+    </Container>
   );
 };
 
