@@ -310,6 +310,7 @@ async function deleteSeed(req, res) {
  * @access  Public
  */
 async function getAllSeedsByType(req, res) {
+  console.log("getAllSeedsByType");
   const { Type } = req.params;
 
   if (!Type) {
@@ -330,9 +331,11 @@ async function getAllSeedsByType(req, res) {
       ":Type": Type,
     },
   };
+  console.log("getAllSeedsByType params:", params);
 
   try {
     const result = await db.query(params).promise();
+    console.log("getAllSeedsByType:", result);
     res.json({
       statusCode: 200,
       url: req.url,
@@ -349,10 +352,11 @@ async function getAllSeedsByType(req, res) {
 
 /**
  * @desc    Fetch all seed entries by type
- * @route   POST /seeds/:Type
+ * @route   POST /seeds/:Type/:Sk
  * @access  Public
  */
 async function getAllSeedsByTypeAndSortKey(req, res) {
+  console.log("getAllSeedsByTypeAndSortKey");
   const { Type } = req.params;
   const { Sk } = req.body;
 

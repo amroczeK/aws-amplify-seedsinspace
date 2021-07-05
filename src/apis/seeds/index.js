@@ -84,7 +84,7 @@ export const getSeedsByFilter = async req => {
 
 /**
  * @desc Function to add seed entry using PK: entry_id and SK: type which are mandatory
- * @param {Object} req Object of attributes e.g. { Pk: "sub", Sk: "2021-06-27_Earth" }
+ * @param {Object} req Object of attributes e.g. { Pk: "sub", Sk: "2021-06-27_Seed_Earth_1" }
  * @returns result response
  */
 export const addSeed = async req => {
@@ -160,7 +160,7 @@ export const getAllSeedsByType = async req => {
 
   if (!Type) throw new Error("Seed type is required.");
 
-  const { body, error } = await API.get(API_RESOURCE, `/seeds/${Type}`, {});
+  const { body, error } = await API.get(API_RESOURCE, `/seeds/type/${Type}`, {});
   if (error) {
     console.error(error);
     throw error;
@@ -179,7 +179,7 @@ export const getAllSeedsByTypeAndSortKey = async req => {
 
   if (!Type || !Sk) throw new Error("Seed type and Sort key e.g. filter is required.");
 
-  const { body, error } = await API.post(API_RESOURCE, `/seeds/${Type}`, {
+  const { body, error } = await API.post(API_RESOURCE, `/seeds/type/${Type}`, {
     body: {
       Sk,
     },

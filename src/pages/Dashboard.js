@@ -26,6 +26,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 300px;
-  margin: 1em;
   gap: 1em;
+  padding: 1.5rem;
 `;

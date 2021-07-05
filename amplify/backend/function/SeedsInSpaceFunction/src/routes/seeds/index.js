@@ -9,7 +9,7 @@ router
   .put(controller.updateSeed)
   .delete(controller.deleteSeed);
 router
-  .route("/:Type")
+  .route("/type/:Type")
   .get(controller.getAllSeedsByType)
   .post(controller.getAllSeedsByTypeAndSortKey);
 

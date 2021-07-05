@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Weather from "../components/Weather";
 import styled from "styled-components";
 import { getAllSchools } from "../apis";
 import StepperContent from "../components/ParticipatingSchools/StepperContent";
+import Container from "@material-ui/core/Container";
 
 const ParticipatingSchools = () => {
   const [schools, setSchools] = useState([]);
@@ -12,20 +12,23 @@ const ParticipatingSchools = () => {
   }, []);
 
   return (
-    <Container>
-      <Weather />
-      <StepperContent schools={schools} />
+    <Container maxWidth="xl">
+      <ContentContainer>
+        <StepperContent schools={schools} />
+      </ContentContainer>
     </Container>
   );
 };
 
 export default ParticipatingSchools;
 
-const Container = styled.div`
+const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1 0;
   min-width: 300px;
-  margin: 1em;
   gap: 2em;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
 `;
