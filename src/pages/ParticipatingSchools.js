@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Weather from "../components/Weather";
 import styled from "styled-components";
 import { getAllSchools } from "../apis";
 import StepperContent from "../components/ParticipatingSchools/StepperContent";
@@ -15,7 +14,6 @@ const ParticipatingSchools = () => {
   return (
     <Container maxWidth="xl">
       <ContentContainer>
-        <Weather />
         <StepperContent schools={schools} />
       </ContentContainer>
     </Container>
