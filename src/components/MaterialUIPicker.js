@@ -41,7 +41,7 @@ export const MuiPicker = ({ value, onChange }) => {
         minDate={"2021-07-01"}
         variant="outlined"
         inputVariant="outlined"
-        format="dd MMMM yyyy"
+        format="eeee dd MMMM yyyy"
         disableToolbar
         KeyboardButtonProps={{ "aria-label": "change date" }}
       />
