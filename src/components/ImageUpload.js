@@ -17,6 +17,8 @@ const Image = styled.img`
   height: auto;
   padding: 10px;
   border: 1px solid #358c5f;
+  align-self: center;
+  justify-self: center;
 `;
 
 const ImageText = styled.p`
@@ -30,8 +32,8 @@ const CameraIcon = styled(Camera)`
   margin: 1em 0;
 `;
 
-const ImageUpload = ({ preview = true, setValue, name, image }) => {
-  const [imageUrl, setImageUrl] = useState();
+const ImageUpload = ({ preview = true, setValue, name, image, error }) => {
+  const [imageUrl, setImageUrl] = useState(null);
   const [imageFile, setImageFile] = useState("None");
 
   const handleUpload = async e => {
@@ -48,7 +50,7 @@ const ImageUpload = ({ preview = true, setValue, name, image }) => {
     <>
       {preview && (
         <Image
-          src={imageUrl || image}
+          src={imageUrl || image || NoImage}
           alt="seed image"
           onError={() => setImageUrl(NoImage)}
         />
@@ -65,6 +67,7 @@ const ImageUpload = ({ preview = true, setValue, name, image }) => {
             onChange={e => handleUpload(e)}
           />
         </StyledButton>
+        {error && <p style={{ color: "red" }}>{error.message}</p>}
         <ImageText>{`Image: ${imageFile.name || "None"}`}</ImageText>
       </div>
     </>

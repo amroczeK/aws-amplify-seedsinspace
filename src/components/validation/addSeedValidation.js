@@ -11,8 +11,6 @@ const leafColorMsg =
 const notesMsg = "Please add notes to describe the current status of your seeds";
 
 const addSeedSchema = yup.object().shape({
-  date: yup.string().required("Date is required"),
-  type: yup.string().required("A type must be selected"),
   image: yup.string().required("An image should be provided"),
   height: yup.number().required(heightMsg),
   stemLength: yup.number().required(stemLengthMsg),

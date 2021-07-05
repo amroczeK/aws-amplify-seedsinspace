@@ -48,7 +48,7 @@ const Profile = () => {
     });
   }, [fetchS3, cognitoUser]);
 
-  const { control, register, setValue, handleSubmit } = useForm({
+  const { control, setValue, handleSubmit } = useForm({
     defaultValues: {
       about: cognitoUser.attributes["custom:about"],
       address: cognitoUser.attributes["address"],
@@ -107,12 +107,7 @@ const Profile = () => {
         <Typography style={{ fontWeight: "bold" }} variant="h5">
           Fill in your profile
         </Typography>
-        <ImageUpload
-          name="profileImage"
-          image={profileImage}
-          register={register}
-          setValue={setValue}
-        />
+        <ImageUpload name="profileImage" image={profileImage} setValue={setValue} />
         <StyledInputLabel shrink>LOCATION</StyledInputLabel>
         <LocationSearch
           onSelected={onLocationSelection}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
@@ -13,7 +13,7 @@ import { ArrowIosBack } from "@styled-icons/evaicons-solid/ArrowIosBack";
 import { StyledInputLabel } from "../styled-components/InputLabel";
 import { StyledButton } from "../styled-components/Buttons";
 
-import { ControlledPicker } from "../MaterialUIPicker";
+import { MuiPicker } from "../MaterialUIPicker";
 import AddSeedFormFields from "./AddSeedFormFields";
 import AddSeedResolver from "../validation/addSeedValidation";
 
@@ -22,8 +22,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const defaultValues = {
-  date: new Date(),
-  type: "Earth",
   height: "",
   leafColor: "",
   leafSize: "",
@@ -31,46 +29,25 @@ const defaultValues = {
   notes: "",
 };
 
-const ControlledSelect = ({ name, errors, options, control }) => {
-  return (
-    <Controller
-      name={name}
-      defaultValue={options[0] || null}
-      control={control}
-      render={({ field }) => (
-        <TextField
-          {...field}
-          select
-          variant="outlined"
-          error={errors[name] ? true : false}
-          helperText={errors[name]?.message}
-          SelectProps={{ native: true }}
-        >
-          {options.map(option => (
-            <option key={option} value={option}>
-              {option} seeds
-            </option>
-          ))}
-        </TextField>
-      )}
-    />
-  );
-};
+const seedOptions = ["Earth", "Space"];
 
 const AddSeedDialog = ({ open, onClose }) => {
   const [seedTab, setSeedTab] = useState(0);
+  const [type, setType] = useState(seedOptions[0]);
+  const [date, setDate] = useState(new Date());
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const seedOptions = ["Earth", "Space"];
 
-  const { control, handleSubmit, formState, setValue, watch, reset } = useForm({
+  const { control, handleSubmit, formState, setValue, reset } = useForm({
     defaultValues,
     resolver: AddSeedResolver,
   });
 
   // Any unsaved changes will be wiped
   const sendInfo = formData => {
-    console.log(formData);
+    console.log({ formData });
+    console.log("Date: ", date);
+    console.log("Type: ", type);
   };
 
   const handleChange = (_event, newTab) => {
@@ -78,8 +55,8 @@ const AddSeedDialog = ({ open, onClose }) => {
     reset();
   };
 
-  const type = watch("type");
   const { errors } = formState;
+  console.log(errors);
 
   return (
     <Dialog
@@ -88,41 +65,48 @@ const AddSeedDialog = ({ open, onClose }) => {
       open={open}
       TransitionComponent={Transition}
     >
-      <GridForm name="seedForm" onSubmit={handleSubmit(sendInfo)}>
-        <StyledAppBar>
-          <IconButton onClick={onClose}>
-            <StyledArrowIosBackIcon />
-          </IconButton>
-          <StyledTypography variant="h5">Seeds in Space</StyledTypography>
-        </StyledAppBar>
-        <AddSeedContainer>
-          <StyledInputLabel shrink>DATE</StyledInputLabel>
-          <ControlledPicker name="date" control={control} errors={errors} />
-          <StyledInputLabel shrink>SEED TYPE</StyledInputLabel>
-          <ControlledSelect
-            control={control}
-            name="type"
-            errors={errors}
-            options={seedOptions}
-          />
-          <Tabs
-            value={seedTab}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-            TabIndicatorProps={{ style: { width: "50px" } }}
-          >
-            {[...Array(6)].map((_value, index) => {
-              let nIndex = index + 1;
-              let prepend = "S";
-              if (type === "Earth") prepend = "E";
-              let label = `${prepend} - ${nIndex}`;
+      <StyledAppBar>
+        <IconButton onClick={onClose}>
+          <StyledArrowIosBackIcon />
+        </IconButton>
+        <StyledTypography variant="h5">Seeds in Space</StyledTypography>
+      </StyledAppBar>
+      <AddSeedContainer>
+        <StyledInputLabel shrink>DATE</StyledInputLabel>
+        <MuiPicker value={date} onChange={date => setDate(date)} />
+        <StyledInputLabel shrink>SEED TYPE</StyledInputLabel>
+        <TextField
+          name="seedType"
+          value={type}
+          onChange={e => setType(e.target.value)}
+          select
+          variant="outlined"
+          SelectProps={{ native: true }}
+        >
+          {seedOptions.map(option => (
+            <option key={option} value={option}>
+              {option} seeds
+            </option>
+          ))}
+        </TextField>
+        <Tabs
+          value={seedTab}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+          TabIndicatorProps={{ style: { width: "50px" } }}
+        >
+          {[...Array(6)].map((_value, index) => {
+            let nIndex = index + 1;
+            let prepend = "S";
+            if (type === "Earth") prepend = "E";
+            let label = `${prepend} - ${nIndex}`;
 
-              return <StyledTab key={label} label={label} />;
-            })}
-          </Tabs>
-
+            return <StyledTab key={label} label={label} />;
+          })}
+        </Tabs>
+        <GridForm name="seedForm" onSubmit={handleSubmit(sendInfo)}>
           <AddSeedFormFields
             name={`${type} Seed - ${seedTab + 1}`}
             control={control}
@@ -137,8 +121,8 @@ const AddSeedDialog = ({ open, onClose }) => {
           >
             Save entry
           </StyledButton>
-        </AddSeedContainer>
-      </GridForm>
+        </GridForm>
+      </AddSeedContainer>
     </Dialog>
   );
 };

@@ -32,6 +32,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
           level="protected"
           text="Add photo"
           setValue={setValue}
+          error={errors.image || null}
         />
       </StyledSeedInfo>
 
