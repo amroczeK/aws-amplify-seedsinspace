@@ -12,11 +12,11 @@ const notesMsg = "Please add notes to describe the current status of your seeds"
 
 const addSeedSchema = yup.object().shape({
   image: yup.string().required("An image should be provided"),
-  height: yup.number().required(heightMsg),
-  stemLength: yup.number().required(stemLengthMsg),
-  leafSize: yup.number().required(leafSizeMsg),
-  leafColor: yup.string().required(leafColorMsg),
-  notes: yup.string().required(notesMsg),
+  Height: yup.number().required(heightMsg),
+  StemLength: yup.number().required(stemLengthMsg),
+  LeafWidth: yup.number().required(leafSizeMsg),
+  LeafColour: yup.string().required(leafColorMsg),
+  Notes: yup.string().required(notesMsg),
 });
 
 const addSeedResolver = yupResolver(addSeedSchema);

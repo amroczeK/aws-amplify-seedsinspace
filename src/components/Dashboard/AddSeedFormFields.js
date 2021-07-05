@@ -40,7 +40,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
       <StyledSeedInfo>
         <StyledInputLabel shrink>HEIGHT</StyledInputLabel>
         <Controller
-          name="height"
+          name="Height"
           control={control}
           render={({ field }) => (
             <TextField
@@ -56,7 +56,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
         />
         <StyledInputLabel shrink>STEM LENGTH</StyledInputLabel>
         <Controller
-          name="stemLength"
+          name="StemLength"
           control={control}
           render={({ field }) => (
             <TextField
@@ -70,9 +70,9 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             />
           )}
         />
-        <StyledInputLabel shrink>LEAF SIZE</StyledInputLabel>
+        <StyledInputLabel shrink>LEAF WIDTH</StyledInputLabel>
         <Controller
-          name="leafSize"
+          name="LeafWidth"
           control={control}
           render={({ field }) => (
             <TextField
@@ -86,9 +86,9 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             />
           )}
         />
-        <StyledInputLabel shrink>LEAF COLOR</StyledInputLabel>
+        <StyledInputLabel shrink>LEAF COLOUR</StyledInputLabel>
         <Controller
-          name="leafColor"
+          name="LeafColour"
           control={control}
           render={({ field }) => (
             <TextField
@@ -107,7 +107,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
       <GroupLabel variant="subtitle2">NOTES</GroupLabel>
       <StyledSeedInfo>
         <Controller
-          name="notes"
+          name="Notes"
           control={control}
           render={({ field }) => (
             <TextField
