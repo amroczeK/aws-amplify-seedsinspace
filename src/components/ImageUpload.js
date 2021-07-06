@@ -32,7 +32,7 @@ const CameraIcon = styled(Camera)`
   margin: 1em 0;
 `;
 
-const ImageUpload = ({ preview = true, setValue, name, image, error }) => {
+const ImageUpload = ({ preview = true, setValue, name, image, error, text }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imageFile, setImageFile] = useState("None");
 
@@ -58,7 +58,7 @@ const ImageUpload = ({ preview = true, setValue, name, image, error }) => {
       <div>
         <CameraIcon />
         <StyledButton component="label">
-          + Add your logo
+          + {text || "add your image"}
           <input
             id="image-upload"
             type="file"

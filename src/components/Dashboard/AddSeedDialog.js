@@ -16,6 +16,8 @@ import { StyledButton } from "../styled-components/Buttons";
 import { MuiPicker } from "../MaterialUIPicker";
 import AddSeedFormFields from "./AddSeedFormFields";
 import AddSeedResolver from "../validation/addSeedValidation";
+import { useAws } from "../../context/AWSContext";
+
 import * as API from "../../apis";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -41,38 +43,49 @@ const AddSeedDialog = ({ open, onClose }) => {
   const [seedTab, setSeedTab] = useState(0);
   const [type, setType] = useState(seedOptions[0]);
   const [date, setDate] = useState(new Date());
+  const { cognitoUser, uploadImage } = useAws();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log("typeof: ", typeof date);
-  console.log("Date: ", date);
-
-  const { control, handleSubmit, formState, setValue, reset, watch } = useForm({
+  const { control, handleSubmit, formState, setValue, reset } = useForm({
     defaultValues,
     resolver: AddSeedResolver,
   });
 
-  console.log(watch());
+  const { errors } = formState;
+  console.log({ errors });
 
   // Any unsaved changes will be wiped
-  const sendInfo = formData => {
-    const SeedNumber = seedTab + 1;
-    const formattedDate = formatDate(date);
-    console.log("Seed Number: ", SeedNumber);
-    console.log("Seed Type: ", type);
-    console.log("Form Data: ", { formData });
-    console.log("Formatted Date: ", formattedDate);
+  const sendInfo = async formData => {
+    try {
+      const { seedImage, ...formFields } = formData;
+      const formattedDate = formatDate(date);
+      const SeedNumber = seedTab + 1;
+      const seedName = `${cognitoUser.username}_${formattedDate}_${type}_Seed_${SeedNumber}`;
 
-    const seedReq = {
-      SeedNumber,
-      Type: type,
-      Date: formattedDate,
-      ...formData,
-    };
+      const seedReq = {
+        SeedNumber,
+        Type: type,
+        Date: formattedDate,
+        ...formFields,
+      };
 
-    API.addSeed(seedReq)
-      .then(result => console.log(result))
-      .catch(error => console.error(error));
+      await API.addSeed(seedReq);
+      console.log("Database Entry Added");
+
+      const imageReq = {
+        file: seedImage[0],
+        filename: seedName,
+        path: "seed_images/",
+        level: "public",
+      };
+
+      await uploadImage(imageReq);
+      console.log("Image Uploaded Successfully");
+    } catch (error) {
+      console.log("An Error occurred while adding seed");
+      console.error(error);
+    }
   };
 
   const handleChange = (_event, newTab) => {
@@ -80,8 +93,6 @@ const AddSeedDialog = ({ open, onClose }) => {
     reset();
   };
 
-  const { errors } = formState;
-  console.log(errors);
   return (
     <Dialog
       fullScreen

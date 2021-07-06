@@ -27,12 +27,10 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
       <GroupLabel variant="subtitle2">PHOTOS</GroupLabel>
       <StyledSeedInfo>
         <ImageUpload
-          name="image" // need to add date to the name
-          path="protected/"
-          level="protected"
+          name="seedImage"
           text="Add photo"
           setValue={setValue}
-          error={errors.image || null}
+          error={errors.seedImage || null}
         />
       </StyledSeedInfo>
 

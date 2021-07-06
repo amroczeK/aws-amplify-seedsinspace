@@ -10,8 +10,18 @@ const leafColorMsg =
   "Please indicate the current color of your leaves, if there are no leaves please use none";
 const notesMsg = "Please add notes to describe the current status of your seeds";
 
+const imageValidation = yup
+  .mixed()
+  .required("An image should be provided")
+  .test("fileSize", "File must be under 2MB in size", value => {
+    return value && value[0].size <= 2000000;
+  })
+  .test("type", "We only support jpeg", value => {
+    return value && value[0].type === "image/jpeg";
+  });
+
 const addSeedSchema = yup.object().shape({
-  image: yup.string().required("An image should be provided"),
+  seedImage: imageValidation,
   Height: yup.number().required(heightMsg),
   StemLength: yup.number().required(stemLengthMsg),
   LeafWidth: yup.number().required(leafSizeMsg),

@@ -10,11 +10,10 @@ export const fetchS3 = async ({ path, level }) => {
   return result;
 };
 
-const uploadImage = async ({ file, path, newName = "", level = "public" }) => {
-  let name = newName || file.name;
-  let contentType = `image/${file.name.split(".").pop()}`; // Get extension to store as content-type
+const uploadImage = async ({ file, path, filename, level = "public" }) => {
+  let destPath = path ? path + filename : filename;
+  let contentType = file.type;
 
-  let destPath = path ? name : path + name;
   await Storage.put(destPath, file, { level, contentType });
 };
 
