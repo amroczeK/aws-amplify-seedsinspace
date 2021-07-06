@@ -1,5 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 import * as Pages from "./pages";
+import FAQ from "./pages/Faq2";
 
 export const PrivateRoutes = () => {
   return (
@@ -24,6 +25,7 @@ export const PublicRoutes = () => {
       <Route exact path="/about" component={Pages.Resources} />
       <Route exact path="/schools" component={Pages.ParticipatingSchools} />
       <Route exact path="/faq" component={Pages.Faq} />
+      <Route exact path="/faq2" component={FAQ} />
       <Route path="*" component={Pages.SignIn} />
     </Switch>
   );
