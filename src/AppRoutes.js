@@ -1,6 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 import * as Pages from "./pages";
-import FAQ from "./pages/Faq2";
+import FAQ from "./pages/Faq";
 
 export const PrivateRoutes = () => {
   return (
