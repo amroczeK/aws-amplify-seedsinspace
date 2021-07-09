@@ -25,11 +25,14 @@ const SeedSetUp = () => {
   const { errors } = formState;
 
   useEffect(() => {
-    const getFile = async () => {
-      const url = await fetchS3({ path: "SeedsInSpaceSeedSetup.pdf", level: "public" });
+    const getGuide = async () => {
+      const url = await fetchS3({
+        path: "documents/Seeds_in_Space_Guidebook.pdf",
+        level: "public",
+      });
       setSignedURL(url);
     };
-    getFile();
+    getGuide();
     // eslint-disable-next-line
   }, []);
 

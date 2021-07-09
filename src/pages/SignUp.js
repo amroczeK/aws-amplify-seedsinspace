@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { signUpResolver } from "../components/validation/schemas";
 import TextField from "@material-ui/core/TextField";
@@ -14,8 +14,21 @@ import { addSchool } from "../apis";
 
 const SignUp = () => {
   const [error, setError] = useState(null);
-  const { createNewPassword } = useAws();
+  const [signedURL, setSignedURL] = useState(null);
+  const { createNewPassword, fetchS3 } = useAws();
   const history = useHistory();
+
+  useEffect(() => {
+    const getToS = async () => {
+      const url = await fetchS3({
+        path: "documents/Seeds_in_Space_Terms_and_Conditions.pdf",
+        level: "public",
+      });
+      setSignedURL(url);
+    };
+    getToS();
+    // eslint-disable-next-line
+  }, []);
 
   const { control, handleSubmit, formState } = useForm({
     resolver: signUpResolver,
@@ -38,9 +51,9 @@ const SignUp = () => {
           });
       })
       .then(() => history.push("/profile", { isNewUser: true, organisation }))
-      .catch((error)=>{
-        setError(error)
-        console.error(error)
+      .catch(error => {
+        setError(error);
+        console.error(error);
       });
   };
 
@@ -108,7 +121,9 @@ const SignUp = () => {
               />
             )}
           />
-          <StyledLink to="/">SIS disclaimer / terms and conditions</StyledLink>
+          <StyledLink to={{ pathname: signedURL }} target="_blank">
+            SIS disclaimer / terms and conditions
+          </StyledLink>
           {error && <Alert severity="error">{error.message}</Alert>}
           <StyledButton
             color="primary"
