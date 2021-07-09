@@ -25,7 +25,6 @@ export const PublicRoutes = () => {
       <Route exact path="/about" component={Pages.Resources} />
       <Route exact path="/schools" component={Pages.ParticipatingSchools} />
       <Route exact path="/faq" component={Pages.Faq} />
-      <Route exact path="/faq2" component={FAQ} />
       <Route path="*" component={Pages.SignIn} />
     </Switch>
   );
