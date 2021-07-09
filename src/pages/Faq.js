@@ -41,7 +41,7 @@ const FAQ = () => {
         <StyledTypography>On SpaceX 22 which is scheduled for a July 2021 splashdown.</StyledTypography>
       </AccordionPanel>
       <AccordionPanel title="Who do I contact if I have questions?">
-        <StyledTypography>Send an email to info@onegiantleapaustralia.com</StyledTypography>
+        <StyledTypography>Send an email to <a href="mailto: info@onegiantleapaustralia.com">info@onegiantleapaustralia.com</a></StyledTypography>
       </AccordionPanel>
     </Container>
   );
