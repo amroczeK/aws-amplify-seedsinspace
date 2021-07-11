@@ -12,6 +12,13 @@ import RemoveEntryModal from "./RemoveEntryModal";
 
 const AddSeedFormFields = ({ name, control, setValue, errors }) => {
   const [open, setModalOpen] = useState(false);
+  const [optionalFields, setOptionalFields] = useState({
+    LeafCount: false,
+    LeafLength: false,
+    PhLevel: false,
+    Temperature: false,
+    WaterVolume: false,
+  });
 
   return (
     <div style={{ display: "grid" }}>
@@ -44,8 +51,8 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             <TextField
               {...field}
               variant="outlined"
-              error={errors?.height ? true : false}
-              helperText={errors?.height?.message || null}
+              error={errors?.Height ? true : false}
+              helperText={errors?.Height?.message || null}
               InputProps={{
                 endAdornment: <InputAdornment>millimeter</InputAdornment>,
               }}
@@ -60,8 +67,8 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             <TextField
               {...field}
               variant="outlined"
-              error={errors?.stemLength ? true : false}
-              helperText={errors?.stemLength?.message || null}
+              error={errors?.StemLength ? true : false}
+              helperText={errors?.StemLength?.message || null}
               InputProps={{
                 endAdornment: <InputAdornment>millimeter</InputAdornment>,
               }}
@@ -76,8 +83,8 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             <TextField
               {...field}
               variant="outlined"
-              error={errors?.leafSize ? true : false}
-              helperText={errors?.leafSize?.message || null}
+              error={errors?.LeafWidth ? true : false}
+              helperText={errors?.LeafWidth?.message || null}
               InputProps={{
                 endAdornment: <InputAdornment>millimeter</InputAdornment>,
               }}
@@ -92,16 +99,118 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             <TextField
               {...field}
               variant="outlined"
-              error={errors?.leafColor ? true : false}
-              helperText={errors?.leafColor?.message || null}
+              error={errors?.LeafColour ? true : false}
+              helperText={errors?.LeafColour?.message || null}
             />
           )}
         />
-        <StyledButton color="primary">
-          <b>+ Add new data measure</b>
-        </StyledButton>
+        {optionalFields.LeafCount && (
+          <>
+            <StyledInputLabel shrink>LEAF COUNT</StyledInputLabel>
+            <Controller
+              name="LeafCount"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant="outlined"
+                  error={errors?.LeafCount ? true : false}
+                  helperText={errors?.LeafCount?.message || null}
+                />
+              )}
+            />
+          </>
+        )}
+        {optionalFields.LeafCount && (
+          <>
+            <StyledInputLabel shrink>LEAF COUNT</StyledInputLabel>
+            <Controller
+              name="LeafCount"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant="outlined"
+                  error={errors?.LeafCount ? true : false}
+                  helperText={errors?.LeafCount?.message || null}
+                />
+              )}
+            />
+          </>
+        )}
+        {optionalFields.LeafLength && (
+          <>
+            <StyledInputLabel shrink>LEAF LENGTH</StyledInputLabel>
+            <Controller
+              name="LeafLength"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant="outlined"
+                  error={errors?.LeafLength ? true : false}
+                  helperText={errors?.LeafLength?.message || null}
+                />
+              )}
+            />
+          </>
+        )}
+        {optionalFields.PhLevel && (
+          <>
+            <StyledInputLabel shrink>PH Level</StyledInputLabel>
+            <Controller
+              name="PhLevel"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant="outlined"
+                  error={errors?.PhLevel ? true : false}
+                  helperText={errors?.PhLevel?.message || null}
+                />
+              )}
+            />
+          </>
+        )}
+        {optionalFields.Temperature && (
+          <>
+            <StyledInputLabel shrink>TEMPERATURE</StyledInputLabel>
+            <Controller
+              name="Temperature"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant="outlined"
+                  error={errors?.Temperature ? true : false}
+                  helperText={errors?.Temperature?.message || null}
+                />
+              )}
+            />
+          </>
+        )}
+        {optionalFields.WaterVolume && (
+          <>
+            <StyledInputLabel shrink>WATER VOLUME</StyledInputLabel>
+            <Controller
+              name="WaterVolume"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant="outlined"
+                  error={errors?.WaterVolume ? true : false}
+                  helperText={errors?.WaterVolume?.message || null}
+                />
+              )}
+            />
+          </>
+        )}
+        <AddOptionalFields
+          optionalFields={optionalFields}
+          setOptionalFields={setOptionalFields}
+        />
       </StyledSeedInfo>
-
       <GroupLabel variant="subtitle2">NOTES</GroupLabel>
       <StyledSeedInfo>
         <Controller
@@ -124,6 +233,52 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
         <b>Stop recording data for this seed</b>
       </StyledButton>
       <RemoveEntryModal open={open} close={() => setModalOpen(false)} name={name} />
+    </div>
+  );
+};
+
+const AddOptionalFields = ({ optionalFields, setOptionalFields }) => {
+  const [showOptions, setShowOptions] = useState(null);
+
+  const localOptions = { ...optionalFields };
+
+  const handleChange = e => {
+    const { id, checked } = e.target;
+    localOptions[id] = checked;
+  };
+
+  function confirmSelection() {
+    setShowOptions(false);
+    setOptionalFields(localOptions);
+  }
+
+  return (
+    <div>
+      {!showOptions && (
+        <StyledButton color="primary" onClick={() => setShowOptions(true)}>
+          <b>+ Add new data measure</b>
+        </StyledButton>
+      )}
+      {showOptions && (
+        <>
+          {Object.entries(optionalFields).map(([key, value], _index) => {
+            return (
+              <div key={_index}>
+                <label>{key}</label>
+                <input
+                  id={key}
+                  type="checkbox"
+                  defaultChecked={value}
+                  onChange={handleChange}
+                />
+              </div>
+            );
+          })}
+          <StyledButton color="primary" onClick={confirmSelection}>
+            <b>OK</b>
+          </StyledButton>
+        </>
+      )}
     </div>
   );
 };
