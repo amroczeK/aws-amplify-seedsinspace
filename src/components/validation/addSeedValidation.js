@@ -26,6 +26,15 @@ const addSeedSchema = yup.object().shape({
   StemLength: yup.number().required(stemLengthMsg),
   LeafWidth: yup.number().required(leafSizeMsg),
   LeafColour: yup.string().required(leafColorMsg),
+  LeafCount: yup.string(),
+  LeafLength: yup.string(),
+  PhLevel: yup.number().test("PH Test", "PH Must be between 0 and 14", value => {
+    return value >= 0 && value <= 14;
+  }),
+  Temperature: yup.number().test("Temperature Test", "Temperature innacurate", value => {
+    return value > -6 && value <= 50;
+  }),
+  WaterVolume: yup.number(),
   Notes: yup.string().required(notesMsg),
 });
 

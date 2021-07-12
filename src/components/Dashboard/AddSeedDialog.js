@@ -25,10 +25,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const defaultValues = {
-  Height: "",
+  Height: null,
   LeafColour: "",
   LeafWidth: "",
   StemLength: "",
+  LeafCount: "",
+  LeafLength: "",
+  PhLevel: "",
+  Temperature: "",
+  WaterVolume: "",
   Notes: "",
 };
 
@@ -70,18 +75,20 @@ const AddSeedDialog = ({ open, onClose }) => {
         ...formFields,
       };
 
-      await API.addSeed(seedReq);
-      console.log("Database Entry Added");
+      console.log(seedReq);
 
-      const imageReq = {
-        file: seedImage[0],
-        filename: seedName,
-        path: "seed_images/",
-        level: "public",
-      };
+      // await API.addSeed(seedReq);
+      // console.log("Database Entry Added");
 
-      await uploadImage(imageReq);
-      console.log("Image Uploaded Successfully");
+      // const imageReq = {
+      //   file: seedImage[0],
+      //   filename: seedName,
+      //   path: "seed_images/",
+      //   level: "public",
+      // };
+
+      // await uploadImage(imageReq);
+      // console.log("Image Uploaded Successfully");
     } catch (error) {
       console.log("An Error occurred while adding seed");
       console.error(error);

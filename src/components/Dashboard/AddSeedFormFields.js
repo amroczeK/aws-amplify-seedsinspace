@@ -121,23 +121,6 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             />
           </>
         )}
-        {optionalFields.LeafCount && (
-          <>
-            <StyledInputLabel shrink>LEAF COUNT</StyledInputLabel>
-            <Controller
-              name="LeafCount"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  variant="outlined"
-                  error={errors?.LeafCount ? true : false}
-                  helperText={errors?.LeafCount?.message || null}
-                />
-              )}
-            />
-          </>
-        )}
         {optionalFields.LeafLength && (
           <>
             <StyledInputLabel shrink>LEAF LENGTH</StyledInputLabel>
@@ -157,7 +140,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
         )}
         {optionalFields.PhLevel && (
           <>
-            <StyledInputLabel shrink>PH Level</StyledInputLabel>
+            <StyledInputLabel shrink>PH LEVEL</StyledInputLabel>
             <Controller
               name="PhLevel"
               control={control}
@@ -222,8 +205,8 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
               variant="outlined"
               multiline
               rows={10}
-              error={errors?.notes ? true : false}
-              helperText={errors?.notes?.message || null}
+              error={errors?.Notes ? true : false}
+              helperText={errors?.Notes?.message || null}
             />
           )}
         />
