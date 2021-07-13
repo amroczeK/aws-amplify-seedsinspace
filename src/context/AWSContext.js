@@ -32,7 +32,7 @@ const fetchSeedImages = async () => {
 };
 
 export const AWSProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [cognitoUser, setCognitoUser] = useState(null);
   const tempUser = useRef();
   const history = useHistory();
@@ -60,15 +60,14 @@ export const AWSProvider = ({ children }) => {
 
       if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
         tempUser.current = user;
-        history.push("/signup", { email });
+        return user;
       } else {
         unstable_batchedUpdates(() => {
           setLoading(false);
           setCognitoUser(user);
         });
+        return { user: user };
       }
-
-      return user;
     } catch (error) {
       setLoading(false);
       throw error;
@@ -122,6 +121,8 @@ export const AWSProvider = ({ children }) => {
     uploadImage,
     fetchS3,
     fetchSeedImages,
+    setCognitoUser,
+    checkAuthenticatedUser,
   };
 
   return <AWSContext.Provider value={values}>{children}</AWSContext.Provider>;

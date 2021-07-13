@@ -3,18 +3,15 @@ import styled from "styled-components";
 import StepperContent from "../components/ParticipatingSchools/StepperContent";
 import Container from "@material-ui/core/Container";
 import { getAllSchools } from "../apis";
-import { useAws } from "../context/AWSContext";
 
 const ParticipatingSchools = () => {
-  const { loading } = useAws();
   const [schools, setSchools] = useState([]);
 
   useEffect(() => {
-    console.log("Checking global state is loaded: ", !loading);
-    if (!loading) {
+    if (!schools.length) {
       getAllSchools().then(res => setSchools(res));
     }
-  }, [loading]);
+  }, [schools]);
 
   return (
     <Container maxWidth="xl">

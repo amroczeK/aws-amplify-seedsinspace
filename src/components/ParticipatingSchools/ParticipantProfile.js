@@ -3,15 +3,17 @@ import styled from "styled-components";
 import Link from "@material-ui/core/Link";
 import { useAws } from "../../context/AWSContext";
 import { Typography } from "@material-ui/core";
+import SchoolData from "./SchoolData";
 
 const ParticipantProfile = ({ school, setStep }) => {
   const { fetchS3 } = useAws();
+  const [schoolSubId, setSchoolSubId] = useState(null);
   const [profileImage, setProfileImage] = useState();
 
   useEffect(() => {
-    const subId = school.Sk ? school.Sk.replace("SCHOOL#", "") : "";
-
-    fetchS3({ path: `profiles/${subId}_profile`, level: "public" }).then(url => {
+    const subId = school.Sk ? school.Sk.replace("SCHOOL#", "") : null;
+    setSchoolSubId(subId);
+    fetchS3({ path: `${subId}_profile`, level: "public" }).then(url => {
       setProfileImage(url);
     });
   }, [school, fetchS3]);
@@ -35,6 +37,7 @@ const ParticipantProfile = ({ school, setStep }) => {
           </Typography>
         </div>
       </Profile>
+      {schoolSubId && <SchoolData schoolSub={schoolSubId} />}
     </Container>
   );
 };
@@ -42,6 +45,7 @@ const ParticipantProfile = ({ school, setStep }) => {
 export default ParticipantProfile;
 
 const Container = styled.div`
+  //background: red;
   display: flex;
   flex-direction: column;
   flex: 1 0;

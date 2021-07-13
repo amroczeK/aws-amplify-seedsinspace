@@ -12,17 +12,25 @@ const TopMenu = () => {
       <StyledTypography component={Link} to="/" variant="h5">
         Seeds in space
       </StyledTypography>
+      <NavButton component={Link} to="/">
+        Home
+      </NavButton>
       <NavButton component={Link} to="/dashboard">
         Dashboard
       </NavButton>
-      <NavButton component={Link} to="/about">
+      <NavButton component={Link} to="/resources">
         Resources
       </NavButton>
-      <NavButton component={Link} to="/profile">
-        Profile
-      </NavButton>
+      {cognitoUser && (
+        <NavButton component={Link} to="/profile">
+          Profile
+        </NavButton>
+      )}
       <NavButton component={Link} to="/schools">
         Schools
+      </NavButton>
+      <NavButton component={Link} to="/faq">
+        FAQ
       </NavButton>
       <Expander />
       {cognitoUser ? (

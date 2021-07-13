@@ -1,11 +1,15 @@
 import Weather from "../Weather";
-import GraphAndTable from "./GraphAndTable";
+import DatePicker from "../DatePicker";
+import Graph from "./Graph";
+import Table from "./Table";
 import Container from "@material-ui/core/Container";
 import { StyledButton } from "../styled-components/Buttons";
+import styled from "styled-components";
 
 const DashboardContentLarge = ({ setOpenAddSeed }) => {
   return (
     <Container maxWidth="xl">
+      <h1>Your Seed Entries</h1>
       <div style={{ display: "flex", position: "relative" }}>
         <div style={{ flexGrow: 1 }}>
           <Weather />
@@ -30,9 +34,18 @@ const DashboardContentLarge = ({ setOpenAddSeed }) => {
         </div>
       </div>
       {/* <DatePicker /> */}
-      <GraphAndTable />
+      <DataContainer>
+        <Graph />
+        <Table />
+      </DataContainer>
     </Container>
   );
 };
 
 export default DashboardContentLarge;
+
+const DataContainer = styled.div`
+  padding-top: 2rem;
+  position: relative;
+  height: 100%;
+`;
