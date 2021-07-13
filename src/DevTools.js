@@ -24,7 +24,7 @@ const PaddedDiv = styled.div`
 
 export default function DevTools() {
   const [hidden, setHidden] = useState(true);
-  const { cognitoUser, serCognitoUser } = useAws();
+  const { cognitoUser, setCognitoUser } = useAws();
 
   if (hidden) {
     return (
@@ -49,7 +49,7 @@ export default function DevTools() {
           <PaddedDiv>
             <button
               style={{ marginRight: "1em" }}
-              onClick={() => serCognitoUser(!cognitoUser)}
+              onClick={() => setCognitoUser(!cognitoUser)}
             >
               ToggleLogin
             </button>

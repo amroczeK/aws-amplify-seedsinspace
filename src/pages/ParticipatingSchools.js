@@ -8,7 +8,9 @@ const ParticipatingSchools = () => {
   const [schools, setSchools] = useState([]);
 
   useEffect(() => {
-    getAllSchools().then(res => setSchools(res));
+    if (!schools.length) {
+      getAllSchools().then(res => setSchools(res));
+    }
   }, []);
 
   return (

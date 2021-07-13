@@ -1,9 +1,9 @@
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { AWSProvider } from "./context/AWSContext";
+import { DataProvider } from "./context/Data";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
-import { DataProvider } from "./context/Data";
-import { AWSProvider } from "./context/AWSContext";
 
 // https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode
 // findDOMNode was passed an instance of Transition which is inside StrictMode, causes other crash
@@ -58,12 +58,13 @@ const ContextProviders = ({ children }) => (
   </AWSProvider>
 );
 
-const AppProviders = ({ children }) => (
-  <BrowserRouter>
-    <StyleProviders>
-      <ContextProviders>{children}</ContextProviders>
-    </StyleProviders>
-  </BrowserRouter>
-);
-
+const AppProviders = ({ children }) => {
+  return (
+    <BrowserRouter>
+      <StyleProviders>
+        <ContextProviders>{children}</ContextProviders>
+      </StyleProviders>
+    </BrowserRouter>
+  );
+};
 export default AppProviders;

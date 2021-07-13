@@ -17,9 +17,6 @@ export const SideMenuItems = ({ callback }) => {
     <List component="nav">
       {cognitoUser && (
         <>
-          <ListItem button component={Link} onClick={callback} to="/dashboard">
-            <StyledListItemText primary="Dashboard" />
-          </ListItem>
           <ListItem button component={Link} onClick={callback} to="/profile">
             <StyledListItemText primary="Profile" />
           </ListItem>
@@ -28,8 +25,14 @@ export const SideMenuItems = ({ callback }) => {
           </ListItem>
         </>
       )}
-      <ListItem button component={Link} onClick={callback} to="/about">
-        <StyledListItemText primary="About Us" />
+      <ListItem button component={Link} onClick={callback} to="/">
+        <StyledListItemText primary="Home" />
+      </ListItem>
+      <ListItem button component={Link} onClick={callback} to="/dashboard">
+        <StyledListItemText primary="Dashboard" />
+      </ListItem>
+      <ListItem button component={Link} onClick={callback} to="/resources">
+        <StyledListItemText primary="Resources" />
       </ListItem>
       <ListItem button component={Link} onClick={callback} to="/schools">
         <StyledListItemText primary="Participating Schools" />

@@ -45,11 +45,19 @@ const seedFilters = [
   "Leaf Colour",
 ];
 
+const dataQueries = [
+  "All Entries",
+  "My Seed Entries",
+  "All Space Seeds",
+  "All Earth Seeds",
+];
+
 const Graph = () => {
   const classes = useStyles();
 
   const [selectedQuery, setSelectedQuery] = useState(""); // Must be "" or index value else MUI out of range warning
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [queries, setQueries] = useState(dataQueries);
 
   const { seedData, setSeedData, loading, setLoading, error, setError } =
     useContext(DataContext);
@@ -59,29 +67,90 @@ const Graph = () => {
     setSelectedFilters(event.target.value);
   };
 
-  const queryHandler = async () => {
-    setLoading(true);
-    let req = { Pk: cognitoUser?.attributes?.sub };
-    let data = await API.getUsersSeeds(req).catch(error => {
-      console.log(error?.message);
-      setError({ message: error?.message });
-    });
-    if (data) {
-      setSeedData(data);
-    }
-    setLoading(false);
+  const selectedQueryHandler = event => {
+    console.log(event.target.value);
+    setSelectedQuery(event.target.value);
   };
 
-  // Load users seeds on component render
+  const queryHandler = async selected => {
+    console.log(selected);
+    let data, req;
+    switch (selected) {
+      case "All Entries":
+        setLoading(true);
+        data = await API.getAllSeeds().catch(error => {
+          console.log(error?.message);
+          setError({ message: error?.message });
+        });
+        if (data) {
+          setSeedData(data);
+        }
+        setLoading(false);
+        break;
+      case "My Seed Entries":
+        setLoading(true);
+        req = { Pk: cognitoUser?.attributes?.sub };
+        data = await API.getUsersSeeds(req).catch(error => {
+          console.log(error?.message);
+          setError({ message: error?.message });
+        });
+        if (data) {
+          setSeedData(data);
+        }
+        setLoading(false);
+        break;
+      case "All Earth Seeds":
+        console.log("HERE");
+        setLoading(true);
+        req = { Type: "Earth" };
+        data = await API.getAllSeedsByType(req).catch(error => {
+          console.log(error?.message);
+          setError({ message: error?.message });
+        });
+        console.log("earth seeds data", data);
+        if (data) {
+          setSeedData(data);
+        }
+        setLoading(false);
+        break;
+      case "All Space Seeds":
+        console.log("HERE2222");
+        setLoading(true);
+        req = { Type: "Space" };
+        data = await API.getAllSeedsByType(req).catch(error => {
+          console.log(error?.message);
+          setError({ message: error?.message });
+        });
+        console.log("space seeds data", data);
+        if (data) {
+          setSeedData(data);
+        }
+        setLoading(false);
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
-    if (!seedData.length) queryHandler();
+    if (!cognitoUser && queries) {
+      let filteredQueries = queries.filter(query => query !== "My Seed Entries");
+      setQueries(filteredQueries);
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [cognitoUser]);
 
   return (
     <div className={classes.root}>
       {error?.message && <Alert severity="error">{error.message}</Alert>}
       <SelectContainer>
+        <Select
+          title={"Data Queries"}
+          handleChange={selectedQueryHandler}
+          selected={selectedQuery}
+          items={queries}
+          helperText={"Select data query"}
+        />
         <MultiSelect
           title={"Seed Filters"}
           selections={seedFilters}
@@ -95,6 +164,7 @@ const Graph = () => {
             // Index 0 evaluates to false
             if (selectedQuery >= 0) {
               setLoading(true);
+              queryHandler(queries[selectedQuery]);
             }
           }}
         />
