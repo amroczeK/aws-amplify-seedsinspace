@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { getAllSchools } from "../apis";
 import StepperContent from "../components/ParticipatingSchools/StepperContent";
 import Container from "@material-ui/core/Container";
+import { getAllSchools } from "../apis";
+import { useAws } from "../context/AWSContext";
 
 const ParticipatingSchools = () => {
+  const { loading } = useAws();
   const [schools, setSchools] = useState([]);
 
   useEffect(() => {
-    getAllSchools().then(res => setSchools(res));
-  }, []);
+    console.log("Checking global state is loaded: ", !loading);
+    if (!loading) {
+      getAllSchools().then(res => setSchools(res));
+    }
+  }, [loading]);
 
   return (
     <Container maxWidth="xl">

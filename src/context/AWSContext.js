@@ -40,6 +40,7 @@ export const AWSProvider = ({ children }) => {
   useEffect(() => {
     // Fetch user data from LocalStorage
     if (!cognitoUser) {
+      console.log("Checking for Authenticated User");
       checkAuthenticatedUser();
     }
   }, [cognitoUser]);
@@ -105,14 +106,9 @@ export const AWSProvider = ({ children }) => {
 
   const checkAuthenticatedUser = async () => {
     Auth.currentAuthenticatedUser()
-      .then(user => {
-        unstable_batchedUpdates(() => {
-          setLoading(false);
-          setCognitoUser(user);
-        });
-      })
+      .then(user => setCognitoUser(user))
       .catch(console.log)
-      .finally(setLoading(false));
+      .finally(() => setLoading(false));
   };
 
   const values = {
@@ -133,5 +129,6 @@ export const AWSProvider = ({ children }) => {
 
 export const useAws = () => {
   const context = useContext(AWSContext);
+
   return { ...context };
 };

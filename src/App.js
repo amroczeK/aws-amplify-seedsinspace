@@ -15,8 +15,8 @@ const App = () => {
     <AppContainer>
       <AppNavBar />
       <DevTools />
-      {cognitoUser && <PrivateRoutes />}
       {!cognitoUser && <PublicRoutes />}
+      {cognitoUser && <PrivateRoutes />}
     </AppContainer>
   );
 };

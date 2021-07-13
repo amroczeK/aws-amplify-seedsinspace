@@ -20,6 +20,27 @@ const imageValidation = yup
     return value && value[0].type === "image/jpeg";
   });
 
+const phLevelValidation = yup
+  .mixed()
+  .test("PH Test", "PH Must be between 0 and 14", value => {
+    if (value === "") return true;
+    return value >= 0 && value <= 14;
+  });
+
+const temperatureValidation = yup
+  .mixed()
+  .test("Temperature Check", "Temperature Innacurate", value => {
+    if (value === "") return true;
+    return value > -6 && value <= 50;
+  });
+
+const waterVolumeValidation = yup
+  .mixed()
+  .test("Water Validation", "Water level in excess", value => {
+    if (value === "") return true;
+    return value < 0 && value <= 1000;
+  });
+
 const addSeedSchema = yup.object().shape({
   seedImage: imageValidation,
   Height: yup.number().required(heightMsg),
@@ -28,13 +49,9 @@ const addSeedSchema = yup.object().shape({
   LeafColour: yup.string().required(leafColorMsg),
   LeafCount: yup.string(),
   LeafLength: yup.string(),
-  PhLevel: yup.number().test("PH Test", "PH Must be between 0 and 14", value => {
-    return value >= 0 && value <= 14;
-  }),
-  Temperature: yup.number().test("Temperature Test", "Temperature innacurate", value => {
-    return value > -6 && value <= 50;
-  }),
-  WaterVolume: yup.number(),
+  PhLevel: phLevelValidation,
+  Temperature: temperatureValidation,
+  WaterVolume: waterVolumeValidation,
   Notes: yup.string().required(notesMsg),
 });
 

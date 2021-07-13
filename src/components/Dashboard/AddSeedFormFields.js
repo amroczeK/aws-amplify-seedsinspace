@@ -4,6 +4,7 @@ import styled from "styled-components";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import Checkbox from "@material-ui/core/Checkbox";
 import { InputAdornment } from "@material-ui/core";
 import { StyledButton } from "../styled-components/Buttons";
 import { StyledInputLabel } from "../styled-components/InputLabel";
@@ -31,7 +32,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
         </Typography>
       </SeedHeader>
 
-      <GroupLabel variant="subtitle2">PHOTOS</GroupLabel>
+      <GroupLabel variant="subtitle2">PHOTO*</GroupLabel>
       <StyledSeedInfo>
         <ImageUpload
           name="seedImage"
@@ -43,7 +44,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
 
       <GroupLabel variant="subtitle2">SEED DATA</GroupLabel>
       <StyledSeedInfo>
-        <StyledInputLabel shrink>HEIGHT</StyledInputLabel>
+        <StyledInputLabel shrink>HEIGHT *</StyledInputLabel>
         <Controller
           name="Height"
           control={control}
@@ -59,7 +60,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             />
           )}
         />
-        <StyledInputLabel shrink>STEM LENGTH</StyledInputLabel>
+        <StyledInputLabel shrink>STEM LENGTH *</StyledInputLabel>
         <Controller
           name="StemLength"
           control={control}
@@ -75,7 +76,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             />
           )}
         />
-        <StyledInputLabel shrink>LEAF WIDTH</StyledInputLabel>
+        <StyledInputLabel shrink>LEAF WIDTH *</StyledInputLabel>
         <Controller
           name="LeafWidth"
           control={control}
@@ -91,7 +92,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             />
           )}
         />
-        <StyledInputLabel shrink>LEAF COLOUR</StyledInputLabel>
+        <StyledInputLabel shrink>LEAF COLOUR *</StyledInputLabel>
         <Controller
           name="LeafColour"
           control={control}
@@ -247,10 +248,12 @@ const AddOptionalFields = ({ optionalFields, setOptionalFields }) => {
           {Object.entries(optionalFields).map(([key, value], _index) => {
             return (
               <div key={_index}>
-                <label>{key}</label>
-                <input
+                <span style={{ display: "inline-block", width: 150, marginLeft: "1em" }}>
+                  {key}
+                </span>
+                <Checkbox
                   id={key}
-                  type="checkbox"
+                  name={key}
                   defaultChecked={value}
                   onChange={handleChange}
                 />

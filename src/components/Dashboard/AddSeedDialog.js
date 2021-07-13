@@ -25,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const defaultValues = {
-  Height: null,
+  Height: "",
   LeafColour: "",
   LeafWidth: "",
   StemLength: "",
@@ -58,10 +58,12 @@ const AddSeedDialog = ({ open, onClose }) => {
   });
 
   const { errors } = formState;
-  console.log({ errors });
 
-  // Any unsaved changes will be wiped
-  const sendInfo = async formData => {
+  function onValidationError(errors) {
+    console.log("Errors: ", errors);
+  }
+
+  const onValidationSuccess = async formData => {
     try {
       const { seedImage, ...formFields } = formData;
       const formattedDate = formatDate(date);
@@ -77,18 +79,18 @@ const AddSeedDialog = ({ open, onClose }) => {
 
       console.log(seedReq);
 
-      // await API.addSeed(seedReq);
-      // console.log("Database Entry Added");
+      await API.addSeed(seedReq);
+      console.log("Database Entry Added");
 
-      // const imageReq = {
-      //   file: seedImage[0],
-      //   filename: seedName,
-      //   path: "seed_images/",
-      //   level: "public",
-      // };
+      const imageReq = {
+        file: seedImage[0],
+        filename: seedName,
+        path: "seed_images/",
+        level: "public",
+      };
 
-      // await uploadImage(imageReq);
-      // console.log("Image Uploaded Successfully");
+      await uploadImage(imageReq);
+      console.log("Image Uploaded Successfully");
     } catch (error) {
       console.log("An Error occurred while adding seed");
       console.error(error);
@@ -148,7 +150,10 @@ const AddSeedDialog = ({ open, onClose }) => {
             return <StyledTab key={label} label={label} />;
           })}
         </Tabs>
-        <GridForm name="seedForm" onSubmit={handleSubmit(sendInfo)}>
+        <GridForm
+          name="seedForm"
+          onSubmit={handleSubmit(onValidationSuccess, onValidationError)}
+        >
           <AddSeedFormFields
             name={`${type} Seed - ${seedTab + 1}`}
             control={control}
@@ -162,6 +167,9 @@ const AddSeedDialog = ({ open, onClose }) => {
             variant="contained"
           >
             Save entry
+          </StyledButton>
+          <StyledButton color="secondary" variant="contained" onClick={() => reset()}>
+            RESET
           </StyledButton>
         </GridForm>
       </AddSeedContainer>

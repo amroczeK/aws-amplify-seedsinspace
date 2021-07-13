@@ -22,12 +22,7 @@ const SignIn = () => {
 
   const signInHandler = async ({ email, password }) => {
     setSignInError(false); // Always clear previous error when trying to login again
-    signIn({ email, password })
-      .then(() => setSignInError(null))
-      .catch(error => {
-        console.log("here", error);
-        setSignInError(error);
-      });
+    signIn({ email, password }).catch(error => setSignInError(error));
   };
 
   return (
