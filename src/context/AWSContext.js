@@ -60,14 +60,15 @@ export const AWSProvider = ({ children }) => {
 
       if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
         tempUser.current = user;
-        return user;
-      } else {
+      }
+      if (user.challengeName !== "NEW_PASSWORD_REQUIRED") {
         unstable_batchedUpdates(() => {
           setLoading(false);
           setCognitoUser(user);
         });
-        return { user: user };
       }
+
+      return user;
     } catch (error) {
       setLoading(false);
       throw error;
@@ -106,7 +107,7 @@ export const AWSProvider = ({ children }) => {
   const checkAuthenticatedUser = async () => {
     Auth.currentAuthenticatedUser()
       .then(user => setCognitoUser(user))
-      .catch(console.log)
+      .catch(console.error)
       .finally(() => setLoading(false));
   };
 
