@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import { DataGridTable } from "../tables/data-grid";
-import styled from "styled-components";
-import { DataContext } from "../../context/Data";
 import Alert from "@material-ui/lab/Alert";
+import styled from "styled-components";
+import { DataGridTable } from "../tables/data-grid";
+import { DataContext } from "../../context/Data";
 
 const defaultColumns = [
   { field: "Type", headerName: "Type", width: 110 },

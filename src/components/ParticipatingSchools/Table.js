@@ -21,7 +21,7 @@ const Table = ({ data, error = null, loading }) => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   // TODO Do something with selected rows
-  //console.log(selectedRows);
+  console.log(selectedRows);
 
   return (
     <TableContainer>

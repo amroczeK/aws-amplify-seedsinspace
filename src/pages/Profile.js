@@ -43,11 +43,12 @@ const Profile = () => {
   const { updateCognitoUser, cognitoUser, fetchS3, uploadImage } = useAws();
 
   useEffect(() => {
-    fetchS3({ path: `profiles/${cognitoUser?.username}_profile`, level: "public" }).then(
-      url => {
-        setProfileImage(url);
-      }
-    );
+    const { username } = cognitoUser;
+    const path = `profiles/${username}_profile`;
+    const level = "public";
+    if (username) {
+      fetchS3({ path, level }).then(url => setProfileImage(url));
+    }
   }, [fetchS3, cognitoUser]);
 
   const { control, setValue, handleSubmit } = useForm({
