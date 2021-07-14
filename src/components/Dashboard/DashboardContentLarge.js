@@ -1,5 +1,4 @@
 import Weather from "../Weather";
-import DatePicker from "../DatePicker";
 import Graph from "./Graph";
 import Table from "./Table";
 import Container from "@material-ui/core/Container";
@@ -33,7 +32,6 @@ const DashboardContentLarge = ({ setOpenAddSeed }) => {
           </StyledButton>
         </div>
       </div>
-      {/* <DatePicker /> */}
       <DataContainer>
         <Graph />
         <Table />
