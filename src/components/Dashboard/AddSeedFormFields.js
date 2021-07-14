@@ -4,22 +4,26 @@ import styled from "styled-components";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Checkbox from "@material-ui/core/Checkbox";
-import { InputAdornment } from "@material-ui/core";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Dialog from "@material-ui/core/Dialog";
 import { StyledButton } from "../styled-components/Buttons";
 import { StyledInputLabel } from "../styled-components/InputLabel";
 import ImageUpload from "../ImageUpload";
 import RemoveEntryModal from "./RemoveEntryModal";
 
+const charCode = code => String.fromCharCode(code);
+
+const defaultOptionalFields = {
+  LeafCount: { active: false, name: "Leaf Count", measure: null },
+  LeafLength: { active: false, name: "Leaf Length", measure: "mm" },
+  PhLevel: { active: false, name: "PH Level", measure: null },
+  Temperature: { active: false, name: "Temperature", measure: `${charCode(176)}C` },
+  WaterVolume: { active: false, name: "Water Volume", measure: "ml" },
+};
+
 const AddSeedFormFields = ({ name, control, setValue, errors }) => {
   const [open, setModalOpen] = useState(false);
-  const [optionalFields, setOptionalFields] = useState({
-    LeafCount: false,
-    LeafLength: false,
-    PhLevel: false,
-    Temperature: false,
-    WaterVolume: false,
-  });
+  const [optionalFields, setOptionalFields] = useState(defaultOptionalFields);
 
   return (
     <div style={{ display: "grid" }}>
@@ -55,7 +59,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
               error={errors?.Height ? true : false}
               helperText={errors?.Height?.message || null}
               InputProps={{
-                endAdornment: <InputAdornment>millimeter</InputAdornment>,
+                endAdornment: <InputAdornment>mm</InputAdornment>,
               }}
             />
           )}
@@ -71,7 +75,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
               error={errors?.StemLength ? true : false}
               helperText={errors?.StemLength?.message || null}
               InputProps={{
-                endAdornment: <InputAdornment>millimeter</InputAdornment>,
+                endAdornment: <InputAdornment>mm</InputAdornment>,
               }}
             />
           )}
@@ -87,7 +91,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
               error={errors?.LeafWidth ? true : false}
               helperText={errors?.LeafWidth?.message || null}
               InputProps={{
-                endAdornment: <InputAdornment>millimeter</InputAdornment>,
+                endAdornment: <InputAdornment>mm</InputAdornment>,
               }}
             />
           )}
@@ -105,7 +109,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             />
           )}
         />
-        {optionalFields.LeafCount && (
+        {optionalFields.LeafCount.active && (
           <>
             <StyledInputLabel shrink>LEAF COUNT</StyledInputLabel>
             <Controller
@@ -122,7 +126,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             />
           </>
         )}
-        {optionalFields.LeafLength && (
+        {optionalFields.LeafLength.active && (
           <>
             <StyledInputLabel shrink>LEAF LENGTH</StyledInputLabel>
             <Controller
@@ -134,12 +138,15 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
                   variant="outlined"
                   error={errors?.LeafLength ? true : false}
                   helperText={errors?.LeafLength?.message || null}
+                  InputProps={{
+                    endAdornment: <InputAdornment>mm</InputAdornment>,
+                  }}
                 />
               )}
             />
           </>
         )}
-        {optionalFields.PhLevel && (
+        {optionalFields.PhLevel.active && (
           <>
             <StyledInputLabel shrink>PH LEVEL</StyledInputLabel>
             <Controller
@@ -156,7 +163,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
             />
           </>
         )}
-        {optionalFields.Temperature && (
+        {optionalFields.Temperature.active && (
           <>
             <StyledInputLabel shrink>TEMPERATURE</StyledInputLabel>
             <Controller
@@ -168,12 +175,15 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
                   variant="outlined"
                   error={errors?.Temperature ? true : false}
                   helperText={errors?.Temperature?.message || null}
+                  InputProps={{
+                    endAdornment: <InputAdornment>{charCode(176)}C</InputAdornment>,
+                  }}
                 />
               )}
             />
           </>
         )}
-        {optionalFields.WaterVolume && (
+        {optionalFields.WaterVolume.active && (
           <>
             <StyledInputLabel shrink>WATER VOLUME</StyledInputLabel>
             <Controller
@@ -185,6 +195,9 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
                   variant="outlined"
                   error={errors?.WaterVolume ? true : false}
                   helperText={errors?.WaterVolume?.message || null}
+                  InputProps={{
+                    endAdornment: <InputAdornment>ml</InputAdornment>,
+                  }}
                 />
               )}
             />
@@ -224,37 +237,38 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
 const AddOptionalFields = ({ optionalFields, setOptionalFields }) => {
   const [showOptions, setShowOptions] = useState(null);
 
-  const localOptions = { ...optionalFields };
+  let localOptions = { ...optionalFields };
 
   const handleChange = e => {
     const { id, checked } = e.target;
-    localOptions[id] = checked;
+    localOptions[id] = { ...localOptions[id], active: checked };
   };
 
   function confirmSelection() {
-    setShowOptions(false);
     setOptionalFields(localOptions);
+    setShowOptions(false);
   }
 
   return (
     <div>
-      {!showOptions && (
-        <StyledButton color="primary" onClick={() => setShowOptions(true)}>
-          <b>+ Add new data measure</b>
-        </StyledButton>
-      )}
-      {showOptions && (
-        <>
+      <StyledButton color="primary" onClick={() => setShowOptions(true)}>
+        <b>+ Add new data measure</b>
+      </StyledButton>
+      <Dialog open={showOptions ? true : false}>
+        <div style={{ padding: "1em" }}>
           {Object.entries(optionalFields).map(([key, value], _index) => {
+            const { active, measure, name } = value;
+
             return (
-              <div key={_index}>
+              <div key={_index} style={{ padding: "6px 0" }}>
                 <span style={{ display: "inline-block", width: 150, marginLeft: "1em" }}>
-                  {key}
+                  {name}
+                  {measure && ` (${measure})`}
                 </span>
-                <Checkbox
+                <input
+                  type="checkbox"
                   id={key}
-                  name={key}
-                  defaultChecked={value}
+                  defaultChecked={active}
                   onChange={handleChange}
                 />
               </div>
@@ -263,8 +277,8 @@ const AddOptionalFields = ({ optionalFields, setOptionalFields }) => {
           <StyledButton color="primary" onClick={confirmSelection}>
             <b>OK</b>
           </StyledButton>
-        </>
-      )}
+        </div>
+      </Dialog>
     </div>
   );
 };
