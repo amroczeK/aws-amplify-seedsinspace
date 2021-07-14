@@ -38,7 +38,7 @@ const waterVolumeValidation = yup
   .mixed()
   .test("Water Validation", "Water level in excess", value => {
     if (value === "") return true;
-    return value < 0 && value <= 1000;
+    return value > 0 && value <= 1000;
   });
 
 const addSeedSchema = yup.object().shape({
