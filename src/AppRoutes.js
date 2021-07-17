@@ -6,6 +6,8 @@ export const PrivateRoutes = () => {
     <Switch>
       <Route exact path="/" component={Pages.Home} />
       <Route exact path="/profile" component={Pages.Profile} />
+      <Route exact path="/profile-details" component={Pages.ProfileDetails} />
+      <Route exact path="/change-password" component={Pages.ChangePassword} />
       <Route exact path="/seed-setup" component={Pages.SeedSetUp} />
       <Route exact path="/dashboard" component={Pages.Dashboard} />
       <Route exact path="/about" component={Pages.Resources} />

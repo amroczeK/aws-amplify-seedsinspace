@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Flexbox = styled.div`
   display: flex;
-  width: ${props => props.width || "100%"};
   flex-direction: ${props => props.direction || "row"};
   flex-grow: ${props => props.grow || "1"};
   flex-shrink: ${props => props.shrink || "0"};

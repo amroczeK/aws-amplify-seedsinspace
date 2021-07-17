@@ -40,3 +40,14 @@ const seedSetUpSchema = yup.object().shape({
 });
 
 export const seedSetupResolver = yupResolver(seedSetUpSchema);
+
+const changePasswordSchema = yup.object().shape({
+  oldPassword: common.password,
+  newPassword: common.password,
+  confirmNewPassword: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .oneOf([yup.ref("newPassword"), null], "Passwords must match"),
+});
+
+export const changePasswordResolver = yupResolver(changePasswordSchema);
