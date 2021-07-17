@@ -1,15 +1,6 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const heightMsg = "Please add a height for your seed using a numerical value e.g. 12";
-const stemLengthMsg =
-  "Please add a stem length for your seed using a numerical value e.g. 12";
-const leafSizeMsg =
-  "Please add the leaf size for your seed using a numerical value e.g. 12 (use 0 if no leaves)";
-const leafColorMsg =
-  "Please indicate the current color of your leaves, if there are no leaves please use none";
-const notesMsg = "Please add notes to describe the current status of your seeds";
-
 const imageValidation = yup
   .mixed()
   .required("An image should be provided")
@@ -20,39 +11,33 @@ const imageValidation = yup
     return value && value[0].type === "image/jpeg";
   });
 
-const phLevelValidation = yup
-  .mixed()
-  .test("PH Test", "PH Must be between 0 and 14", value => {
-    if (value === "") return true;
-    return value >= 0 && value <= 14;
-  });
-
-const temperatureValidation = yup
-  .mixed()
-  .test("Temperature Check", "Temperature Innacurate", value => {
-    if (value === "") return true;
-    return value > -6 && value <= 50;
-  });
-
-const waterVolumeValidation = yup
-  .mixed()
-  .test("Water Validation", "Water level in excess", value => {
-    if (value === "") return true;
-    return value > 0 && value <= 1000;
-  });
-
 const addSeedSchema = yup.object().shape({
   seedImage: imageValidation,
-  Height: yup.number().required(heightMsg),
-  StemLength: yup.number().required(stemLengthMsg),
-  LeafWidth: yup.number().required(leafSizeMsg),
-  LeafColour: yup.string().required(leafColorMsg),
-  LeafCount: yup.string(),
+  Height: yup
+    .number()
+    .moreThan(0)
+    .required("Required as numerical value e.g. 12")
+    .typeError("A Number greater than 0 is required"),
+  StemLength: yup
+    .number()
+    .moreThan(0)
+    .required("Required as numerical value e.g. 12")
+    .typeError("A Number greater then 0 is required"),
+  LeafWidth: yup
+    .number()
+    .moreThan(0)
+    .required("Reqired as numerical value e.g. 12 (use 0 if no leaves)")
+    .typeError("A Number greater then 0 is required"),
+  LeafColour: yup
+    .string()
+    .required("Required as string, please put none if no leaves")
+    .typeError("Please use a color e.g 'green' to describe"),
+  LeafCount: yup.number().moreThan(0).typeError("A Number greater then 0"),
   LeafLength: yup.string(),
-  PhLevel: phLevelValidation,
-  Temperature: temperatureValidation,
-  WaterVolume: waterVolumeValidation,
-  Notes: yup.string().required(notesMsg),
+  PhLevel: yup.number().min(0).max(14).typeError("A Number between 0 and 14"),
+  Temperature: yup.number().min(-10).max(40).typeError("A Number between -10 and 40"),
+  WaterVolume: yup.number().min(0).max(1000).typeError("A Number between 0 and 1000"),
+  Notes: yup.string(),
 });
 
 const addSeedResolver = yupResolver(addSeedSchema);

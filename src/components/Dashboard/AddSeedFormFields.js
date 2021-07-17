@@ -1,14 +1,12 @@
-import { useState } from "react";
-import { Controller } from "react-hook-form";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import Adornment from "@material-ui/core/InputAdornment";
 import Dialog from "@material-ui/core/Dialog";
 import { StyledButton } from "../styled-components/Buttons";
 import { StyledInputLabel } from "../styled-components/InputLabel";
-import ImageUpload from "../ImageUpload";
 import RemoveEntryModal from "./RemoveEntryModal";
 
 const charCode = code => String.fromCharCode(code);
@@ -21,7 +19,7 @@ const defaultOptionalFields = {
   WaterVolume: { active: false, name: "Water Volume", measure: "ml" },
 };
 
-const AddSeedFormFields = ({ name, control, setValue, errors }) => {
+const AddSeedFormFields = ({ name, register, errors, children }) => {
   const [open, setModalOpen] = useState(false);
   const [optionalFields, setOptionalFields] = useState(defaultOptionalFields);
 
@@ -37,192 +35,124 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
       </SeedHeader>
 
       <GroupLabel variant="subtitle2">PHOTO*</GroupLabel>
-      <StyledSeedInfo>
-        <ImageUpload
-          name="seedImage"
-          text="Add photo"
-          setValue={setValue}
-          error={errors.seedImage || null}
-        />
-      </StyledSeedInfo>
-
+      <StyledSeedInfo>{children}</StyledSeedInfo>
       <GroupLabel variant="subtitle2">SEED DATA</GroupLabel>
       <StyledSeedInfo>
         <StyledInputLabel shrink>HEIGHT *</StyledInputLabel>
-        <Controller
+        <TextField
+          {...register("Height")}
           name="Height"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              error={errors?.Height ? true : false}
-              helperText={errors?.Height?.message || null}
-              InputProps={{
-                endAdornment: <InputAdornment>mm</InputAdornment>,
-              }}
-            />
-          )}
+          variant="outlined"
+          error={errors?.Height ? true : false}
+          helperText={errors?.Height?.message || null}
+          InputProps={{ endAdornment: <Adornment>mm</Adornment> }}
         />
         <StyledInputLabel shrink>STEM LENGTH *</StyledInputLabel>
-        <Controller
+        <TextField
+          {...register("StemLength")}
           name="StemLength"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              error={errors?.StemLength ? true : false}
-              helperText={errors?.StemLength?.message || null}
-              InputProps={{
-                endAdornment: <InputAdornment>mm</InputAdornment>,
-              }}
-            />
-          )}
+          variant="outlined"
+          error={errors?.StemLength ? true : false}
+          helperText={errors?.StemLength?.message || null}
+          InputProps={{ endAdornment: <Adornment>mm</Adornment> }}
         />
         <StyledInputLabel shrink>LEAF WIDTH *</StyledInputLabel>
-        <Controller
+        <TextField
+          {...register("LeafWidth")}
           name="LeafWidth"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              error={errors?.LeafWidth ? true : false}
-              helperText={errors?.LeafWidth?.message || null}
-              InputProps={{
-                endAdornment: <InputAdornment>mm</InputAdornment>,
-              }}
-            />
-          )}
+          variant="outlined"
+          error={errors?.LeafWidth ? true : false}
+          helperText={errors?.LeafWidth?.message || null}
+          InputProps={{ endAdornment: <Adornment>mm</Adornment> }}
         />
+
         <StyledInputLabel shrink>LEAF COLOUR *</StyledInputLabel>
-        <Controller
+        <TextField
           name="LeafColour"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              error={errors?.LeafColour ? true : false}
-              helperText={errors?.LeafColour?.message || null}
-            />
-          )}
+          {...register("LeafColour")}
+          variant="outlined"
+          error={errors?.LeafColour ? true : false}
+          helperText={errors?.LeafColour?.message || null}
         />
+
         {optionalFields.LeafCount.active && (
           <>
             <StyledInputLabel shrink>LEAF COUNT</StyledInputLabel>
-            <Controller
+            <TextField
+              {...register("LeafCount")}
               name="LeafCount"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  variant="outlined"
-                  error={errors?.LeafCount ? true : false}
-                  helperText={errors?.LeafCount?.message || null}
-                />
-              )}
+              variant="outlined"
+              error={errors?.LeafCount ? true : false}
+              helperText={errors?.LeafCount?.message || null}
             />
           </>
         )}
         {optionalFields.LeafLength.active && (
           <>
             <StyledInputLabel shrink>LEAF LENGTH</StyledInputLabel>
-            <Controller
+            <TextField
+              {...register("LeafLength")}
               name="LeafLength"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  variant="outlined"
-                  error={errors?.LeafLength ? true : false}
-                  helperText={errors?.LeafLength?.message || null}
-                  InputProps={{
-                    endAdornment: <InputAdornment>mm</InputAdornment>,
-                  }}
-                />
-              )}
+              variant="outlined"
+              error={errors?.LeafLength ? true : false}
+              helperText={errors?.LeafLength?.message || null}
+              InputProps={{ endAdornment: <Adornment>mm</Adornment> }}
             />
           </>
         )}
         {optionalFields.PhLevel.active && (
           <>
             <StyledInputLabel shrink>PH LEVEL</StyledInputLabel>
-            <Controller
+            <TextField
+              {...register("PhLevel")}
               name="PhLevel"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  variant="outlined"
-                  error={errors?.PhLevel ? true : false}
-                  helperText={errors?.PhLevel?.message || null}
-                />
-              )}
+              variant="outlined"
+              error={errors?.PhLevel ? true : false}
+              helperText={errors?.PhLevel?.message || null}
             />
           </>
         )}
         {optionalFields.Temperature.active && (
           <>
             <StyledInputLabel shrink>TEMPERATURE</StyledInputLabel>
-            <Controller
+            <TextField
+              {...register("Temperature")}
               name="Temperature"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  variant="outlined"
-                  error={errors?.Temperature ? true : false}
-                  helperText={errors?.Temperature?.message || null}
-                  InputProps={{
-                    endAdornment: <InputAdornment>{charCode(176)}C</InputAdornment>,
-                  }}
-                />
-              )}
+              variant="outlined"
+              error={errors?.Temperature ? true : false}
+              helperText={errors?.Temperature?.message || null}
+              InputProps={{ endAdornment: <Adornment>{charCode(176)}C</Adornment> }}
             />
           </>
         )}
         {optionalFields.WaterVolume.active && (
           <>
             <StyledInputLabel shrink>WATER VOLUME</StyledInputLabel>
-            <Controller
+            <TextField
+              {...register("WaterVolume")}
               name="WaterVolume"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  variant="outlined"
-                  error={errors?.WaterVolume ? true : false}
-                  helperText={errors?.WaterVolume?.message || null}
-                  InputProps={{
-                    endAdornment: <InputAdornment>ml</InputAdornment>,
-                  }}
-                />
-              )}
+              variant="outlined"
+              error={errors?.WaterVolume ? true : false}
+              helperText={errors?.WaterVolume?.message || null}
+              InputProps={{ endAdornment: <Adornment>ml</Adornment> }}
             />
           </>
         )}
-        <AddOptionalFields
+        <OptionalFieldControl
           optionalFields={optionalFields}
           setOptionalFields={setOptionalFields}
         />
       </StyledSeedInfo>
       <GroupLabel variant="subtitle2">NOTES</GroupLabel>
       <StyledSeedInfo>
-        <Controller
+        <TextField
+          {...register("Notes")}
           name="Notes"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              multiline
-              rows={10}
-              error={errors?.Notes ? true : false}
-              helperText={errors?.Notes?.message || null}
-            />
-          )}
+          variant="outlined"
+          multiline
+          rows={10}
+          error={errors?.Notes ? true : false}
+          helperText={errors?.Notes?.message || null}
         />
       </StyledSeedInfo>
 
@@ -234,7 +164,7 @@ const AddSeedFormFields = ({ name, control, setValue, errors }) => {
   );
 };
 
-const AddOptionalFields = ({ optionalFields, setOptionalFields }) => {
+const OptionalFieldControl = ({ optionalFields, setOptionalFields }) => {
   const [showOptions, setShowOptions] = useState(null);
 
   let localOptions = { ...optionalFields };

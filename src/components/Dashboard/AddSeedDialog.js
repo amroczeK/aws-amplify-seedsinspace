@@ -11,8 +11,9 @@ import { Dialog, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { ArrowIosBack } from "@styled-icons/evaicons-solid/ArrowIosBack";
 import { StyledInputLabel } from "../styled-components/InputLabel";
-import { StyledButton } from "../styled-components/Buttons";
+import { Button } from "../styled-components/Buttons";
 
+import ImageUpload from "../ImageUpload";
 import { MuiPicker } from "../MaterialUIPicker";
 import AddSeedFormFields from "./AddSeedFormFields";
 import AddSeedResolver from "../validation/addSeedValidation";
@@ -23,19 +24,6 @@ import * as API from "../../apis";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
-
-const defaultValues = {
-  Height: "",
-  LeafColour: "",
-  LeafWidth: "",
-  StemLength: "",
-  LeafCount: "",
-  LeafLength: "",
-  PhLevel: "",
-  Temperature: "",
-  WaterVolume: "",
-  Notes: "",
-};
 
 const seedOptions = ["Earth", "Space"];
 
@@ -52,55 +40,49 @@ const AddSeedDialog = ({ open, onClose }) => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { control, handleSubmit, formState, setValue, reset } = useForm({
-    defaultValues,
-    resolver: AddSeedResolver,
-  });
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+    reset,
+    setValue,
+    watch,
+  } = useForm({ resolver: AddSeedResolver, shouldUnregister: true });
 
-  const { errors } = formState;
-
-  function onValidationError(errors) {
-    console.log("Errors: ", errors);
+  function onModalClose() {
+    reset();
+    onClose();
   }
 
-  const onValidationSuccess = async formData => {
+  function onTabChange(_event, newTab) {
+    setSeedTab(newTab);
+    reset();
+  }
+
+  async function onValidationSuccess(formData) {
     try {
       const { seedImage, ...formFields } = formData;
       const formattedDate = formatDate(date);
       const SeedNumber = seedTab + 1;
-      const seedName = `${cognitoUser.username}_${formattedDate}_${type}_Seed_${SeedNumber}`;
+      const filename = `${cognitoUser.username}_${formattedDate}_${type}_Seed_${SeedNumber}`;
 
-      const seedReq = {
-        SeedNumber,
-        Type: type,
-        Date: formattedDate,
-        ...formFields,
-      };
-
-      console.log(seedReq);
-
+      const seedReq = { SeedNumber, Type: type, Date: formattedDate, ...formFields };
       await API.addSeed(seedReq);
       console.log("Database Entry Added");
 
       const imageReq = {
         file: seedImage[0],
-        filename: seedName,
+        filename,
         path: "seed_images/",
         level: "public",
       };
-
       await uploadImage(imageReq);
       console.log("Image Uploaded Successfully");
     } catch (error) {
       console.log("An Error occurred while adding seed");
       console.error(error);
     }
-  };
-
-  const handleChange = (_event, newTab) => {
-    setSeedTab(newTab);
-    reset();
-  };
+  }
 
   return (
     <Dialog
@@ -110,7 +92,7 @@ const AddSeedDialog = ({ open, onClose }) => {
       TransitionComponent={Transition}
     >
       <StyledAppBar>
-        <IconButton onClick={onClose}>
+        <IconButton onClick={onModalClose}>
           <StyledArrowIosBackIcon />
         </IconButton>
         <StyledTypography variant="h5">Seeds in Space</StyledTypography>
@@ -135,7 +117,7 @@ const AddSeedDialog = ({ open, onClose }) => {
         </TextField>
         <Tabs
           value={seedTab}
-          onChange={handleChange}
+          onChange={onTabChange}
           indicatorColor="primary"
           textColor="primary"
           centered
@@ -146,31 +128,28 @@ const AddSeedDialog = ({ open, onClose }) => {
             let prepend = "S";
             if (type === "Earth") prepend = "E";
             let label = `${prepend} - ${nIndex}`;
-
             return <StyledTab key={label} label={label} />;
           })}
         </Tabs>
-        <GridForm
-          name="seedForm"
-          onSubmit={handleSubmit(onValidationSuccess, onValidationError)}
-        >
+
+        <GridForm name="seedForm" onSubmit={handleSubmit(onValidationSuccess)}>
           <AddSeedFormFields
             name={`${type} Seed - ${seedTab + 1}`}
-            control={control}
-            setValue={setValue}
+            register={register}
             errors={errors}
-          />
-          <StyledButton
-            color="primary"
-            type="submit"
-            disableElevation
-            variant="contained"
           >
-            Save entry
-          </StyledButton>
-          <StyledButton color="secondary" variant="contained" onClick={() => reset()}>
+            <ImageUpload
+              name="seedImage"
+              text="Add photo"
+              formValue={watch("seedImage")}
+              setValue={setValue}
+              error={errors.seedImage || null}
+            />
+          </AddSeedFormFields>
+          <Button type="submit">Save entry</Button>
+          <Button color="secondary" onClick={() => reset()}>
             RESET
-          </StyledButton>
+          </Button>
         </GridForm>
       </AddSeedContainer>
     </Dialog>
