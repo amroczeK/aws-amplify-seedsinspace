@@ -12,7 +12,7 @@ import { useTheme } from "@material-ui/core/styles";
 import { ArrowIosBack } from "@styled-icons/evaicons-solid/ArrowIosBack";
 import { StyledInputLabel } from "../styled-components/InputLabel";
 import { Button } from "../styled-components/Buttons";
-
+import { SuccessSnackbar } from "../Snackbars";
 import ImageUpload from "../ImageUpload";
 import { MuiPicker } from "../MaterialUIPicker";
 import AddSeedFormFields from "./AddSeedFormFields";
@@ -36,6 +36,7 @@ const AddSeedDialog = ({ open, onClose }) => {
   const [seedTab, setSeedTab] = useState(0);
   const [type, setType] = useState(seedOptions[0]);
   const [date, setDate] = useState(new Date());
+  const [openSnack, setOpenSnack] = useState(false);
   const { cognitoUser, uploadImage } = useAws();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -78,6 +79,9 @@ const AddSeedDialog = ({ open, onClose }) => {
       };
       await uploadImage(imageReq);
       console.log("Image Uploaded Successfully");
+
+      console.log("setting current in async");
+      setOpenSnack(true);
     } catch (error) {
       console.log("An Error occurred while adding seed");
       console.error(error);
@@ -152,6 +156,11 @@ const AddSeedDialog = ({ open, onClose }) => {
           </Button>
         </GridForm>
       </AddSeedContainer>
+      <SuccessSnackbar
+        openSnack={openSnack}
+        setOpenSnack={setOpenSnack}
+        text="Success! Seed Added"
+      />
     </Dialog>
   );
 };
