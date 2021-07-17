@@ -7,4 +7,6 @@ export { default as Resources } from "./Resources.js";
 export { default as ParticipatingSchools } from "./ParticipatingSchools.js";
 export { default as Faq } from "./Faq.js";
 export { default as Tables } from "./Tables.js";
+export { default as ProfileDetails } from "./ProfileDetails.js";
+export { default as ChangePassword } from "./ChangePassword.js";
 export { default as Profile } from "./Profile.js";

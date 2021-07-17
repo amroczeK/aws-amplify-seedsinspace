@@ -50,7 +50,7 @@ const SignUp = () => {
             throw error;
           });
       })
-      .then(() => history.push("/profile", { isNewUser: true, organisation }))
+      .then(() => history.push("/profile-details", { isNewUser: true, organisation }))
       .catch(error => {
         setError(error);
         console.error(error);

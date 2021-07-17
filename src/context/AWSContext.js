@@ -89,6 +89,19 @@ export const AWSProvider = ({ children }) => {
     }
   };
 
+  const changePassword = async ({ oldPassword, newPassword }) => {
+    try {
+      const result = await Auth.changePassword(cognitoUser, oldPassword, newPassword);
+
+      await checkAuthenticatedUser();
+
+      return result;
+    } catch (error) {
+      console.error("change pw error", error);
+      throw error;
+    }
+  };
+
   const updateCognitoUser = async ({ address, about, location }) => {
     Auth.updateUserAttributes(cognitoUser, {
       address,
@@ -118,6 +131,7 @@ export const AWSProvider = ({ children }) => {
     signIn,
     signOut,
     createNewPassword,
+    changePassword,
     updateCognitoUser,
     uploadImage,
     fetchS3,

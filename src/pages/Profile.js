@@ -1,46 +1,16 @@
 import { useState, useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
 import { useAws } from "../context/AWSContext";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import ImageUpload from "../components/ImageUpload";
-import { SuccessSnackbar } from "../components/Snackbars";
 import styled from "styled-components";
-import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import { StyledButton } from "../components/styled-components/Buttons";
-import { StyledLink } from "../components/styled-components/Links";
-import LocationSearch from "../components/map/LocationSearch";
-import { updateSchool } from "../apis";
-import Alert from "@material-ui/lab/Alert";
-
-const stateOrTerritoryShort = {
-  "Australian Capital Territory": "ACT",
-  "New South Wales": "NSW",
-  "Western Australia": "WA",
-  "South Australia": "SA",
-  Victoria: "VIC",
-  "Northern Territory": "NA",
-  Queensland: "QLD",
-};
-
-const getFormattedAddress = address => {
-  const formattedAddress = `${
-    address.house_number ? `${address.house_number} ${address.road}` : address.road
-  }, ${address.suburb || address.city}, ${
-    stateOrTerritoryShort[address.state] || stateOrTerritoryShort[address.territory]
-  } ${address.postcode}, ${address.country}`;
-
-  return formattedAddress;
-};
+import { Flexbox } from "../components/styled-components/Flexbox";
+import Container from "@material-ui/core/Container";
+import { useHistory } from "react-router-dom";
 
 const Profile = () => {
   const history = useHistory();
-  const locationState = history.location.state;
-  const [setUpError, setSetUpError] = useState(null);
-  const [showSnack, setShowSnack] = useState(false);
   const [profileImage, setProfileImage] = useState();
-  const { updateCognitoUser, cognitoUser, fetchS3, uploadImage } = useAws();
+  const { cognitoUser, fetchS3 } = useAws();
 
   useEffect(() => {
     const { username } = cognitoUser;
@@ -51,128 +21,66 @@ const Profile = () => {
     }
   }, [fetchS3, cognitoUser]);
 
-  const { control, setValue, handleSubmit } = useForm({
-    defaultValues: {
-      about: cognitoUser.attributes["custom:about"],
-      address: cognitoUser.attributes["address"],
-      location: cognitoUser.attributes["custom:location"],
-    },
-  });
-
-  const onLocationSelection = locationValue => {
-    const { address, lat, lon } = locationValue;
-
-    const formatted_address = getFormattedAddress(address);
-
-    setValue("address", formatted_address);
-    setValue("location", JSON.stringify({ lat, lon }));
-  };
-
-  const confirmProfileHandler = async formData => {
-    try {
-      // Upload profile image with reference to sub id
-      if (formData.profileImage) {
-        await uploadImage({
-          file: formData["profileImage"][0],
-          filename: `${cognitoUser?.username}_profile`,
-          path: "profiles/",
-          level: "public",
-        });
-      }
-
-      await updateCognitoUser(formData);
-
-      // update database entry
-      await updateSchool(
-        {
-          SchoolName: cognitoUser.attributes["custom:organisation"],
-          Address: formData.address,
-          Lat: JSON.parse(formData.location).lat,
-          Lon: JSON.parse(formData.location).lon,
-        },
-        cognitoUser?.username
-      );
-
-      if (locationState?.isNewUser) {
-        history.push("/seed-setup");
-      } else {
-        setShowSnack(true);
-      }
-    } catch (error) {
-      setSetUpError(error);
-      console.log(error);
-    }
-  };
-
   return (
-    <Container>
-      <GridForm onSubmit={handleSubmit(confirmProfileHandler)}>
-        <Typography style={{ fontWeight: "bold" }} variant="h5">
-          Fill in your profile
+    <Container maxWidth="md">
+      <Flexbox direction="column">
+        <ProfileContainer wrap="wrap" gap="2em" grow="0" justify="center">
+          <Image src={profileImage} alt="profile"></Image>
+          <div>
+            <Typography>{cognitoUser.attributes["custom:organisation"]}</Typography>
+            <Typography variant="subtitle2" gutterBottom>
+              {cognitoUser.attributes["address"]}
+            </Typography>
+          </div>
+        </ProfileContainer>
+        <Typography style={{ textAlign: "justify" }}>
+          {cognitoUser.attributes["custom:about"]}
         </Typography>
-        <ImageUpload name="profileImage" image={profileImage} setValue={setValue} />
-        <StyledInputLabel shrink>LOCATION</StyledInputLabel>
-        <LocationSearch
-          onSelected={onLocationSelection}
-          defaultValue={cognitoUser?.attributes?.address}
-        />
-        <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
-        <Controller
-          name="about"
-          defaultValue=""
-          control={control}
-          render={({ field }) => (
-            <TextField {...field} multiline variant="outlined" rows={10} />
-          )}
-        />
-        {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
-        {locationState?.isNewUser && (
-          <>
-            <StyledButton
-              color="primary"
-              type="submit"
-              disableElevation
-              variant="contained"
-            >
-              Next
-            </StyledButton>
-            <StyledLink to="/seed-setup" alignself="center">
-              Skip for now
-            </StyledLink>
-          </>
-        )}
-        {!locationState?.isNewUser && (
+        <Flexbox
+          margin="3em 0 0 0"
+          grow="0"
+          wrap="wrap"
+          alignSelf="center"
+          justify="center"
+        >
           <StyledButton
+            onClick={() => history.push("/profile-details")}
+            width="300px"
             color="primary"
-            type="submit"
-            disableElevation
             variant="contained"
           >
-            Save
+            Edit Profile
           </StyledButton>
-        )}
-      </GridForm>
-      <SuccessSnackbar
-        open={showSnack}
-        text="Success! Profile updated"
-        onClose={() => setShowSnack(false)}
-      />
+          <StyledButton
+            onClick={() => history.push("/change-password")}
+            width="300px"
+            color="primary"
+            variant="contained"
+          >
+            Change Password
+          </StyledButton>
+        </Flexbox>
+      </Flexbox>
     </Container>
   );
 };
 
 export default Profile;
 
-const Container = styled.div`
+const ProfileContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 1em;
+  padding: 1em 0;
   align-items: center;
-  align-self: center;
 `;
 
-const GridForm = styled.form`
-  display: grid;
-  gap: 1em;
-  min-width: 350px;
-  margin: 1em 0;
+const Image = styled.img`
+  min-width: 125px;
+  min-height: 125px;
+  max-width: 200px;
+  max-height: 200px;
+  padding: 10px;
+  object-fit: cover;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
 `;

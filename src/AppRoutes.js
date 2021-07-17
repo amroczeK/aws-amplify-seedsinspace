@@ -26,6 +26,8 @@ const AppRoutes = () => {
     <Switch>
       <Route exact path="/" component={Pages.Home} />
       <PrivateRoute exact path="/profile" component={Pages.Profile} />
+      <PrivateRoute exact path="/profile-details" component={Pages.ProfileDetails} />
+      <PrivateRoute exact path="/change-password" component={Pages.ChangePassword} />
       <PrivateRoute exact path="/seed-setup" component={Pages.SeedSetUp} />
       <PrivateRoute exact path="/dashboard" component={Pages.Dashboard} />
       <Route exact path="/signin" component={Pages.SignIn} />

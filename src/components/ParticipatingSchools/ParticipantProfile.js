@@ -29,7 +29,7 @@ const ParticipantProfile = ({ school, setStep }) => {
         {String.fromCharCode(8592)} Back to map
       </StyledLink>
       <Profile>
-        <Image src={profileImage}></Image>
+        <Image src={profileImage} alt="profile"></Image>
         <div>
           <Typography>{school.SchoolName}</Typography>
           <Typography variant="subtitle2">
