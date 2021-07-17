@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import NoImage from "../assets/SeedlingsPreviewImage.jpg";
@@ -32,29 +32,35 @@ const CameraIcon = styled(Camera)`
   margin: 1em 0;
 `;
 
-const ImageUpload = ({ preview = true, setValue, name, image, error, text }) => {
+const ImageUpload = ({ name, image, text, setValue, formValue, error }) => {
   const [imageUrl, setImageUrl] = useState(null);
-  const [imageFile, setImageFile] = useState("None");
+  const [imageFileName, setImageFileName] = useState("None");
 
-  const handleUpload = async e => {
-    const imageFiles = e.target.files;
+  useEffect(() => {
+    if (!formValue) {
+      setImageUrl(null);
+      setImageFileName("None");
+    }
+  }, [formValue]);
+
+  const onImageUpload = ({ target }) => {
+    const imageFiles = target.files;
+
     if (imageFiles[0]) {
       const preview = URL.createObjectURL(imageFiles[0]);
       setImageUrl(preview);
-      setImageFile(imageFiles[0]);
+      setImageFileName(imageFiles[0].name);
       setValue(name, imageFiles); // updated react hook form
     }
   };
 
   return (
     <>
-      {preview && (
-        <Image
-          src={imageUrl || image || NoImage}
-          alt="seed image"
-          onError={() => setImageUrl(NoImage)}
-        />
-      )}
+      <Image
+        src={imageUrl || image || NoImage}
+        alt="seed image"
+        onError={() => setImageUrl(NoImage)}
+      />
       <div>
         <CameraIcon />
         <StyledButton component="label">
@@ -64,11 +70,11 @@ const ImageUpload = ({ preview = true, setValue, name, image, error, text }) => 
             type="file"
             accept="image/*"
             hidden
-            onChange={e => handleUpload(e)}
+            onChange={e => onImageUpload(e)}
           />
         </StyledButton>
         {error && <p style={{ color: "red" }}>{error.message}</p>}
-        <ImageText>{`Image: ${imageFile.name || "None"}`}</ImageText>
+        <ImageText>{`Image: ${imageFileName || "None"}`}</ImageText>
       </div>
     </>
   );
