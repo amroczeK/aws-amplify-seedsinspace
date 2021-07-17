@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { signInResolver } from "../components/validation/schemas";
 import styled from "styled-components";
@@ -12,20 +13,40 @@ import Logo from "../assets/logo.png";
 import { useAws } from "../context/AWSContext";
 
 const SignIn = () => {
+  const history = useHistory();
+
+  const [previousRoute, setPreviousRoute] = useState(null);
   const [signInError, setSignInError] = useState(null);
-  const { signIn, loading } = useAws();
+  const { signIn, loading, cognitoUser } = useAws();
 
   const { control, handleSubmit, formState } = useForm({
     resolver: signInResolver,
   });
   const { errors } = formState;
 
+  useEffect(() => {
+    let prevRoute = history?.location?.state?.referrer;
+    if (prevRoute) setPreviousRoute(prevRoute);
+    if (cognitoUser && prevRoute) {
+      history.push(prevRoute);
+    }
+  }, [cognitoUser, previousRoute]);
+
   const signInHandler = async ({ email, password }) => {
-    setSignInError(false); // Always clear previous error when trying to login again
+    setSignInError(false);
     signIn({ email, password })
-      .then(() => setSignInError(null))
+      .then(user => {
+        setSignInError(null);
+        if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+          return history.push("/signup", { email });
+        }
+        if (previousRoute) {
+          return history.push(previousRoute);
+        }
+        // If no previous route go to home
+        return history.push("/");
+      })
       .catch(error => {
-        console.log("here", error);
         setSignInError(error);
       });
   };
