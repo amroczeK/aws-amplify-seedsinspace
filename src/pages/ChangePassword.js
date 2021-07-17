@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { unstable_batchedUpdates } from "react-dom";
-import { useAws } from "../context/AWSContext";
-import { StyledInputLabel } from "../components/styled-components/InputLabel";
+import styled from "styled-components";
+import Alert from "@material-ui/lab/Alert";
+import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import { useState } from "react";
+import { useAws } from "../context/AWSContext";
+import { unstable_batchedUpdates } from "react-dom";
 import { Controller, useForm } from "react-hook-form";
-import styled from "styled-components";
 import { SuccessSnackbar } from "../components/Snackbars";
-import Alert from "@material-ui/lab/Alert";
-import { StyledButton } from "../components/styled-components/Buttons";
-import { changePasswordResolver } from "../components/validation/schemas";
-import Container from "@material-ui/core/Container";
 import { Flexbox } from "../components/styled-components/Flexbox";
 import { StyledLink } from "../components/styled-components/Links";
+import { StyledButton } from "../components/styled-components/Buttons";
+import { changePasswordResolver } from "../components/validation/schemas";
+import { StyledInputLabel } from "../components/styled-components/InputLabel";
 
 const ChangePassword = () => {
   const [submitError, setSubmitError] = useState(null);

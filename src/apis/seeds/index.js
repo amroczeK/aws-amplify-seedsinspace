@@ -12,7 +12,6 @@ export const getAllSeeds = async () => {
     console.error(error);
     throw error;
   }
-  console.log("Data:", body);
   return JSON.parse(body);
 };
 
@@ -33,7 +32,6 @@ export const getSeed = async req => {
     console.error(error);
     throw error;
   }
-  console.log("Seed retrieved:", body);
   return JSON.parse(body);
 };
 
@@ -53,7 +51,6 @@ export const getUsersSeeds = async req => {
     console.error(error);
     throw error;
   }
-  console.log("Users seeds:", body);
   return JSON.parse(body);
 };
 
@@ -78,7 +75,6 @@ export const getSeedsByFilter = async req => {
     console.error(error);
     throw error;
   }
-  console.log("Seeds retrieved:", body);
   return JSON.parse(body);
 };
 
@@ -102,7 +98,6 @@ export const addSeed = async req => {
     console.error(error);
     throw error;
   }
-  console.log("Seed added:", body);
   return JSON.parse(body);
 };
 
@@ -126,7 +121,6 @@ export const updateSeed = async req => {
     console.error(error);
     throw error;
   }
-  console.log("Seed updated:", body);
   return JSON.parse(body);
 };
 
@@ -146,7 +140,6 @@ export const deleteSeed = async req => {
     console.error(error);
     throw error;
   }
-  console.log("Seed deleted:", body);
   return JSON.parse(body);
 };
 
@@ -165,7 +158,6 @@ export const getAllSeedsByType = async req => {
     console.error(error);
     throw error;
   }
-  console.log("Seeds retrieved:", body);
   return JSON.parse(body);
 };
 
@@ -189,6 +181,5 @@ export const getAllSeedsByTypeAndSortKey = async req => {
     console.error(error);
     throw error;
   }
-  console.log("Seeds retrieved:", body);
   return JSON.parse(body);
 };

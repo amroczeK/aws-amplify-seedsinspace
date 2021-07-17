@@ -23,7 +23,8 @@ const Table = () => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   // TODO Do something with selected rows
-  console.log(selectedRows);
+  if (selectedRows) {
+  }
 
   const { seedData, error, loading } = useContext(DataContext);
 
