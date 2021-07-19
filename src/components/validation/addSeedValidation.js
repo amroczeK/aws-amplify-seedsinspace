@@ -33,7 +33,7 @@ const addSeedSchema = yup.object().shape({
     .required("Required as string, please put none if no leaves")
     .typeError("Please use a color e.g 'green' to describe"),
   LeafCount: yup.number().min(0).typeError("A Number greater or equal to 0"),
-  LeafLength: yup.string(),
+  LeafLength: yup.number().min(0).typeError("A Number greater or equal to 0"),
   PhLevel: yup.number().min(0).max(14).typeError("A Number between 0 and 14"),
   Temperature: yup.number().min(-10).max(40).typeError("A Number between -10 and 40"),
   WaterVolume: yup.number().min(0).max(1000).typeError("A Number between 0 and 1000"),
