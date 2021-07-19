@@ -15,17 +15,17 @@ const addSeedSchema = yup.object().shape({
   seedImage: imageValidation,
   Height: yup
     .number()
-    .moreThan(0)
-    .required("Required as numerical value e.g. 12")
+    .min(0)
+    .required("Required as numerical value e.g. 12, use 0 if not sprouted!")
     .typeError("A Number greater than 0 is required"),
   StemLength: yup
     .number()
-    .moreThan(0)
-    .required("Required as numerical value e.g. 12")
+    .min(0)
+    .required("Required as numerical value e.g. 12, use 0 if not sprouted!")
     .typeError("A Number greater then 0 is required"),
   LeafWidth: yup
     .number()
-    .moreThan(0)
+    .min(0)
     .required("Reqired as numerical value e.g. 12 (use 0 if no leaves)")
     .typeError("A Number greater then 0 is required"),
   LeafColour: yup
