@@ -30,8 +30,10 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
     setSearchResults([]);
   };
 
+  // You're capturing multiple events and doing different things with them
+  // which is a little dangerous, consider wether you need this
   const handleChange = e => {
-    setLocation(e.target.value)
+    setLocation(e.target.value);
   };
 
   function search() {
@@ -45,8 +47,13 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
       .then(response => response.json())
       .then(data => setSearchResults(data))
       .catch(console.error);
+    // .finally() use me!
     setLoading(false);
   }
+
+  // When we make a choice from the list, we want to set the value
+  // function onResultSelection (value) {}
+  // const onResultSelection = (value) => {}
 
   const mappedResults = () => {
     if (searchResults.length !== 0) {
@@ -56,9 +63,11 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
           <ResultContainer
             key={value.place_id}
             onClick={() => {
+              // Split this into a seperate function
+              // see above
               onSelected(value);
               setSearchResults([]);
-              setLocation(value.display_name)
+              setLocation(value.display_name);
               setLoading(false);
             }}
           >
@@ -79,8 +88,8 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
         variant="outlined"
         defaultValue={defaultValue}
         inputRef={searchRef}
-        value={location}
-        onChange={handleChange}
+        value={location} // This is what we want to set after we make a choice.
+        onChange={handleChange} // We're already capturing the key event below
         onKeyUp={handleKeyChange}
         InputProps={{
           endAdornment: (
