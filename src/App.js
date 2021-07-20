@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AppNavBar } from "./components/nav";
+import { AppNavBar } from "./components/Nav";
 import { Routes } from "./AppRoutes";
 import DevTools from "./DevTools";
 

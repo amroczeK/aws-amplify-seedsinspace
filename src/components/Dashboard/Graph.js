@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../../context/Data";
 import { AWSContext } from "../../context/AWSContext";
-import Plotly from "../charts/Plotly";
+import Plotly from "../Charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import MultiSelect from "../selects/MultiSelect";
@@ -11,7 +11,7 @@ import ClearFiltersBtn from "../inputs/Button";
 import styled from "styled-components";
 import Alert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { getChartData } from "../charts/PlotlyAdaptor";
+import { getChartData } from "../Charts/PlotlyAdaptor";
 import * as API from "../../apis";
 
 const useStyles = makeStyles(theme => ({

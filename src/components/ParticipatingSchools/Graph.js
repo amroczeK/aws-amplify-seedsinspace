@@ -1,8 +1,8 @@
-import Plotly from "../charts/Plotly";
+import Plotly from "../Charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { getChartData } from "../charts/PlotlyAdaptor";
+import { getChartData } from "../Charts/PlotlyAdaptor";
 
 const useStyles = makeStyles(theme => ({
   root: {
