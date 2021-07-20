@@ -17,6 +17,7 @@ const ResultContainer = styled.div`
 const LocationSearch = ({ onSelected, defaultValue }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState();
   const searchRef = useRef(null);
 
   const handleKeyChange = e => {
@@ -27,6 +28,10 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
     } else setLoading(false);
 
     setSearchResults([]);
+  };
+
+  const handleChange = e => {
+    setLocation(e.target.value)
   };
 
   function search() {
@@ -52,6 +57,9 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
             key={value.place_id}
             onClick={() => {
               onSelected(value);
+              setSearchResults([]);
+              setLocation(value.display_name)
+              setLoading(false);
             }}
           >
             <p style={{ fontWeight: "bold" }}>{name}</p>
@@ -71,6 +79,8 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
         variant="outlined"
         defaultValue={defaultValue}
         inputRef={searchRef}
+        value={location}
+        onChange={handleChange}
         onKeyUp={handleKeyChange}
         InputProps={{
           endAdornment: (
