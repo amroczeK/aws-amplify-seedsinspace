@@ -3,6 +3,19 @@ import { API } from "aws-amplify";
 const API_RESOURCE = "SeedsInSpaceAPI";
 
 /**
+ * @desc Function to retrieve individual school entry
+ * @returns result response
+ */
+export const getSchool = async Sk => {
+  const { body, error } = await API.get(API_RESOURCE, `/schools/${Sk}`, {});
+  if (error) {
+    console.error(error);
+    throw error;
+  }
+  return JSON.parse(body);
+};
+
+/**
  * @desc Function to retrieve all existing school entries
  * @returns result response
  */

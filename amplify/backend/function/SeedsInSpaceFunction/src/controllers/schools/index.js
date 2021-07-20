@@ -8,6 +8,46 @@ if (process.env.ENV && process.env.ENV !== "NONE") {
 }
 
 /**
+ * @desc    Fetch school entry using Sort Key
+ * @route   GET /schools/:Sk
+ * @example GET /schools/64688f4e-4f40-4800-a546-bf8576292318
+ * @access  Public
+ */
+async function getSchool(req, res) {
+  const { Sk } = req.params;
+
+  if (!Sk) {
+    res.json({
+      statusCode: 400,
+      error: "Users sub is required to make this request.",
+    });
+  }
+
+  const params = {
+    TableName: tableName,
+    Key: {
+      Pk: `School`,
+      Sk: `SCHOOL#${Sk}`,
+    },
+  };
+
+  try {
+    const result = await db.get(params).promise();
+    res.json({
+      statusCode: 200,
+      url: req.url,
+      body: JSON.stringify(result.Item),
+    });
+  } catch (error) {
+    console.log("GET /schools/:Sk - Error:", error);
+    res.json({
+      statusCode: 500,
+      error: error.message,
+    });
+  }
+}
+
+/**
  * @desc    Get all schools entries
  * @route   GET /schools
  * @access  Public
@@ -140,6 +180,7 @@ async function updateSchool(req, res) {
 }
 
 module.exports = {
+  getSchool,
   getAllSchools,
   addSchool,
   updateSchool,

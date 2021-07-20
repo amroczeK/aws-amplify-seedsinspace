@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import { DataGridTable } from "../tables/data-grid";
-import styled from "styled-components";
-import { DataContext } from "../../context/Data";
 import Alert from "@material-ui/lab/Alert";
+import styled from "styled-components";
+import { DataGridTable } from "../tables/data-grid";
+import { DataContext } from "../../context/Data";
 
 const defaultColumns = [
   { field: "Type", headerName: "Type", width: 110 },
@@ -23,7 +23,8 @@ const Table = () => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   // TODO Do something with selected rows
-  console.log(selectedRows);
+  if (selectedRows) {
+  }
 
   const { seedData, error, loading } = useContext(DataContext);
 

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { AppNavBar } from "./components/Nav";
-import { Routes } from "./AppRoutes";
+import { AppNavBar } from "./components/nav";
+import AppRoutes from "./AppRoutes";
 import DevTools from "./DevTools";
 
 const AppContainer = styled.div`
@@ -12,7 +12,7 @@ const App = () => {
     <AppContainer>
       <AppNavBar />
       <DevTools />
-      <Routes/>
+      <AppRoutes />
     </AppContainer>
   );
 };

@@ -1,24 +1,43 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const heightMsg = "Please add a height for your seed using a numerical value e.g. 12";
-const stemLengthMsg =
-  "Please add a stem length for your seed using a numerical value e.g. 12";
-const leafSizeMsg =
-  "Please add the leaf size for your seed using a numerical value e.g. 12 (use 0 if no leaves)";
-const leafColorMsg =
-  "Please indicate the current color of your leaves, if there are no leaves please use none";
-const notesMsg = "Please add notes to describe the current status of your seeds";
+const imageValidation = yup
+  .mixed()
+  .required("An image should be provided")
+  .test("fileSize", "File must be under 2MB in size", value => {
+    return value && value[0].size <= 2000000;
+  })
+  .test("type", "We only support jpeg", value => {
+    return value && value[0].type === "image/jpeg";
+  });
 
 const addSeedSchema = yup.object().shape({
-  date: yup.string().required("Date is required"),
-  type: yup.string().required("A type must be selected"),
-  image: yup.string().required("An image should be provided"),
-  height: yup.number().required(heightMsg),
-  stemLength: yup.number().required(stemLengthMsg),
-  leafSize: yup.number().required(leafSizeMsg),
-  leafColor: yup.string().required(leafColorMsg),
-  notes: yup.string().required(notesMsg),
+  seedImage: imageValidation,
+  Height: yup
+    .number()
+    .min(0)
+    .required("Required as numerical value e.g. 12, use 0 if not sprouted!")
+    .typeError("A Number greater than 0 is required"),
+  StemLength: yup
+    .number()
+    .min(0)
+    .required("Required as numerical value e.g. 12, use 0 if not sprouted!")
+    .typeError("A Number greater then 0 is required"),
+  LeafWidth: yup
+    .number()
+    .min(0)
+    .required("Reqired as numerical value e.g. 12 (use 0 if no leaves)")
+    .typeError("A Number greater then 0 is required"),
+  LeafColour: yup
+    .string()
+    .required("Required as string, please put none if no leaves")
+    .typeError("Please use a color e.g 'green' to describe"),
+  LeafCount: yup.number().min(0).typeError("A Number greater or equal to 0"),
+  LeafLength: yup.number().min(0).typeError("A Number greater or equal to 0"),
+  PhLevel: yup.number().min(0).max(14).typeError("A Number between 0 and 14"),
+  Temperature: yup.number().min(-10).max(40).typeError("A Number between -10 and 40"),
+  WaterVolume: yup.number().min(0).max(1000).typeError("A Number between 0 and 1000"),
+  Notes: yup.string(),
 });
 
 const addSeedResolver = yupResolver(addSeedSchema);

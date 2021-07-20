@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { getAllSchools } from "../apis";
 import StepperContent from "../components/ParticipatingSchools/StepperContent";
 import Container from "@material-ui/core/Container";
+import { getAllSchools } from "../apis";
 
 const ParticipatingSchools = () => {
   const [schools, setSchools] = useState([]);
@@ -11,7 +11,7 @@ const ParticipatingSchools = () => {
     if (!schools.length) {
       getAllSchools().then(res => setSchools(res));
     }
-  }, []);
+  }, [schools]);
 
   return (
     <Container maxWidth="xl">

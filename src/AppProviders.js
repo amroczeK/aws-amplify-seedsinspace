@@ -4,6 +4,7 @@ import { DataProvider } from "./context/Data";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { StylesProvider } from "@material-ui/core/styles";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 // https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode
 // findDOMNode was passed an instance of Transition which is inside StrictMode, causes other crash
@@ -11,6 +12,8 @@ import {
   createMuiTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@material-ui/core/styles";
+
+const queryClient = new QueryClient();
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -53,9 +56,11 @@ const StyleProviders = ({ children }) => (
 );
 
 const ContextProviders = ({ children }) => (
-  <AWSProvider>
-    <DataProvider>{children}</DataProvider>
-  </AWSProvider>
+  <QueryClientProvider client={queryClient}>
+    <AWSProvider>
+      <DataProvider>{children}</DataProvider>
+    </AWSProvider>
+  </QueryClientProvider>
 );
 
 const AppProviders = ({ children }) => {

@@ -1,4 +1,4 @@
-import { getAllSchools, addSchool, updateSchool } from "./schools";
+import { getSchool, getAllSchools, addSchool, updateSchool } from "./schools";
 import {
   getAllSeeds,
   getSeed,
@@ -12,6 +12,7 @@ import {
 } from "./seeds";
 
 export {
+  getSchool,
   getAllSchools,
   addSchool,
   updateSchool,

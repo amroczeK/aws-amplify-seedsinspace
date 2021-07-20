@@ -13,9 +13,9 @@ const ParticipantProfile = ({ school, setStep }) => {
   useEffect(() => {
     const subId = school.Sk ? school.Sk.replace("SCHOOL#", "") : null;
     setSchoolSubId(subId);
-    fetchS3({ path: `${subId}_profile`, level: "public" }).then(url => {
-      setProfileImage(url);
-    });
+    fetchS3({ path: `${subId}_profile`, level: "public" }).then(url =>
+      setProfileImage(url)
+    );
   }, [school, fetchS3]);
 
   return (

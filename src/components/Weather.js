@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
 import { useAws } from "../context/AWSContext";
-
-const queryClient = new QueryClient();
 
 const WeatherApp = () => {
   const date = new Date();
@@ -19,9 +17,7 @@ const WeatherApp = () => {
         <Typography style={{ fontWeight: "bold" }} variant="h6">
           {format(date, "eeee dd MMMM yyyy")}
         </Typography>
-        <QueryClientProvider client={queryClient}>
-          <Weather />
-        </QueryClientProvider>
+        <Weather />
       </CardContent>
     </Card>
   );

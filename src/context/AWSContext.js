@@ -10,11 +10,10 @@ export const fetchS3 = async ({ path, level }) => {
   return result;
 };
 
-const uploadImage = async ({ file, path, newName = "", level = "public" }) => {
-  let name = newName || file.name;
-  let contentType = `image/${file.name.split(".").pop()}`; // Get extension to store as content-type
+const uploadImage = async ({ file, path, filename, level = "public" }) => {
+  let destPath = path ? path + filename : filename;
+  let contentType = file.type;
 
-  let destPath = path ? name : path + name;
   await Storage.put(destPath, file, { level, contentType });
 };
 
@@ -41,6 +40,7 @@ export const AWSProvider = ({ children }) => {
   useEffect(() => {
     // Fetch user data from LocalStorage
     if (!cognitoUser) {
+      console.log("Checking for Authenticated User");
       checkAuthenticatedUser();
     }
   }, [cognitoUser]);
@@ -60,14 +60,15 @@ export const AWSProvider = ({ children }) => {
 
       if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
         tempUser.current = user;
-        return user;
-      } else {
+      }
+      if (user.challengeName !== "NEW_PASSWORD_REQUIRED") {
         unstable_batchedUpdates(() => {
           setLoading(false);
           setCognitoUser(user);
         });
-        return { user: user };
       }
+
+      return user;
     } catch (error) {
       setLoading(false);
       throw error;
@@ -118,14 +119,9 @@ export const AWSProvider = ({ children }) => {
 
   const checkAuthenticatedUser = async () => {
     Auth.currentAuthenticatedUser()
-      .then(user => {
-        unstable_batchedUpdates(() => {
-          setLoading(false);
-          setCognitoUser(user);
-        });
-      })
-      .catch(console.log)
-      .finally(setLoading(false));
+      .then(user => setCognitoUser(user))
+      .catch(console.error)
+      .finally(() => setLoading(false));
   };
 
   const values = {
@@ -149,5 +145,6 @@ export const AWSProvider = ({ children }) => {
 
 export const useAws = () => {
   const context = useContext(AWSContext);
+
   return { ...context };
 };

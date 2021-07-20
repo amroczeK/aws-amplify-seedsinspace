@@ -30,7 +30,7 @@ const SignIn = () => {
     if (cognitoUser && prevRoute) {
       history.push(prevRoute);
     }
-  }, [cognitoUser, previousRoute]);
+  }, [cognitoUser, previousRoute, history]);
 
   const signInHandler = async ({ email, password }) => {
     setSignInError(false);

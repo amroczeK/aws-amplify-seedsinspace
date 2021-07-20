@@ -29,7 +29,7 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
     setSearchResults([]);
   };
 
-  function onLocationSelection( value ){
+  function onLocationSelection(value) {
     onSelected(value);
     setSearchResults([]);
     searchRef.current.value = value.display_name;
@@ -49,14 +49,6 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
       .catch(console.error)
       .finally(() => setLoading(false));
   }
-
-  /**
-   * This function should:
-   * 1. Pass value back to the onSelected callback
-   * 2. Set the value of the text field (look at using the ref that is passed, try console.log searchRef.current)
-   * 3. Remove the results list to stop it showing
-   * @param {*} value used to pass back to onSelected and to set the text field value (value.display_name)
-   */
 
   const mappedResults = () => {
     if (searchResults.length !== 0) {

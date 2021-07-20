@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Slide from "@material-ui/core/Slide";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,75 +11,82 @@ import { Dialog, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { ArrowIosBack } from "@styled-icons/evaicons-solid/ArrowIosBack";
 import { StyledInputLabel } from "../styled-components/InputLabel";
-import { StyledButton } from "../styled-components/Buttons";
-
-import { ControlledPicker } from "../MaterialUIPicker";
+import { Button } from "../styled-components/Buttons";
+import { SuccessSnackbar } from "../Snackbars";
+import ImageUpload from "../ImageUpload";
+import { MuiPicker } from "../MaterialUIPicker";
 import AddSeedFormFields from "./AddSeedFormFields";
 import AddSeedResolver from "../validation/addSeedValidation";
+import { useAws } from "../../context/AWSContext";
+
+import * as API from "../../apis";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
 });
 
-const defaultValues = {
-  date: new Date(),
-  type: "Earth",
-  height: "",
-  leafColor: "",
-  leafSize: "",
-  stemLength: "",
-  notes: "",
-};
+const seedOptions = ["Earth", "Space"];
 
-const ControlledSelect = ({ name, errors, options, control }) => {
-  return (
-    <Controller
-      name={name}
-      defaultValue={options[0] || null}
-      control={control}
-      render={({ field }) => (
-        <TextField
-          {...field}
-          select
-          variant="outlined"
-          error={errors[name] ? true : false}
-          helperText={errors[name]?.message}
-          SelectProps={{ native: true }}
-        >
-          {options.map(option => (
-            <option key={option} value={option}>
-              {option} seeds
-            </option>
-          ))}
-        </TextField>
-      )}
-    />
-  );
+const formatDate = currentDate => {
+  const isoDateString = new Date(currentDate).toISOString();
+  return isoDateString.split("T")[0];
 };
 
 const AddSeedDialog = ({ open, onClose }) => {
   const [seedTab, setSeedTab] = useState(0);
+  const [type, setType] = useState(seedOptions[0]);
+  const [date, setDate] = useState(new Date());
+  const [openSnack, setOpenSnack] = useState(false);
+  const { cognitoUser, uploadImage } = useAws();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const seedOptions = ["Earth", "Space"];
 
-  const { control, handleSubmit, formState, setValue, watch, reset } = useForm({
-    defaultValues,
-    resolver: AddSeedResolver,
-  });
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+    reset,
+    setValue,
+    watch,
+  } = useForm({ resolver: AddSeedResolver, shouldUnregister: true });
 
-  // Any unsaved changes will be wiped
-  const sendInfo = formData => {
-    console.log(formData);
-  };
+  function onModalClose() {
+    reset();
+    onClose();
+  }
 
-  const handleChange = (_event, newTab) => {
+  function onTabChange(_event, newTab) {
     setSeedTab(newTab);
     reset();
-  };
+  }
 
-  const type = watch("type");
-  const { errors } = formState;
+  async function onValidationSuccess(formData) {
+    try {
+      const { seedImage, ...formFields } = formData;
+      const formattedDate = formatDate(date);
+      const SeedNumber = seedTab + 1;
+      const filename = `${cognitoUser.username}_${formattedDate}_${type}_Seed_${SeedNumber}`;
+
+      const seedReq = { SeedNumber, Type: type, Date: formattedDate, ...formFields };
+      await API.addSeed(seedReq);
+      console.log("Database Entry Added");
+
+      const imageReq = {
+        file: seedImage[0],
+        filename,
+        path: "seed_images/",
+        level: "public",
+      };
+      await uploadImage(imageReq);
+      console.log("Image Uploaded Successfully");
+
+      console.log("setting current in async");
+      setOpenSnack(true);
+    } catch (error) {
+      console.log("An Error occurred while adding seed");
+      console.error(error);
+    }
+  }
 
   return (
     <Dialog
@@ -88,57 +95,72 @@ const AddSeedDialog = ({ open, onClose }) => {
       open={open}
       TransitionComponent={Transition}
     >
-      <GridForm name="seedForm" onSubmit={handleSubmit(sendInfo)}>
-        <StyledAppBar>
-          <IconButton onClick={onClose}>
-            <StyledArrowIosBackIcon />
-          </IconButton>
-          <StyledTypography variant="h5">Seeds in Space</StyledTypography>
-        </StyledAppBar>
-        <AddSeedContainer>
-          <StyledInputLabel shrink>DATE</StyledInputLabel>
-          <ControlledPicker name="date" control={control} errors={errors} />
-          <StyledInputLabel shrink>SEED TYPE</StyledInputLabel>
-          <ControlledSelect
-            control={control}
-            name="type"
-            errors={errors}
-            options={seedOptions}
-          />
-          <Tabs
-            value={seedTab}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-            TabIndicatorProps={{ style: { width: "50px" } }}
-          >
-            {[...Array(6)].map((_value, index) => {
-              let nIndex = index + 1;
-              let prepend = "S";
-              if (type === "Earth") prepend = "E";
-              let label = `${prepend} - ${nIndex}`;
+      <StyledAppBar>
+        <IconButton onClick={onModalClose}>
+          <StyledArrowIosBackIcon />
+        </IconButton>
+        <StyledTypography variant="h5">Seeds in Space</StyledTypography>
+      </StyledAppBar>
+      <AddSeedContainer>
+        <StyledInputLabel shrink>DATE</StyledInputLabel>
+        <MuiPicker value={date} onChange={date => setDate(date)} />
+        <StyledInputLabel shrink>SEED TYPE</StyledInputLabel>
+        <TextField
+          name="seedType"
+          value={type}
+          onChange={e => setType(e.target.value)}
+          select
+          variant="outlined"
+          SelectProps={{ native: true }}
+        >
+          {seedOptions.map(option => (
+            <option key={option} value={option}>
+              {option} seeds
+            </option>
+          ))}
+        </TextField>
+        <Tabs
+          value={seedTab}
+          onChange={onTabChange}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+          TabIndicatorProps={{ style: { width: "50px" } }}
+        >
+          {[...Array(6)].map((_value, index) => {
+            let nIndex = index + 1;
+            let prepend = "S";
+            if (type === "Earth") prepend = "E";
+            let label = `${prepend} - ${nIndex}`;
+            return <StyledTab key={label} label={label} />;
+          })}
+        </Tabs>
 
-              return <StyledTab key={label} label={label} />;
-            })}
-          </Tabs>
-
+        <GridForm name="seedForm" onSubmit={handleSubmit(onValidationSuccess)}>
           <AddSeedFormFields
             name={`${type} Seed - ${seedTab + 1}`}
-            control={control}
-            setValue={setValue}
+            register={register}
             errors={errors}
-          />
-          <StyledButton
-            color="primary"
-            type="submit"
-            disableElevation
-            variant="contained"
           >
-            Save entry
-          </StyledButton>
-        </AddSeedContainer>
-      </GridForm>
+            <ImageUpload
+              name="seedImage"
+              text="Add photo"
+              formValue={watch("seedImage")}
+              setValue={setValue}
+              error={errors.seedImage || null}
+            />
+          </AddSeedFormFields>
+          <Button type="submit">Save entry</Button>
+          <Button color="secondary" onClick={() => reset()}>
+            RESET
+          </Button>
+        </GridForm>
+      </AddSeedContainer>
+      <SuccessSnackbar
+        openSnack={openSnack}
+        setOpenSnack={setOpenSnack}
+        text="Success! Seed Added"
+      />
     </Dialog>
   );
 };

@@ -30,3 +30,21 @@ export const ControlledPicker = ({ name, control, errors }) => {
     </MuiPickersUtilsProvider>
   );
 };
+
+export const MuiPicker = ({ value, onChange }) => {
+  return (
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <KeyboardDatePicker
+        name="MuiPicker"
+        value={value}
+        onChange={onChange}
+        minDate={"2021-07-01"}
+        variant="outlined"
+        inputVariant="outlined"
+        format="eeee dd MMMM yyyy"
+        disableToolbar
+        KeyboardButtonProps={{ "aria-label": "change date" }}
+      />
+    </MuiPickersUtilsProvider>
+  );
+};

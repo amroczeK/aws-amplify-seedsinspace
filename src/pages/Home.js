@@ -52,11 +52,13 @@ const ContentContainer = styled.div`
   flex-direction: column;
   padding: 1rem;
   width: 100%;
-`
+`;
+
 const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
-`
+`;
+
 const StyledImg = styled.img`
   width: 300px;
   height: auto;

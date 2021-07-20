@@ -5,17 +5,19 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export const SuccessSnackbar = ({ open, onClose, text }) => {
+export const SuccessSnackbar = ({ text, openSnack, setOpenSnack }) => {
+  const hideSnackBar = () => {
+    setOpenSnack(false);
+  };
+
   return (
     <Snackbar
-      open={open}
+      open={openSnack}
       autoHideDuration={3000}
-      onClose={onClose}
+      onClose={hideSnackBar}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
-      <Alert onClose={onClose} severity="success">
-        {text}
-      </Alert>
+      <Alert severity="success">{text}</Alert>
     </Snackbar>
   );
 };
