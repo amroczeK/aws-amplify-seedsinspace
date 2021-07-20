@@ -107,7 +107,11 @@ const Graph = () => {
         />
       </SelectContainer>
       <Paper className={classes.paper}>
-        <div className={classes.loader}>{loading && <CircularProgress size={60} />}</div>
+        {loading && (
+          <div className={classes.loader}>
+            {loading && <CircularProgress size={60} />}
+          </div>
+        )}
         <Plotly {...getChartData({ type: "bar", data: seedData })} />
       </Paper>
     </div>
