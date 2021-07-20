@@ -112,7 +112,7 @@ const Graph = () => {
             {loading && <CircularProgress size={60} />}
           </div>
         )}
-        <Plotly {...getChartData({ type: "bar", data: seedData })} />
+        <Plotly {...getChartData({ type: "bar", data: seedData, title: "My Seeds"})} />
       </Paper>
     </div>
   );
