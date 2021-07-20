@@ -30,7 +30,7 @@
       "function": {
         "SeedsInSpaceFunction": {
           "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
-          "s3Key": "amplify-builds/SeedsInSpaceFunction-77567078524562453054-build.zip"
+          "s3Key": "amplify-builds/SeedsInSpaceFunction-456e4d3067716e357a30-build.zip"
         }
       }
     }
