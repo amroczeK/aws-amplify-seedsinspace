@@ -17,8 +17,8 @@ const ResultContainer = styled.div`
 const LocationSearch = ({ onSelected, defaultValue }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [location, setLocation] = useState();
-  const searchRef = useRef(null);
+  const [location, setLocation] = useState(); // This is turning the uncontrolled text field into a controlled component (fine, but maybe no necessary)
+  const searchRef = useRef(null); // searchRef is currently used to store the value in the text field, use this with update.
 
   const handleKeyChange = e => {
     clearTimeout(typingTimer);
@@ -31,10 +31,10 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
   };
 
   // You're capturing multiple events and doing different things with them
-  // which is a little dangerous, consider wether you need this
-  const handleChange = e => {
-    setLocation(e.target.value);
-  };
+  // which is a little dangerous, consider whether you need this
+  // const handleChange = e => {
+  //   setLocation(e.target.value);
+  // };
 
   function search() {
     const searchUrl = new URL("https://nominatim.openstreetmap.org/search.php");
@@ -51,7 +51,14 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
     setLoading(false);
   }
 
-  // When we make a choice from the list, we want to set the value
+  /**
+   * This function should:
+   * 1. Pass value back to the onSelected callback
+   * 2. Set the value of the text field (look at using the ref that is passed, try console.log searchRef.current)
+   * 3. Remove the results list to stop it showing
+   * @param {*} value used to pass back to onSelected and to set the text field value (value.display_name)
+   */
+
   // function onResultSelection (value) {}
   // const onResultSelection = (value) => {}
 
@@ -63,8 +70,7 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
           <ResultContainer
             key={value.place_id}
             onClick={() => {
-              // Split this into a seperate function
-              // see above
+              // Split this into a seperate function, see above
               onSelected(value);
               setSearchResults([]);
               setLocation(value.display_name);
@@ -87,9 +93,9 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
         id="location search"
         variant="outlined"
         defaultValue={defaultValue}
-        inputRef={searchRef}
-        value={location} // This is what we want to set after we make a choice.
-        onChange={handleChange} // We're already capturing the key event below
+        inputRef={searchRef} // Can we use this?? We can... haha
+        value={location} // By explicitly setting value we're making this a controlled component. Do we need to do this?
+        // onChange={handleChange} // We're already capturing the key event below
         onKeyUp={handleKeyChange}
         InputProps={{
           endAdornment: (
