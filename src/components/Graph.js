@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../../context/Data";
 import { AWSContext } from "../../context/AWSContext";
-import Plotly from "../Charts/Plotly";
+import Plotly from "../charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import MultiSelect from "../selects/MultiSelect";
