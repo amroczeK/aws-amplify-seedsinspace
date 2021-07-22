@@ -15,38 +15,30 @@ export const SideMenuItems = ({ callback }) => {
 
   return (
     <List component="nav">
-      {cognitoUser && (
+      <ListItem button component={Link} onClick={callback} to="/dashboard">
+        <StyledListItemText>{cognitoUser ? "My Seeds" : "All Seeds"}</StyledListItemText>
+      </ListItem>
+      <ListItem button component={Link} onClick={callback} to="/resources">
+        <StyledListItemText>Resources</StyledListItemText>
+      </ListItem>
+      <ListItem button component={Link} onClick={callback} to="/schools">
+        <StyledListItemText>Community</StyledListItemText>
+      </ListItem>
+      <ListItem button component={Link} onClick={callback} to="/about">
+        <StyledListItemText>About SIS</StyledListItemText>
+      </ListItem>
+      {cognitoUser ? (
         <>
           <ListItem button component={Link} onClick={callback} to="/profile">
             <StyledListItemText primary="Profile" />
           </ListItem>
-          <ListItem button component={Link} onClick={callback} to="/export">
-            <StyledListItemText primary="Export Data" />
+          <ListItem button component={Link} onClick={signOut} to="/signin">
+            <StyledListItemText primary="Log Out" />
           </ListItem>
         </>
-      )}
-      <ListItem button component={Link} onClick={callback} to="/">
-        <StyledListItemText primary="Home" />
-      </ListItem>
-      <ListItem button component={Link} onClick={callback} to="/dashboard">
-        <StyledListItemText primary="Dashboard" />
-      </ListItem>
-      <ListItem button component={Link} onClick={callback} to="/resources">
-        <StyledListItemText primary="Resources" />
-      </ListItem>
-      <ListItem button component={Link} onClick={callback} to="/schools">
-        <StyledListItemText primary="Participating Schools" />
-      </ListItem>
-      <ListItem button component={Link} onClick={callback} to="/faq">
-        <StyledListItemText primary="FAQ" />
-      </ListItem>
-      {cognitoUser ? (
-        <ListItem button component={Link} onClick={signOut} to="/signin">
-          <StyledListItemText primary="Logout" />
-        </ListItem>
       ) : (
         <ListItem button component={Link} onClick={callback} to="/signin">
-          <StyledListItemText primary="Login" />
+          <StyledListItemText primary="Sign In" />
         </ListItem>
       )}
     </List>

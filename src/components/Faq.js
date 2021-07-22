@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import React, { useState } from "react";
-import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-
 
 const AccordionPanel = ({ children, title }) => {
   const [open, setOpen] = useState(false);
@@ -20,8 +18,7 @@ const AccordionPanel = ({ children, title }) => {
 
 const FAQ = () => {
   return (
-    <Container maxWidth="md">
-      <h1 style={{ textAlign: "center", margin: "40px" }}>FAQ</h1>
+    <>
       <AccordionPanel title="Will aliens grow from the space seeds?">
         <StyledTypography>We don’t think so.</StyledTypography>
       </AccordionPanel>
@@ -38,12 +35,19 @@ const FAQ = () => {
         <StyledTypography>Absolutely!</StyledTypography>
       </AccordionPanel>
       <AccordionPanel title="When will the seeds be back?">
-        <StyledTypography>On SpaceX 22 which is scheduled for a July 2021 splashdown.</StyledTypography>
+        <StyledTypography>
+          On SpaceX 22 which is scheduled for a July 2021 splashdown.
+        </StyledTypography>
       </AccordionPanel>
       <AccordionPanel title="Who do I contact if I have questions?">
-        <StyledTypography>Send an email to <a href="mailto: info@onegiantleapaustralia.com">info@onegiantleapaustralia.com</a></StyledTypography>
+        <StyledTypography>
+          Send an email to
+          <a href="mailto: info@onegiantleapaustralia.com">
+            info@onegiantleapaustralia.com
+          </a>
+        </StyledTypography>
       </AccordionPanel>
-    </Container>
+    </>
   );
 };
 
