@@ -5,6 +5,7 @@ import Plotly from "../charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import MultiSelect from "../selects/MultiSelect";
+import Select from "../selects/Select";
 import QueryBtn from "../inputs/Button";
 import ClearFiltersBtn from "../inputs/Button";
 import styled from "styled-components";
@@ -44,11 +45,14 @@ const seedFilters = [
   "Leaf Colour",
 ];
 
+const seedTypes = ["All", "Earth", "Space"];
+
 const Graph = () => {
   const classes = useStyles();
 
   const [selectedQuery, setSelectedQuery] = useState(""); // Must be "" or index value else MUI out of range warning
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [selectedType, setSelectedType] = useState(0);
 
   const { seedData, setSeedData, loading, setLoading, error, setError } =
     useContext(DataContext);
@@ -58,7 +62,26 @@ const Graph = () => {
     setSelectedFilters(event.target.value);
   };
 
-  const queryHandler = async () => {
+  const selectedTypeHandler = event => {
+    setSelectedType(event.target.value);
+  };
+
+  const onFilterQueryHandler = async () => {
+    if (selectedType <= 0) {
+      await onMountQueryHandler();
+    } else {
+      setLoading(true);
+      let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
+      let data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
+        console.log(error?.message);
+        setError({ message: error?.message });
+      });
+      setSeedData(data);
+      setLoading(false);
+    }
+  };
+
+  const onMountQueryHandler = async () => {
     setLoading(true);
     let req = { Pk: cognitoUser?.attributes?.sub };
     let data = await API.getUsersSeeds(req).catch(error => {
@@ -73,33 +96,48 @@ const Graph = () => {
 
   // Load users seeds on component render
   useEffect(() => {
-    if (!seedData.length) queryHandler();
+    if (!seedData.length) onMountQueryHandler();
     // eslint-disable-next-line
   }, []);
 
   return (
     <div className={classes.root}>
       {error?.message && <Alert severity="error">{error.message}</Alert>}
+      {/* <Card>
+        <CardContent>
+          <Typography variant="h6">
+            Seed Filters
+          </Typography>
+        </CardContent>
+      </Card> */}
       <SelectContainer>
-        <MultiSelect
+        <Select
+          title={"Type"}
+          value={selectedType}
+          handleChange={selectedTypeHandler}
+          items={seedTypes}
+        />
+        {/* <MultiSelect
           title={"Seed Filters"}
           selections={seedFilters}
           selectedFilters={selectedFilters}
           handleChange={selecedFiltesrHandler}
           helperText={"Select data filter"}
-        />
+        /> */}
         <QueryBtn
           title={"Fetch Data"}
-          onClickHandler={() => {
-            // Index 0 evaluates to false
-            if (selectedQuery >= 0) {
-              setLoading(true);
-            }
-          }}
+          // onClickHandler={() => {
+          //   // Index 0 evaluates to false
+          //   if (selectedQuery >= 0) {
+          //     setLoading(true);
+          //   }
+          // }}
+          onClickHandler={onFilterQueryHandler}
         />
         <ClearFiltersBtn
           title={"Clear"}
           onClickHandler={() => {
+            setLoading(false);
             setSeedData([]);
             setSelectedFilters([]);
             setSelectedQuery("");
@@ -112,7 +150,7 @@ const Graph = () => {
             {loading && <CircularProgress size={60} />}
           </div>
         )}
-        <Plotly {...getChartData({ type: "bar", data: seedData, title: "My Seeds"})} />
+        <Plotly {...getChartData({ type: "bar", data: seedData, title: "My Seeds" })} />
       </Paper>
     </div>
   );

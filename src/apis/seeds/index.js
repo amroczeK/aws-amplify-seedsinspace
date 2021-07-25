@@ -148,12 +148,13 @@ export const deleteSeed = async req => {
  * @returns result response
  */
 export const getSeedsByTypeAndSortKey = async req => {
-  let { Type, Sk } = req;
+  let { Type, Sk, Pk } = req;
 
   if (!Type) throw new Error("Seed type is required.");
 
   let queryStringParameters = {};
   if (Sk) queryStringParameters.Sk = Sk;
+  if (Pk) queryStringParameters.Pk = Pk;
 
   const { body, error } = await API.get(API_RESOURCE, `/seeds/type/${Type}/filter`, {
     queryStringParameters,

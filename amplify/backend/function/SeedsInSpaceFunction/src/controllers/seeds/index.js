@@ -311,7 +311,7 @@ async function deleteSeed(req, res) {
  */
 async function getSeedsByTypeAndSortKey(req, res) {
   const { Type } = req.params;
-  const { Sk } = req.query;
+  const { Sk, Pk } = req.query;
 
   if (!Type) {
     return res.json({
@@ -320,7 +320,7 @@ async function getSeedsByTypeAndSortKey(req, res) {
     });
   }
 
-  const params = {
+  let params = {
     TableName: tableName,
     IndexName: "TypeAndSkIndex",
     KeyConditionExpression: "#Type = :Type AND begins_with(Sk, :Sk)",
@@ -332,6 +332,11 @@ async function getSeedsByTypeAndSortKey(req, res) {
       ":Sk": Sk ? `SEED#${Sk}` : "SEED#",
     },
   };
+
+  if (Pk) {
+    params.FilterExpression = "Pk = :Pk";
+    params.ExpressionAttributeValues[`:Pk`] = `SCHOOL#${Pk}`;
+  }
 
   try {
     const result = await db.query(params).promise();
