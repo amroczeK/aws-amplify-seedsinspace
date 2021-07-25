@@ -2,7 +2,7 @@ import Container from "@material-ui/core/Container";
 import Logo from "../assets/logo.png";
 import styled from "styled-components";
 import FAQ from "../components/Faq";
-import sponsors from "../assets/sponsors";
+import SponsorContainer from "../components/SponsorContainer";
 
 const About = () => {
   return (
@@ -55,16 +55,6 @@ const About = () => {
         <SponsorContainer />
       </ContentContainer>
     </Container>
-  );
-};
-
-const SponsorContainer = () => {
-  return (
-    <div>
-      {sponsors.map((image, index) => (
-        <img style={{ maxWidth: 200, height: "auto" }} key={index} src={image} alt="" />
-      ))}
-    </div>
   );
 };
 
