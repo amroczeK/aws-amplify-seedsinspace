@@ -57,7 +57,7 @@ async function getSeed(req, res) {
   const { Pk, Sk } = req.params;
 
   if (!Pk || !Sk) {
-    res.json({
+    return res.json({
       statusCode: 400,
       error: "Partition key and sort key is required to make this request.",
     });
@@ -97,7 +97,7 @@ async function getUsersSeeds(req, res) {
   const { Pk } = req.params;
 
   if (!Pk) {
-    res.json({
+    return res.json({
       statusCode: 400,
       error: "Partition key is required to make this request.",
     });
@@ -129,18 +129,18 @@ async function getUsersSeeds(req, res) {
 
 /**
  * @desc    Fetch all seed entries for particular school and filter with sort key
- * @route   POST /seeds/:Pk/:Sk
+ * @route   GET /seeds/:Pk/filter
  * @access  Public
- * @example POST /seeds/dc2f0a31-7643-4bc1-baa1-fae03141a997
+ * @example GET /seeds/dc2f0a31-7643-4bc1-baa1-fae03141a997/filter?Sk=2021-05-11
  * @patterns Sort Key patterns: Begins_With year, year & month, date, date & type
  * @examples Sort key examples: 2021, 2021-05, 2021-05-11, 2021-05-11_Earth
  */
 async function getSeedsByFilter(req, res) {
   const { Pk } = req.params;
-  const { Sk } = req.body;
+  const { Sk } = req.query;
 
   if (!Pk || !Sk) {
-    res.json({
+    return res.json({
       statusCode: 400,
       error: "Partition key and sort key is required to make this request.",
     });
@@ -215,7 +215,7 @@ async function updateSeed(req, res) {
   const Attributes = { ...req.body };
 
   if (!Pk) {
-    res.json({
+    return res.json({
       statusCode: 400,
       error: "Partition key is required to make this request.",
     });
@@ -273,7 +273,7 @@ async function deleteSeed(req, res) {
   const { Pk, Sk } = req.params;
 
   if (!Pk || !Sk) {
-    res.json({
+    return res.json({
       statusCode: 400,
       error: "Partition key and sort key is required to make this request.",
     });
@@ -305,16 +305,16 @@ async function deleteSeed(req, res) {
 }
 
 /**
- * @desc    Fetch all seed entries by type
- * @route   GET /seeds/:Type
+ * @desc    Fetch all seed entries by seed Type, or with Sort Key
+ * @route   GET /seeds/type/:Type/filter?Sk=2021-05-10
  * @access  Public
  */
-async function getAllSeedsByType(req, res) {
-  console.log("getAllSeedsByType");
+async function getSeedsByTypeAndSortKey(req, res) {
   const { Type } = req.params;
+  const { Sk } = req.query;
 
   if (!Type) {
-    res.json({
+    return res.json({
       statusCode: 400,
       error: "Type is required to make this request.",
     });
@@ -323,60 +323,13 @@ async function getAllSeedsByType(req, res) {
   const params = {
     TableName: tableName,
     IndexName: "TypeAndSkIndex",
-    KeyConditionExpression: "#Type = :Type",
+    KeyConditionExpression: "#Type = :Type AND begins_with(Sk, :Sk)",
     ExpressionAttributeNames: {
       "#Type": "Type",
     },
     ExpressionAttributeValues: {
       ":Type": Type,
-    },
-  };
-  console.log("getAllSeedsByType params:", params);
-
-  try {
-    const result = await db.query(params).promise();
-    console.log("getAllSeedsByType:", result);
-    res.json({
-      statusCode: 200,
-      url: req.url,
-      body: JSON.stringify(result.Items),
-    });
-  } catch (error) {
-    console.log("GET /seeds/:Type - Error:", error);
-    res.json({
-      statusCode: 500,
-      error: error.message,
-    });
-  }
-}
-
-/**
- * @desc    Fetch all seed entries by type
- * @route   POST /seeds/:Type/:Sk
- * @access  Public
- */
-async function getAllSeedsByTypeAndSortKey(req, res) {
-  console.log("getAllSeedsByTypeAndSortKey");
-  const { Type } = req.params;
-  const { Sk } = req.body;
-
-  if (!Type) {
-    res.json({
-      statusCode: 400,
-      error: "Type and sort key is required to make this request.",
-    });
-  }
-
-  const params = {
-    TableName: tableName,
-    IndexName: "TypeAndSkIndex",
-    KeyConditionExpression: "#Type = :Type AND begins_with ( Sk , :Sk )",
-    ExpressionAttributeNames: {
-      "#Type": "Type",
-    },
-    ExpressionAttributeValues: {
-      ":Type": Type,
-      ":Sk": `SEED#${Sk}`,
+      ":Sk": Sk ? `SEED#${Sk}` : "SEED#",
     },
   };
 
@@ -385,10 +338,10 @@ async function getAllSeedsByTypeAndSortKey(req, res) {
     res.json({
       statusCode: 200,
       url: req.url,
-      body: JSON.stringify(result.Items),
+      body: JSON.stringify(result.Items || result.Item),
     });
   } catch (error) {
-    console.log("POST /seeds/:Type/:Sk - Error:", error);
+    console.log("POST /seeds/type/:Type/filter - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -404,6 +357,5 @@ module.exports = {
   addSeed,
   updateSeed,
   deleteSeed,
-  getAllSeedsByType,
-  getAllSeedsByTypeAndSortKey,
+  getSeedsByTypeAndSortKey,
 };
