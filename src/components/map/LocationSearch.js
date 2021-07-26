@@ -29,6 +29,13 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
     setSearchResults([]);
   };
 
+  function onLocationSelection(value) {
+    onSelected(value);
+    setSearchResults([]);
+    searchRef.current.value = value.display_name;
+    setLoading(false);
+  }
+
   function search() {
     const searchUrl = new URL("https://nominatim.openstreetmap.org/search.php");
     searchUrl.searchParams.append("q", searchRef.current.value);
@@ -39,8 +46,8 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
     fetch(searchUrl)
       .then(response => response.json())
       .then(data => setSearchResults(data))
-      .catch(console.error);
-    setLoading(false);
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }
 
   const mappedResults = () => {
@@ -50,9 +57,7 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
         return (
           <ResultContainer
             key={value.place_id}
-            onClick={() => {
-              onSelected(value);
-            }}
+            onClick={() => onLocationSelection(value)}
           >
             <p style={{ fontWeight: "bold" }}>{name}</p>
             <p>location: {location}</p>
