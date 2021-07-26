@@ -1,4 +1,4 @@
-export const getChartData = ({ type, data }) => {
+export const getChartData = ({ type, data, title }) => {
   if (data.length) {
     switch (type) {
       case "scatter": {
@@ -42,7 +42,7 @@ export const getChartData = ({ type, data }) => {
             name: key,
           });
         }
-        return { data: traces, title: "Scatter Chart" };
+        return { data: traces, title: title || "Scatter Chart" };
       }
       case "bar": {
         let traceData = [];
@@ -77,7 +77,11 @@ export const getChartData = ({ type, data }) => {
           };
           traceData.push(trace);
         });
-        return { data: traceData, title: "Bar Chart", layout: { barmode: "group" } };
+        return {
+          data: traceData,
+          title: title || "Bar Chart",
+          layout: { barmode: "group" },
+        };
       }
       default:
         // code block

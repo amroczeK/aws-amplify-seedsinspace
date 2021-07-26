@@ -7,8 +7,7 @@ import {
   addSeed,
   updateSeed,
   deleteSeed,
-  getAllSeedsByType,
-  getAllSeedsByTypeAndSortKey,
+  getSeedsByTypeAndSortKey,
 } from "./seeds";
 
 export {
@@ -23,6 +22,5 @@ export {
   addSeed,
   updateSeed,
   deleteSeed,
-  getAllSeedsByType,
-  getAllSeedsByTypeAndSortKey,
+  getSeedsByTypeAndSortKey,
 };

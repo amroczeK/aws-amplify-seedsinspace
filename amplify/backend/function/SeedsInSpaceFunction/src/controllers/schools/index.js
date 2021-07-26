@@ -17,7 +17,7 @@ async function getSchool(req, res) {
   const { Sk } = req.params;
 
   if (!Sk) {
-    res.json({
+    return res.json({
       statusCode: 400,
       error: "Users sub is required to make this request.",
     });
@@ -86,7 +86,7 @@ async function addSchool(req, res) {
   let sub = getUserId(req);
 
   if (!sub) {
-    res.json({
+    return res.json({
       statusCode: 400,
       error: "Users sub is required to make this request.",
     });
@@ -133,7 +133,7 @@ async function updateSchool(req, res) {
   const Attributes = { ...req.body };
 
   if (!Sk) {
-    res.json({
+    return res.json({
       statusCode: 400,
       error: "Sk is required to make this request.",
     });

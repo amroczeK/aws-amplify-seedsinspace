@@ -5,7 +5,7 @@ import Plotly from "../charts/Plotly";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import MultiSelect from "../selects/MultiSelect";
-import Select from "../selects/Select";
+import QuerySelect from "../selects/QuerySelect";
 import QueryBtn from "../inputs/Button";
 import ClearFiltersBtn from "../inputs/Button";
 import styled from "styled-components";
@@ -144,7 +144,7 @@ const Graph = () => {
     <div className={classes.root}>
       {error?.message && <Alert severity="error">{error.message}</Alert>}
       <SelectContainer>
-        <Select
+        <QuerySelect
           title={"Data Queries"}
           handleChange={selectedQueryHandler}
           selected={selectedQuery}

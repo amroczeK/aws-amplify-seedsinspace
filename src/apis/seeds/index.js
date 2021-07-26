@@ -57,7 +57,7 @@ export const getUsersSeeds = async req => {
 /**
  * @desc Function to retrieve users seeds on sort key filter
  * @param {Object} req Object of attributes e.g. { Pk: "sub", Sk: "2021-06-27_Earth" }
- * @example POST /seeds/dc2f0a31-7643-4bc1-baa1-fae03141a997
+ * @example GET /seeds/dc2f0a31-7643-4bc1-baa1-fae03141a997/filter?Sk="2021-06-27_Earth"
  * @returns result response
  */
 export const getSeedsByFilter = async req => {
@@ -66,13 +66,12 @@ export const getSeedsByFilter = async req => {
   if (!Pk || !Sk)
     throw new Error("Partition key e.g. Cognito Users sub and a Sort Key is required.");
 
-  const { body, error } = await API.post(API_RESOURCE, `/seeds/${Pk}`, {
-    body: {
+  const { body, error } = await API.get(API_RESOURCE, `/seeds/${Pk}/filter`, {
+    queryStringParameters: {
       Sk,
     },
   });
   if (error) {
-    console.error(error);
     throw error;
   }
   return JSON.parse(body);
@@ -144,37 +143,21 @@ export const deleteSeed = async req => {
 };
 
 /**
- * @desc Function to retrieve all seeds by Type
- * @param {Object} req Object of attributes e.g. { Type: "Earth" }
+ * @desc Function to retrieve all seeds by Type, or with Sort Key
+ * @param {Object} req Object of attributes e.g. { Type: "Earth", Sk: "2021-01-02" }
  * @returns result response
  */
-export const getAllSeedsByType = async req => {
-  let { Type } = req;
+export const getSeedsByTypeAndSortKey = async req => {
+  let { Type, Sk, Pk } = req;
 
   if (!Type) throw new Error("Seed type is required.");
 
-  const { body, error } = await API.get(API_RESOURCE, `/seeds/type/${Type}`, {});
-  if (error) {
-    console.error(error);
-    throw error;
-  }
-  return JSON.parse(body);
-};
+  let queryStringParameters = {};
+  if (Sk) queryStringParameters.Sk = Sk;
+  if (Pk) queryStringParameters.Pk = Pk;
 
-/**
- * @desc Function to retrieve all seeds by Type and Sort Key
- * @param {Object} req Object of attributes e.g. { Type: "Earth" }
- * @returns result response
- */
-export const getAllSeedsByTypeAndSortKey = async req => {
-  let { Type, Sk } = req;
-
-  if (!Type || !Sk) throw new Error("Seed type and Sort key e.g. filter is required.");
-
-  const { body, error } = await API.post(API_RESOURCE, `/seeds/type/${Type}`, {
-    body: {
-      Sk,
-    },
+  const { body, error } = await API.get(API_RESOURCE, `/seeds/type/${Type}/filter`, {
+    queryStringParameters,
   });
 
   if (error) {
