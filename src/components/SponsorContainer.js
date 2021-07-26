@@ -21,13 +21,12 @@ const SponsorContainer = () => {
 export default SponsorContainer;
 
 const Image = styled.img`
-  height: 150px;
+  max-height: 150px;
   width: auto;
 `;
 
 const Grid = styled.div`
   display: grid;
-  gap: 1em;
   grid-template-columns: 1fr 1fr;
   justify-items: center;
   background-color: #fff;

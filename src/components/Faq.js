@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
+import Collapse from "@material-ui/core/Collapse";
 
 const AccordionPanel = ({ children, title }) => {
   const [open, setOpen] = useState(false);
@@ -11,7 +12,9 @@ const AccordionPanel = ({ children, title }) => {
         {title}
         <div style={{ textAlign: "end", flex: "1 0" }}>{open ? "-" : "+"}</div>
       </AccordionHeader>
-      {open && <AccordionContent>{children}</AccordionContent>}
+      <Collapse in={open}>
+        <AccordionContent>{children}</AccordionContent>
+      </Collapse>
     </div>
   );
 };
@@ -59,7 +62,6 @@ const AccordionHeader = styled.h2`
 `;
 
 const AccordionContent = styled.div`
-  border: 1px solid green;
   padding: 1em;
 `;
 
