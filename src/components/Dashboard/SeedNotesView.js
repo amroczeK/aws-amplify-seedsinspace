@@ -1,27 +1,32 @@
 import { useState, useEffect } from "react";
 import SimpleDialog from "../feedback/SimpleDialog";
-import { S3Image } from "aws-amplify-react";
-import { Image } from "@styled-icons/boxicons-solid/Image";
+import Typography from "@material-ui/core/Typography";
+import { Note } from "@styled-icons/boxicons-solid/Note";
 import styled from "styled-components";
 
-const SeedImageView = ({ row }) => {
+const Notes = ({ notes }) => (
+  <NotesContainer>
+    <Typography>{notes}</Typography>
+  </NotesContainer>
+);
+
+const SeedNotesView = ({ row }) => {
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState(null)
-  const [imageKey, setImageKey] = useState(null);
+  const [notes, setNotes] = useState(null);
+  const [title, setTitle] = useState(null);
 
   const handleClose = () => {
     setOpen(!open);
   };
 
   useEffect(() => {
-    if (row && !imageKey) {
-      console.log(row)
-      let Pk = row?.Pk?.split("SCHOOL#")[1];
+    if (row && !title) {
+      let notes = row?.Notes;
       let Sk = row?.Sk?.split("SEED#")[1];
       setTitle(Sk.replace(/_/gim, " "));
-      setImageKey(`seed_images/${Pk}_${Sk}`);
+      setNotes(notes);
     }
-  }, [row, imageKey, setImageKey, setTitle]);
+  }, [row, , setTitle, setTitle]);
 
   return (
     <Container>
@@ -30,21 +35,20 @@ const SeedImageView = ({ row }) => {
           setOpen(!open);
         }}
       >
-        <ImageIcon />
+        <NoteIcon />
       </div>
       <SimpleDialog
         title={title}
         open={open}
         handleClose={handleClose}
-        component={S3Image}
-        componentProps={{ imgKey: imageKey, level: "public" }}
-        containerProps={{ justifyContent: "center", alignItems: "center" }}
+        component={Notes}
+        componentProps={{ notes }}
       />
     </Container>
   );
 };
 
-export default SeedImageView;
+export default SeedNotesView;
 
 const Container = styled.div`
   display: flex;
@@ -53,10 +57,20 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const ImageIcon = styled(Image)`
+const NoteIcon = styled(Note)`
   cursor: pointer;
   width: 2.5em;
   height: 2.5em;
   color: ${props => props.color || props.theme.palette.primary.main};
   margin: 1em 0;
+`;
+
+const NotesContainer = styled.div`
+  padding: 1.5rem;
+  max-width: 600px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  @media (max-width: 600px) {
+    max-width: 350px;
+  }
 `;

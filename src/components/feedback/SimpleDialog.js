@@ -5,7 +5,14 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import styled from "styled-components";
 
 const SimpleDialog = props => {
-  const { handleClose, open, component: Component, componentProps, title } = props;
+  const {
+    handleClose,
+    open,
+    component: Component,
+    componentProps,
+    containerProps,
+    title,
+  } = props;
 
   return (
     <Dialog
@@ -16,7 +23,7 @@ const SimpleDialog = props => {
     >
       <DialogTitle id="dialog-title">{title || ""}</DialogTitle>
       {Component && (
-        <Container>
+        <Container {...containerProps}>
           <Component {...componentProps} />
         </Container>
       )}
@@ -33,6 +40,7 @@ export default SimpleDialog;
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-`
+  justify-content: ${({ justifyContent }) =>
+    justifyContent ? justifyContent : "flex-start"};
+  align-items: ${({ alignItems }) => (alignItems ? alignItems : "stretch")};
+`;
