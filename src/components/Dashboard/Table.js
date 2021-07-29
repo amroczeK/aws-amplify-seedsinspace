@@ -3,9 +3,20 @@ import Alert from "@material-ui/lab/Alert";
 import styled from "styled-components";
 import { DataGridTable } from "../tables/data-grid";
 import { DataContext } from "../../context/Data";
+import SeedImageView from "./SeedImageView";
 
 const defaultColumns = [
   { field: "Type", headerName: "Type", width: 110 },
+  {
+    field: "Image",
+    headerName: "Image",
+    width: 125,
+    renderCell: ({ row }) => (
+      <SeedImageView
+        row={row}
+      />
+    ),
+  },
   { field: "Height", headerName: "Height", type: "number", width: 125 },
   { field: "StemLength", headerName: "Stem Length (mm)", type: "number", width: 215 },
   { field: "LeafLength", headerName: "Leaf Length (mm)", type: "number", width: 210 },
