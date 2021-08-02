@@ -26,7 +26,8 @@ const SeedNotesView = ({ row }) => {
       setTitle(Sk.replace(/_/gim, " "));
       setNotes(notes);
     }
-  }, [row, title, setTitle, setTitle]);
+    // eslint-disable-next-line
+  }, [row, title]); // Only update when row changes
 
   return (
     <Container>

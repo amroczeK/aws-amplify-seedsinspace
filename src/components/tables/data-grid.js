@@ -38,6 +38,8 @@ export const DataGridTable = ({
   defaultColumns,
   loading,
   setSelectedRows,
+  setSelectedRow,
+  checkboxDisabled = false,
   getRowId,
   error,
 }) => {
@@ -47,10 +49,16 @@ export const DataGridTable = ({
   const [rows, setRows] = useState([]);
 
   const onRowSelectHandler = e => {
-    if (e.isSelected) {
-      setSelectedRows(prevState => [...prevState, e.data]);
-    } else {
-      setSelectedRows(prevState => prevState.filter(item => item.id !== e.data.id));
+    if (setSelectedRow) {
+      if (e.isSelected) setSelectedRow(e.data);
+    }
+    if (setSelectedRows) {
+      if (e.isSelected) {
+        console.log(e.data);
+        setSelectedRows(prevState => [...prevState, e.data]);
+      } else {
+        setSelectedRows(prevState => prevState.filter(item => item.id !== e.data.id));
+      }
     }
   };
 
@@ -75,7 +83,7 @@ export const DataGridTable = ({
       className={classes.root}
       rows={rows}
       columns={columns}
-      checkboxSelection
+      checkboxSelection={checkboxDisabled ? false : true}
       loading={loading}
       showCellRightBorder
       onRowSelected={onRowSelectHandler}
