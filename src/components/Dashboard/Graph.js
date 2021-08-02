@@ -103,7 +103,6 @@ const Graph = () => {
 
   return (
     <div className={classes.root}>
-      <DateRange />
       {error?.message && <Alert severity="error">{error.message}</Alert>}
       {/* <Card>
         <CardContent>
@@ -119,6 +118,7 @@ const Graph = () => {
           handleChange={selectedTypeHandler}
           items={seedTypes}
         />
+        <DateRange />
         {/* <MultiSelect
           title={"Seed Filters"}
           selections={seedFilters}
