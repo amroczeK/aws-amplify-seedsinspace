@@ -7,6 +7,7 @@ import MultiSelect from "../selects/MultiSelect";
 import Select from "../selects/Select";
 import QueryBtn from "../inputs/Button";
 import ClearFiltersBtn from "../inputs/Button";
+import DateRange from "../inputs/DateRange";
 import styled from "styled-components";
 import Alert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -102,6 +103,7 @@ const Graph = () => {
 
   return (
     <div className={classes.root}>
+      <DateRange />
       {error?.message && <Alert severity="error">{error.message}</Alert>}
       {/* <Card>
         <CardContent>

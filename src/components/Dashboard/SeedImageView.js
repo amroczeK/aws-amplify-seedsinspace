@@ -15,7 +15,6 @@ const SeedImageView = ({ row }) => {
 
   useEffect(() => {
     if (row && !imageKey) {
-      console.log(row)
       let Pk = row?.Pk?.split("SCHOOL#")[1];
       let Sk = row?.Sk?.split("SEED#")[1];
       setTitle(Sk.replace(/_/gim, " "));

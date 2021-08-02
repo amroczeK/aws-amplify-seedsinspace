@@ -20,7 +20,8 @@ const defaultColumns = [
     width: 120,
     renderCell: ({ row }) => <SeedNotesView row={row} />,
   },
-  { field: "Height", headerName: "Height", type: "number", width: 125 },
+  { field: "Date", headerName: "Date", width: 120 },
+  { field: "Height", headerName: "Height (mm)", type: "number", width: 170 },
   { field: "StemLength", headerName: "Stem Length (mm)", type: "number", width: 215 },
   { field: "LeafLength", headerName: "Leaf Length (mm)", type: "number", width: 210 },
   { field: "LeafWidth", headerName: "Leaf Width (mm)", type: "number", width: 200 },
@@ -30,7 +31,6 @@ const defaultColumns = [
   { field: "Humidity", headerName: "Humidify (%)", type: "number", width: 170 },
   { field: "WaterVolume", headerName: "Water Volume (mL)", type: "number", width: 220 },
   { field: "PhLevel", headerName: "PH Level", type: "number", width: 140 },
-  { field: "Date", headerName: "Date", width: 120 },
 ];
 
 const Table = () => {
