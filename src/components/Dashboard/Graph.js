@@ -7,7 +7,7 @@ import MultiSelect from "../selects/MultiSelect";
 import Select from "../selects/Select";
 import QueryBtn from "../inputs/Button";
 import ClearFiltersBtn from "../inputs/Button";
-import DateRange from "../inputs/DateRange";
+import DateRangeSelect from "../inputs/DateRangeSelect";
 import styled from "styled-components";
 import Alert from "@material-ui/lab/Alert";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -118,7 +118,10 @@ const Graph = () => {
           handleChange={selectedTypeHandler}
           items={seedTypes}
         />
-        <DateRange />
+        <DateRangeContainer>
+          <p>Dates</p>
+          <DateRangeSelect />
+        </DateRangeContainer>
         {/* <MultiSelect
           title={"Seed Filters"}
           selections={seedFilters}
@@ -163,4 +166,14 @@ export default Graph;
 const SelectContainer = styled.div`
   display: flex;
   align-items: center;
+  p {
+    font-size: 0.75rem;
+    margin: 0px;
+  }
+`;
+
+const DateRangeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0px 10px 0px 10px;
 `;
