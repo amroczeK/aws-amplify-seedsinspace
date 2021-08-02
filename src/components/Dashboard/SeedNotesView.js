@@ -26,7 +26,7 @@ const SeedNotesView = ({ row }) => {
       setTitle(Sk.replace(/_/gim, " "));
       setNotes(notes);
     }
-  }, [row, , setTitle, setTitle]);
+  }, [row, title, setTitle, setTitle]);
 
   return (
     <Container>
