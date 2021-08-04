@@ -14,6 +14,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Plotly from "../charts/Plotly";
 import { getChartData } from "../charts/PlotlyAdaptor";
 import * as API from "../../apis";
+import QueryForm from "../forms/QueryForm"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -111,6 +112,7 @@ const Graph = () => {
           </Typography>
         </CardContent>
       </Card> */}
+      <QueryForm/>
       <SelectContainer>
         <Select
           title={"Type"}
