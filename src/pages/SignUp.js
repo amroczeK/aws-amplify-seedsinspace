@@ -45,12 +45,15 @@ const SignUp = () => {
       .then(() => {
         console.log("running add schools");
         addSchool({ SchoolName: organisation })
-          .then(() => console.log("user created"))
+          .then(() => {
+            console.log("user created");
+            history.push("/profile-details", { isNewUser: true, organisation });
+          })
           .catch(error => {
-            throw error;
+            setError(error);
+            console.error(error);
           });
       })
-      .then(() => history.push("/profile-details", { isNewUser: true, organisation }))
       .catch(error => {
         setError(error);
         console.error(error);
