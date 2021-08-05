@@ -15,8 +15,13 @@ const TopMenu = () => {
       <NavButton component={Link} to="/">
         Home
       </NavButton>
-      <NavButton component={Link} to="/my-seeds">
-        My Seeds
+      {cognitoUser && (
+        <NavButton component={Link} to="/my-seeds">
+          My Seeds
+        </NavButton>
+      )}
+      <NavButton component={Link} to="/all-seeds">
+        All Seeds
       </NavButton>
       <NavButton component={Link} to="/resources">
         Resources
