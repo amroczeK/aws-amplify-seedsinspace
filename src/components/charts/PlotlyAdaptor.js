@@ -1,5 +1,5 @@
 export const getChartData = ({ type, data, title }) => {
-  if (data.length) {
+  if (data?.length) {
     switch (type) {
       case "scatter": {
         let dates = [];

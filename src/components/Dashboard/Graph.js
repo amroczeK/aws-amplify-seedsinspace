@@ -14,7 +14,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Plotly from "../charts/Plotly";
 import { getChartData } from "../charts/PlotlyAdaptor";
 import * as API from "../../apis";
-import QueryForm from "../forms/QueryForm"
+import QueryForm from "../forms/QueryForm";
+import Checkbox from "../inputs/Checkbox";
+import moment from "moment";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,21 +39,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const seedFilters = [
-  "All Seeds",
-  "Type",
-  "Height",
-  "Leaf Count",
-  "Leaf Length",
-  "Leaf Width",
-  "Leaf Colour",
-];
-
 const seedTypes = ["All", "Earth", "Space"];
 
 const Graph = () => {
   const classes = useStyles();
 
+  const [date, setDate] = useState({ startDate: moment(), endDate: moment() });
+  const [checked, setChecked] = useState(false);
   const [selectedQuery, setSelectedQuery] = useState(""); // Must be "" or index value else MUI out of range warning
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedType, setSelectedType] = useState(0);
@@ -68,12 +62,26 @@ const Graph = () => {
     setSelectedType(event.target.value);
   };
 
+  const dateChangeHandler = ({ startDate, endDate }) => {
+    console.log(startDate.format("YYYY-MM-DD"), endDate);
+    setDate({ startDate, endDate });
+  };
+
+  const checkedHandler = () => {
+    setChecked(!checked);
+  };
+
   const onFilterQueryHandler = async () => {
     if (selectedType <= 0) {
       await onMountQueryHandler();
     } else {
       setLoading(true);
       let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
+      if(!checked && date){
+        req.startDate = date.startDate.format("YYYY-MM-DD");
+        req.endDate = date.endDate.format("YYYY-MM-DD");
+      }
+      console.log(req);
       let data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
         console.log(error?.message);
         setError({ message: error?.message });
@@ -105,14 +113,7 @@ const Graph = () => {
   return (
     <div className={classes.root}>
       {error?.message && <Alert severity="error">{error.message}</Alert>}
-      {/* <Card>
-        <CardContent>
-          <Typography variant="h6">
-            Seed Filters
-          </Typography>
-        </CardContent>
-      </Card> */}
-      <QueryForm/>
+      <QueryForm />
       <SelectContainer>
         <Select
           title={"Type"}
@@ -122,15 +123,13 @@ const Graph = () => {
         />
         <DateRangeContainer>
           <p>Dates</p>
-          <DateRangeSelect />
+          <DateRangeSelect
+            date={date}
+            dateChangeHandler={dateChangeHandler}
+            disabled={checked}
+          />
         </DateRangeContainer>
-        {/* <MultiSelect
-          title={"Seed Filters"}
-          selections={seedFilters}
-          selectedFilters={selectedFilters}
-          handleChange={selecedFiltesrHandler}
-          helperText={"Select data filter"}
-        /> */}
+        <Checkbox name={"All dates"} checked={checked} checkedHandler={checkedHandler} />
         <QueryBtn
           title={"Fetch Data"}
           // onClickHandler={() => {
@@ -168,6 +167,7 @@ export default Graph;
 const SelectContainer = styled.div`
   display: flex;
   align-items: center;
+  gap: 0.75rem;
   p {
     font-size: 0.75rem;
     margin: 0px;
@@ -177,5 +177,4 @@ const SelectContainer = styled.div`
 const DateRangeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0px 10px 0px 10px;
 `;

@@ -8,19 +8,13 @@ import "./styles.css";
 
 const DateRangeSelect = ({
   enableFutureSelection = false,
-  onDatesChange = () => {},
   noBorder = false,
   small = true,
-  customArrowIcon = null,
+  date = { startDate: moment(), endDate: moment() },
+  dateChangeHandler,
+  disabled = false,
 }) => {
-  const [date, setDate] = useState({ startDate: moment(), endDate: moment() }); // Uses startDateTime and endDateTime from catalog.filters
-
   const [focusedInput, setFocusedInput] = useState(null);
-
-  const handleDatesChange = ({ startDate, endDate }) => {
-    setDate({ startDate, endDate });
-    onDatesChange(startDate, endDate);
-  };
 
   const onFocusChange = focusedInput => {
     setFocusedInput(focusedInput);
@@ -43,7 +37,7 @@ const DateRangeSelect = ({
       endDateId={END_DATE} // "endDate"
       endDate={date.endDate}
       focusedInput={focusedInput}
-      onDatesChange={handleDatesChange}
+      onDatesChange={dateChangeHandler}
       onFocusChange={focusedInput => onFocusChange(focusedInput)}
       enableOutsideDays={false}
       isOutsideRange={day =>
@@ -56,7 +50,7 @@ const DateRangeSelect = ({
       hideKeyboardShortcutsPanel
       small={small}
       noBorder={noBorder}
-      customArrowIcon={customArrowIcon || null}
+      disabled={disabled}
     />
   );
 };
