@@ -28,8 +28,8 @@ export const SideMenuItems = ({ callback }) => {
       <ListItem button component={Link} onClick={callback} to="/">
         <StyledListItemText primary="Home" />
       </ListItem>
-      <ListItem button component={Link} onClick={callback} to="/dashboard">
-        <StyledListItemText primary="Dashboard" />
+      <ListItem button component={Link} onClick={callback} to="/my-seeds">
+        <StyledListItemText primary="My Seeds" />
       </ListItem>
       <ListItem button component={Link} onClick={callback} to="/resources">
         <StyledListItemText primary="Resources" />

@@ -15,8 +15,8 @@ const TopMenu = () => {
       <NavButton component={Link} to="/">
         Home
       </NavButton>
-      <NavButton component={Link} to="/dashboard">
-        Dashboard
+      <NavButton component={Link} to="/my-seeds">
+        My Seeds
       </NavButton>
       <NavButton component={Link} to="/resources">
         Resources
