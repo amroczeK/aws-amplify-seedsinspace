@@ -311,7 +311,7 @@ async function deleteSeed(req, res) {
  */
 async function getSeedsByTypeAndSortKey(req, res) {
   const { Type } = req.params;
-  const { Sk, Pk } = req.query;
+  const { Sk, Pk, startDate, endDate } = req.query;
 
   if (!Type) {
     return res.json({
@@ -336,6 +336,13 @@ async function getSeedsByTypeAndSortKey(req, res) {
   if (Pk) {
     params.FilterExpression = "Pk = :Pk";
     params.ExpressionAttributeValues[`:Pk`] = `SCHOOL#${Pk}`;
+  }
+
+  if (startDate && endDate) {
+    params.ExpressionAttributeNames["#Date"] = "Date";
+    params.ExpressionAttributeValues[":startDate"] = startDate;
+    params.ExpressionAttributeValues[":endDate"] = endDate;
+    params.FilterExpression = "Pk = :Pk AND #Date BETWEEN :startDate and :endDate";
   }
 
   try {
