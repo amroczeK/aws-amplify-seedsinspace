@@ -45,9 +45,11 @@ const ProfileDetails = () => {
   const { updateCognitoUser, cognitoUser, fetchS3, uploadImage } = useAws();
 
   useEffect(() => {
-    fetchS3({ path: `profiles/${cognitoUser?.username}_profile`, level: "public" }).then(url => {
-      setProfileImage(url);
-    });
+    fetchS3({ path: `profiles/${cognitoUser?.username}_profile`, level: "public" }).then(
+      url => {
+        setProfileImage(url);
+      }
+    );
   }, [fetchS3, cognitoUser]);
 
   const { control, register, setValue, handleSubmit } = useForm({
@@ -167,9 +169,9 @@ const ProfileDetails = () => {
           )}
         </GridForm>
         <SuccessSnackbar
-          open={showSnack}
+          openSnack={showSnack}
+          setOpenSnack={setShowSnack}
           text="Success! Profile updated"
-          onClose={() => setShowSnack(false)}
         />
       </Flexbox>
     </Container>
