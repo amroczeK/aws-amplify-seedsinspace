@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DataGridTable } from "../tables/data-grid";
+import { DataGridTable } from "../tables/DataGrid";
 import styled from "styled-components";
 
 const defaultColumns = [

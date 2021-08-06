@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import Alert from "@material-ui/lab/Alert";
 import styled from "styled-components";
-import { DataGridTable } from "../tables/data-grid";
+import { DataGridTable } from "../tables/DataGrid";
 import { DataContext } from "../../context/Data";
-import SeedImageView from "./SeedImageView";
-import SeedNotesView from "./SeedNotesView";
+import SeedImageView from "../tables/SeedImageView";
+import SeedNotesView from "../tables/SeedNotesView";
 
 const defaultColumns = [
   { field: "Type", headerName: "Type", width: 110 },

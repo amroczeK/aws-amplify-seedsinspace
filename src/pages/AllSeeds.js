@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "@material-ui/core/Container";
 import Graph from "../components/AllSeeds/Graph"
 import Table from "../components/AllSeeds/Table";
 import styled from "styled-components";
@@ -6,17 +7,20 @@ import styled from "styled-components";
 const AllSeeds = () => {
   return (
     <Container>
-      <DataContainer>
-        <Graph />
-        <Table />
-      </DataContainer>
+      <Section>
+        <h1>Community Seeds</h1>
+        <DataContainer>
+          <Graph />
+          <Table />
+        </DataContainer>
+      </Section>
     </Container>
   );
 };
 
 export default AllSeeds;
 
-const Container = styled.div`
+const Section = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 300px;
@@ -25,7 +29,6 @@ const Container = styled.div`
 `;
 
 const DataContainer = styled.div`
-  padding-top: 2rem;
   position: relative;
   height: 100%;
 `;
