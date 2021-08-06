@@ -18,7 +18,7 @@ const TopMenu = () => {
       <NavButton component={Link} to="/resources">
         Resources
       </NavButton>
-      <NavButton component={Link} to="/schools">
+      <NavButton component={Link} to="/community">
         Community
       </NavButton>
       <NavButton component={Link} to="/">

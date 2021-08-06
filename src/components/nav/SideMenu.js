@@ -58,7 +58,7 @@ const SideMenu = () => {
             <ListItem button component={Link} onClick={handleClose} to="/resources">
               <StyledListItemText>Resources</StyledListItemText>
             </ListItem>
-            <ListItem button component={Link} onClick={handleClose} to="/schools">
+            <ListItem button component={Link} onClick={handleClose} to="/community">
               <StyledListItemText>Community</StyledListItemText>
             </ListItem>
             <ListItem button component={Link} onClick={handleClose} to="/">
