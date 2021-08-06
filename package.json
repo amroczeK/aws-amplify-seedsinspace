@@ -11,6 +11,7 @@
     "@material-ui/pickers": "^3.3.10",
     "@react-leaflet/core": ">=1.0.0 <1.1.0 || ^1.1.1",
     "aws-amplify": "^3.4.3",
+    "aws-amplify-react": "^5.0.8",
     "date-fns": "^2.21.3",
     "leaflet": "^1.7.1",
     "plotly.js": "^1.58.4",
