@@ -14,7 +14,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Plotly from "../charts/Plotly";
 import { getChartData } from "../charts/PlotlyAdaptor";
 import * as API from "../../apis";
-import QueryForm from "../forms/QueryForm";
 import Checkbox from "../inputs/Checkbox";
 import moment from "moment";
 
@@ -113,7 +112,6 @@ const Graph = () => {
   return (
     <div className={classes.root}>
       {error?.message && <Alert severity="error">{error.message}</Alert>}
-      <QueryForm />
       <SelectContainer>
         <Select
           title={"Type"}
@@ -172,6 +170,7 @@ const SelectContainer = styled.div`
     font-size: 0.75rem;
     margin: 0px;
   }
+  padding: 0.25rem;
 `;
 
 const DateRangeContainer = styled.div`
