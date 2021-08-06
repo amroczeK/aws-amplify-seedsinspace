@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useAws } from "../../context/AWSContext";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { useAws } from "../../context/AWSContext";
 
 const TopMenu = () => {
   const { signOut, cognitoUser } = useAws();
@@ -12,36 +12,28 @@ const TopMenu = () => {
       <StyledTypography component={Link} to="/" variant="h5">
         Seeds in space
       </StyledTypography>
-      <NavButton component={Link} to="/">
-        Home
-      </NavButton>
-      {cognitoUser && (
-        <NavButton component={Link} to="/my-seeds">
-          My Seeds
-        </NavButton>
-      )}
-      <NavButton component={Link} to="/all-seeds">
-        All Seeds
+      <NavButton component={Link} to="/dashboard">
+        {cognitoUser ? "My Seeds" : "All Seeds"}
       </NavButton>
       <NavButton component={Link} to="/resources">
         Resources
       </NavButton>
-      {cognitoUser && (
-        <NavButton component={Link} to="/profile">
-          Profile
-        </NavButton>
-      )}
-      <NavButton component={Link} to="/schools">
-        Schools
+      <NavButton component={Link} to="/community">
+        Community
       </NavButton>
-      <NavButton component={Link} to="/faq">
-        FAQ
+      <NavButton component={Link} to="/">
+        About SIS
       </NavButton>
       <Expander />
       {cognitoUser ? (
-        <NavButton component={Link} onClick={signOut} to="/signin">
-          Logout
-        </NavButton>
+        <>
+          <NavButton component={Link} to="/profile">
+            Profile
+          </NavButton>
+          <NavButton component={Link} onClick={signOut} to="/signin">
+            Logout
+          </NavButton>
+        </>
       ) : (
         <NavButton component={Link} to="/signin">
           Login
@@ -66,7 +58,6 @@ const NavButton = styled(Button)`
   margin-right: 0.5em;
   padding: 0.5em;
   color: #fff;
-  width: 100px;
   text-transform: none;
   &:hover {
     background-color: hsl(149deg 45% 34%);

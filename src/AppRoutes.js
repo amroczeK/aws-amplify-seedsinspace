@@ -24,7 +24,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 const AppRoutes = () => {
   return (
     <Switch>
-      <Route exact path="/" component={Pages.Home} />
+      <Route exact path="/" component={Pages.About} />
       <PrivateRoute exact path="/profile" component={Pages.Profile} />
       <PrivateRoute exact path="/profile-details" component={Pages.ProfileDetails} />
       <PrivateRoute exact path="/change-password" component={Pages.ChangePassword} />
@@ -34,9 +34,8 @@ const AppRoutes = () => {
       <Route exact path="/signin" component={Pages.SignIn} />
       <Route exact path="/signup" component={Pages.SignUp} />
       <Route exact path="/resources" component={Pages.Resources} />
-      <Route exact path="/schools" component={Pages.ParticipatingSchools} />
-      <Route exact path="/faq" component={Pages.Faq} />
-      <Route path="*" component={Pages.Home} />
+      <Route exact path="/community" component={Pages.ParticipatingSchools} />
+      <Route path="*" component={Pages.About} />
     </Switch>
   );
 };

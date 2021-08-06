@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import StepperContent from "../components/ParticipatingSchools/StepperContent";
 import Container from "@material-ui/core/Container";
 import { getAllSchools } from "../apis";
@@ -14,23 +13,10 @@ const ParticipatingSchools = () => {
   }, [schools]);
 
   return (
-    <Container maxWidth="xl">
-      <ContentContainer>
-        <StepperContent schools={schools} />
-      </ContentContainer>
+    <Container style={{ paddingTop: "2em" }} maxWidth="xl">
+      <StepperContent schools={schools} />
     </Container>
   );
 };
 
 export default ParticipatingSchools;
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1 0;
-  min-width: 300px;
-  gap: 2em;
-  width: 100%;
-  height: 100%;
-  padding: 1.5rem;
-`;

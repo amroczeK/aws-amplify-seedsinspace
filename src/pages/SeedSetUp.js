@@ -33,8 +33,7 @@ const SeedSetUp = () => {
       setSignedURL(url);
     };
     getGuide();
-    // eslint-disable-next-line
-  }, []);
+  }, [fetchS3]);
 
   const stepContent = () => {
     return {
