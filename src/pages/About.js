@@ -51,6 +51,7 @@ const About = () => {
         <h1>Frequently asked questions</h1>
         <FAQ />
 
+        <br />
         <h1>Sponsors</h1>
         <SponsorContainer />
       </ContentContainer>

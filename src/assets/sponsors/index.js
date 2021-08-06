@@ -1,4 +1,4 @@
-import ASA from "./Sponsor-AG.jpg";
+import ASA from "./Sponsor-ASA.jpg";
 import AJA from "./Sponsor-AJF.JPG";
 import AHIS from "./Sponsor-AHiS.png";
 import AMDA from "./Sponsor-AMDA.JPG";
