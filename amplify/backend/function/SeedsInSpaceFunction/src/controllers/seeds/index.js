@@ -158,7 +158,7 @@ async function getSeedsByFilter(req, res) {
   };
 
   if (startDate && endDate) {
-    params.ExpressionAttributeNames["#Date"] = "Date";
+    params["ExpressionAttributeNames"]["#Date"] = "Date";
     params.ExpressionAttributeValues[":startDate"] = startDate;
     params.ExpressionAttributeValues[":endDate"] = endDate;
     params["FilterExpression"] = "#Date BETWEEN :startDate and :endDate";
