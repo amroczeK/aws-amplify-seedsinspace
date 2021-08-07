@@ -61,15 +61,17 @@ export const getUsersSeeds = async req => {
  * @returns result response
  */
 export const getSeedsByFilter = async req => {
-  let { Pk, Sk } = req;
+  let { Pk, Sk, startDate, endDate } = req;
 
-  if (!Pk || !Sk)
-    throw new Error("Partition key e.g. Cognito Users sub and a Sort Key is required.");
+  if (!Pk) throw new Error("Partition key is required.");
+
+  let queryStringParameters = {};
+  if (Sk) queryStringParameters.Sk = Sk;
+  if (startDate) queryStringParameters.startDate = startDate;
+  if (endDate) queryStringParameters.endDate = endDate;
 
   const { body, error } = await API.get(API_RESOURCE, `/seeds/${Pk}/filter`, {
-    queryStringParameters: {
-      Sk,
-    },
+    queryStringParameters,
   });
   if (error) {
     throw error;

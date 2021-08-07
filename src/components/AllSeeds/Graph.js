@@ -48,7 +48,7 @@ const Graph = () => {
   const [selectedType, setSelectedType] = useState(0);
   const [schoolsData, setSchoolsData] = useState(0);
   const [selectedSchool, setSelectedSchool] = useState(0);
-  const [schools, setSchools] = useState([]);
+  const [schools, setSchools] = useState(["Loading..."]);
 
   const { seedData, setSeedData, loading, setLoading, error, setError } =
     useContext(DataContext);
@@ -59,9 +59,6 @@ const Graph = () => {
   };
 
   const selectedSchoolHandler = event => {
-    console.log('here', event.target.value);
-    console.log('123', schools);
-    console.log('test', selectedSchool);
     setSelectedSchool(event.target.value);
   };
 
@@ -75,11 +72,13 @@ const Graph = () => {
   };
 
   const onFilterQueryHandler = async () => {
+    if (error) setError(null);
     if (selectedType <= 0) {
       await onMountQueryHandler();
     } else {
       setLoading(true);
-      let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
+      let Pk = schoolsData[schools[selectedSchool]]?.Sk.replace("SCHOOL#", "");
+      let req = { Type: seedTypes[selectedType], Pk };
       if (!checked && date) {
         req.startDate = date.startDate.format("YYYY-MM-DD");
         req.endDate = date.endDate.format("YYYY-MM-DD");
@@ -96,9 +95,19 @@ const Graph = () => {
 
   const onMountQueryHandler = async () => {
     setLoading(true);
-    let req = { Pk: cognitoUser?.attributes?.sub };
-    let data = await API.getUsersSeeds(req).catch(error => {
-      console.log(error?.message);
+    let Pk = schoolsData[schools[selectedSchool]]?.Sk.replace("SCHOOL#", "");
+    let req = { Pk };
+    // let data = await API.getUsersSeeds(req).catch(error => {
+    //   console.log(error?.message);
+    //   setError({ message: error?.message });
+    // });
+    if (!checked && date) {
+      req.startDate = date.startDate.format("YYYY-MM-DD");
+      req.endDate = date.endDate.format("YYYY-MM-DD");
+    }
+    console.log("HEREEEEEEEEEEEEEEEE", req)
+    let data = await API.getSeedsByFilter(req).catch(error => {
+      console.log(error);
       setError({ message: error?.message });
     });
     if (data) {
@@ -108,27 +117,26 @@ const Graph = () => {
   };
 
   useEffect(() => {
-    if (!schools.length) {
-      API.getAllSchools().then(res => {
-        let array = [];
-        let community = {}
-        res.forEach(({ SchoolName, ...rest }) => {
-          array.push(SchoolName);
-          community[SchoolName] = rest;
+    if (schools[0] === "Loading...") {
+      API.getAllSchools()
+        .then(res => {
+          let array = [];
+          let community = {};
+          res.forEach(({ SchoolName, ...rest }) => {
+            array.push(SchoolName);
+            community[SchoolName] = rest;
+          });
+          console.log(array);
+          console.log(community);
+          setSchoolsData(community);
+          setSchools(array);
+        })
+        .catch(error => {
+          console.log(error?.message);
+          setError({ message: error?.message });
         });
-        console.log(array)
-        console.log(community)
-        setSchoolsData(community)
-        setSchools(array);
-      });
     }
   }, [schools]);
-
-  // Load users seeds on component render
-  useEffect(() => {
-    if (!seedData.length) onMountQueryHandler();
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -170,6 +178,7 @@ const Graph = () => {
           onClickHandler={() => {
             setLoading(false);
             setSeedData([]);
+            setError(null);
           }}
         />
       </SelectContainer>
