@@ -45,6 +45,8 @@ const Graph = () => {
   const [date, setDate] = useState({ startDate: moment(), endDate: moment() });
   const [checked, setChecked] = useState(false);
   const [selectedType, setSelectedType] = useState(0);
+  const [info, setInfo] = useState(null);
+  const [graphTitle, setGraphTitle] = useState(null);
 
   const { seedData, setSeedData, loading, setLoading, error, setError } =
     useContext(DataContext);
@@ -62,37 +64,43 @@ const Graph = () => {
     setChecked(!checked);
   };
 
-  const onFilterQueryHandler = async () => {
-    if (selectedType <= 0) {
-      await onMountQueryHandler();
-    } else {
-      setLoading(true);
-      let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
-      if (!checked && date) {
-        req.startDate = date.startDate.format("YYYY-MM-DD");
-        req.endDate = date.endDate.format("YYYY-MM-DD");
+  const dateFilterHandler = req => {
+    if (!checked && date) {
+      if (!date.startDate || !date.endDate) {
+        setInfo("Please select a valid start date and end date.");
+        setLoading(false);
+        return;
       }
-      let data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
-        setError({ message: error?.message || error });
-      });
-      setSeedData(data);
-      setLoading(false);
+      req.startDate = date.startDate?.format("YYYY-MM-DD");
+      req.endDate = date.endDate?.format("YYYY-MM-DD");
+      return req;
     }
   };
 
-  const onMountQueryHandler = async () => {
+  const onFilterQueryHandler = async () => {
+    setGraphTitle(`${seedTypes[selectedType]} Seeds`);
+    if (error) setError(null);
+    if (info) setInfo(null);
     setLoading(true);
-    let req = { Pk: cognitoUser?.attributes?.sub };
-    if (!checked && date) {
-      req.startDate = date.startDate.format("YYYY-MM-DD");
-      req.endDate = date.endDate.format("YYYY-MM-DD");
+    let data;
+    if (selectedType <= 0) {
+      let req = { Pk: cognitoUser?.attributes?.sub };
+      req = dateFilterHandler(req);
+      if (info) return;
+      data = await API.getSeedsByFilter(req).catch(error => {
+        setError({ message: error?.message || error });
+      });
+    } else {
+      let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
+      req = dateFilterHandler(req);
+      if (info) return;
+      data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
+        setError({ message: error?.message || error });
+      });
     }
-    let data = await API.getSeedsByFilter(req).catch(error => {
-      setError({ message: error?.message || error });
-    });
-    if (data) {
-      setSeedData(data);
-    }
+    if (!data?.length)
+      setInfo("No data for the date range selected, try querying different dates.");
+    setSeedData(data);
     setLoading(false);
   };
 
@@ -107,7 +115,6 @@ const Graph = () => {
 
   return (
     <div className={classes.root}>
-      {error?.message && <Alert severity="error">{error.message}</Alert>}
       <SelectContainer>
         <Select
           title={"Type"}
@@ -128,18 +135,24 @@ const Graph = () => {
         <ClearFiltersBtn
           title={"Clear"}
           onClickHandler={() => {
+            setInfo(null);
+            setError(null);
             setLoading(false);
             setSeedData([]);
           }}
         />
       </SelectContainer>
+      <AlertContainer>
+        {info && <Alert severity="info">{info}</Alert>}
+        {error?.message && <Alert severity="error">{error.message}</Alert>}
+      </AlertContainer>
       <Paper className={classes.paper}>
         {loading && (
           <div className={classes.loader}>
             {loading && <CircularProgress size={60} />}
           </div>
         )}
-        <Plotly {...getChartData({ type: "bar", data: seedData, title: "My Seeds" })} />
+        <Plotly {...getChartData({ type: "bar", data: seedData, title: graphTitle || "My Seeds" })} />
       </Paper>
     </div>
   );
@@ -161,4 +174,8 @@ const SelectContainer = styled.div`
 const DateRangeContainer = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const AlertContainer = styled.div`
+  padding: 1rem 0rem 1rem 0rem;
 `;

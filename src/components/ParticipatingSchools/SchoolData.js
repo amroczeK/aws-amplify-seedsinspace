@@ -7,18 +7,21 @@ import Alert from "@material-ui/lab/Alert";
 const SchoolData = ({ schoolSub }) => {
   const [seedData, setSeedData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [info, setInfo] = useState(null);
   const [error, setError] = useState(null);
 
   const queryHandler = async sub => {
+    if (error) setError(null);
+    if (info) setInfo(null);
     setLoading(true);
     let req = { Pk: sub };
     let data = await API.getUsersSeeds(req).catch(error => {
       console.log(error?.message);
       setError({ message: error?.message });
     });
-    if (data) {
-      setSeedData(data);
-    }
+    if (!data?.length)
+      setInfo("There is no data available.");
+    setSeedData(data);
     setLoading(false);
   };
 
@@ -29,6 +32,7 @@ const SchoolData = ({ schoolSub }) => {
 
   return (
     <>
+      {info && <Alert severity="info">{info}</Alert>}
       {error?.message && (
         <Alert severity="error" style={{ marginBottom: "1rem" }}>
           {error.message}
