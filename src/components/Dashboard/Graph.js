@@ -3,7 +3,6 @@ import { DataContext } from "../../context/Data";
 import { AWSContext } from "../../context/AWSContext";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import MultiSelect from "../selects/MultiSelect";
 import Select from "../selects/Select";
 import QueryBtn from "../inputs/Button";
 import ClearFiltersBtn from "../inputs/Button";
@@ -45,24 +44,17 @@ const Graph = () => {
 
   const [date, setDate] = useState({ startDate: moment(), endDate: moment() });
   const [checked, setChecked] = useState(false);
-  const [selectedQuery, setSelectedQuery] = useState(""); // Must be "" or index value else MUI out of range warning
-  const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedType, setSelectedType] = useState(0);
 
   const { seedData, setSeedData, loading, setLoading, error, setError } =
     useContext(DataContext);
   const { cognitoUser } = useContext(AWSContext);
 
-  const selecedFiltesrHandler = event => {
-    setSelectedFilters(event.target.value);
-  };
-
   const selectedTypeHandler = event => {
     setSelectedType(event.target.value);
   };
 
   const dateChangeHandler = ({ startDate, endDate }) => {
-    console.log(startDate.format("YYYY-MM-DD"), endDate);
     setDate({ startDate, endDate });
   };
 
@@ -76,14 +68,12 @@ const Graph = () => {
     } else {
       setLoading(true);
       let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
-      if(!checked && date){
+      if (!checked && date) {
         req.startDate = date.startDate.format("YYYY-MM-DD");
         req.endDate = date.endDate.format("YYYY-MM-DD");
       }
-      console.log(req);
       let data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
-        console.log(error?.message);
-        setError({ message: error?.message });
+        setError({ message: error?.message || error });
       });
       setSeedData(data);
       setLoading(false);
@@ -93,9 +83,12 @@ const Graph = () => {
   const onMountQueryHandler = async () => {
     setLoading(true);
     let req = { Pk: cognitoUser?.attributes?.sub };
-    let data = await API.getUsersSeeds(req).catch(error => {
-      console.log(error?.message);
-      setError({ message: error?.message });
+    if (!checked && date) {
+      req.startDate = date.startDate.format("YYYY-MM-DD");
+      req.endDate = date.endDate.format("YYYY-MM-DD");
+    }
+    let data = await API.getSeedsByFilter(req).catch(error => {
+      setError({ message: error?.message || error });
     });
     if (data) {
       setSeedData(data);
@@ -103,11 +96,14 @@ const Graph = () => {
     setLoading(false);
   };
 
-  // Load users seeds on component render
+  // Reset seed data on component mount because data in in API context shared by multiple components
+  // e.g. for scenario where user loads data on All Seeds page, then logs in and navigates to Dashboard
+  // Seed data is already populated by previous data when not logged in and vice versa when you logout and navigate to All Seeds
+  // Also when you nagivate to another page, seed data should be reset
   useEffect(() => {
-    if (!seedData.length) onMountQueryHandler();
+    if (seedData?.length) setSeedData(null);
     // eslint-disable-next-line
-  }, []);
+  }, []); // Only do this on component mount, no dependencies required
 
   return (
     <div className={classes.root}>
@@ -128,23 +124,12 @@ const Graph = () => {
           />
         </DateRangeContainer>
         <Checkbox name={"All dates"} checked={checked} checkedHandler={checkedHandler} />
-        <QueryBtn
-          title={"Fetch Data"}
-          // onClickHandler={() => {
-          //   // Index 0 evaluates to false
-          //   if (selectedQuery >= 0) {
-          //     setLoading(true);
-          //   }
-          // }}
-          onClickHandler={onFilterQueryHandler}
-        />
+        <QueryBtn title={"Fetch Data"} onClickHandler={onFilterQueryHandler} />
         <ClearFiltersBtn
           title={"Clear"}
           onClickHandler={() => {
             setLoading(false);
             setSeedData([]);
-            setSelectedFilters([]);
-            setSelectedQuery("");
           }}
         />
       </SelectContainer>

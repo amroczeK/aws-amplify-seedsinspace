@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { DataGridTable } from "../tables/DataGrid";
 import styled from "styled-components";
 
@@ -18,18 +17,12 @@ const defaultColumns = [
 ];
 
 const Table = ({ data, error = null, loading }) => {
-  const [selectedRows, setSelectedRows] = useState([]);
-
-  // TODO Do something with selected rows
-  console.log(selectedRows);
-
   return (
     <TableContainer>
       <DataGridTable
         rowData={data || []}
         defaultColumns={defaultColumns}
         loading={loading}
-        setSelectedRows={setSelectedRows}
         getRowId={r => r.createdAt}
         error={error?.message ? true : null}
       />
