@@ -44,7 +44,7 @@ const FAQ = () => {
       </AccordionPanel>
       <AccordionPanel title="Who do I contact if I have questions?">
         <StyledTypography>
-          Send an email to
+          Send an email to {''}
           <a href="mailto: info@onegiantleapaustralia.com">
             info@onegiantleapaustralia.com
           </a>
