@@ -139,8 +139,6 @@ async function getSeedsByFilter(req, res) {
   const { Pk } = req.params;
   const { Sk, startDate, endDate } = req.query;
 
-  console.log(req.params, req.query);
-
   if (!Pk) {
     return res.json({
       statusCode: 400,
@@ -167,7 +165,6 @@ async function getSeedsByFilter(req, res) {
   }
   if (Sk) params.ExpressionAttributeValues[":Sk"] = `SEED#${Sk}`;
 
-  console.log(params);
   try {
     const result = await db.query(params).promise();
 
