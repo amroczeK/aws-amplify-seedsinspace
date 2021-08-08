@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { DataGridTable } from "../components/tables/data-grid";
+import React, { useContext } from "react";
+import { DataGridTable } from "../components/tables/DataGrid";
 import styled from "styled-components";
 import { DataContext } from "../context/Data";
 import Alert from "@material-ui/lab/Alert";
@@ -20,11 +20,6 @@ const defaultColumns = [
 ];
 
 const Tables = () => {
-  const [selectedRows, setSelectedRows] = useState([]);
-
-  // TODO Do something with selected rows
-  console.log(selectedRows);
-
   const { seedData, loading, error } = useContext(DataContext);
 
   return (
@@ -39,7 +34,6 @@ const Tables = () => {
           rowData={seedData || []}
           defaultColumns={defaultColumns}
           loading={loading}
-          setSelectedRows={setSelectedRows}
           getRowId={r => r.createdAt}
           error={error?.isError ? true : null}
         />

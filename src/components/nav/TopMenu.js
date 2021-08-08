@@ -12,9 +12,8 @@ const TopMenu = () => {
       <StyledTypography component={Link} to="/" variant="h5">
         Seeds in space
       </StyledTypography>
-      <NavButton component={Link} to="/dashboard">
-        {cognitoUser ? "My Seeds" : "All Seeds"}
-      </NavButton>
+      {cognitoUser && <NavButton component={Link} to="/dashboard">Dashboard</NavButton>}
+      {!cognitoUser && <NavButton component={Link} to="/all-seeds">All Seeds</NavButton>}
       <NavButton component={Link} to="/resources">
         Resources
       </NavButton>

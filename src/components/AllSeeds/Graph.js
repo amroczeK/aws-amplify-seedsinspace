@@ -1,6 +1,5 @@
 import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../../context/Data";
-import { AWSContext } from "../../context/AWSContext";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Select from "../selects/Select";
@@ -45,15 +44,21 @@ const Graph = () => {
   const [date, setDate] = useState({ startDate: moment(), endDate: moment() });
   const [checked, setChecked] = useState(false);
   const [selectedType, setSelectedType] = useState(0);
+  const [schoolsData, setSchoolsData] = useState(0);
+  const [selectedSchool, setSelectedSchool] = useState(0);
+  const [schools, setSchools] = useState(["Loading..."]);
   const [info, setInfo] = useState(null);
   const [graphTitle, setGraphTitle] = useState(null);
 
   const { seedData, setSeedData, loading, setLoading, error, setError } =
     useContext(DataContext);
-  const { cognitoUser } = useContext(AWSContext);
 
   const selectedTypeHandler = event => {
     setSelectedType(event.target.value);
+  };
+
+  const selectedSchoolHandler = event => {
+    setSelectedSchool(event.target.value);
   };
 
   const dateChangeHandler = ({ startDate, endDate }) => {
@@ -84,18 +89,20 @@ const Graph = () => {
     setLoading(true);
     let data;
     if (selectedType <= 0) {
-      let req = { Pk: cognitoUser?.attributes?.sub };
+      let Pk = schoolsData[schools[selectedSchool]]?.Sk.replace("SCHOOL#", "");
+      let req = { Pk };
       req = dateFilterHandler(req);
       if (!req) return;
       data = await API.getSeedsByFilter(req).catch(error => {
         setError({ message: error?.message || error });
       });
     } else {
-      let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
+      let Pk = schoolsData[schools[selectedSchool]]?.Sk.replace("SCHOOL#", "");
+      let req = { Type: seedTypes[selectedType], Pk };
       req = dateFilterHandler(req);
       if (!req) return;
       data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
-        setError({ message: error?.message || error });
+        setError({ message: error?.message });
       });
     }
     if (!data?.length)
@@ -103,6 +110,26 @@ const Graph = () => {
     setSeedData(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (schools[0] === "Loading...") {
+      API.getAllSchools()
+        .then(res => {
+          let array = [];
+          let community = {};
+          res.forEach(({ SchoolName, ...rest }) => {
+            array.push(SchoolName);
+            community[SchoolName] = rest;
+          });
+          setSchoolsData(community);
+          setSchools(array);
+        })
+        .catch(error => {
+          setError({ message: error?.message || error });
+        });
+    }
+    // eslint-disable-next-line
+  }, [schools]);
 
   // Reset seed data on component mount because data in in API context shared by multiple components
   // e.g. for scenario where user loads data on All Seeds page, then logs in and navigates to Dashboard
@@ -115,7 +142,14 @@ const Graph = () => {
 
   return (
     <div className={classes.root}>
+      {error?.message && <Alert severity="error">{error.message}</Alert>}
       <SelectContainer>
+        <Select
+          title={"Community"}
+          value={selectedSchool}
+          handleChange={selectedSchoolHandler}
+          items={schools}
+        />
         <Select
           title={"Type"}
           value={selectedType}
@@ -162,7 +196,7 @@ const Graph = () => {
           {...getChartData({
             type: "bar",
             data: seedData,
-            title: graphTitle || "My Seeds",
+            title: graphTitle || "Seeds",
           })}
         />
       </Paper>

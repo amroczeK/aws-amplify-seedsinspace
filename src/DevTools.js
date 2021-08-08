@@ -92,7 +92,7 @@ const RouteShortcuts = () => (
           <Link to="/seed-setup">Seed Setup</Link>
         </li>
         <li>
-          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/my-seeds">My Seeds</Link>
         </li>
         <li>
           <Link to="/profile">Profile</Link>

@@ -131,39 +131,50 @@ async function getUsersSeeds(req, res) {
  * @desc    Fetch all seed entries for particular school and filter with sort key
  * @route   GET /seeds/:Pk/filter
  * @access  Public
- * @example GET /seeds/dc2f0a31-7643-4bc1-baa1-fae03141a997/filter?Sk=2021-05-11
+ * @example GET /seeds/dc2f0a31-7643-4bc1-baa1-fae03141a997/filter?startDate=2021-05-11&endDate=2021-06-11
  * @patterns Sort Key patterns: Begins_With year, year & month, date, date & type
  * @examples Sort key examples: 2021, 2021-05, 2021-05-11, 2021-05-11_Earth
  */
 async function getSeedsByFilter(req, res) {
   const { Pk } = req.params;
-  const { Sk } = req.query;
+  const { Sk, startDate, endDate } = req.query;
 
-  if (!Pk || !Sk) {
+  if (!Pk) {
     return res.json({
       statusCode: 400,
-      error: "Partition key and sort key is required to make this request.",
+      error: "Partition key is required to make this request.",
     });
   }
 
-  const params = {
+  let params = {
     TableName: tableName,
     KeyConditionExpression: "Pk = :Pk AND begins_with(Sk, :Sk)",
     ExpressionAttributeValues: {
       ":Pk": `SCHOOL#${Pk}`,
-      ":Sk": `SEED#${Sk}`,
+      ":Sk": `SEED#`,
     },
   };
 
+  if (startDate && endDate) {
+    params.ExpressionAttributeNames = {};
+    params.FilterExpression = {};
+    params.ExpressionAttributeNames["#Date"] = "Date";
+    params.ExpressionAttributeValues[":startDate"] = startDate;
+    params.ExpressionAttributeValues[":endDate"] = endDate;
+    params.FilterExpression = "#Date BETWEEN :startDate and :endDate";
+  }
+  if (Sk) params.ExpressionAttributeValues[":Sk"] = `SEED#${Sk}`;
+
   try {
     const result = await db.query(params).promise();
+
     res.json({
       statusCode: 200,
       url: req.url,
       body: JSON.stringify(result.Items),
     });
   } catch (error) {
-    console.log("GET /seeds/:Pk/:Sk - Error:", error);
+    console.log("GET /seeds/:Pk/filter - Error:", error);
     res.json({
       statusCode: 500,
       error: error.message,
@@ -288,7 +299,7 @@ async function deleteSeed(req, res) {
   };
 
   try {
-    const result = await db.delete(params).promise();
+    await db.delete(params).promise();
     res.json({
       statusCode: 200,
       url: req.url,
