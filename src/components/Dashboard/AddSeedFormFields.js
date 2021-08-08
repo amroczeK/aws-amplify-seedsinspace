@@ -7,7 +7,6 @@ import Adornment from "@material-ui/core/InputAdornment";
 import Dialog from "@material-ui/core/Dialog";
 import { StyledButton } from "../styled-components/Buttons";
 import { StyledInputLabel } from "../styled-components/InputLabel";
-import RemoveEntryModal from "./RemoveEntryModal";
 
 const charCode = code => String.fromCharCode(code);
 
@@ -20,7 +19,6 @@ const defaultOptionalFields = {
 };
 
 const AddSeedFormFields = ({ name, register, errors, children }) => {
-  const [open, setModalOpen] = useState(false);
   const [optionalFields, setOptionalFields] = useState(defaultOptionalFields);
 
   return (
@@ -155,11 +153,6 @@ const AddSeedFormFields = ({ name, register, errors, children }) => {
           helperText={errors?.Notes?.message || null}
         />
       </StyledSeedInfo>
-
-      <StyledButton color="primary" padding="1em 1em" onClick={() => setModalOpen(true)}>
-        <b>Stop recording data for this seed</b>
-      </StyledButton>
-      <RemoveEntryModal open={open} close={() => setModalOpen(false)} name={name} />
     </div>
   );
 };

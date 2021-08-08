@@ -13,13 +13,15 @@ import { ArrowIosBack } from "@styled-icons/evaicons-solid/ArrowIosBack";
 import { StyledInputLabel } from "../styled-components/InputLabel";
 import { Button } from "../styled-components/Buttons";
 import { SuccessSnackbar } from "../Snackbars";
-import ImageUpload from "../ImageUpload";
 import { MuiPicker } from "../MaterialUIPicker";
+import ImageUpload from "../ImageUpload";
 import AddSeedFormFields from "./AddSeedFormFields";
 import AddSeedResolver from "../validation/addSeedValidation";
-import { useAws } from "../../context/AWSContext";
-
+import RemoveEntryModal from "./RemoveEntryModal";
 import * as API from "../../apis";
+import { useAws } from "../../context/AWSContext";
+import WattleSad from "../../assets/WattleSad.png";
+import useSchoolData from "../hooks/schoolData";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -33,22 +35,20 @@ const formatDate = currentDate => {
 };
 
 const AddSeedDialog = ({ open, onClose }) => {
+  const { cognitoUser, uploadImage } = useAws();
+  const { schoolData, setRefetch } = useSchoolData();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [seedTab, setSeedTab] = useState(0);
   const [type, setType] = useState(seedOptions[0]);
   const [date, setDate] = useState(new Date());
   const [openSnack, setOpenSnack] = useState(false);
-  const { cognitoUser, uploadImage } = useAws();
-  const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-    reset,
-    setValue,
-    watch,
-  } = useForm({ resolver: AddSeedResolver, shouldUnregister: true });
+  const { formState, handleSubmit, register, reset, setValue, watch } = useForm({
+    resolver: AddSeedResolver,
+    shouldUnregister: true,
+  });
+  const { errors } = formState;
 
   function onModalClose() {
     reset();
@@ -58,6 +58,13 @@ const AddSeedDialog = ({ open, onClose }) => {
   function onTabChange(_event, newTab) {
     setSeedTab(newTab);
     reset();
+  }
+
+  function checkForInactiveSeed() {
+    if (schoolData?.InactiveSeeds) {
+      return schoolData.InactiveSeeds.includes(`${type}_Seed_${seedTab + 1}`);
+    }
+    return false;
   }
 
   async function onValidationSuccess(formData) {
@@ -79,8 +86,6 @@ const AddSeedDialog = ({ open, onClose }) => {
       };
       await uploadImage(imageReq);
       console.log("Image Uploaded Successfully");
-
-      console.log("setting current in async");
       setOpenSnack(true);
     } catch (error) {
       console.log("An Error occurred while adding seed");
@@ -136,25 +141,45 @@ const AddSeedDialog = ({ open, onClose }) => {
           })}
         </Tabs>
 
-        <GridForm name="seedForm" onSubmit={handleSubmit(onValidationSuccess)}>
-          <AddSeedFormFields
-            name={`${type} Seed - ${seedTab + 1}`}
-            register={register}
-            errors={errors}
+        {checkForInactiveSeed() ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "1em",
+              marginTop: "3em",
+            }}
           >
-            <ImageUpload
-              name="seedImage"
-              text="Add photo"
-              formValue={watch("seedImage")}
-              setValue={setValue}
-              error={errors.seedImage || null}
+            <Typography variant="h4">Seed no longer being tracked...</Typography>
+            <img src={WattleSad} alt="sadWattle" style={{ height: 250 }} />
+          </div>
+        ) : (
+          <GridForm name="seedForm" onSubmit={handleSubmit(onValidationSuccess)}>
+            <AddSeedFormFields
+              name={`${type} Seed - ${seedTab + 1}`}
+              register={register}
+              errors={errors}
+            >
+              <ImageUpload
+                name="seedImage"
+                text="Add photo"
+                formValue={watch("seedImage")}
+                setValue={setValue}
+                error={errors.seedImage || null}
+              />
+            </AddSeedFormFields>
+            <RemoveEntryModal
+              name={`${type}_Seed_${seedTab + 1}`}
+              schoolData={schoolData}
+              refetch={setRefetch}
             />
-          </AddSeedFormFields>
-          <Button type="submit">Save entry</Button>
-          <Button color="secondary" onClick={() => reset()}>
-            RESET
-          </Button>
-        </GridForm>
+            <Button type="submit">Save entry</Button>
+            <Button color="secondary" onClick={() => reset()}>
+              RESET
+            </Button>
+          </GridForm>
+        )}
       </AddSeedContainer>
       <SuccessSnackbar
         openSnack={openSnack}
