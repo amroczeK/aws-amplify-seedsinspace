@@ -142,8 +142,7 @@ const Graph = () => {
 
   return (
     <div className={classes.root}>
-      {error?.message && <Alert severity="error">{error.message}</Alert>}
-      <SelectContainer>
+      <FilterContainer>
         <Select
           title={"Community"}
           value={selectedSchool}
@@ -165,17 +164,19 @@ const Graph = () => {
           />
         </DateRangeContainer>
         <Checkbox name={"All dates"} checked={checked} checkedHandler={checkedHandler} />
-        <QueryBtn title={"Fetch Data"} onClickHandler={onFilterQueryHandler} />
-        <ClearFiltersBtn
-          title={"Clear"}
-          onClickHandler={() => {
-            setInfo(null);
-            setError(null);
-            setLoading(false);
-            setSeedData([]);
-          }}
-        />
-      </SelectContainer>
+        <ButtonContainer>
+          <QueryBtn title={"Fetch Data"} onClickHandler={onFilterQueryHandler} />
+          <ClearFiltersBtn
+            title={"Clear"}
+            onClickHandler={() => {
+              setInfo(null);
+              setError(null);
+              setLoading(false);
+              setSeedData([]);
+            }}
+          />
+        </ButtonContainer>
+      </FilterContainer>
       {info && (
         <AlertContainer>
           <Alert severity="info">{info}</Alert>
@@ -206,15 +207,25 @@ const Graph = () => {
 
 export default Graph;
 
-const SelectContainer = styled.div`
+const FilterContainer = styled.div`
+  max-width: 1200px;
+  min-width: 300px;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   gap: 0.75rem;
+  margin-bottom: 0.5rem;
   p {
     font-size: 0.75rem;
     margin: 0px;
+    margin-bottom: 2px;
   }
   padding: 0.25rem;
+  @media (max-width: 840px) {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
 `;
 
 const DateRangeContainer = styled.div`
@@ -224,4 +235,9 @@ const DateRangeContainer = styled.div`
 
 const AlertContainer = styled.div`
   padding: 0.5rem 0rem 0.5rem 0rem;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
 `;
