@@ -21,3 +21,21 @@ export const SuccessSnackbar = ({ text, openSnack, setOpenSnack }) => {
     </Snackbar>
   );
 };
+
+export const ErrorSnackbar = ({ text, openSnack, setOpenSnack }) => {
+  const hideSnackBar = () => {
+    setOpenSnack(null);
+  };
+
+  return (
+    <Snackbar
+      open={openSnack}
+      onClose={hideSnackBar}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    >
+      <Alert onClose={hideSnackBar} severity="error">
+        {text}
+      </Alert>
+    </Snackbar>
+  );
+};

@@ -10,7 +10,6 @@ const RemoveEntryModal = ({ name, schoolData, refetch }) => {
   const handleClose = () => setModalOpen(false);
 
   const handleConfirm = async () => {
-    console.log("Seed Name: ", name);
     console.log(schoolData);
     let Sk = schoolData.Sk.replace("SCHOOL#", "");
     let InactiveSeeds = schoolData?.InactiveSeeds;
@@ -20,9 +19,6 @@ const RemoveEntryModal = ({ name, schoolData, refetch }) => {
 
     // Return the original data with updated InactiveSeeds list
     const request = { InactiveSeeds };
-
-    console.log(request);
-    console.log(Sk);
 
     const response = await API.updateSchool(request, Sk);
 

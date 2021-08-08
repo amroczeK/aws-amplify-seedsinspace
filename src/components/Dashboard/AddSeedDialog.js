@@ -12,7 +12,7 @@ import { useTheme } from "@material-ui/core/styles";
 import { ArrowIosBack } from "@styled-icons/evaicons-solid/ArrowIosBack";
 import { StyledInputLabel } from "../styled-components/InputLabel";
 import { Button } from "../styled-components/Buttons";
-import { SuccessSnackbar } from "../Snackbars";
+import { SuccessSnackbar, ErrorSnackbar } from "../Snackbars";
 import { MuiPicker } from "../MaterialUIPicker";
 import ImageUpload from "../ImageUpload";
 import AddSeedFormFields from "./AddSeedFormFields";
@@ -43,6 +43,7 @@ const AddSeedDialog = ({ open, onClose }) => {
   const [type, setType] = useState(seedOptions[0]);
   const [date, setDate] = useState(new Date());
   const [openSnack, setOpenSnack] = useState(false);
+  const [error, setError] = useState(null);
 
   const { formState, handleSubmit, register, reset, setValue, watch } = useForm({
     resolver: AddSeedResolver,
@@ -88,8 +89,8 @@ const AddSeedDialog = ({ open, onClose }) => {
       console.log("Image Uploaded Successfully");
       setOpenSnack(true);
     } catch (error) {
-      console.log("An Error occurred while adding seed");
       console.error(error);
+      setError(error);
     }
   }
 
@@ -155,7 +156,12 @@ const AddSeedDialog = ({ open, onClose }) => {
             <img src={WattleSad} alt="sadWattle" style={{ height: 250 }} />
           </div>
         ) : (
-          <GridForm name="seedForm" onSubmit={handleSubmit(onValidationSuccess)}>
+          <GridForm
+            name="seedForm"
+            onSubmit={handleSubmit(onValidationSuccess, () =>
+              setError("Your form has errors")
+            )}
+          >
             <AddSeedFormFields
               name={`${type} Seed - ${seedTab + 1}`}
               register={register}
@@ -185,6 +191,11 @@ const AddSeedDialog = ({ open, onClose }) => {
         openSnack={openSnack}
         setOpenSnack={setOpenSnack}
         text="Success! Seed Added"
+      />
+      <ErrorSnackbar
+        openSnack={error ? true : false}
+        setOpenSnack={setError}
+        text={error}
       />
     </Dialog>
   );
