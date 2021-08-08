@@ -10,7 +10,6 @@ const RemoveEntryModal = ({ name, schoolData, refetch }) => {
   const handleClose = () => setModalOpen(false);
 
   const handleConfirm = async () => {
-    console.log(schoolData);
     let Sk = schoolData.Sk.replace("SCHOOL#", "");
     let InactiveSeeds = schoolData?.InactiveSeeds;
 
