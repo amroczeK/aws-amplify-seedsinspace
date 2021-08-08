@@ -69,7 +69,7 @@ const Graph = () => {
       if (!date.startDate || !date.endDate) {
         setInfo("Please select a valid start date and end date.");
         setLoading(false);
-        return;
+        return null;
       }
       req.startDate = date.startDate?.format("YYYY-MM-DD");
       req.endDate = date.endDate?.format("YYYY-MM-DD");
@@ -86,14 +86,14 @@ const Graph = () => {
     if (selectedType <= 0) {
       let req = { Pk: cognitoUser?.attributes?.sub };
       req = dateFilterHandler(req);
-      if (info) return;
+      if (!req) return;
       data = await API.getSeedsByFilter(req).catch(error => {
         setError({ message: error?.message || error });
       });
     } else {
       let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
       req = dateFilterHandler(req);
-      if (info) return;
+      if (!req) return;
       data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
         setError({ message: error?.message || error });
       });
@@ -142,17 +142,29 @@ const Graph = () => {
           }}
         />
       </SelectContainer>
-      <AlertContainer>
-        {info && <Alert severity="info">{info}</Alert>}
-        {error?.message && <Alert severity="error">{error.message}</Alert>}
-      </AlertContainer>
+      {info && (
+        <AlertContainer>
+          <Alert severity="info">{info}</Alert>
+        </AlertContainer>
+      )}
+      {error?.message && (
+        <AlertContainer>
+          <Alert severity="error">{error.message}</Alert>
+        </AlertContainer>
+      )}
       <Paper className={classes.paper}>
         {loading && (
           <div className={classes.loader}>
             {loading && <CircularProgress size={60} />}
           </div>
         )}
-        <Plotly {...getChartData({ type: "bar", data: seedData, title: graphTitle || "My Seeds" })} />
+        <Plotly
+          {...getChartData({
+            type: "bar",
+            data: seedData,
+            title: graphTitle || "My Seeds",
+          })}
+        />
       </Paper>
     </div>
   );
@@ -177,5 +189,5 @@ const DateRangeContainer = styled.div`
 `;
 
 const AlertContainer = styled.div`
-  padding: 1rem 0rem 1rem 0rem;
+  padding: 0.5rem 0rem 0.5rem 0rem;
 `;

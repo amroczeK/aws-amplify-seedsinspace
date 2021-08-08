@@ -74,7 +74,7 @@ const Graph = () => {
       if (!date.startDate || !date.endDate) {
         setInfo("Please select a valid start date and end date.");
         setLoading(false);
-        return;
+        return null;
       }
       req.startDate = date.startDate?.format("YYYY-MM-DD");
       req.endDate = date.endDate?.format("YYYY-MM-DD");
@@ -92,7 +92,7 @@ const Graph = () => {
       let Pk = schoolsData[schools[selectedSchool]]?.Sk.replace("SCHOOL#", "");
       let req = { Pk };
       req = dateFilterHandler(req);
-      if (info) return;
+      if (!req) return;
       data = await API.getSeedsByFilter(req).catch(error => {
         setError({ message: error?.message || error });
       });
@@ -100,7 +100,7 @@ const Graph = () => {
       let Pk = schoolsData[schools[selectedSchool]]?.Sk.replace("SCHOOL#", "");
       let req = { Type: seedTypes[selectedType], Pk };
       req = dateFilterHandler(req);
-      if (info) return;
+      if (!req) return;
       data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
         setError({ message: error?.message });
       });
@@ -169,16 +169,23 @@ const Graph = () => {
         <ClearFiltersBtn
           title={"Clear"}
           onClickHandler={() => {
+            setInfo(null);
+            setError(null);
             setLoading(false);
             setSeedData([]);
-            setError(null);
           }}
         />
       </SelectContainer>
-      <AlertContainer>
-        {info && <Alert severity="info">{info}</Alert>}
-        {error?.message && <Alert severity="error">{error.message}</Alert>}
-      </AlertContainer>
+      {info && (
+        <AlertContainer>
+          <Alert severity="info">{info}</Alert>
+        </AlertContainer>
+      )}
+      {error?.message && (
+        <AlertContainer>
+          <Alert severity="error">{error.message}</Alert>
+        </AlertContainer>
+      )}
       <Paper className={classes.paper}>
         {loading && (
           <div className={classes.loader}>
@@ -216,5 +223,5 @@ const DateRangeContainer = styled.div`
 `;
 
 const AlertContainer = styled.div`
-  padding: 1rem 0rem 1rem 0rem;
+  padding: 0.5rem 0rem 0.5rem 0rem;
 `;
