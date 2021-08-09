@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import { useQuery } from "react-query";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import styled from "styled-components";
@@ -12,14 +10,12 @@ const WeatherApp = () => {
   const date = new Date();
 
   return (
-    <Card>
-      <CardContent>
-        <Typography style={{ fontWeight: "bold" }} variant="h6">
-          {format(date, "eeee dd MMMM yyyy")}
-        </Typography>
-        <Weather />
-      </CardContent>
-    </Card>
+    <Container>
+      <Typography style={{ fontWeight: "bold" }} variant="h6">
+        {format(date, "eeee dd MMMM yyyy")}
+      </Typography>
+      <Weather />
+    </Container>
   );
 };
 
@@ -64,14 +60,25 @@ const Weather = () => {
         alt="weather-icon"
         src={`https://openweathermap.org/img/wn/${data?.weather?.[0].icon}.png`}
       />
-      {`${Math.round(data?.main?.temp)}\xB0, ${data?.weather?.[0].description}`}
+      <p>{`${Math.round(data?.main?.temp)}\xB0, ${data?.weather?.[0].description}`}</p>
     </StyledWeather>
   );
 };
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
 const StyledWeather = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: left;
   gap: 1.5em;
   padding: 1em 0em 0em 0em;
+  img {
+    width: 50px;
+    height: 50px;
+  }
 `;

@@ -37,11 +37,6 @@ const FAQ = () => {
       <AccordionPanel title="Can home-schooled students enter?">
         <StyledTypography>Absolutely!</StyledTypography>
       </AccordionPanel>
-      <AccordionPanel title="When will the seeds be back?">
-        <StyledTypography>
-          On SpaceX 22 which is scheduled for a July 2021 splashdown.
-        </StyledTypography>
-      </AccordionPanel>
       <AccordionPanel title="Who do I contact if I have questions?">
         <StyledTypography>
           Send an email to {''}

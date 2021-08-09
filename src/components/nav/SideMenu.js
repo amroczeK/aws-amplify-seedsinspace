@@ -50,11 +50,16 @@ const SideMenu = () => {
         </StyledAppBar>
         <StyledMenuContent>
           <List component="nav">
-            <ListItem button component={Link} onClick={handleClose} to="/dashboard">
-              <StyledListItemText>
-                {cognitoUser ? "My Seeds" : "All Seeds"}
-              </StyledListItemText>
-            </ListItem>
+            {cognitoUser && (
+              <ListItem button component={Link} onClick={handleClose} to="/dashboard">
+                <StyledListItemText>My Seeds</StyledListItemText>
+              </ListItem>
+            )}
+            {!cognitoUser && (
+              <ListItem button component={Link} onClick={handleClose} to="/all-seeds">
+                <StyledListItemText>All Seeds</StyledListItemText>
+              </ListItem>
+            )}
             <ListItem button component={Link} onClick={handleClose} to="/resources">
               <StyledListItemText>Resources</StyledListItemText>
             </ListItem>
@@ -65,18 +70,20 @@ const SideMenu = () => {
               <StyledListItemText>About SIS</StyledListItemText>
             </ListItem>
             {cognitoUser ? (
-              <>
+              <AuthLinksContainer>
                 <ListItem button component={Link} onClick={handleClose} to="/profile">
                   <StyledListItemText primary="Profile" />
                 </ListItem>
                 <ListItem button component={Link} onClick={signOut} to="/signin">
                   <StyledListItemText primary="Log Out" />
                 </ListItem>
-              </>
+              </AuthLinksContainer>
             ) : (
-              <ListItem button component={Link} onClick={handleClose} to="/signin">
-                <StyledListItemText primary="Sign In" />
-              </ListItem>
+              <AuthLinksContainer>
+                <ListItem button component={Link} onClick={handleClose} to="/signin">
+                  <StyledListItemText primary="Sign In" />
+                </ListItem>
+              </AuthLinksContainer>
             )}
           </List>
         </StyledMenuContent>
@@ -110,5 +117,9 @@ const StyledTypography = styled(Typography)`
 const StyledListItemText = styled(ListItemText)`
   color: #fff;
 `;
+
+const AuthLinksContainer = styled.div`
+  margin-top: 3rem;
+`
 
 export default SideMenu;
