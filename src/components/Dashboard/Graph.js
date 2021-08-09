@@ -65,43 +65,52 @@ const Graph = () => {
   };
 
   const dateFilterHandler = req => {
-    if (!checked && date) {
-      if (!date.startDate || !date.endDate) {
-        setInfo("Please select a valid start date and end date.");
-        setLoading(false);
-        return null;
+    try {
+      if (!checked && date) {
+        req.startDate = date.startDate.format("YYYY-MM-DD");
+        req.endDate = date.endDate.format("YYYY-MM-DD");
+        return req;
+      } else {
+        return req;
       }
-      req.startDate = date.startDate?.format("YYYY-MM-DD");
-      req.endDate = date.endDate?.format("YYYY-MM-DD");
-      return req;
+    } catch (error) {
+      throw { info: true, message: "Please select a valid start date and end date." };
     }
   };
 
   const onFilterQueryHandler = async () => {
-    setGraphTitle(`${seedTypes[selectedType]} Seeds`);
-    if (error) setError(null);
-    if (info) setInfo(null);
-    setLoading(true);
-    let data;
-    if (selectedType <= 0) {
-      let req = { Pk: cognitoUser?.attributes?.sub };
-      req = dateFilterHandler(req);
-      if (!req) return;
-      data = await API.getSeedsByFilter(req).catch(error => {
-        setError({ message: error?.message || error });
-      });
-    } else {
-      let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
-      req = dateFilterHandler(req);
-      if (!req) return;
-      data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
-        setError({ message: error?.message || error });
-      });
+    let data = [];
+    try {
+      setGraphTitle(`${seedTypes[selectedType]} Seeds`);
+      if (error) setError(null);
+      if (info) setInfo(null);
+      setLoading(true);
+      if (selectedType <= 0) {
+        let req = { Pk: cognitoUser?.attributes?.sub };
+        req = dateFilterHandler(req);
+        data = await API.getSeedsByFilter(req).catch(error => {
+          throw { error: true, message: error?.message || error };
+        });
+      } else {
+        let req = { Type: seedTypes[selectedType], Pk: cognitoUser?.attributes?.sub };
+        req = dateFilterHandler(req);
+        data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
+          throw { error: true, message: error?.message || error };
+        });
+      }
+      if (!data?.length) {
+        throw {
+          info: true,
+          message: "No data for the date range selected, try querying different dates.",
+        };
+      }
+    } catch ({ error, info, message }) {
+      if (info) setInfo({ message });
+      if (error) setError({ message });
+    } finally {
+      setLoading(false);
+      setSeedData(data);
     }
-    if (!data?.length)
-      setInfo("No data for the date range selected, try querying different dates.");
-    setSeedData(data);
-    setLoading(false);
   };
 
   // Reset seed data on component mount because data in in API context shared by multiple components
@@ -144,9 +153,9 @@ const Graph = () => {
           />
         </ButtonContainer>
       </FilterContainer>
-      {info && (
+      {info?.message && (
         <AlertContainer>
-          <Alert severity="info">{info}</Alert>
+          <Alert severity="info">{info.message}</Alert>
         </AlertContainer>
       )}
       {error?.message && (
@@ -207,4 +216,4 @@ const AlertContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   gap: 1rem;
-`
+`;
