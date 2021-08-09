@@ -79,7 +79,8 @@ const Graph = () => {
         return req;
       }
     } catch (error) {
-      throw { info: true, message: "Please select a valid start date and end date." };
+      let message = { info: true, message: "Please select a valid start date and end date." };
+      throw message;
     }
   };
 
@@ -95,21 +96,24 @@ const Graph = () => {
         let req = { Pk };
         req = dateFilterHandler(req);
         data = await API.getSeedsByFilter(req).catch(error => {
-          throw { error: true, message: error?.message || error };
+          error = { error: true, message: error?.message || error };
+          throw error;
         });
       } else {
         let Pk = schoolsData[schools[selectedSchool]]?.Sk.replace("SCHOOL#", "");
         let req = { Type: seedTypes[selectedType], Pk };
         req = dateFilterHandler(req);
         data = await API.getSeedsByTypeAndSortKey(req).catch(error => {
-          throw { error: true, message: error?.message || error };
+          error = { error: true, message: error?.message || error };
+          throw error;
         });
       }
       if (!data?.length) {
-        throw {
+        let info = {
           info: true,
           message: "No data for the date range selected, try querying different dates.",
         };
+        throw info;
       }
     } catch ({ error, info, message }) {
       if (info) setInfo({ message });
