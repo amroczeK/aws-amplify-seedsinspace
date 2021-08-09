@@ -40,7 +40,6 @@ export const AWSProvider = ({ children }) => {
   useEffect(() => {
     // Fetch user data from LocalStorage
     if (!cognitoUser) {
-      console.log("Checking for Authenticated User");
       checkAuthenticatedUser();
     }
   }, [cognitoUser]);

@@ -60,7 +60,7 @@ const Weather = () => {
         alt="weather-icon"
         src={`https://openweathermap.org/img/wn/${data?.weather?.[0].icon}.png`}
       />
-      {`${Math.round(data?.main?.temp)}\xB0, ${data?.weather?.[0].description}`}
+      <p>{`${Math.round(data?.main?.temp)}\xB0, ${data?.weather?.[0].description}`}</p>
     </StyledWeather>
   );
 };
@@ -73,8 +73,12 @@ const Container = styled.div`
 
 const StyledWeather = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: left;
   gap: 1.5em;
   padding: 1em 0em 0em 0em;
+  img {
+    width: 50px;
+    height: 50px;
+  }
 `;
