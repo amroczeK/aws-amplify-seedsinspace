@@ -1,7 +1,0 @@
-{
-    "tableName": "WattleSeeds",
-    "partitionKeyName": "entry_id",
-    "partitionKeyType": "S",
-    "sortKeyName": "type",
-    "sortKeyType": "S"
-}
