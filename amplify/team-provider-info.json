@@ -34,5 +34,38 @@
         }
       }
     }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-seedsinspace-prod-232625-authRole",
+      "UnauthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-prod-232625-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::526519863507:role/amplify-seedsinspace-prod-232625-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-seedsinspace-prod-232625-deployment",
+      "UnauthRoleName": "amplify-seedsinspace-prod-232625-unauthRole",
+      "StackName": "amplify-seedsinspace-prod-232625",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:526519863507:stack/amplify-seedsinspace-prod-232625/7b836600-0426-11ec-8ec9-02fa4390ca0a",
+      "AmplifyAppId": "d2ug6ia1qfm5r4"
+    },
+    "categories": {
+      "auth": {
+        "seedsinspace0877655c": {}
+      },
+      "function": {
+        "SeedsInSpaceFunction": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2ug6ia1qfm5r4",
+          "type": "cicd"
+        }
+      },
+      "storage": {
+        "seedsinspaced78ce747": {
+          "bucketName": "seeds-in-space-app",
+          "region": "ap-southeast-2"
+        }
+      }
+    }
   }
 }
