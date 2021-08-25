@@ -52,7 +52,10 @@
         "seedsinspace0877655c": {}
       },
       "function": {
-        "SeedsInSpaceFunction": {}
+        "SeedsInSpaceFunction": {
+          "deploymentBucketName": "amplify-seedsinspace-prod-232625-deployment",
+          "s3Key": "amplify-builds/SeedsInSpaceFunction-6c69313958565a326e62-build.zip"
+        }
       },
       "hosting": {
         "amplifyhosting": {
