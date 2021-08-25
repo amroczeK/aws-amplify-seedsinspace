@@ -7,10 +7,9 @@ const ParticipatingSchools = () => {
   const [schools, setSchools] = useState([]);
 
   useEffect(() => {
-    if (!schools.length) {
-      getAllSchools().then(res => setSchools(res));
-    }
-  }, [schools]);
+    getAllSchools().then(res => setSchools(res));
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Container style={{ paddingTop: "2em" }} maxWidth="xl">
