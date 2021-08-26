@@ -18,6 +18,14 @@ const Schools = ({ schools, setSelectedSchool, setStep }) => {
 
   return (
     <>
+      <h1>Our community</h1>
+      <p>
+        We have over 250 participating groups from all around Australia, including primary
+        schools, high schools and scout groups.
+      </p>
+      <p>
+        Zoom in to the map to take a look at the participating groups and their seed data.
+      </p>
       <LeafletMap
         mapData={schools}
         handlePopupClick={handleSchoolClick}
