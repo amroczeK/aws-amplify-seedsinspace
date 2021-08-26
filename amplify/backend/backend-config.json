@@ -17,6 +17,10 @@
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": []
+    },
+    "seedsinspaceappprod1": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
     }
   },
   "hosting": {
