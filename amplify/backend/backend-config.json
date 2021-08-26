@@ -8,12 +8,6 @@
     }
   },
   "storage": {
-    "seedsinspaced78ce747": {
-      "service": "S3",
-      "serviceType": "imported",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": []
-    },
     "SeedsInSpaceTable": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
