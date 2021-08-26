@@ -54,7 +54,6 @@ export const DataGridTable = ({
     }
     if (setSelectedRows) {
       if (e.isSelected) {
-        console.log(e.data);
         setSelectedRows(prevState => [...prevState, e.data]);
       } else {
         setSelectedRows(prevState => prevState.filter(item => item.id !== e.data.id));

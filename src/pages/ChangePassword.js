@@ -25,7 +25,6 @@ const ChangePassword = () => {
 
   const confirmPasswordChangeHandler = async formData => {
     try {
-      console.log(formData);
       const { oldPassword, newPassword } = formData;
       const result = await changePassword({
         oldPassword,

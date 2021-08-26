@@ -43,7 +43,6 @@ export const addSchool = async req => {
     console.error(error);
     throw error;
   }
-  console.log("Added school:", body);
   return JSON.parse(body);
 };
 
@@ -63,6 +62,5 @@ export const updateSchool = async (req, Sk) => {
     console.error(error);
     throw error;
   }
-  console.log("School updated:", body);
   return JSON.parse(body);
 };

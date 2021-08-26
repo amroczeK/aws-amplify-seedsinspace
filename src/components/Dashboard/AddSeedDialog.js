@@ -77,7 +77,6 @@ const AddSeedDialog = ({ open, onClose }) => {
 
       const seedReq = { SeedNumber, Type: type, Date: formattedDate, ...formFields };
       await API.addSeed(seedReq);
-      console.log("Database Entry Added");
 
       const imageReq = {
         file: seedImage[0],
@@ -86,7 +85,6 @@ const AddSeedDialog = ({ open, onClose }) => {
         level: "public",
       };
       await uploadImage(imageReq);
-      console.log("Image Uploaded Successfully");
       setOpenSnack(true);
     } catch (error) {
       console.error(error);
