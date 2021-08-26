@@ -39,14 +39,11 @@ const SignUp = () => {
 
   const signUpHandler = formData => {
     const { organisation } = formData;
-    console.log("running create password");
 
     createNewPassword(formData)
       .then(() => {
-        console.log("running add schools");
         addSchool({ SchoolName: organisation })
           .then(() => {
-            console.log("user created");
             history.push("/profile-details", { isNewUser: true, organisation });
           })
           .catch(error => {

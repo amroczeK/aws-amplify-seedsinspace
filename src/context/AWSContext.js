@@ -108,7 +108,6 @@ export const AWSProvider = ({ children }) => {
       "custom:location": location,
     })
       .then(() => {
-        console.log("User Profile updated");
         checkAuthenticatedUser();
       })
       .catch(error => {
