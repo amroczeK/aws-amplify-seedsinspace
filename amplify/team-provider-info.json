@@ -26,12 +26,6 @@
           "deploymentBucketName": "amplify-seedsinspace-dev-192500-deployment",
           "s3Key": "amplify-builds/SeedsInSpaceFunction-6c69313958565a326e62-build.zip"
         }
-      },
-      "storage": {
-        "seedsinspace076aff70": {
-          "bucketName": "seeds-in-space-app",
-          "region": "ap-southeast-2"
-        }
       }
     }
   },
