@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { StyledLink } from "../components/styled-components/Links";
 
 const Resources = () => {
+  // NOTE: process.env.REACT_APP_RESOURCE_URL is being pulled from .env in local development and AWS Amplify Environment Variables during build/deployment in amplify.yml in Amplify GUI
   return (
     <Container maxWidth="md">
       <ContentContainer>
@@ -14,8 +15,7 @@ const Resources = () => {
         </p>
         <StyledLink
           to={{
-            pathname:
-              "https://seeds-in-space-app.s3.ap-southeast-2.amazonaws.com/public/documents/Dates+of+Germination.pdf",
+            pathname: `https://${process.env.REACT_APP_RESOURCE_URL}/Dates+of+Germination.pdf`,
           }}
           target="_blank"
         >
@@ -24,8 +24,7 @@ const Resources = () => {
         <br />
         <StyledLink
           to={{
-            pathname:
-              "https://seeds-in-space-app.s3.ap-southeast-2.amazonaws.com/public/documents/Seed+Entry.pdf",
+            pathname: `https://${process.env.REACT_APP_RESOURCE_URL}/Seed+Entry.pdf`,
           }}
           target="_blank"
         >
@@ -34,8 +33,7 @@ const Resources = () => {
         <br />
         <StyledLink
           to={{
-            pathname:
-              "https://seeds-in-space-app.s3.ap-southeast-2.amazonaws.com/public/documents/Scientific+Report.pdf",
+            pathname: `https://${process.env.REACT_APP_RESOURCE_URL}/Scientific+Report.pdf`,
           }}
           target="_blank"
         >
@@ -44,8 +42,7 @@ const Resources = () => {
         <br />
         <StyledLink
           to={{
-            pathname:
-              "https://seeds-in-space-app.s3.ap-southeast-2.amazonaws.com/public/documents/Science+Journal.pdf",
+            pathname: `https://${process.env.REACT_APP_RESOURCE_URL}/Science+Journal.pdf`,
           }}
           target="_blank"
         >
