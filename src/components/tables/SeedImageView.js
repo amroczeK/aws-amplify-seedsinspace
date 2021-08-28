@@ -36,7 +36,7 @@ const SeedImageView = ({ row }) => {
         open={open}
         handleClose={handleClose}
         component={S3Image}
-        componentProps={{ imgKey: imageKey, level: "public" }}
+        componentProps={{ imgKey: imageKey, level: "protected" }}
         containerProps={{ justifyContent: "center", alignItems: "center" }}
       />
     </Container>

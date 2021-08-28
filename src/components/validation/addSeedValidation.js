@@ -3,12 +3,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 const imageValidation = yup
   .mixed()
-  .required("An image should be provided")
+  //.required("An image should be provided")
   .test("fileSize", "File must be under 2MB in size", value => {
     return value && value[0].size <= 2000000;
   })
-  .test("type", "We only support jpeg", value => {
-    return value && value[0].type === "image/jpeg";
+  .test("type", "We only support jpeg and png", value => {
+    return value && value[0].type === ("image/jpeg" || "image/png");
   });
 
 const addSeedSchema = yup.object().shape({
