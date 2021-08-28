@@ -121,10 +121,6 @@ export const AWSProvider = ({ children }) => {
   };
 
   const checkAuthenticatedUser = async () => {
-    const credentials = await Auth.currentCredentials();
-    console.log("Cognito identity ID:", credentials.identityId);
-    const credentials2 = await Auth.currentUserCredentials();
-    console.log("identityId", credentials2.identityId);
     Auth.currentAuthenticatedUser()
       .then(user => {
         console.log(user)
