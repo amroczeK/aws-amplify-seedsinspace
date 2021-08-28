@@ -82,7 +82,7 @@ const AddSeedDialog = ({ open, onClose }) => {
         file: seedImage[0],
         filename,
         path: "seed_images/",
-        level: "public",
+        level: "protected",
       };
       await uploadImage(imageReq);
       setOpenSnack(true);

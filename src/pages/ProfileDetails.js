@@ -75,9 +75,9 @@ const ProfileDetails = () => {
       if (formData.profileImage) {
         await uploadImage({
           file: formData["profileImage"][0],
-          path: "profiles/",
-          filename: `${cognitoUser?.username}_profile`,
-          level: "public",
+          path: "profile/",
+          filename: `profile_picture`,
+          level: "protected",
         });
       }
 

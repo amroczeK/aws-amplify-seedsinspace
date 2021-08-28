@@ -14,8 +14,8 @@ const Profile = () => {
 
   useEffect(() => {
     const { username } = cognitoUser;
-    const path = `profiles/${username}_profile`;
-    const level = "public";
+    const path = `profile/profile_picture`;
+    const level = "protected";
     if (username) {
       fetchS3({ path, level }).then(url => setProfileImage(url));
     }

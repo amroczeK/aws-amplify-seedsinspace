@@ -5,8 +5,13 @@ import { useHistory } from "react-router-dom";
 
 export const AWSContext = createContext();
 
-export const fetchS3 = async ({ path, level }) => {
-  const result = await Storage.get(path, { expires: 60, level });
+export const fetchS3 = async ({ path, level, identityId }) => {
+  let config = {
+    expires: 60,
+    level
+  };
+  if (identityId) config.identityId = identityId;
+  const result = await Storage.get(path, config);
   return result;
 };
 
@@ -116,8 +121,15 @@ export const AWSProvider = ({ children }) => {
   };
 
   const checkAuthenticatedUser = async () => {
+    const credentials = await Auth.currentCredentials();
+    console.log("Cognito identity ID:", credentials.identityId);
+    const credentials2 = await Auth.currentUserCredentials();
+    console.log("identityId", credentials2.identityId);
     Auth.currentAuthenticatedUser()
-      .then(user => setCognitoUser(user))
+      .then(user => {
+        console.log(user)
+        setCognitoUser(user)
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   };

@@ -12,10 +12,15 @@ const ParticipantProfile = ({ school, setStep }) => {
 
   useEffect(() => {
     const subId = school.Sk ? school.Sk.replace("SCHOOL#", "") : null;
+    const { identityId } = school;
     setSchoolSubId(subId);
-    fetchS3({ path: `profiles/${subId}_profile`, level: "public" }).then(url =>
-      setProfileImage(url)
-    );
+    fetchS3({
+      path: `profile/profile_picture`,
+      level: "protected",
+      identityId,
+    })
+      .then(url => setProfileImage(url))
+      .catch(error => console.log(error));
   }, [school, fetchS3]);
 
   return (

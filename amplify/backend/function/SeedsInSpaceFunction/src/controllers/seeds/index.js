@@ -209,7 +209,7 @@ async function addSeed(req, res) {
   };
 
   try {
-    const result = await db.put(params).promise();
+    await db.put(params).promise();
     res.json({
       statusCode: 200,
       url: req.url,
