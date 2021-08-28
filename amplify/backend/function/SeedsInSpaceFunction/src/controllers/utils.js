@@ -1,15 +1,18 @@
 const getUserId = req => {
+  let sub, identityId;
   try {
     const reqContext = req.apiGateway.event.requestContext;
-    if(reqContext.identity) console.log(reqContext.identity);
-    const authProvider = reqContext.identity.cognitoAuthenticationProvider;
-    return authProvider ? authProvider.split(":CognitoSignIn:").pop() : "UNAUTH";
+    if (reqContext.identity) {
+      const authProvider = reqContext.identity.cognitoAuthenticationProvider;
+      sub = authProvider ? authProvider.split(":CognitoSignIn:").pop() : null;
+      identityId = reqContext.identity.cognitoIdentityId;
+    }
+    return { sub, identityId };
   } catch (error) {
     console.log("Error - getUserId():", error);
-    return "UNAUTH";
+    return { sub, identityId };
   }
 };
-
 
 // convert url string param to expected Type
 const convertUrlType = (param, type) => {

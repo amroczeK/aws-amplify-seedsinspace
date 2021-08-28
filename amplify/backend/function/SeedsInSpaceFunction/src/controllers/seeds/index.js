@@ -189,10 +189,19 @@ async function getSeedsByFilter(req, res) {
  */
 async function addSeed(req, res) {
   const timestamp = new Date().toISOString();
+  let { sub } = getUserId(req);
+
+  if (!sub) {
+    return res.json({
+      statusCode: 400,
+      error: "Users sub is required to make this request.",
+    });
+  }
+
   const params = {
     TableName: tableName,
     Item: {
-      Pk: "SCHOOL#" + getUserId(req),
+      Pk: "SCHOOL#" + sub,
       ...req.body,
       createdAt: timestamp,
       updatedAt: timestamp,

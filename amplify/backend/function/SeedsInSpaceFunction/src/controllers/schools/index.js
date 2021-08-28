@@ -83,12 +83,12 @@ async function getAllSchools(req, res) {
  * @access  Private
  */
 async function addSchool(req, res) {
-  let sub = getUserId(req);
+  let { sub, identityId } = getUserId(req);
 
-  if (!sub) {
+  if (!sub || !identityId) {
     return res.json({
       statusCode: 400,
-      error: "Users sub is required to make this request.",
+      error: "Users sub and identityId is required to make this request.",
     });
   }
 
@@ -99,6 +99,7 @@ async function addSchool(req, res) {
     Item: {
       Pk: "School",
       Sk: "SCHOOL#" + sub,
+      identityId,
       createdAt: timestamp,
       updatedAt: timestamp,
       ...req.body,
@@ -106,8 +107,7 @@ async function addSchool(req, res) {
   };
 
   try {
-    const result = await db.put(params).promise();
-    console.log("add school result", result);
+    await db.put(params).promise();
     res.json({
       statusCode: 200,
       url: req.url,
