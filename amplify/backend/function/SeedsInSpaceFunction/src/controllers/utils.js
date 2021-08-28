@@ -1,6 +1,7 @@
 const getUserId = req => {
   try {
     const reqContext = req.apiGateway.event.requestContext;
+    if(reqContext.identity) console.log(reqContext.identity);
     const authProvider = reqContext.identity.cognitoAuthenticationProvider;
     return authProvider ? authProvider.split(":CognitoSignIn:").pop() : "UNAUTH";
   } catch (error) {
