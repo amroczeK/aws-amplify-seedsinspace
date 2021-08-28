@@ -17,10 +17,6 @@
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": []
-    },
-    "SISbucket": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation"
     }
   },
   "hosting": {
