@@ -123,7 +123,6 @@ export const AWSProvider = ({ children }) => {
   const checkAuthenticatedUser = async () => {
     Auth.currentAuthenticatedUser()
       .then(user => {
-        console.log(user)
         setCognitoUser(user)
       })
       .catch(console.error)

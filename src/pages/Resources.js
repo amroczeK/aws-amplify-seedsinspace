@@ -1,9 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@material-ui/core/Container";
 import styled from "styled-components";
 import { StyledLink } from "../components/styled-components/Links";
+import { Storage } from "aws-amplify";
+
+const resourceList = [
+  "Dates of Germination.pdf",
+  "Seed Entry.pdf",
+  "Scientific Report.pdf",
+  "Science Journal.pdf",
+];
+
+const getSignedURLs = () =>
+  new Promise((resolve, reject) => {
+    let promises = [];
+    resourceList.forEach(e => {
+      let promise = new Promise((resolve, reject) => {
+        Storage.get(`documents/${e}`)
+          .then(signedURL =>
+            resolve({ title: `${e.replace(".pdf", "")} (PDF)`, signedURL })
+          )
+          .catch(error => reject(error));
+      });
+      promises.push(promise);
+    });
+    Promise.all(promises)
+      .then(results => {
+        resolve(results);
+      })
+      .catch(console.log);
+  });
 
 const Resources = () => {
+  const [resources, setResources] = useState(null);
+
+  useEffect(() => {
+    getSignedURLs().then(r => {
+      setResources(r);
+    });
+  }, [setResources]);
+
   // NOTE: process.env.REACT_APP_RESOURCE_URL is being pulled from .env in local development and AWS Amplify Environment Variables during build/deployment in amplify.yml in Amplify GUI
   return (
     <Container maxWidth="md">
@@ -13,42 +49,20 @@ const Resources = () => {
           Here are some downloadable classroom resources that you can use to record data
           for your seeds.
         </p>
-        <StyledLink
-          to={{
-            pathname: `https://${process.env.REACT_APP_RESOURCE_URL}/Dates+of+Germination.pdf`,
-          }}
-          target="_blank"
-        >
-          Dates of Germination (PDF)
-        </StyledLink>
-        <br />
-        <StyledLink
-          to={{
-            pathname: `https://${process.env.REACT_APP_RESOURCE_URL}/Seed+Entry.pdf`,
-          }}
-          target="_blank"
-        >
-          Seed Entry (PDF)
-        </StyledLink>
-        <br />
-        <StyledLink
-          to={{
-            pathname: `https://${process.env.REACT_APP_RESOURCE_URL}/Scientific+Report.pdf`,
-          }}
-          target="_blank"
-        >
-          Scientific Report (PDF)
-        </StyledLink>
-        <br />
-        <StyledLink
-          to={{
-            pathname: `https://${process.env.REACT_APP_RESOURCE_URL}/Science+Journal.pdf`,
-          }}
-          target="_blank"
-        >
-          Science Journal (PDF)
-        </StyledLink>
-        <br />
+        {resources?.map(({ signedURL, title }, i) => (
+          <>
+            <StyledLink
+              key={i}
+              to={{
+                pathname: signedURL,
+              }}
+              target="_blank"
+            >
+              {`${title}`}
+            </StyledLink>
+            <br />
+          </>
+        ))}
         <br />
         <h1>Useful Information</h1>
         <StyledLink
