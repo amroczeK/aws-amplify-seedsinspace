@@ -45,7 +45,7 @@ const ProfileDetails = () => {
   const { updateCognitoUser, cognitoUser, fetchS3, uploadImage } = useAws();
 
   useEffect(() => {
-    fetchS3({ path: `profiles/${cognitoUser?.username}_profile`, level: "public" }).then(
+    fetchS3({ path: `profile/profile_picture`, level: "protected" }).then(
       url => {
         setProfileImage(url);
       }
