@@ -162,8 +162,11 @@ async function updateSchool(req, res) {
   params.ExpressionAttributeNames[`#updatedAt`] = "updatedAt";
   params.ExpressionAttributeValues[":updatedAt"] = timestamp;
 
+  console.log("params", params)
+
   try {
     const result = await db.update(params).promise();
+    console.log("update school result", result)
     res.json({
       statusCode: 200,
       url: req.url,
