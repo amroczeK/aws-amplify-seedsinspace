@@ -138,6 +138,7 @@ const SeedSetUp = () => {
                 {...field}
                 multiline
                 variant="outlined"
+                placeholder="E.g. Greenhouse, Indoors, Outdoors etc."
                 error={errors?.environment ? true : false}
                 helperText={errors?.environment?.message}
                 rows={10}

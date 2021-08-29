@@ -73,6 +73,7 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
       <TextField
         style={{ display: "flex" }}
         id="location search"
+        placeholder="Search Address"
         variant="outlined"
         defaultValue={defaultValue}
         inputRef={searchRef}
