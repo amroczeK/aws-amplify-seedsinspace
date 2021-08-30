@@ -1,62 +1,26 @@
 import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../../context/Data";
 import { AWSContext } from "../../context/AWSContext";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import * as API from "../../apis";
+import Alert from "@material-ui/lab/Alert";
 import Select from "../selects/Select";
 import QueryBtn from "../inputs/Button";
 import ClearFiltersBtn from "../inputs/Button";
 import DateRangeSelect from "../inputs/DateRangeSelect";
-import styled from "styled-components";
-import Alert from "@material-ui/lab/Alert";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Plotly from "../charts/Plotly";
-import { getChartData } from "../charts/PlotlyAdaptor";
-import * as API from "../../apis";
 import Checkbox from "../inputs/Checkbox";
+import styled from "styled-components";
 import moment from "moment";
-import QueryFilters from "./QueryFilters"
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    position: "relative",
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-  loader: {
-    display: "flex",
-    position: "absolute",
-    zIndex: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
-    width: "100%",
-  },
-}));
 
 const seedTypes = ["All", "Earth", "Space"];
 
-const Graph = () => {
-  const classes = useStyles();
-
+const QueryFilters = () => {
   const [date, setDate] = useState({ startDate: moment(), endDate: moment() });
   const [checked, setChecked] = useState(false);
   const [selectedType, setSelectedType] = useState(0);
   const [info, setInfo] = useState(null);
 
-  const {
-    seedData,
-    setSeedData,
-    loading,
-    setLoading,
-    error,
-    setError,
-    graphTitle,
-    setGraphTitle,
-  } = useContext(DataContext);
+  const { setSeedData, setLoading, error, setError, setGraphTitle } =
+    useContext(DataContext);
   const { cognitoUser } = useContext(AWSContext);
 
   const selectedTypeHandler = event => {
@@ -81,7 +45,10 @@ const Graph = () => {
         return req;
       }
     } catch (error) {
-      let message = { info: true, message: "Please select a valid start date and end date." };
+      let message = {
+        info: true,
+        message: "Please select a valid start date and end date.",
+      };
       throw message;
     }
   };
@@ -124,19 +91,9 @@ const Graph = () => {
     }
   };
 
-  // Reset seed data on component mount because data in in API context shared by multiple components
-  // e.g. for scenario where user loads data on All Seeds page, then logs in and navigates to Dashboard
-  // Seed data is already populated by previous data when not logged in and vice versa when you logout and navigate to All Seeds
-  // Also when you nagivate to another page, seed data should be reset
-  useEffect(() => {
-    //if (seedData?.length) setSeedData(null);
-    // eslint-disable-next-line
-  }, []); // Only do this on component mount, no dependencies required
-
   return (
-    <div className={classes.root}>
-      {/* <QueryFilters /> */}
-      {/* <FilterContainer>
+    <>
+      <FilterContainer>
         <Select
           title={"Type"}
           value={selectedType}
@@ -174,26 +131,12 @@ const Graph = () => {
         <AlertContainer>
           <Alert severity="error">{error.message}</Alert>
         </AlertContainer>
-      )} */}
-      <Paper className={classes.paper}>
-        {loading && (
-          <div className={classes.loader}>
-            {loading && <CircularProgress size={60} />}
-          </div>
-        )}
-        <Plotly
-          {...getChartData({
-            type: "bar",
-            data: seedData,
-            title: graphTitle || "My Seeds",
-          })}
-        />
-      </Paper>
-    </div>
+      )}
+    </>
   );
 };
 
-export default Graph;
+export default QueryFilters;
 
 const FilterContainer = styled.div`
   max-width: 900px;
@@ -208,7 +151,8 @@ const FilterContainer = styled.div`
     margin: 0px;
     margin-bottom: 2px;
   }
-  padding: 0.25rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   @media (max-width: 840px) {
     flex-direction: column;
     align-items: flex-start;

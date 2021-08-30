@@ -8,6 +8,7 @@ export const DataProvider = ({ children }) => {
   const [seedData, setSeedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [graphTitle, setGraphTitle] = useState(null);
 
   // useEffect(() => {
   //   const fetchSeedData = async () => {
@@ -36,6 +37,8 @@ export const DataProvider = ({ children }) => {
     setLoading,
     error,
     setError,
+    graphTitle,
+    setGraphTitle
   };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;
