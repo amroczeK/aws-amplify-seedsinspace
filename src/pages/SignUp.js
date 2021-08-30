@@ -15,6 +15,7 @@ import { addSchool } from "../apis";
 const SignUp = () => {
   const [error, setError] = useState(null);
   const [signedURL, setSignedURL] = useState(null);
+  const [processing, setProcessing] = useState(false);
   const { createNewPassword, fetchS3 } = useAws();
   const history = useHistory();
 
@@ -30,7 +31,7 @@ const SignUp = () => {
     // eslint-disable-next-line
   }, []);
 
-  const { control, handleSubmit, formState } = useForm({
+  const { register, control, handleSubmit, formState } = useForm({
     resolver: signUpResolver,
     defaultValues: { ...history.location.state },
   });
@@ -40,19 +41,18 @@ const SignUp = () => {
   const signUpHandler = formData => {
     const { organisation } = formData;
 
+    setProcessing(true);
+
     createNewPassword(formData)
       .then(() => {
-        addSchool({ SchoolName: organisation })
-          .then(() => {
-            history.push("/profile-details", { isNewUser: true, organisation });
-          })
-          .catch(error => {
-            setError(error);
-            console.error(error);
-          });
+        return addSchool({ SchoolName: organisation }).then(() => {
+          setProcessing(false);
+          history.push("/profile-details", { isNewUser: true, organisation });
+        });
       })
       .catch(error => {
         setError(error);
+        setProcessing(false);
         console.error(error);
       });
   };
@@ -64,20 +64,15 @@ const SignUp = () => {
           <Typography style={{ fontWeight: "bold" }} variant="h5">
             Create an account
           </Typography>
+
           <StyledInputLabel shrink>SCHOOL/ORGANISATION NAME</StyledInputLabel>
-          <Controller
-            name="organisation"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                variant="outlined"
-                error={errors?.organisation}
-                helperText={errors?.organisation?.message}
-              />
-            )}
+          <TextField
+            {...register("organisation")}
+            variant="outlined"
+            error={errors?.organisation ? true : false}
+            helperText={errors?.organisation?.message}
           />
+
           <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
           <Controller
             name="email"
@@ -91,43 +86,35 @@ const SignUp = () => {
               />
             )}
           />
+
           <StyledInputLabel shrink>NEW PASSWORD</StyledInputLabel>
-          <Controller
-            name="password"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                type="password"
-                variant="outlined"
-                error={errors?.password}
-                helperText={errors?.password?.message}
-              />
-            )}
+          <TextField
+            {...register("password")}
+            type="password"
+            variant="outlined"
+            error={errors?.password ? true : false}
+            helperText={errors?.password?.message}
           />
+
           <StyledInputLabel shrink>CONFIRM NEW PASSWORD</StyledInputLabel>
-          <Controller
-            name="confirmPassword"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                type="password"
-                variant="outlined"
-                error={errors?.confirmPassword}
-                helperText={errors?.confirmPassword?.message}
-              />
-            )}
+          <TextField
+            {...register("confirmPassword")}
+            type="password"
+            variant="outlined"
+            error={errors?.confirmPassword ? true : false}
+            helperText={errors?.confirmPassword?.message}
           />
+
           <StyledLink to={{ pathname: signedURL }} target="_blank">
             SIS disclaimer / terms and conditions
           </StyledLink>
+
           {error && <Alert severity="error">{error.message}</Alert>}
+
           <StyledButton
             color="primary"
             disableElevation
+            disabled={processing}
             variant="contained"
             type="submit"
           >

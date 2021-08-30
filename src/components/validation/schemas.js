@@ -18,8 +18,8 @@ const signUpSchema = yup.object().shape({
   password: common.password,
   confirmPassword: yup
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .oneOf([yup.ref("password"), null], "Passwords must match"),
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("Passwords must match"),
 });
 
 export const signUpResolver = yupResolver(signUpSchema);
