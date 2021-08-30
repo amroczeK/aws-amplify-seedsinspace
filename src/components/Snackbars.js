@@ -22,10 +22,18 @@ export const SuccessSnackbar = ({ text, openSnack, setOpenSnack }) => {
   );
 };
 
-export const ErrorSnackbar = ({ text, openSnack, setOpenSnack }) => {
+export const ErrorSnackbar = ({ error, textOverride, openSnack, setOpenSnack }) => {
   const hideSnackBar = () => {
     setOpenSnack(null);
   };
+
+  let errorMessage = textOverride;
+
+  if (error && !errorMessage) {
+    if (error.hasOwnProperty("message")) {
+      errorMessage = error.message;
+    }
+  }
 
   return (
     <Snackbar
@@ -34,7 +42,7 @@ export const ErrorSnackbar = ({ text, openSnack, setOpenSnack }) => {
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert onClose={hideSnackBar} severity="error">
-        {text}
+        {errorMessage}
       </Alert>
     </Snackbar>
   );
