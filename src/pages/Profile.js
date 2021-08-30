@@ -26,14 +26,14 @@ const Profile = () => {
       <Flexbox direction="column">
         <ProfileContainer wrap="wrap" gap="2em" grow="0" justify="center">
           <Image src={profileImage} alt="profile"></Image>
-          <div>
+          <div style={{ alignSelf: "center" }}>
             <Typography>{cognitoUser.attributes["custom:organisation"]}</Typography>
             <Typography variant="subtitle2" gutterBottom>
               {cognitoUser.attributes["address"]}
             </Typography>
           </div>
         </ProfileContainer>
-        <Typography style={{ textAlign: "justify" }}>
+        <Typography style={{ alignSelf: "center" }}>
           {cognitoUser.attributes["custom:about"]}
         </Typography>
         <Flexbox
@@ -71,7 +71,7 @@ const ProfileContainer = styled.div`
   display: flex;
   gap: 1em;
   padding: 1em 0;
-  align-items: center;
+  align-self: center;
 `;
 
 const Image = styled.img`

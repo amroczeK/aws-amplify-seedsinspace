@@ -78,13 +78,15 @@ const AddSeedDialog = ({ open, onClose }) => {
       const seedReq = { SeedNumber, Type: type, Date: formattedDate, ...formFields };
       await API.addSeed(seedReq);
 
-      const imageReq = {
-        file: seedImage[0],
-        filename,
-        path: "seed_images/",
-        level: "protected",
-      };
-      await uploadImage(imageReq);
+      if (seedImage) {
+        const imageReq = {
+          file: seedImage[0],
+          filename,
+          path: "seed_images/",
+          level: "protected",
+        };
+        await uploadImage(imageReq);
+      }
       setOpenSnack(true);
     } catch (error) {
       console.error(error);
@@ -193,7 +195,7 @@ const AddSeedDialog = ({ open, onClose }) => {
       <ErrorSnackbar
         openSnack={error ? true : false}
         setOpenSnack={setError}
-        text={error}
+        error={error}
       />
     </Dialog>
   );

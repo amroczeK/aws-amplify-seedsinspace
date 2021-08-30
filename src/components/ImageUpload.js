@@ -50,7 +50,7 @@ const ImageUpload = ({ name, image, text, setValue, formValue, error }) => {
       const preview = URL.createObjectURL(imageFiles[0]);
       setImageUrl(preview);
       setImageFileName(imageFiles[0].name);
-      setValue(name, imageFiles); // updated react hook form
+      setValue(name, imageFiles, { shouldValidate: true }); // updated react hook form
     }
   };
 
