@@ -52,24 +52,24 @@ const SideMenu = () => {
         </StyledAppBar>
         <StyledMenuContent>
           <List component="nav">
+              <ListItem button component={Link} onClick={handleClose} to="/">
+                <StyledListItemText>About SIS</StyledListItemText>
+              </ListItem>
             {cognitoUser && (
               <ListItem button component={Link} onClick={handleClose} to="/dashboard">
                 <StyledListItemText>My Seeds</StyledListItemText>
               </ListItem>
             )}
-            {!cognitoUser && (
+            {/* {!cognitoUser && (
               <ListItem button component={Link} onClick={handleClose} to="/all-seeds">
                 <StyledListItemText>All Seeds</StyledListItemText>
               </ListItem>
-            )}
-            <ListItem button component={Link} onClick={handleClose} to="/resources">
-              <StyledListItemText>Resources</StyledListItemText>
-            </ListItem>
+            )} */}
             <ListItem button component={Link} onClick={handleClose} to="/community">
               <StyledListItemText>Community</StyledListItemText>
             </ListItem>
-            <ListItem button component={Link} onClick={handleClose} to="/">
-              <StyledListItemText>About SIS</StyledListItemText>
+            <ListItem button component={Link} onClick={handleClose} to="/resources">
+              <StyledListItemText>Resources</StyledListItemText>
             </ListItem>
             {cognitoUser ? (
               <AuthLinksContainer>
@@ -122,6 +122,6 @@ const StyledListItemText = styled(ListItemText)`
 
 const AuthLinksContainer = styled.div`
   margin-top: 3rem;
-`
+`;
 
 export default SideMenu;
