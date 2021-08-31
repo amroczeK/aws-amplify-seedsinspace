@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Weather from "../Weather";
-import Graph from "./Graph";
-import Table from "./Table";
+import Graph from "../charts/Graph";
+import Table from "../charts/Table";
 import Paper from "@material-ui/core/Paper"
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";

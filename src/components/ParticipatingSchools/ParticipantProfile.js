@@ -42,7 +42,7 @@ const ParticipantProfile = ({ school, setStep }) => {
           </Typography>
         </div>
       </Profile>
-      {schoolSubId && <SchoolData schoolSub={schoolSubId} />}
+      <SchoolData schoolSubId={schoolSubId} />
     </Container>
   );
 };
