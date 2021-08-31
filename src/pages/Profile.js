@@ -3,8 +3,6 @@ import { useAws } from "../context/AWSContext";
 import Typography from "@material-ui/core/Typography";
 import styled from "styled-components";
 import { StyledButton } from "../components/styled-components/Buttons";
-import { Flexbox } from "../components/styled-components/Flexbox";
-import Container from "@material-ui/core/Container";
 import { useHistory } from "react-router-dom";
 
 const Profile = () => {
@@ -22,56 +20,56 @@ const Profile = () => {
   }, [fetchS3, cognitoUser]);
 
   return (
-    <Container maxWidth="md">
-      <Flexbox direction="column">
-        <ProfileContainer wrap="wrap" gap="2em" grow="0" justify="center">
-          <Image src={profileImage} alt="profile"></Image>
-          <div style={{ alignSelf: "center" }}>
-            <Typography>{cognitoUser.attributes["custom:organisation"]}</Typography>
-            <Typography variant="subtitle2" gutterBottom>
-              {cognitoUser.attributes["address"]}
-            </Typography>
-          </div>
-        </ProfileContainer>
-        <Typography style={{ alignSelf: "center" }}>
-          {cognitoUser.attributes["custom:about"]}
-        </Typography>
-        <Flexbox
-          margin="3em 0 0 0"
-          grow="0"
-          wrap="wrap"
-          alignSelf="center"
-          justify="center"
+    <StyledContaienr>
+      <ProfileContainer>
+        <Image src={profileImage} alt="profile" />
+        <ProfileButtons
+          onClick={() => history.push("/profile-details")}
+          width="100%"
+          color="primary"
+          variant="contained"
+          style={{ wordWrap: "break-word" }}
         >
-          <StyledButton
-            onClick={() => history.push("/profile-details")}
-            width="300px"
-            color="primary"
-            variant="contained"
-          >
-            Edit Profile
-          </StyledButton>
-          <StyledButton
-            onClick={() => history.push("/change-password")}
-            width="300px"
-            color="primary"
-            variant="contained"
-          >
-            Change Password
-          </StyledButton>
-        </Flexbox>
-      </Flexbox>
-    </Container>
+          Edit Profile
+        </ProfileButtons>
+        <ProfileButtons
+          onClick={() => history.push("/change-password")}
+          width="100%"
+          color="primary"
+          variant="contained"
+          style={{ wordWrap: "break-word" }}
+        >
+          Change Password
+        </ProfileButtons>
+      </ProfileContainer>
+      <ContentContainer>
+        <Typography style={{ wordWrap: "break-word" }} variant="h5">
+          {cognitoUser.attributes["custom:organisation"]}
+        </Typography>
+        <Typography style={{ wordWrap: "break-word" }} variant="subtitle1" gutterBottom>
+          {cognitoUser.attributes["address"]}
+        </Typography>
+        <p>
+          {cognitoUser.attributes["custom:about"]}
+        </p>
+      </ContentContainer>
+    </StyledContaienr>
   );
 };
 
 export default Profile;
 
-const ProfileContainer = styled.div`
+const ContentContainer = styled.div`
   display: flex;
-  gap: 1em;
-  padding: 1em 0;
-  align-self: center;
+  flex-direction: column;
+  flex: 1rem;
+  gap: 0.5rem;
+  padding: 1rem;
+  min-width: 150px;
+  p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
 `;
 
 const Image = styled.img`
@@ -83,4 +81,38 @@ const Image = styled.img`
   object-fit: cover;
   border: 1px solid lightgrey;
   border-radius: 5px;
+  @media (max-width: 460px) {
+    align-self: center;
+    justify-content: center;
+  }
+`;
+
+const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const StyledContaienr = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+  margin-top: 2rem;
+  @media (max-width: 460px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+`;
+
+const ProfileButtons = styled(StyledButton)`
+  @media (max-width: 460px) {
+    align-self: center;
+    justify-content: center;
+    max-width: 200px;
+    max-height: 200px;
+  }
 `;
