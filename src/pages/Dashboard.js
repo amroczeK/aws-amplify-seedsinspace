@@ -1,10 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { useTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import AddSeedDialog from "../components/Dashboard/AddSeedDialog";
 import DashboardContent from "../components/Dashboard/DashboardContent"
 
 const Dashboard = () => {
   const [openAddSeed, setOpenAddSeed] = useState(false);
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Container>

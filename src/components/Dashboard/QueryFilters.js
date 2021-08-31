@@ -10,7 +10,35 @@ import DateRangeSelect from "../inputs/DateRangeSelect";
 import Checkbox from "../inputs/Checkbox";
 import styled from "styled-components";
 import moment from "moment";
+<<<<<<< HEAD
+import QueryFilters from "./QueryFilters"
 
+<<<<<<<< HEAD:src/components/Dashboard/QueryFilters.js
+========
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    position: "relative",
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+  loader: {
+    display: "flex",
+    position: "absolute",
+    zIndex: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    width: "100%",
+  },
+}));
+
+>>>>>>>> dev:src/components/Dashboard/Graph.js
+=======
+
+>>>>>>> dev
 const seedTypes = ["All", "Earth", "Space"];
 
 const QueryFilters = () => {
@@ -19,8 +47,26 @@ const QueryFilters = () => {
   const [selectedType, setSelectedType] = useState(0);
   const [info, setInfo] = useState(null);
 
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/components/Dashboard/QueryFilters.js
   const { setSeedData, setLoading, error, setError, setGraphTitle } =
     useContext(DataContext);
+========
+  const {
+    seedData,
+    setSeedData,
+    loading,
+    setLoading,
+    error,
+    setError,
+    graphTitle,
+    setGraphTitle,
+  } = useContext(DataContext);
+>>>>>>>> dev:src/components/Dashboard/Graph.js
+=======
+  const { setSeedData, setLoading, error, setError, setGraphTitle } =
+    useContext(DataContext);
+>>>>>>> dev
   const { cognitoUser } = useContext(AWSContext);
 
   const selectedTypeHandler = event => {
@@ -91,48 +137,38 @@ const QueryFilters = () => {
     }
   };
 
+<<<<<<< HEAD
+<<<<<<<< HEAD:src/components/Dashboard/QueryFilters.js
   return (
     <>
       <FilterContainer>
-        <Select
-          title={"Type"}
-          value={selectedType}
-          handleChange={selectedTypeHandler}
-          items={seedTypes}
+========
+  // Reset seed data on component mount because data in in API context shared by multiple components
+  // e.g. for scenario where user loads data on All Seeds page, then logs in and navigates to Dashboard
+  // Seed data is already populated by previous data when not logged in and vice versa when you logout and navigate to All Seeds
+  // Also when you nagivate to another page, seed data should be reset
+  useEffect(() => {
+    //if (seedData?.length) setSeedData(null);
+    // eslint-disable-next-line
+  }, []); // Only do this on component mount, no dependencies required
+
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        {loading && (
+          <div className={classes.loader}>
+            {loading && <CircularProgress size={60} />}
+          </div>
+        )}
+        <Plotly
+          {...getChartData({
+            type: "bar",
+            data: seedData,
+            title: graphTitle || "My Seeds",
+          })}
         />
-        <DateRangeContainer>
-          <p>Dates</p>
-          <DateRangeSelect
-            date={date}
-            dateChangeHandler={dateChangeHandler}
-            disabled={checked}
-          />
-        </DateRangeContainer>
-        <Checkbox name={"All dates"} checked={checked} checkedHandler={checkedHandler} />
-        <ButtonContainer>
-          <QueryBtn title={"Fetch Data"} onClickHandler={onFilterQueryHandler} />
-          <ClearFiltersBtn
-            title={"Clear"}
-            onClickHandler={() => {
-              setInfo(null);
-              setError(null);
-              setLoading(false);
-              setSeedData([]);
-            }}
-          />
-        </ButtonContainer>
-      </FilterContainer>
-      {info?.message && (
-        <AlertContainer>
-          <Alert severity="info">{info.message}</Alert>
-        </AlertContainer>
-      )}
-      {error?.message && (
-        <AlertContainer>
-          <Alert severity="error">{error.message}</Alert>
-        </AlertContainer>
-      )}
-    </>
+      </Paper>
+    </div>
   );
 };
 
@@ -151,7 +187,12 @@ const FilterContainer = styled.div`
     margin: 0px;
     margin-bottom: 2px;
   }
+<<<<<<< HEAD
   padding: 1rem;
+=======
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+>>>>>>> dev
   @media (max-width: 840px) {
     flex-direction: column;
     align-items: flex-start;
@@ -165,7 +206,11 @@ const DateRangeContainer = styled.div`
 `;
 
 const AlertContainer = styled.div`
+<<<<<<< HEAD
   padding: 0.5rem;
+=======
+  padding: 0.5rem 0rem 0.5rem 0rem;
+>>>>>>> dev
 `;
 
 const ButtonContainer = styled.div`
