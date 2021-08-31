@@ -11,7 +11,7 @@ const ParticipantProfile = ({ school, setStep }) => {
   const [profileImage, setProfileImage] = useState();
 
   useEffect(() => {
-    const subId = school.Sk ? school.Sk.replace("SCHOOL#", "") : null;
+    const subId = school?.Sk?.replace("SCHOOL#", "");
     const { identityId } = school;
     setSchoolSubId(subId);
     fetchS3({
@@ -36,9 +36,9 @@ const ParticipantProfile = ({ school, setStep }) => {
       <Profile>
         <Image src={profileImage} alt="profile"></Image>
         <div>
-          <Typography>{school.SchoolName}</Typography>
+          <Typography>{school?.SchoolName}</Typography>
           <Typography variant="subtitle2">
-            {school.Address.split(", ")[1]}, {school.Address.split(", ")[2]}
+            {school?.Address?.split(", ")[1]}, {school?.Address?.split(", ")[2]}
           </Typography>
         </div>
       </Profile>
