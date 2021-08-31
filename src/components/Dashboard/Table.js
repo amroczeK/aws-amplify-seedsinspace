@@ -64,7 +64,6 @@ const Table = () => {
 export default Table;
 
 const TableContainer = styled.div`
-  margin-top: 2rem;
   min-height: 500px;
   height: 550px;
   width: 100%;

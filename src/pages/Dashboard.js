@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import AddSeedDialog from "../components/Dashboard/AddSeedDialog";
-import DashboardContentLarge from "../components/Dashboard/DashboardContentLarge";
+import DashboardContent from "../components/Dashboard/DashboardContent"
 
 const Dashboard = () => {
   const [openAddSeed, setOpenAddSeed] = useState(false);
@@ -9,7 +9,7 @@ const Dashboard = () => {
   return (
     <Container>
       <AddSeedDialog open={openAddSeed} onClose={() => setOpenAddSeed(false)} />
-      <DashboardContentLarge setOpenAddSeed={setOpenAddSeed}/>
+      <DashboardContent setOpenAddSeed={setOpenAddSeed}/>
     </Container>
   );
 };
@@ -21,8 +21,4 @@ const Container = styled.div`
   flex-direction: column;
   min-width: 300px;
   gap: 1em;
-  padding: 1.5rem;
-  @media (max-width: 600px) {
-    padding: 0.5rem;
-  }
 `;

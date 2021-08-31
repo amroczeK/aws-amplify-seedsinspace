@@ -42,7 +42,7 @@ const Resources = () => {
 
   // NOTE: process.env.REACT_APP_RESOURCE_URL is being pulled from .env in local development and AWS Amplify Environment Variables during build/deployment in amplify.yml in Amplify GUI
   return (
-    <Container maxWidth="md">
+    <Container style={{ paddingTop: "1em", paddingBottom: "2rem" }} maxWidth="md">
       <ContentContainer>
         <h1>Classroom Resources</h1>
         <p>
@@ -122,6 +122,5 @@ export default Resources;
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1rem;
   width: 100%;
 `;

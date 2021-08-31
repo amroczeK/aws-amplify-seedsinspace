@@ -12,7 +12,7 @@ const ParticipatingSchools = () => {
   }, []);
 
   return (
-    <Container style={{ paddingTop: "1em" }} maxWidth="xl">
+    <Container style={{ paddingTop: "1em", paddingBottom: "2rem" }} maxWidth="lg">
       <StepperContent schools={schools} />
     </Container>
   );

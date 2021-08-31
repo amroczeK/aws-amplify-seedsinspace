@@ -1,6 +1,5 @@
-import { useState, createContext } from "react";
-// import {useEffect} from "react";
-// import { getAllSeeds } from "../apis";
+import { useState, createContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export const DataContext = createContext();
 
@@ -8,26 +7,16 @@ export const DataProvider = ({ children }) => {
   const [seedData, setSeedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [graphTitle, setGraphTitle] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchSeedData = async () => {
-  //     try {
-  //       let { body } = await getAllSeeds();
-  //       setSeedData(JSON.parse(body));
-  //       setLoading(false);
-  //       setError(null);
-  //     } catch (error) {
-  //       console.log(error);
-  //       setError({ message: error });
-  //     }
-  //   };
+  const location = useLocation();
 
-  //   if (seedData?.length === 0) {
-  //     setLoading(true);
-  //     fetchSeedData();
-  //   }
-  //   // eslint-disable-next-line
-  // }, []);
+  // Reset seedData on route/location change to prevent data loaded on another page e.g. Community profile
+  // appearing on the Dashboard page and vice versa
+  useEffect(() => {
+    setSeedData([]);
+    // eslint-disable-next-line
+  }, [location]);
 
   const values = {
     seedData,
@@ -36,6 +25,8 @@ export const DataProvider = ({ children }) => {
     setLoading,
     error,
     setError,
+    graphTitle,
+    setGraphTitle
   };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;

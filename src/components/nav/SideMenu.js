@@ -43,7 +43,9 @@ const SideMenu = () => {
       </StyledTypography>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
         <StyledAppBar>
-          <StyledTypography variant="h5">Seeds in Space</StyledTypography>
+          <StyledTypography component={Link} to="/" variant="h5" onClick={handleClose}>
+            Seeds in Space
+          </StyledTypography>
           <IconButton style={{ marginRight: "0.5em" }} onClick={handleClose}>
             <CloseIcon style={{ color: "#fff", width: "1.5em", height: "1.5em" }} />
           </IconButton>
