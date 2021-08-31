@@ -2,21 +2,41 @@ import React, { useState, useEffect } from "react";
 import { DataGridTable } from "../tables/DataGrid";
 import styled from "styled-components";
 
-const defaultColumns = [
-  { field: "SchoolName", headerName: "School Name", flex: 1 },
-  { field: "Address", headerName: "Address", flex: 1.5 },
-  { field: "InactiveSeeds", headerName: "Inactive Seeds", flex: 1 },
-];
-
-const Table = ({ data, error = null, loading, handleRowClick }) => {
+const Table = ({
+  data,
+  error = null,
+  loading,
+  handleRowClick,
+  handleViewProfileClick,
+}) => {
   const [selectedRow, setSelectedRow] = useState([]);
+
+  const defaultColumns = [
+    {
+      field: "Profile",
+      headerName: "",
+      description: "Click View Profile to navigate to schools profile.",
+      flex: 0.4,
+      renderCell: ({ row }) => (
+        <p onClick={() => handleViewProfileClick(row)}>View Profile</p>
+      ),
+    },
+    { field: "SchoolName", headerName: "Name", flex: 1 },
+    { field: "Address", headerName: "Address", flex: 1.5 },
+    {
+      field: "InactiveSeeds",
+      headerName: "Inactive Seeds",
+      flex: 1,
+      description: "Seeds which are no longer being recorded.",
+    },
+  ];
 
   useEffect(() => {
     if (selectedRow) {
       handleRowClick(selectedRow);
     }
     // eslint-disable-next-line
-  }, [selectedRow]);  // Only update when selectedRow changes
+  }, [selectedRow]); // Only update when selectedRow changes
 
   return (
     <TableContainer>
