@@ -178,9 +178,14 @@ const Graph = () => {
         </DateRangeContainer>
         <Checkbox name={"All dates"} checked={checked} checkedHandler={checkedHandler} />
         <ButtonContainer>
-          <QueryBtn title={"Fetch Data"} onClickHandler={onFilterQueryHandler} />
+          <QueryBtn
+            size="small"
+            title={"Fetch Data"}
+            onClickHandler={onFilterQueryHandler}
+          />
           <ClearFiltersBtn
             title={"Clear"}
+            size="small"
             onClickHandler={() => {
               setInfo(null);
               setError(null);

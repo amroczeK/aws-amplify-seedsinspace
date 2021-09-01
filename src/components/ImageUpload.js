@@ -64,7 +64,7 @@ const ImageUpload = ({ name, image, text, setValue, formValue, error }) => {
       <div>
         <CameraIcon />
         <StyledButton component="label">
-          + {text || "add your image"}
+          + {text || "Update profile picture"}
           <input
             id="image-upload"
             type="file"
@@ -74,7 +74,7 @@ const ImageUpload = ({ name, image, text, setValue, formValue, error }) => {
           />
         </StyledButton>
         {error && <p style={{ color: "red" }}>{error.message}</p>}
-        <ImageText>{`Image: ${imageFileName || "None"}`}</ImageText>
+        {/* <ImageText>{`Image: ${imageFileName || "None"}`}</ImageText> */}
       </div>
     </>
   );

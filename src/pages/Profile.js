@@ -28,6 +28,7 @@ const Profile = () => {
           width="100%"
           color="primary"
           variant="contained"
+          size="small"
           style={{ wordWrap: "break-word" }}
         >
           Edit Profile
@@ -37,6 +38,7 @@ const Profile = () => {
           width="100%"
           color="primary"
           variant="contained"
+          size="small"
           style={{ wordWrap: "break-word" }}
         >
           Change Password
