@@ -20,7 +20,7 @@ const Profile = () => {
   }, [fetchS3, cognitoUser]);
 
   return (
-    <StyledContaienr>
+    <StyledContainer>
       <ProfileContainer>
         <Image src={profileImage} alt="profile" />
         <ProfileButtons
@@ -49,11 +49,9 @@ const Profile = () => {
         <Typography style={{ wordWrap: "break-word" }} variant="subtitle1" gutterBottom>
           {cognitoUser.attributes["address"]}
         </Typography>
-        <p>
-          {cognitoUser.attributes["custom:about"]}
-        </p>
+        <p>{cognitoUser.attributes["custom:about"]}</p>
       </ContentContainer>
-    </StyledContaienr>
+    </StyledContainer>
   );
 };
 
@@ -69,6 +67,7 @@ const ContentContainer = styled.div`
   border: 1px solid lightgrey;
   border-radius: 5px;
   margin-left: 1rem;
+  background: #fff;
   p {
     overflow-wrap: break-word;
     word-wrap: break-word;
@@ -87,6 +86,7 @@ const Image = styled.img`
   object-fit: cover;
   border: 1px solid lightgrey;
   border-radius: 5px;
+  background: #fff;
   @media (max-width: 460px) {
     align-self: center;
     justify-content: center;
@@ -99,7 +99,7 @@ const ProfileContainer = styled.div`
   gap: 1rem;
 `;
 
-const StyledContaienr = styled.div`
+const StyledContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -116,10 +116,10 @@ const StyledContaienr = styled.div`
 `;
 
 const ProfileButtons = styled(StyledButton)`
+  max-width: 200px;
+  min-width: 200px;
   @media (max-width: 460px) {
     align-self: center;
     justify-content: center;
-    max-width: 200px;
-    max-height: 200px;
   }
 `;
