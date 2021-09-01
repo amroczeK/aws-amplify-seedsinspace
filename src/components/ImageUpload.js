@@ -21,9 +21,9 @@ const Image = styled.img`
   justify-self: center;
 `;
 
-const ImageText = styled.p`
-  font-size: 12px;
-`;
+// const ImageText = styled.p`
+//   font-size: 12px;
+// `;
 
 const CameraIcon = styled(Camera)`
   width: 2em;
@@ -34,12 +34,12 @@ const CameraIcon = styled(Camera)`
 
 const ImageUpload = ({ name, image, text, setValue, formValue, error }) => {
   const [imageUrl, setImageUrl] = useState(null);
-  const [imageFileName, setImageFileName] = useState("None");
+  // const [imageFileName, setImageFileName] = useState("None");
 
   useEffect(() => {
     if (!formValue) {
       setImageUrl(null);
-      setImageFileName("None");
+      // setImageFileName("None");
     }
   }, [formValue]);
 
@@ -49,7 +49,7 @@ const ImageUpload = ({ name, image, text, setValue, formValue, error }) => {
     if (imageFiles[0]) {
       const preview = URL.createObjectURL(imageFiles[0]);
       setImageUrl(preview);
-      setImageFileName(imageFiles[0].name);
+      // setImageFileName(imageFiles[0].name);
       setValue(name, imageFiles, { shouldValidate: true }); // updated react hook form
     }
   };
