@@ -66,9 +66,15 @@ const ContentContainer = styled.div`
   gap: 0.5rem;
   padding: 1rem;
   min-width: 150px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin-left: 1rem;
   p {
     overflow-wrap: break-word;
     word-wrap: break-word;
+  }
+  @media (max-width: 460px) {
+    margin-left: 0rem;
   }
 `;
 
@@ -101,6 +107,7 @@ const StyledContaienr = styled.div`
   margin: 0 auto;
   padding: 1rem;
   margin-top: 2rem;
+  width: 100%;
   @media (max-width: 460px) {
     display: flex;
     flex-direction: column;
