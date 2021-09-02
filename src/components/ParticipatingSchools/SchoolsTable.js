@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DataGridTable } from "../tables/DataGrid";
 import styled from "styled-components";
+import Button from "../../components/inputs/Button"
 
 const Table = ({
   data,
@@ -16,9 +17,22 @@ const Table = ({
       field: "Profile",
       headerName: "",
       description: "Click View Profile to navigate to schools profile.",
-      flex: 0.4,
+      flex: 0.5,
       renderCell: ({ row }) => (
-        <p onClick={() => handleViewProfileClick(row)}>View Profile</p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignContent: "center",
+            width: "100%",
+          }}
+        >
+          <Button
+            title={"View"}
+            size="small"
+            onClickHandler={() => handleViewProfileClick(row)}
+          />
+        </div>
       ),
     },
     { field: "SchoolName", headerName: "Name", flex: 1 },
@@ -26,7 +40,7 @@ const Table = ({
     {
       field: "InactiveSeeds",
       headerName: "Inactive Seeds",
-      flex: 1,
+      flex: 0.5,
       description: "Seeds which are no longer being recorded.",
     },
   ];

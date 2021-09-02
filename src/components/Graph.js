@@ -159,6 +159,7 @@ const Graph = () => {
           helperText={"Select data filter"}
         />
         <QueryBtn
+          size="small"
           title={"Fetch Data"}
           onClickHandler={() => {
             // Index 0 evaluates to false
@@ -169,6 +170,7 @@ const Graph = () => {
           }}
         />
         <ClearFiltersBtn
+          size="small"
           title={"Clear"}
           onClickHandler={() => {
             setSeedData([]);
