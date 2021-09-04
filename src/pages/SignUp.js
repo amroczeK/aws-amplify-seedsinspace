@@ -47,7 +47,7 @@ const SignUp = () => {
       .then(() => {
         return addSchool({ SchoolName: organisation }).then(() => {
           setProcessing(false);
-          history.push("/profile-details", { isNewUser: true, organisation });
+          history.push("/profile/edit", { isNewUser: true, organisation });
         });
       })
       .catch(error => {
