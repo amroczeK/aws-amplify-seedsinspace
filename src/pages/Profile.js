@@ -24,7 +24,7 @@ const Profile = () => {
       <ProfileContainer>
         <Image src={profileImage} alt="profile" />
         <ProfileButtons
-          onClick={() => history.push("/profile-details")}
+          onClick={() => history.push("/profile/edit")}
           width="100%"
           color="primary"
           variant="contained"
@@ -34,7 +34,7 @@ const Profile = () => {
           Edit Profile
         </ProfileButtons>
         <ProfileButtons
-          onClick={() => history.push("/change-password")}
+          onClick={() => history.push("/profile/change-password")}
           width="100%"
           color="primary"
           variant="contained"
