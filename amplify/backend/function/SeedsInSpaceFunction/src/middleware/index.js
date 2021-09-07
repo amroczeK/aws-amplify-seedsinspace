@@ -1,3 +1,11 @@
+const rateLimit = require("express-rate-limit");
+
+const rateLimiter = rateLimit({
+  //windowMs: 1 * 60 * 1000, // 1 minutes
+  windowMs: 30 * 1000, // 30 seconds
+  max: 50, // limit each IP to 50 requests per windowMs
+});
+
 const auth = async (req, res, next) => {
   try {
     const reqContext = req.apiGateway.event.requestContext;
@@ -21,4 +29,5 @@ const auth = async (req, res, next) => {
 
 module.exports = {
   auth,
+  rateLimiter
 };
