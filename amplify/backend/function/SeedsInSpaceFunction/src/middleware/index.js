@@ -1,8 +1,15 @@
 const rateLimit = require("express-rate-limit");
+const slowDown = require("express-slow-down");
 
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minutes
-  max: 3, // limit each IP to 50 requests per windowMs
+  max: 20, // limit each IP to 20 requests per windowMs
+});
+
+const speedLimiter = slowDown({
+  windowMs: 1 * 60 * 1000, // 1 minutes
+  delayAfter: 10, // allow 10 requests per 1 minutes, then...
+  delayMs: 500, // begin adding 500ms of delay per request above 10
 });
 
 const auth = async (req, res, next) => {
@@ -28,5 +35,6 @@ const auth = async (req, res, next) => {
 
 module.exports = {
   auth,
-  rateLimiter
+  rateLimiter,
+  speedLimiter,
 };
