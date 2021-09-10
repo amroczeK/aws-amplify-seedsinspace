@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const controller = require("../../controllers/seeds");
-//const { auth } = require("../../middleware/index");
 
 router.route("/").get(controller.getAllSeeds).post(controller.addSeed);
 router.route("/:Pk").get(controller.getUsersSeeds);

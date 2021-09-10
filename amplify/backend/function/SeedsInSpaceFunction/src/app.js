@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var express = require("express");
 var app = express();
 const setupRouting = require("./config/routing");
+const { rateLimiter, speedLimiter } = require("./middleware");
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 
@@ -17,6 +18,11 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "*");
   next();
 });
+
+// For rate limiting per IP to all requests
+app.set("trust proxy", 1);
+app.use(rateLimiter);
+app.use(speedLimiter);
 
 setupRouting(app);
 
