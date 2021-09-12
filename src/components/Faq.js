@@ -25,9 +25,6 @@ const FAQ = () => {
       <AccordionPanel title="Will aliens grow from the space seeds?">
         <StyledTypography>We don’t think so.</StyledTypography>
       </AccordionPanel>
-      <AccordionPanel title="How do I submit our application?">
-        <StyledTypography>Everyone must use the online submission form.</StyledTypography>
-      </AccordionPanel>
       <AccordionPanel title="Who can participate?">
         <StyledTypography>
           This is open to all Australian schools or education institutions or home schools
@@ -39,7 +36,7 @@ const FAQ = () => {
       </AccordionPanel>
       <AccordionPanel title="Who do I contact if I have questions?">
         <StyledTypography>
-          Send an email to {''}
+          Send an email to {""}
           <a href="mailto: info@onegiantleapaustralia.com">
             info@onegiantleapaustralia.com
           </a>
