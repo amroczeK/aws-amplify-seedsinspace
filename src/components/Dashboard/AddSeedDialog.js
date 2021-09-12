@@ -96,6 +96,7 @@ const AddSeedDialog = ({ open, onClose }) => {
 
   return (
     <Dialog
+      id="add-seed-dialog"
       fullScreen
       style={{ width: !isSmall && 850 }}
       open={open}
@@ -166,6 +167,7 @@ const AddSeedDialog = ({ open, onClose }) => {
               name={`${type} Seed - ${seedTab + 1}`}
               register={register}
               errors={errors}
+              isSmall={isSmall}
             >
               <ImageUpload
                 name="seedImage"
