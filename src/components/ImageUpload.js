@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
-import NoImage from "../assets/SeedlingsPreviewImage.jpg";
+import NoImage from "../assets/No-image-added.png";
 import { Camera } from "@styled-icons/bootstrap/Camera";
 
 const StyledButton = styled(Button)`
