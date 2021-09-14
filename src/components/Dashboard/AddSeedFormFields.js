@@ -18,7 +18,7 @@ const defaultOptionalFields = {
   WaterVolume: { active: false, name: "Water Volume", measure: "ml" },
 };
 
-const AddSeedFormFields = ({ name, register, errors, children }) => {
+const AddSeedFormFields = ({ name, register, errors, isSmall, children }) => {
   const [optionalFields, setOptionalFields] = useState(defaultOptionalFields);
 
   return (
@@ -139,6 +139,7 @@ const AddSeedFormFields = ({ name, register, errors, children }) => {
         <OptionalFieldControl
           optionalFields={optionalFields}
           setOptionalFields={setOptionalFields}
+          isSmall={isSmall}
         />
       </StyledSeedInfo>
       <GroupLabel variant="subtitle2">NOTES</GroupLabel>
@@ -157,7 +158,7 @@ const AddSeedFormFields = ({ name, register, errors, children }) => {
   );
 };
 
-const OptionalFieldControl = ({ optionalFields, setOptionalFields }) => {
+const OptionalFieldControl = ({ optionalFields, setOptionalFields, isSmall }) => {
   const [showOptions, setShowOptions] = useState(null);
 
   let localOptions = { ...optionalFields };
@@ -177,7 +178,7 @@ const OptionalFieldControl = ({ optionalFields, setOptionalFields }) => {
       <StyledButton color="primary" onClick={() => setShowOptions(true)}>
         <b>+ Add new data measure</b>
       </StyledButton>
-      <Dialog open={showOptions ? true : false}>
+      <Dialog style={{ width: !isSmall && 850 }} open={showOptions ? true : false}>
         <div style={{ padding: "1em" }}>
           {Object.entries(optionalFields).map(([key, value], _index) => {
             const { active, measure, name } = value;
