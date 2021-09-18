@@ -13,15 +13,18 @@ import { StyledLink } from "../components/styled-components/Links";
 import { StyledButton } from "../components/styled-components/Buttons";
 import { changePasswordResolver } from "../components/validation/schemas";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
+import { useHistory } from "react-router-dom";
 
 const ChangePassword = () => {
   const [submitError, setSubmitError] = useState(null);
-  const [showSnack, setShowSnack] = useState(false);
+  const [showSnack, setShowSnack] = useState(true);
   const { changePassword } = useAws();
   const { control, handleSubmit, formState } = useForm({
     resolver: changePasswordResolver,
   });
   const { errors } = formState;
+
+   const history = useHistory();
 
   const confirmPasswordChangeHandler = async formData => {
     try {
@@ -35,6 +38,9 @@ const ChangePassword = () => {
           setShowSnack(true);
           setSubmitError(null);
         });
+        setTimeout(()=>{
+          history.push("/profile");
+        }, 1000)
       }
     } catch (error) {
       console.log(error);
@@ -109,12 +115,12 @@ const ChangePassword = () => {
           <StyledLink to="/profile" alignself="center" style={{ textAlign: "center" }}>
             Cancel
           </StyledLink>
-          <SuccessSnackbar
-            open={showSnack}
-            text="Success! Password updated"
-            onClose={() => setShowSnack(false)}
-          />
         </GridForm>
+        <SuccessSnackbar
+          openSnack={showSnack}
+          setOpenSnack={setShowSnack}
+          text="Success! Password updated"
+        />
       </Flexbox>
     </Container>
   );
