@@ -17,14 +17,14 @@ import { useHistory } from "react-router-dom";
 
 const ChangePassword = () => {
   const [submitError, setSubmitError] = useState(null);
-  const [showSnack, setShowSnack] = useState(true);
+  const [showSnack, setShowSnack] = useState(false);
   const { changePassword } = useAws();
   const { control, handleSubmit, formState } = useForm({
     resolver: changePasswordResolver,
   });
   const { errors } = formState;
 
-   const history = useHistory();
+  const history = useHistory();
 
   const confirmPasswordChangeHandler = async formData => {
     try {
@@ -38,9 +38,9 @@ const ChangePassword = () => {
           setShowSnack(true);
           setSubmitError(null);
         });
-        setTimeout(()=>{
+        setTimeout(() => {
           history.push("/profile");
-        }, 1000)
+        }, 1000);
       }
     } catch (error) {
       console.log(error);
