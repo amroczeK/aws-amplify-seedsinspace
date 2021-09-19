@@ -11,3 +11,4 @@ export { default as ChangePassword } from "./ChangePassword.js";
 export { default as Profile } from "./Profile.js";
 export { default as AllSeeds } from "./AllSeeds.js";
 export { default as ForgotPassword } from "./ForgotPassword.js";
+export { default as PageNotFound } from "./PageNotFound.js";
