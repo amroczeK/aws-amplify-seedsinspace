@@ -44,7 +44,7 @@ const Content = styled.div`
   }
   p {
     font-size: 2rem;
-    margin: 0px
+    margin: 0px;
     margin-bottom: 1rem;
   }
 `;

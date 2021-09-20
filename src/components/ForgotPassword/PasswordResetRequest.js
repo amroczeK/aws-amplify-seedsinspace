@@ -36,7 +36,7 @@ const PasswordReset = ({ setStep, setUsername }) => {
   };
 
   return (
-    <Flexbox direction="column" alignItems="center">
+    <Flexbox direction="column" alignItems="center" margin="10em 0em">
       <GridForm onSubmit={handleSubmit(forgotPasswordHandler)}>
         <Typography style={{ fontWeight: "bold" }} variant="h5">
           Forgot Password
@@ -79,3 +79,7 @@ const GridForm = styled.form`
   gap: 1em;
   margin: 1em 0;
 `;
+
+const Container = styled.div`
+  height: 90vh;
+`

@@ -38,7 +38,7 @@ const PasswordReset = ({ username }) => {
   };
 
   return (
-    <Flexbox direction="column" alignItems="center">
+    <Flexbox direction="column" alignItems="center" margin="10em 0em">
       <GridForm onSubmit={handleSubmit(forgotPasswordSubmitHandler)}>
         <Typography style={{ fontWeight: "bold" }} variant="h5">
           Set your new password
