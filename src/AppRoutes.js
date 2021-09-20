@@ -35,7 +35,8 @@ const AppRoutes = () => {
       <Route path="/signup" component={Pages.SignUp} />
       <Route path="/resources" component={Pages.Resources} />
       <Route path="/community" component={Pages.ParticipatingSchools} />
-      <Route path="*" component={Pages.About} />
+      <Route path="/forgot-password" component={Pages.ForgotPassword} />
+      <Route path="*" component={Pages.PageNotFound} />
     </Switch>
   );
 };

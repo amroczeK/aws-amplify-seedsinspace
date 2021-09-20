@@ -88,7 +88,7 @@ const SignIn = () => {
         <StyledButton color="primary" type="submit" disableElevation variant="contained">
           Login
         </StyledButton>
-        <StyledLink to="/" decoration="underline">
+        <StyledLink to="/forgot-password" decoration="underline">
           Forgot password
         </StyledLink>
       </GridForm>

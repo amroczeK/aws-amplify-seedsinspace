@@ -8,7 +8,7 @@ export const AWSContext = createContext();
 export const fetchS3 = async ({ path, level, identityId }) => {
   let config = {
     expires: 60,
-    level
+    level,
   };
   if (identityId) config.identityId = identityId;
   const result = await Storage.get(path, config);
@@ -88,7 +88,6 @@ export const AWSProvider = ({ children }) => {
       await checkAuthenticatedUser();
       return Promise.resolve(); // Maybe return the user here
     } catch (error) {
-      console.error("change pw error", error);
       throw error;
     }
   };
@@ -101,7 +100,26 @@ export const AWSProvider = ({ children }) => {
 
       return result;
     } catch (error) {
-      console.error("change pw error", error);
+      throw error;
+    }
+  };
+
+  // Send confirmation code to user's email
+  const forgotPassword = async ({ username }) => {
+    try {
+      const result = await Auth.forgotPassword(username);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  // Collect confirmation code and new password, then
+  const forgotPasswordSubmit = async ({ username, code, newPassword }) => {
+    try {
+      const result = await Auth.forgotPasswordSubmit(username, code, newPassword);
+      return result;
+    } catch (error) {
       throw error;
     }
   };
@@ -123,7 +141,7 @@ export const AWSProvider = ({ children }) => {
   const checkAuthenticatedUser = async () => {
     Auth.currentAuthenticatedUser()
       .then(user => {
-        setCognitoUser(user)
+        setCognitoUser(user);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -137,6 +155,8 @@ export const AWSProvider = ({ children }) => {
     signOut,
     createNewPassword,
     changePassword,
+    forgotPassword,
+    forgotPasswordSubmit,
     updateCognitoUser,
     uploadImage,
     fetchS3,
