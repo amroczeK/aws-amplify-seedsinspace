@@ -78,6 +78,7 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
         defaultValue={defaultValue}
         inputRef={searchRef}
         onKeyUp={handleKeyChange}
+        helperText="e.g. Jandakot Primary School"
         InputProps={{
           endAdornment: (
             <>{loading ? <CircularProgress color="inherit" size={20} /> : null}</>

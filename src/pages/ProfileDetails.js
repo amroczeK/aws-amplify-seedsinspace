@@ -16,26 +16,6 @@ import Alert from "@material-ui/lab/Alert";
 import Container from "@material-ui/core/Container";
 import { Flexbox } from "../components/styled-components/Flexbox";
 
-const stateOrTerritoryShort = {
-  "Australian Capital Territory": "ACT",
-  "New South Wales": "NSW",
-  "Western Australia": "WA",
-  "South Australia": "SA",
-  Victoria: "VIC",
-  "Northern Territory": "NA",
-  Queensland: "QLD",
-};
-
-const getFormattedAddress = address => {
-  const formattedAddress = `${
-    address.house_number ? `${address.house_number} ${address.road}` : address.road
-  }, ${address.suburb || address.city}, ${
-    stateOrTerritoryShort[address.state] || stateOrTerritoryShort[address.territory]
-  } ${address.postcode}, ${address.country}`;
-
-  return formattedAddress;
-};
-
 const ProfileDetails = () => {
   const history = useHistory();
   const locationState = history.location.state;
@@ -45,11 +25,9 @@ const ProfileDetails = () => {
   const { updateCognitoUser, cognitoUser, fetchS3, uploadImage } = useAws();
 
   useEffect(() => {
-    fetchS3({ path: `profile/profile_picture`, level: "protected" }).then(
-      url => {
-        setProfileImage(url);
-      }
-    );
+    fetchS3({ path: `profile/profile_picture`, level: "protected" }).then(url => {
+      setProfileImage(url);
+    });
   }, [fetchS3, cognitoUser]);
 
   const { control, register, setValue, handleSubmit } = useForm({
@@ -61,11 +39,8 @@ const ProfileDetails = () => {
   });
 
   const onLocationSelection = locationValue => {
-    const { address, lat, lon } = locationValue;
-
-    const formatted_address = getFormattedAddress(address);
-
-    setValue("address", formatted_address);
+    const { lat, lon, display_name } = locationValue;
+    setValue("address", display_name);
     setValue("location", JSON.stringify({ lat, lon }));
   };
 
@@ -94,14 +69,11 @@ const ProfileDetails = () => {
         cognitoUser?.username
       );
 
-      if (locationState?.isNewUser) {
-        history.push("/seed-setup");
-      } else {
-        setShowSnack(true);
-      }
+      if (locationState?.isNewUser) history.push("/dashboard");
+      else setShowSnack(true);
     } catch (error) {
+      console.log(JSON.stringify(error));
       setSetUpError(error);
-      console.log(error);
     }
   };
 
@@ -143,7 +115,7 @@ const ProfileDetails = () => {
               >
                 Next
               </StyledButton>
-              <StyledLink to="/seed-setup" alignself="center">
+              <StyledLink to="/dashboard" alignself="center">
                 Skip for now
               </StyledLink>
             </>

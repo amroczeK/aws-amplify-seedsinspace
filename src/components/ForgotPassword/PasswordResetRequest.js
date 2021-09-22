@@ -79,7 +79,3 @@ const GridForm = styled.form`
   gap: 1em;
   margin: 1em 0;
 `;
-
-const Container = styled.div`
-  height: 90vh;
-`
