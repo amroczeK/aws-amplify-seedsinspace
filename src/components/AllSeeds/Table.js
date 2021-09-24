@@ -5,6 +5,20 @@ import { DataGridTable } from "../tables/DataGrid";
 import { DataContext } from "../../context/Data";
 import SeedImageView from "../tables/SeedImageView";
 import SeedNotesView from "../tables/SeedNotesView";
+import {
+  GridToolbarContainer,
+  GridToolbarFilterButton,
+  GridToolbarExport,
+} from "@material-ui/data-grid";
+
+function Toolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarFilterButton />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
 
 const defaultColumns = [
   { field: "Type", headerName: "Type", width: 110 },
@@ -56,6 +70,7 @@ const Table = () => {
         setSelectedRows={setSelectedRows}
         getRowId={r => r.createdAt}
         error={error?.message ? true : null}
+        customToolbar={Toolbar}
       />
     </TableContainer>
   );

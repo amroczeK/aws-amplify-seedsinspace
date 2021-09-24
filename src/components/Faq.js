@@ -3,19 +3,28 @@ import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Collapse from "@material-ui/core/Collapse";
 
+import { ArrowIosUpwardOutline } from "@styled-icons/evaicons-outline/ArrowIosUpwardOutline";
+import { ArrowIosDownwardOutline } from "@styled-icons/evaicons-outline/ArrowIosDownwardOutline";
+
 const AccordionPanel = ({ children, title }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <AccordionContainer>
       <AccordionHeader onClick={() => setOpen(o => !o)}>
         {title}
-        <div style={{ textAlign: "end", flex: "1 0" }}>{open ? "-" : "+"}</div>
+        <div style={{ textAlign: "end", flex: "1 0" }}>
+          {open ? (
+            <ArrowIosUpwardOutline size="15" />
+          ) : (
+            <ArrowIosDownwardOutline size="15" />
+          )}
+        </div>
       </AccordionHeader>
       <Collapse in={open}>
         <AccordionContent>{children}</AccordionContent>
       </Collapse>
-    </div>
+    </AccordionContainer>
   );
 };
 
@@ -46,10 +55,19 @@ const FAQ = () => {
   );
 };
 
+const AccordionContainer = styled.div`
+  border-bottom: 1px solid #cccccc;
+  > * {
+    &:first-of-type {
+      border-top: 1px solid #cccccc;
+    }
+  }
+`;
+
 const AccordionHeader = styled.h2`
-  border: 1px solid green;
   padding: 1em;
   margin: 0;
+  margin-top: -1px;
   display: flex;
 `;
 

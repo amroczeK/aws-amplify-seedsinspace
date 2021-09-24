@@ -88,6 +88,6 @@ export const getChartData = ({ type, data, title }) => {
         break;
     }
   } else {
-    return { data, title: "No Data" };
+    return { data, title: "No data" };
   }
 };

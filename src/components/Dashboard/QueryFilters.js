@@ -56,7 +56,7 @@ const QueryFilters = () => {
   const onFilterQueryHandler = async () => {
     let data = [];
     try {
-      setGraphTitle(`${seedTypes[selectedType]} Seeds`);
+      setGraphTitle(`${seedTypes[selectedType]} seeds`);
       if (error) setError(null);
       if (info) setInfo(null);
       setLoading(true);
@@ -111,12 +111,12 @@ const QueryFilters = () => {
         <Checkbox name={"All dates"} checked={checked} checkedHandler={checkedHandler} />
         <ButtonContainer>
           <QueryBtn
-            title={"Fetch Data"}
+            title={"Apply filter"}
             size="small"
             onClickHandler={onFilterQueryHandler}
           />
           <ClearFiltersBtn
-            title={"Clear"}
+            title={"Clear filter"}
             size="small"
             onClickHandler={() => {
               setInfo(null);

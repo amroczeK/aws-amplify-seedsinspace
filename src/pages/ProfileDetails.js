@@ -90,7 +90,7 @@ const ProfileDetails = () => {
             register={register}
             setValue={setValue}
           />
-          <StyledInputLabel shrink>LOCATION</StyledInputLabel>
+          <StyledInputLabel shrink>ADD YOUR ADDRESS</StyledInputLabel>
           <LocationSearch
             onSelected={onLocationSelection}
             defaultValue={cognitoUser?.attributes?.address}
@@ -155,5 +155,8 @@ export default ProfileDetails;
 const GridForm = styled.form`
   display: grid;
   gap: 1em;
+  @media (min-width: 768px) {
+    width: 600px;
+  }
   margin: 1em 0;
 `;

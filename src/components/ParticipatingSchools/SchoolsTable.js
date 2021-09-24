@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { DataGridTable } from "../tables/DataGrid";
 import styled from "styled-components";
-import Button from "../../components/inputs/Button"
+import Button from "../../components/inputs/Button";
+import {
+  GridToolbarContainer,
+  GridToolbarFilterButton,
+  GridToolbarExport,
+} from "@material-ui/data-grid";
 
+function Toolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarFilterButton />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
 const Table = ({
   data,
   error = null,
@@ -13,6 +26,8 @@ const Table = ({
   const [selectedRow, setSelectedRow] = useState([]);
 
   const defaultColumns = [
+    { field: "SchoolName", headerName: "Name", flex: 1 },
+    { field: "Address", headerName: "Address", flex: 1.5 },
     {
       field: "Profile",
       headerName: "",
@@ -35,14 +50,6 @@ const Table = ({
         </div>
       ),
     },
-    { field: "SchoolName", headerName: "Name", flex: 1 },
-    { field: "Address", headerName: "Address", flex: 1.5 },
-    {
-      field: "InactiveSeeds",
-      headerName: "Inactive Seeds",
-      flex: 0.5,
-      description: "Seeds which are no longer being recorded.",
-    },
   ];
 
   useEffect(() => {
@@ -62,6 +69,7 @@ const Table = ({
         setSelectedRow={setSelectedRow}
         getRowId={r => r.createdAt}
         error={error?.message ? true : null}
+        customToolbar={Toolbar}
       />
     </TableContainer>
   );

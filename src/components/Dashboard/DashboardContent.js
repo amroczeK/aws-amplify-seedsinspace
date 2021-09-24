@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Weather from "../Weather";
 import Graph from "../charts/Graph";
 import Table from "../charts/Table";
-import Paper from "@material-ui/core/Paper"
+import Paper from "@material-ui/core/Paper";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import Container from "@material-ui/core/Container";
@@ -59,6 +59,7 @@ const TabContainer = () => {
       </Tabs>
       <TabPanel value={tab} index={0}>
         <DataContainer>
+          <h4 style={{ margin: "1em 0 0 1em" }}>Filter by</h4>
           <QueryFilters />
           <Graph />
         </DataContainer>
@@ -76,7 +77,7 @@ const TabContainer = () => {
 const DashboardContent = ({ setOpenAddSeed }) => {
   return (
     <Container style={{ paddingTop: "1em", paddingBottom: "2rem" }} maxWidth="lg">
-      <h1>Your Seed Entries</h1>
+      <h1>My seeds</h1>
       <StyledCard>
         <CardContent>
           <WeatherContainer>

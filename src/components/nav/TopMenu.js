@@ -15,10 +15,14 @@ const TopMenu = () => {
       <NavButton component={Link} to="/">
         About SIS
       </NavButton>
-      {cognitoUser && <NavButton component={Link} to="/dashboard">My Seeds</NavButton>}
+      {cognitoUser && (
+        <NavButton component={Link} to="/dashboard">
+          My seeds
+        </NavButton>
+      )}
       {/* {!cognitoUser && <NavButton component={Link} to="/all-seeds">All Seeds</NavButton>} */}
       <NavButton component={Link} to="/community">
-        Community
+        Our community
       </NavButton>
       <NavButton component={Link} to="/resources">
         Resources

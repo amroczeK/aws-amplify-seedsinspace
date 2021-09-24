@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const StyledLink = styled(Link)`
-  color: ${props => props.color || props.theme.palette.primary.main};
+  color: ${props => props.color || props.theme.palette.primary.dark};
   font-size: ${props => props.fontSize || "inherit"};
   align-self: ${props => props.alignself};
   padding: ${props => props.padding};

@@ -54,7 +54,7 @@ const QueryFilters = ({ schoolSubId }) => {
   const onFilterQueryHandler = async () => {
     let data = [];
     try {
-      setGraphTitle(`${seedTypes[selectedType]} Seeds`);
+      setGraphTitle(`${seedTypes[selectedType]} seeds`);
       if (error) setError(null);
       if (info) setInfo(null);
       setLoading(true);

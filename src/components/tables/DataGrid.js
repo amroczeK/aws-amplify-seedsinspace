@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { DataGrid, GridToolbar } from "@material-ui/data-grid";
+import { DataGrid } from "@material-ui/data-grid";
 import { makeStyles } from "@material-ui/core/styles";
+import {
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarExport,
+} from "@material-ui/data-grid";
+
+function DefaultToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,6 +58,7 @@ export const DataGridTable = ({
   checkboxDisabled = false,
   getRowId,
   error,
+  customToolbar,
 }) => {
   const classes = useStyles();
 
@@ -89,7 +106,7 @@ export const DataGridTable = ({
       onColumnHeaderOver={onColumnHeaderOverHandler}
       getRowId={getRowId}
       components={{
-        Toolbar: GridToolbar,
+        Toolbar: customToolbar || DefaultToolbar,
       }}
       error={error}
     />

@@ -40,7 +40,7 @@ const Graph = () => {
         {...getChartData({
           type: "bar",
           data: seedData,
-          title: graphTitle || "My Seeds",
+          title: graphTitle || "My seeds",
         })}
       />
     </div>

@@ -27,13 +27,11 @@ const Schools = ({ schools, setSelectedSchool, setStep }) => {
       <h1>Our community</h1>
       <Content>
         <p>
-          We have over 250 participating groups from all around Australia, including
-          primary schools, high schools and scout groups.
+          We have over 250 participating groups from all around Australia, including primary schools, high schools and scout groups.
         </p>
         <p>
-          Zoom in to the map to take a look at the participating groups and their seed
-          data by clicking their associated marker and name. Alternitavely you can click
-          'View Profile' on their row in the table.
+          Zoom in to the map to take a look at the participating groups. You can click on their marker to see their seed data, or 
+          alternatively, you can click “View Profile” in the table below. 
         </p>
       </Content>
       <LeafletMap
@@ -42,8 +40,7 @@ const Schools = ({ schools, setSelectedSchool, setStep }) => {
         coordinates={coordinates}
       />
       <p>
-        Select the school name hovered over the marker to navigate to school profile and
-        data.
+        Select the group name to see the group’s profile and their seed data.
       </p>
       <SchoolsTable
         data={schools}
@@ -66,3 +63,5 @@ const Content = styled.div`
     max-width: 1000px;
   }
 `;
+
+

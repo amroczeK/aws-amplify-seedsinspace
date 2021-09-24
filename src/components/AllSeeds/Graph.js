@@ -79,7 +79,10 @@ const Graph = () => {
         return req;
       }
     } catch (error) {
-      let message = { info: true, message: "Please select a valid start date and end date." };
+      let message = {
+        info: true,
+        message: "Please select a valid start date and end date.",
+      };
       throw message;
     }
   };
@@ -87,7 +90,7 @@ const Graph = () => {
   const onFilterQueryHandler = async () => {
     let data = [];
     try {
-      setGraphTitle(`${seedTypes[selectedType]} Seeds`);
+      setGraphTitle(`${seedTypes[selectedType]} seeds`);
       if (error) setError(null);
       if (info) setInfo(null);
       setLoading(true);

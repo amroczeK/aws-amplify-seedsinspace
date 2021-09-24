@@ -44,7 +44,7 @@ const Resources = () => {
   return (
     <Container style={{ paddingTop: "1em", paddingBottom: "2rem" }} maxWidth="md">
       <ContentContainer>
-        <h1>Classroom Resources</h1>
+        <h1>Classroom resources</h1>
         <p>
           Here are some downloadable classroom resources that you can use to record data
           for your seeds.
@@ -57,6 +57,7 @@ const Resources = () => {
                 pathname: signedURL,
               }}
               target="_blank"
+              fontSize="16px"
             >
               {`${title}`}
             </StyledLink>
@@ -64,12 +65,13 @@ const Resources = () => {
           </>
         ))}
         <br />
-        <h1>Useful Information</h1>
+        <h1>Useful information</h1>
         <StyledLink
           to={{
             pathname: "https://iss.jaxa.jp/en/kuoa/ssaf/2020.html",
           }}
           target="_blank"
+          fontSize="16px"
         >
           AHiS Portal Site
         </StyledLink>
@@ -80,6 +82,7 @@ const Resources = () => {
               "https://www.theseedcollection.com.au/blog/our-blog/how-scarification-brings-stubborn-slow-germinating/",
           }}
           target="_blank"
+          fontSize="16px"
         >
           Scarification
         </StyledLink>
@@ -90,6 +93,7 @@ const Resources = () => {
               "https://www.gardeningknowhow.com/ornamental/trees/acacia/acacia-seed-propagation.htm",
           }}
           target="_blank"
+          fontSize="16px"
         >
           Tips for Planting and Growing Seeds
         </StyledLink>
@@ -100,6 +104,7 @@ const Resources = () => {
               "https://hilo.hawaii.edu/affiliates/prism/documents/lesson6seedgermination.pdf",
           }}
           target="_blank"
+          fontSize="16px"
         >
           Seed Germination Activity #1 (PDF)
         </StyledLink>
@@ -109,6 +114,7 @@ const Resources = () => {
             pathname: "https://www.biologycorner.com/worksheets/germination.html",
           }}
           target="_blank"
+          fontSize="16px"
         >
           Seed Germination Activity #2
         </StyledLink>
