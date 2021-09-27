@@ -7,9 +7,10 @@ export default function MUICheckbox({
   checkedHandler = () => {},
   color = "primary",
   name = "",
+  styles,
 }) {
   return (
-    <FormGroup row>
+    <FormGroup row style={styles}>
       <FormControlLabel
         control={
           <Checkbox

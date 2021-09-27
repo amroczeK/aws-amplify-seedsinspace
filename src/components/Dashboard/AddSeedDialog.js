@@ -22,6 +22,7 @@ import * as API from "../../apis";
 import { useAws } from "../../context/AWSContext";
 import WattleSad from "../../assets/WattleSad.png";
 import useSchoolData from "../hooks/schoolData";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -50,6 +51,8 @@ const AddSeedDialog = ({ open, onClose }) => {
     shouldUnregister: true,
   });
   const { errors } = formState;
+
+  console.log(watch());
 
   function onModalClose() {
     reset();
@@ -126,6 +129,15 @@ const AddSeedDialog = ({ open, onClose }) => {
             </option>
           ))}
         </TextField>
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          severity="info"
+          style={{ backgroundColor: "#6bbe93", color: "#fff" }}
+        >
+          Please save changes for each seed before moving to the next seed entry under
+          Seed type.
+        </MuiAlert>
         <Tabs
           value={seedTab}
           onChange={onTabChange}
@@ -183,16 +195,13 @@ const AddSeedDialog = ({ open, onClose }) => {
               refetch={setRefetch}
             />
             <Button type="submit">Save entry</Button>
-            <Button color="secondary" onClick={() => reset()}>
-              RESET
-            </Button>
           </GridForm>
         )}
       </AddSeedContainer>
       <SuccessSnackbar
         openSnack={openSnack}
         setOpenSnack={setOpenSnack}
-        text="Success! Seed Added"
+        text="Success! Seed entry saved."
       />
       <ErrorSnackbar
         openSnack={error ? true : false}

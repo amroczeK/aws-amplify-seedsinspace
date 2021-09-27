@@ -32,7 +32,7 @@ const AddSeedFormFields = ({ name, register, errors, isSmall, children }) => {
         </Typography>
       </SeedHeader>
 
-      <GroupLabel variant="subtitle2">PHOTO*</GroupLabel>
+      <GroupLabel variant="subtitle2">PHOTO</GroupLabel>
       <StyledSeedInfo>{children}</StyledSeedInfo>
       <GroupLabel variant="subtitle2">SEED DATA</GroupLabel>
       <StyledSeedInfo>

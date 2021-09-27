@@ -69,8 +69,12 @@ const ProfileDetails = () => {
         cognitoUser?.username
       );
 
-      if (locationState?.isNewUser) history.push("/dashboard");
-      else setShowSnack(true);
+      if (locationState?.isNewUser) {
+        history.push("/dashboard");
+      } else {
+        setShowSnack(true);
+        setTimeout(() => history.push("/profile"), 2000);
+      }
     } catch (error) {
       console.log(JSON.stringify(error));
       setSetUpError(error);
@@ -90,7 +94,9 @@ const ProfileDetails = () => {
             register={register}
             setValue={setValue}
           />
-          <StyledInputLabel shrink>ADD YOUR ADDRESS</StyledInputLabel>
+          <StyledInputLabel shrink>
+            {locationState?.isNewUser ? "ADD YOUR LOCATION" : "YOUR LOCATION"}
+          </StyledInputLabel>
           <LocationSearch
             onSelected={onLocationSelection}
             defaultValue={cognitoUser?.attributes?.address}

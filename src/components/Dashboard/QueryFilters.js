@@ -108,8 +108,13 @@ const QueryFilters = () => {
             disabled={checked}
           />
         </DateRangeContainer>
-        <Checkbox name={"All dates"} checked={checked} checkedHandler={checkedHandler} />
-        <ButtonContainer>
+        <Checkbox
+          styles={{ position: "relative", top: 9 }}
+          name={"All dates"}
+          checked={checked}
+          checkedHandler={checkedHandler}
+        />
+        <ButtonContainer style={{ position: "relative", top: 8 }}>
           <QueryBtn
             title={"Apply filter"}
             size="small"

@@ -35,13 +35,33 @@ const addSeedSchema = yup.object().shape({
     .typeError("A Number greater then 0 is required"),
   LeafColour: yup
     .string()
-    .required("Required as string, please put none if no leaves")
-    .typeError("Please use a color e.g 'green' to describe"),
-  LeafCount: yup.number().min(0).typeError("A Number greater or equal to 0"),
-  LeafLength: yup.number().min(0).typeError("A Number greater or equal to 0"),
-  PhLevel: yup.number().min(0).max(14).typeError("A Number between 0 and 14"),
-  Temperature: yup.number().min(-10).max(40).typeError("A Number between -10 and 40"),
-  WaterVolume: yup.number().min(0).max(1000).typeError("A Number between 0 and 1000"),
+    .matches(/^[a-zA-Z\s]*$/, "Only letters are supported")
+    .required(),
+  LeafCount: yup.lazy(value =>
+    value === ""
+      ? yup.string()
+      : yup.number().min(0).typeError("A Number greater or equal to 0")
+  ),
+  LeafLength: yup.lazy(value =>
+    value === ""
+      ? yup.string()
+      : yup.number().min(0).typeError("A Number greater or equal to 0")
+  ),
+  PhLevel: yup.lazy(value =>
+    value === ""
+      ? yup.string()
+      : yup.number().min(0).max(14).typeError("A Number between 0 and 14")
+  ),
+  Temperature: yup.lazy(value =>
+    value === ""
+      ? yup.string()
+      : yup.number().min(-10).max(40).typeError("A Number between -10 and 40")
+  ),
+  WaterVolume: yup.lazy(value =>
+    value === ""
+      ? yup.string()
+      : yup.number().min(0).max(1000).typeError("A Number between 0 and 1000")
+  ),
   Notes: yup.string(),
 });
 

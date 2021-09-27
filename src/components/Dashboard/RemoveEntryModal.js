@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Typography from "@material-ui/core/Typography";
-import { Button } from "../styled-components/Buttons";
+import { StyledButton, Button } from "../styled-components/Buttons";
 import StyledModal from "../styled-components/Modal";
 import * as API from "../../apis";
 
@@ -30,9 +30,9 @@ const RemoveEntryModal = ({ name, schoolData, refetch }) => {
 
   return (
     <>
-      <Button color="default" padding="1em 1em" onClick={() => setModalOpen(true)}>
+      <StyledButton color="primary" onClick={() => setModalOpen(true)}>
         <b>Stop recording data for this seed</b>
-      </Button>
+      </StyledButton>
       <StyledModal
         open={modalOpen}
         onClose={handleClose}

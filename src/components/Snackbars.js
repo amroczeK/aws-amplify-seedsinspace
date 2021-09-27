@@ -33,7 +33,7 @@ export const ErrorSnackbar = ({ error, textOverride, openSnack, setOpenSnack }) 
     if (error.hasOwnProperty("message")) {
       errorMessage = error.message;
     }
-    errorMessage = "Something went wrong, check logs";
+    errorMessage = "Error, please verify entry";
     console.log(error);
   }
 
