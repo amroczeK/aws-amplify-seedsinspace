@@ -52,8 +52,6 @@ const AddSeedDialog = ({ open, onClose }) => {
   });
   const { errors } = formState;
 
-  console.log(watch());
-
   function onModalClose() {
     reset();
     onClose();
