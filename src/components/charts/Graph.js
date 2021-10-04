@@ -33,14 +33,12 @@ const Graph = () => {
 
   return (
     <div className={classes.root}>
-      {loading && (
-        <div className={classes.loader}>{loading && <CircularProgress size={60} />}</div>
-      )}
+      {loading && <div className={classes.loader}>{loading && <CircularProgress size={60} />}</div>}
       <Plotly
         {...getChartData({
           type: "bar",
           data: seedData,
-          title: graphTitle || "My Seeds",
+          title: graphTitle || "My seeds",
         })}
       />
     </div>

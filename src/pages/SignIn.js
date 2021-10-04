@@ -60,13 +60,7 @@ const SignIn = () => {
           name="email"
           defaultValue=""
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              error={errors?.email ? true : false}
-              helperText={errors?.email?.message}
-            />
-          )}
+          render={({ field }) => <TextField {...field} error={errors?.email ? true : false} helperText={errors?.email?.message} />}
         />
 
         <StyledInputLabel shrink>PASSWORD</StyledInputLabel>
@@ -75,12 +69,7 @@ const SignIn = () => {
           defaultValue=""
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              type="password"
-              error={errors?.password ? true : false}
-              helperText={errors?.password?.message}
-            />
+            <TextField {...field} type="password" error={errors?.password ? true : false} helperText={errors?.password?.message} />
           )}
         />
         {loading && <LinearProgress />}

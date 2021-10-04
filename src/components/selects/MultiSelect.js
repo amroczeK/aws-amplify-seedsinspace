@@ -39,20 +39,11 @@ const MenuProps = {
 
 function getStyles(selected, selectedFilters, theme) {
   return {
-    fontWeight:
-      selectedFilters.indexOf(selected) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
+    fontWeight: selectedFilters.indexOf(selected) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
   };
 }
 
-export default function MultipleSelect({
-  title,
-  selections,
-  selectedFilters,
-  handleChange,
-  helperText,
-}) {
+export default function MultipleSelect({ title, selections, selectedFilters, handleChange, helperText }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -78,11 +69,7 @@ export default function MultipleSelect({
           MenuProps={MenuProps}
         >
           {selections.map(selected => (
-            <MenuItem
-              key={selected}
-              value={selected}
-              style={getStyles(selected, selectedFilters, theme)}
-            >
+            <MenuItem key={selected} value={selected} style={getStyles(selected, selectedFilters, theme)}>
               {selected}
             </MenuItem>
           ))}

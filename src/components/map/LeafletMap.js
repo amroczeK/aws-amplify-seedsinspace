@@ -26,13 +26,7 @@ const LeafletMap = ({ mapData, handlePopupClick, coordinates }) => {
 
   return (
     <>
-      <MapContainer
-        zoom={3}
-        scrollWheelZoom={true}
-        center={defaultCenter}
-        whenCreated={setNewMap}
-        style={mapStyles}
-      >
+      <MapContainer zoom={3} scrollWheelZoom={true} center={defaultCenter} whenCreated={setNewMap} style={mapStyles}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -53,10 +47,7 @@ const LeafletMap = ({ mapData, handlePopupClick, coordinates }) => {
                 }}
               >
                 <Popup>
-                  <Button
-                    style={{ textTransform: "none" }}
-                    onClick={() => handlePopupClick(index)}
-                  >
+                  <Button style={{ textTransform: "none" }} onClick={() => handlePopupClick(index)}>
                     {entry.SchoolName}
                   </Button>
                 </Popup>

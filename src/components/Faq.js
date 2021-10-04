@@ -3,19 +3,22 @@ import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Collapse from "@material-ui/core/Collapse";
 
+import { ArrowIosUpwardOutline } from "@styled-icons/evaicons-outline/ArrowIosUpwardOutline";
+import { ArrowIosDownwardOutline } from "@styled-icons/evaicons-outline/ArrowIosDownwardOutline";
+
 const AccordionPanel = ({ children, title }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <AccordionContainer>
       <AccordionHeader onClick={() => setOpen(o => !o)}>
         {title}
-        <div style={{ textAlign: "end", flex: "1 0" }}>{open ? "-" : "+"}</div>
+        <div style={{ textAlign: "end", flex: "1 0" }}>{open ? <ArrowIosUpwardOutline size="15" /> : <ArrowIosDownwardOutline size="15" />}</div>
       </AccordionHeader>
       <Collapse in={open}>
         <AccordionContent>{children}</AccordionContent>
       </Collapse>
-    </div>
+    </AccordionContainer>
   );
 };
 
@@ -27,8 +30,7 @@ const FAQ = () => {
       </AccordionPanel>
       <AccordionPanel title="Who can participate?">
         <StyledTypography>
-          This is open to all Australian schools or education institutions or home schools
-          for students aged 3 – 25.
+          This is open to all Australian schools or education institutions or home schools for students aged 3 – 25.
         </StyledTypography>
       </AccordionPanel>
       <AccordionPanel title="Can home-schooled students enter?">
@@ -37,19 +39,26 @@ const FAQ = () => {
       <AccordionPanel title="Who do I contact if I have questions?">
         <StyledTypography>
           Send an email to {""}
-          <a href="mailto: info@onegiantleapaustralia.com">
-            info@onegiantleapaustralia.com
-          </a>
+          <a href="mailto: info@onegiantleapaustralia.com">info@onegiantleapaustralia.com</a>
         </StyledTypography>
       </AccordionPanel>
     </>
   );
 };
 
+const AccordionContainer = styled.div`
+  border-bottom: 1px solid #cccccc;
+  > * {
+    &:first-of-type {
+      border-top: 1px solid #cccccc;
+    }
+  }
+`;
+
 const AccordionHeader = styled.h2`
-  border: 1px solid green;
   padding: 1em;
   margin: 0;
+  margin-top: -1px;
   display: flex;
 `;
 

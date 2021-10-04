@@ -32,7 +32,7 @@ const AddSeedFormFields = ({ name, register, errors, isSmall, children }) => {
         </Typography>
       </SeedHeader>
 
-      <GroupLabel variant="subtitle2">PHOTO*</GroupLabel>
+      <GroupLabel variant="subtitle2">PHOTO</GroupLabel>
       <StyledSeedInfo>{children}</StyledSeedInfo>
       <GroupLabel variant="subtitle2">SEED DATA</GroupLabel>
       <StyledSeedInfo>
@@ -136,11 +136,7 @@ const AddSeedFormFields = ({ name, register, errors, isSmall, children }) => {
             />
           </>
         )}
-        <OptionalFieldControl
-          optionalFields={optionalFields}
-          setOptionalFields={setOptionalFields}
-          isSmall={isSmall}
-        />
+        <OptionalFieldControl optionalFields={optionalFields} setOptionalFields={setOptionalFields} isSmall={isSmall} />
       </StyledSeedInfo>
       <GroupLabel variant="subtitle2">NOTES</GroupLabel>
       <StyledSeedInfo>
@@ -189,12 +185,7 @@ const OptionalFieldControl = ({ optionalFields, setOptionalFields, isSmall }) =>
                   {name}
                   {measure && ` (${measure})`}
                 </span>
-                <input
-                  type="checkbox"
-                  id={key}
-                  defaultChecked={active}
-                  onChange={handleChange}
-                />
+                <input type="checkbox" id={key} defaultChecked={active} onChange={handleChange} />
               </div>
             );
           })}

@@ -30,7 +30,6 @@ const AppRoutes = () => {
       <PrivateRoute path="/profile/change-password" component={Pages.ChangePassword} />
       <PrivateRoute path="/seed-setup" component={Pages.SeedSetUp} />
       <PrivateRoute path="/dashboard" component={Pages.Dashboard} />
-      <Route path="/all-seeds" component={Pages.AllSeeds} />
       <Route path="/signin" component={Pages.SignIn} />
       <Route path="/signup" component={Pages.SignUp} />
       <Route path="/resources" component={Pages.Resources} />

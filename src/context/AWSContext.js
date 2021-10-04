@@ -125,17 +125,13 @@ export const AWSProvider = ({ children }) => {
   };
 
   const updateCognitoUser = async ({ address, about, location }) => {
-    Auth.updateUserAttributes(cognitoUser, {
+    await Auth.updateUserAttributes(cognitoUser, {
       address,
       "custom:about": about,
       "custom:location": location,
-    })
-      .then(() => {
-        checkAuthenticatedUser();
-      })
-      .catch(error => {
-        throw error;
-      });
+    });
+
+    checkAuthenticatedUser();
   };
 
   const checkAuthenticatedUser = async () => {

@@ -33,6 +33,9 @@ const muiTheme = createMuiTheme({
   },
   typography: {
     fontFamily: ["Montserrat", "sans-serif"].join(","),
+    button: {
+      textTransform: "none",
+    },
   },
 
   overrides: {

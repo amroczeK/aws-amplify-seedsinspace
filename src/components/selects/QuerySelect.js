@@ -14,26 +14,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SimpleSelect({
-  title,
-  handleChange,
-  items = [],
-  selected,
-  helperText,
-}) {
+export default function SimpleSelect({ title, handleChange, items = [], selected, helperText }) {
   const classes = useStyles();
 
   return (
     <div>
       <FormControl className={classes.formControl}>
         <InputLabel id="select-autowidth-label">{title}</InputLabel>
-        <Select
-          labelId="select-autowidth-label"
-          id="select-autowidth"
-          value={selected}
-          onChange={handleChange}
-          autoWidth
-        >
+        <Select labelId="select-autowidth-label" id="select-autowidth" value={selected} onChange={handleChange} autoWidth>
           <MenuItem value="">
             <em>None</em>
           </MenuItem>

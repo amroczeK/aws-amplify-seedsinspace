@@ -6,10 +6,7 @@ const tomorrow = endOfToday();
 
 const common = {
   email: yup.string().email("Must be a valid email").required("Email is required"),
-  password: yup
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
+  password: yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
 };
 
 const signUpSchema = yup.object().shape({
@@ -32,10 +29,7 @@ const signInSchema = yup.object().shape({
 export const signInResolver = yupResolver(signInSchema);
 
 const seedSetUpSchema = yup.object().shape({
-  date: yup
-    .date()
-    .max(tomorrow, "Date cannot be in the future")
-    .required("Planting Date required"),
+  date: yup.date().max(tomorrow, "Date cannot be in the future").required("Planting Date required"),
   environment: yup.string().required("Environment details required"),
 });
 
@@ -53,7 +47,7 @@ const changePasswordSchema = yup.object().shape({
 export const changePasswordResolver = yupResolver(changePasswordSchema);
 
 const passwordResetSchema = yup.object().shape({
-  email: common.email
+  email: common.email,
 });
 
 export const passwordResetResolver = yupResolver(passwordResetSchema);
@@ -67,6 +61,4 @@ const passwordResetChangePasswordSchema = yup.object().shape({
     .oneOf([yup.ref("newPassword"), null], "Passwords must match"),
 });
 
-export const passwordResetChangePasswordResolver = yupResolver(
-  passwordResetChangePasswordSchema
-);
+export const passwordResetChangePasswordResolver = yupResolver(passwordResetChangePasswordSchema);

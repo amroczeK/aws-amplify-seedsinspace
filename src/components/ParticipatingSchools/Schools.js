@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import LeafletMap from "../map/LeafletMap";
 import SchoolsTable from "./SchoolsTable";
-import styled from "styled-components"
+import styled from "styled-components";
 
 const Schools = ({ schools, setSelectedSchool, setStep }) => {
   const [coordinates, setCoordinates] = useState([]);
-  
+
   const handleViewProfileClick = school => {
     setSelectedSchool(school);
     setStep(1);
-  }
+  };
 
   const handleSchoolClick = index => {
     setSelectedSchool(schools[index]);
@@ -26,32 +26,15 @@ const Schools = ({ schools, setSelectedSchool, setStep }) => {
     <>
       <h1>Our community</h1>
       <Content>
+        <p>We have over 250 participating groups from all around Australia, including primary schools, high schools and scout groups.</p>
         <p>
-          We have over 250 participating groups from all around Australia, including
-          primary schools, high schools and scout groups.
-        </p>
-        <p>
-          Zoom in to the map to take a look at the participating groups and their seed
-          data by clicking their associated marker and name. Alternitavely you can click
-          'View Profile' on their row in the table.
+          Zoom in to the map to take a look at the participating groups. You can click on their marker to see their seed data, or alternatively, you
+          can click “View Profile” in the table below.
         </p>
       </Content>
-      <LeafletMap
-        mapData={schools}
-        handlePopupClick={handleSchoolClick}
-        coordinates={coordinates}
-      />
-      <p>
-        Select the school name hovered over the marker to navigate to school profile and
-        data.
-      </p>
-      <SchoolsTable
-        data={schools}
-        error={false}
-        loading={false}
-        handleRowClick={handleRowClick}
-        handleViewProfileClick={handleViewProfileClick}
-      />
+      <LeafletMap mapData={schools} handlePopupClick={handleSchoolClick} coordinates={coordinates} />
+      <p>Select the group name to see the group’s profile and their seed data.</p>
+      <SchoolsTable data={schools} error={false} loading={false} handleRowClick={handleRowClick} handleViewProfileClick={handleViewProfileClick} />
     </>
   );
 };

@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { DataGridTable } from "../tables/DataGrid";
 import styled from "styled-components";
-import Button from "../../components/inputs/Button"
+import Button from "../../components/inputs/Button";
+import { GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport } from "@material-ui/data-grid";
 
-const Table = ({
-  data,
-  error = null,
-  loading,
-  handleRowClick,
-  handleViewProfileClick,
-}) => {
+function Toolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarFilterButton />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
+const Table = ({ data, error = null, loading, handleRowClick, handleViewProfileClick }) => {
   const [selectedRow, setSelectedRow] = useState([]);
 
   const defaultColumns = [
+    { field: "SchoolName", headerName: "Name", flex: 1 },
+    { field: "Address", headerName: "Address", flex: 1.5 },
     {
       field: "Profile",
       headerName: "",
@@ -27,21 +32,9 @@ const Table = ({
             width: "100%",
           }}
         >
-          <Button
-            title={"View"}
-            size="small"
-            onClickHandler={() => handleViewProfileClick(row)}
-          />
+          <Button title={"View"} size="small" onClickHandler={() => handleViewProfileClick(row)} />
         </div>
       ),
-    },
-    { field: "SchoolName", headerName: "Name", flex: 1 },
-    { field: "Address", headerName: "Address", flex: 1.5 },
-    {
-      field: "InactiveSeeds",
-      headerName: "Inactive Seeds",
-      flex: 0.5,
-      description: "Seeds which are no longer being recorded.",
     },
   ];
 
@@ -62,6 +55,7 @@ const Table = ({
         setSelectedRow={setSelectedRow}
         getRowId={r => r.createdAt}
         error={error?.message ? true : null}
+        customToolbar={Toolbar}
       />
     </TableContainer>
   );

@@ -36,14 +36,12 @@ const PasswordReset = ({ setStep, setUsername }) => {
   };
 
   return (
-    <Flexbox direction="column" alignItems="center">
+    <Flexbox direction="column" alignItems="center" margin="10em 0em">
       <GridForm onSubmit={handleSubmit(forgotPasswordHandler)}>
         <Typography style={{ fontWeight: "bold" }} variant="h5">
           Forgot Password
         </Typography>
-        <p style={{ margin: "0px" }}>
-          Enter your email address and we'll send you a verification code.
-        </p>
+        <p style={{ margin: "0px" }}>Enter your email address and we'll send you a verification code.</p>
         <StyledInputLabel shrink>EMAIL</StyledInputLabel>
         <Controller
           name="email"

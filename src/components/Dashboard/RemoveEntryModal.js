@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Typography from "@material-ui/core/Typography";
-import { Button } from "../styled-components/Buttons";
+import { StyledButton, Button } from "../styled-components/Buttons";
 import StyledModal from "../styled-components/Modal";
 import * as API from "../../apis";
 
@@ -30,17 +30,12 @@ const RemoveEntryModal = ({ name, schoolData, refetch }) => {
 
   return (
     <>
-      <Button color="default" padding="1em 1em" onClick={() => setModalOpen(true)}>
+      <StyledButton color="primary" onClick={() => setModalOpen(true)}>
         <b>Stop recording data for this seed</b>
-      </Button>
-      <StyledModal
-        open={modalOpen}
-        onClose={handleClose}
-        title={`Stop recording ${name} data`}
-      >
+      </StyledButton>
+      <StyledModal open={modalOpen} onClose={handleClose} title={`Stop recording ${name} data`}>
         <Typography gutterBottom>
-          You won't be able to record future seed entries for this seed but previous data
-          recorded for this seed will be saved.
+          You won't be able to record future seed entries for this seed but previous data recorded for this seed will be saved.
         </Typography>
         <Button onClick={handleConfirm}>Confirm</Button>
         <Button color="default" onClick={handleClose}>

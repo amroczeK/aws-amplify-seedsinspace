@@ -18,8 +18,7 @@ const QueryFilters = ({ schoolSubId }) => {
   const [selectedType, setSelectedType] = useState(0);
   const [info, setInfo] = useState(null);
 
-  const { setSeedData, setLoading, error, setError, setGraphTitle } =
-    useContext(DataContext);
+  const { setSeedData, setLoading, error, setError, setGraphTitle } = useContext(DataContext);
 
   const selectedTypeHandler = event => {
     setSelectedType(event.target.value);
@@ -54,7 +53,7 @@ const QueryFilters = ({ schoolSubId }) => {
   const onFilterQueryHandler = async () => {
     let data = [];
     try {
-      setGraphTitle(`${seedTypes[selectedType]} Seeds`);
+      setGraphTitle(`${seedTypes[selectedType]} seeds`);
       if (error) setError(null);
       if (info) setInfo(null);
       setLoading(true);
@@ -92,27 +91,14 @@ const QueryFilters = ({ schoolSubId }) => {
   return (
     <>
       <FilterContainer>
-        <Select
-          title={"Type"}
-          value={selectedType}
-          handleChange={selectedTypeHandler}
-          items={seedTypes}
-        />
+        <Select title={"Type"} value={selectedType} handleChange={selectedTypeHandler} items={seedTypes} />
         <DateRangeContainer>
           <p>Dates</p>
-          <DateRangeSelect
-            date={date}
-            dateChangeHandler={dateChangeHandler}
-            disabled={checked}
-          />
+          <DateRangeSelect date={date} dateChangeHandler={dateChangeHandler} disabled={checked} />
         </DateRangeContainer>
         <Checkbox name={"All dates"} checked={checked} checkedHandler={checkedHandler} />
         <ButtonContainer>
-          <QueryBtn
-            title={"Fetch Data"}
-            size="small"
-            onClickHandler={onFilterQueryHandler}
-          />
+          <QueryBtn title={"Fetch Data"} size="small" onClickHandler={onFilterQueryHandler} />
           <ClearFiltersBtn
             title={"Clear"}
             size="small"

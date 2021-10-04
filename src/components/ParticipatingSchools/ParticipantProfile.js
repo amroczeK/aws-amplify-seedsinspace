@@ -25,12 +25,7 @@ const ParticipantProfile = ({ school, setStep }) => {
 
   return (
     <Container>
-      <StyledLink
-        underline="none"
-        component="button"
-        variant="body2"
-        onClick={() => setStep(0)}
-      >
+      <StyledLink underline="none" component="button" variant="body2" onClick={() => setStep(0)}>
         {String.fromCharCode(8592)} Back to map
       </StyledLink>
       <Profile>

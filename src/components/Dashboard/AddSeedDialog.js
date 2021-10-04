@@ -22,6 +22,7 @@ import * as API from "../../apis";
 import { useAws } from "../../context/AWSContext";
 import WattleSad from "../../assets/WattleSad.png";
 import useSchoolData from "../hooks/schoolData";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="right" ref={ref} {...props} />;
@@ -95,13 +96,7 @@ const AddSeedDialog = ({ open, onClose }) => {
   }
 
   return (
-    <Dialog
-      id="add-seed-dialog"
-      fullScreen
-      style={{ width: !isSmall && 850 }}
-      open={open}
-      TransitionComponent={Transition}
-    >
+    <Dialog id="add-seed-dialog" fullScreen style={{ width: !isSmall && 850 }} open={open} TransitionComponent={Transition}>
       <StyledAppBar>
         <IconButton onClick={onModalClose}>
           <StyledArrowIosBackIcon />
@@ -112,20 +107,16 @@ const AddSeedDialog = ({ open, onClose }) => {
         <StyledInputLabel shrink>DATE</StyledInputLabel>
         <MuiPicker value={date} onChange={date => setDate(date)} />
         <StyledInputLabel shrink>SEED TYPE</StyledInputLabel>
-        <TextField
-          name="seedType"
-          value={type}
-          onChange={e => setType(e.target.value)}
-          select
-          variant="outlined"
-          SelectProps={{ native: true }}
-        >
+        <TextField name="seedType" value={type} onChange={e => setType(e.target.value)} select variant="outlined" SelectProps={{ native: true }}>
           {seedOptions.map(option => (
             <option key={option} value={option}>
               {option} seeds
             </option>
           ))}
         </TextField>
+        <MuiAlert elevation={6} variant="filled" severity="info" style={{ backgroundColor: "#6bbe93", color: "#fff" }}>
+          Please save changes for each seed before moving to the next seed entry under Seed type.
+        </MuiAlert>
         <Tabs
           value={seedTab}
           onChange={onTabChange}
@@ -157,48 +148,17 @@ const AddSeedDialog = ({ open, onClose }) => {
             <img src={WattleSad} alt="sadWattle" style={{ height: 250 }} />
           </div>
         ) : (
-          <GridForm
-            name="seedForm"
-            onSubmit={handleSubmit(onValidationSuccess, () =>
-              setError("Your form has errors")
-            )}
-          >
-            <AddSeedFormFields
-              name={`${type} Seed - ${seedTab + 1}`}
-              register={register}
-              errors={errors}
-              isSmall={isSmall}
-            >
-              <ImageUpload
-                name="seedImage"
-                text="Add photo"
-                formValue={watch("seedImage")}
-                setValue={setValue}
-                error={errors.seedImage || null}
-              />
+          <GridForm name="seedForm" onSubmit={handleSubmit(onValidationSuccess, () => setError("Your form has errors"))}>
+            <AddSeedFormFields name={`${type} Seed - ${seedTab + 1}`} register={register} errors={errors} isSmall={isSmall}>
+              <ImageUpload name="seedImage" text="Add photo" formValue={watch("seedImage")} setValue={setValue} error={errors.seedImage || null} />
             </AddSeedFormFields>
-            <RemoveEntryModal
-              name={`${type}_Seed_${seedTab + 1}`}
-              schoolData={schoolData}
-              refetch={setRefetch}
-            />
+            <RemoveEntryModal name={`${type}_Seed_${seedTab + 1}`} schoolData={schoolData} refetch={setRefetch} />
             <Button type="submit">Save entry</Button>
-            <Button color="secondary" onClick={() => reset()}>
-              RESET
-            </Button>
           </GridForm>
         )}
       </AddSeedContainer>
-      <SuccessSnackbar
-        openSnack={openSnack}
-        setOpenSnack={setOpenSnack}
-        text="Success! Seed Added"
-      />
-      <ErrorSnackbar
-        openSnack={error ? true : false}
-        setOpenSnack={setError}
-        error={error}
-      />
+      <SuccessSnackbar openSnack={openSnack} setOpenSnack={setOpenSnack} text="Success! Seed entry saved." />
+      <ErrorSnackbar openSnack={error ? true : false} setOpenSnack={setError} error={error} />
     </Dialog>
   );
 };

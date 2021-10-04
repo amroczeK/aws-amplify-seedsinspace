@@ -33,18 +33,13 @@ const SideMenu = () => {
       <IconButton style={{ marginLeft: "0.25em", width: "3em" }} onClick={handleOpen}>
         <MenuIcon style={{ color: "#fff", width: "1.5em", height: "1.5em" }} />
       </IconButton>
-      <StyledTypography
-        component={Link}
-        to="/"
-        variant="h5"
-        style={{ marginLeft: "0.5em" }}
-      >
+      <StyledTypography component={Link} to="/" variant="h5" style={{ marginLeft: "0.5em" }}>
         Seeds in space
       </StyledTypography>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
         <StyledAppBar>
           <StyledTypography component={Link} to="/" variant="h5" onClick={handleClose}>
-            Seeds in Space
+            Seeds in space
           </StyledTypography>
           <IconButton style={{ marginRight: "0.5em" }} onClick={handleClose}>
             <CloseIcon style={{ color: "#fff", width: "1.5em", height: "1.5em" }} />
@@ -52,12 +47,12 @@ const SideMenu = () => {
         </StyledAppBar>
         <StyledMenuContent>
           <List component="nav">
-              <ListItem button component={Link} onClick={handleClose} to="/">
-                <StyledListItemText>About SIS</StyledListItemText>
-              </ListItem>
+            <ListItem button component={Link} onClick={handleClose} to="/">
+              <StyledListItemText>About SIS</StyledListItemText>
+            </ListItem>
             {cognitoUser && (
               <ListItem button component={Link} onClick={handleClose} to="/dashboard">
-                <StyledListItemText>My Seeds</StyledListItemText>
+                <StyledListItemText>My seeds</StyledListItemText>
               </ListItem>
             )}
             {/* {!cognitoUser && (
@@ -66,7 +61,7 @@ const SideMenu = () => {
               </ListItem>
             )} */}
             <ListItem button component={Link} onClick={handleClose} to="/community">
-              <StyledListItemText>Community</StyledListItemText>
+              <StyledListItemText>Our community</StyledListItemText>
             </ListItem>
             <ListItem button component={Link} onClick={handleClose} to="/resources">
               <StyledListItemText>Resources</StyledListItemText>

@@ -12,12 +12,7 @@ const PageNotFound = () => {
         <h2>Page not found</h2>
         <p>We can’t find the page you’re looking for.</p>
         <Link to="/" style={{ textDecoration: "none" }}>
-          <StyledButton
-            disableElevation
-            variant="contained"
-            color="primary"
-            width="300px"
-          >
+          <StyledButton disableElevation variant="contained" color="primary" width="300px">
             BACK TO HOME
           </StyledButton>
         </Link>
@@ -44,7 +39,7 @@ const Content = styled.div`
   }
   p {
     font-size: 2rem;
-    margin: 0px
+    margin: 0px;
     margin-bottom: 1rem;
   }
 `;

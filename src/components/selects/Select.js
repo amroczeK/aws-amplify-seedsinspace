@@ -18,12 +18,7 @@ export default function SimpleSelect({ title, value, handleChange, items = [] })
     <div>
       <FormControl className={classes.formControl}>
         <InputLabel id="simple-select-label">{title}</InputLabel>
-        <Select
-          labelId="simple-select-label"
-          id="simple-select"
-          value={value}
-          onChange={handleChange}
-        >
+        <Select labelId="simple-select-label" id="simple-select" value={value} onChange={handleChange}>
           {items.map((item, idx) => (
             <MenuItem key={idx} value={idx}>
               {item}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import AddSeedDialog from "../components/Dashboard/AddSeedDialog";
-import DashboardContent from "../components/Dashboard/DashboardContent"
+import DashboardContent from "../components/Dashboard/DashboardContent";
 
 const Dashboard = () => {
   const [openAddSeed, setOpenAddSeed] = useState(false);
@@ -9,7 +9,7 @@ const Dashboard = () => {
   return (
     <Container>
       <AddSeedDialog open={openAddSeed} onClose={() => setOpenAddSeed(false)} />
-      <DashboardContent setOpenAddSeed={setOpenAddSeed}/>
+      <DashboardContent setOpenAddSeed={setOpenAddSeed} />
     </Container>
   );
 };

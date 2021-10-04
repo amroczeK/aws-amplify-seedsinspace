@@ -56,10 +56,7 @@ const Weather = () => {
   // NOTE: Need to add city
   return (
     <StyledWeather>
-      <img
-        alt="weather-icon"
-        src={`https://openweathermap.org/img/wn/${data?.weather?.[0].icon}.png`}
-      />
+      <img alt="weather-icon" src={`https://openweathermap.org/img/wn/${data?.weather?.[0].icon}.png`} />
       <p>{`${Math.round(data?.main?.temp)}\xB0, ${data?.weather?.[0].description}`}</p>
     </StyledWeather>
   );

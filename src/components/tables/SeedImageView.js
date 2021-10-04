@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const SeedImageView = ({ row }) => {
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState(null)
+  const [title, setTitle] = useState(null);
   const [imageKey, setImageKey] = useState(null);
 
   const handleClose = () => {
