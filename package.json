@@ -61,7 +61,7 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "prettier": {
-    "printWidth": 90,
+    "printWidth": 150,
     "bracketSpacing": true,
     "trailingComma": "es5",
     "tabWidth": 2,

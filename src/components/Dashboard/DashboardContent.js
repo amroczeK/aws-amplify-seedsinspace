@@ -35,13 +35,7 @@ const TabContainer = () => {
 
   return (
     <Paper className={classes.paper}>
-      <Tabs
-        value={tab}
-        onChange={(event, value) => setTab(value)}
-        variant="fullWidth"
-        indicatorColor="primary"
-        textColor="primary"
-      >
+      <Tabs value={tab} onChange={(event, value) => setTab(value)} variant="fullWidth" indicatorColor="primary" textColor="primary">
         <Tab
           label={
             <StyledTabDiv>
@@ -83,13 +77,7 @@ const DashboardContent = ({ setOpenAddSeed }) => {
           <WeatherContainer>
             <Weather />
             <ButtonContainer>
-              <StyledButton
-                disableElevation
-                variant="contained"
-                color="primary"
-                onClick={() => setOpenAddSeed(true)}
-                width="300px"
-              >
+              <StyledButton disableElevation variant="contained" color="primary" onClick={() => setOpenAddSeed(true)} width="300px">
                 Add seed entry
               </StyledButton>
             </ButtonContainer>

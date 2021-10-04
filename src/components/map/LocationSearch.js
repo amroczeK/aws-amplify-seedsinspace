@@ -55,10 +55,7 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
       const mappedData = searchResults.map((value, index) => {
         const [name, ...location] = value.display_name.split(",");
         return (
-          <ResultContainer
-            key={value.place_id}
-            onClick={() => onLocationSelection(value)}
-          >
+          <ResultContainer key={value.place_id} onClick={() => onLocationSelection(value)}>
             <p style={{ fontWeight: "bold" }}>{name}</p>
             <p>location: {location}</p>
           </ResultContainer>
@@ -80,9 +77,7 @@ const LocationSearch = ({ onSelected, defaultValue }) => {
         onKeyUp={handleKeyChange}
         helperText="e.g. Jandakot Primary School"
         InputProps={{
-          endAdornment: (
-            <>{loading ? <CircularProgress color="inherit" size={20} /> : null}</>
-          ),
+          endAdornment: <>{loading ? <CircularProgress color="inherit" size={20} /> : null}</>,
         }}
       />
       {mappedResults()}

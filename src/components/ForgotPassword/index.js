@@ -4,7 +4,7 @@ import PasswordResetConfirm from "./PasswordResetConfirm";
 
 const ForgotPasswordStepper = () => {
   const [step, setStep] = useState(0);
-  const [username, setUsername] = useState("")
+  const [username, setUsername] = useState("");
 
   const stepContent = () => {
     return {

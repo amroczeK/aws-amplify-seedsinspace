@@ -13,24 +13,9 @@ import { Flexbox } from "./Flexbox";
  * @param {Component/div} children
  * @param {Array of Objects} buttons
  */
-export default function StyledModal({
-  title,
-  open,
-  onClose,
-  children,
-  buttons,
-  width,
-  fullWidth = false,
-  style,
-}) {
+export default function StyledModal({ title, open, onClose, children, buttons, width, fullWidth = false, style }) {
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      aria-labelledby="form-dialog-title"
-      maxWidth={width ? width : "md"}
-      fullWidth={fullWidth}
-    >
+    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title" maxWidth={width ? width : "md"} fullWidth={fullWidth}>
       <IconButton onClick={onClose} style={{ alignSelf: "flex-end" }}>
         <CloseOutline width="1.5em" />
       </IconButton>

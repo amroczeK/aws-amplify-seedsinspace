@@ -38,13 +38,7 @@ const SeedNotesView = ({ row }) => {
       >
         <NoteIcon />
       </div>
-      <SimpleDialog
-        title={title}
-        open={open}
-        handleClose={handleClose}
-        component={Notes}
-        componentProps={{ notes }}
-      />
+      <SimpleDialog title={title} open={open} handleClose={handleClose} component={Notes} componentProps={{ notes }} />
     </Container>
   );
 };

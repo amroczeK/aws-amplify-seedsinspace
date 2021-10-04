@@ -19,8 +19,7 @@ const QueryFilters = () => {
   const [selectedType, setSelectedType] = useState(0);
   const [info, setInfo] = useState(null);
 
-  const { setSeedData, setLoading, error, setError, setGraphTitle } =
-    useContext(DataContext);
+  const { setSeedData, setLoading, error, setError, setGraphTitle } = useContext(DataContext);
   const { cognitoUser } = useContext(AWSContext);
 
   const selectedTypeHandler = event => {
@@ -94,32 +93,14 @@ const QueryFilters = () => {
   return (
     <>
       <FilterContainer>
-        <Select
-          title={"Type"}
-          value={selectedType}
-          handleChange={selectedTypeHandler}
-          items={seedTypes}
-        />
+        <Select title={"Type"} value={selectedType} handleChange={selectedTypeHandler} items={seedTypes} />
         <DateRangeContainer>
           <p>Dates</p>
-          <DateRangeSelect
-            date={date}
-            dateChangeHandler={dateChangeHandler}
-            disabled={checked}
-          />
+          <DateRangeSelect date={date} dateChangeHandler={dateChangeHandler} disabled={checked} />
         </DateRangeContainer>
-        <Checkbox
-          styles={{ position: "relative", top: 9 }}
-          name={"All dates"}
-          checked={checked}
-          checkedHandler={checkedHandler}
-        />
+        <Checkbox styles={{ position: "relative", top: 9 }} name={"All dates"} checked={checked} checkedHandler={checkedHandler} />
         <ButtonContainer style={{ position: "relative", top: 8 }}>
-          <QueryBtn
-            title={"Apply filter"}
-            size="small"
-            onClickHandler={onFilterQueryHandler}
-          />
+          <QueryBtn title={"Apply filter"} size="small" onClickHandler={onFilterQueryHandler} />
           <ClearFiltersBtn
             title={"Clear filter"}
             size="small"

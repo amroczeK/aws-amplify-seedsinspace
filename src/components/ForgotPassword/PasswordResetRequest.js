@@ -41,9 +41,7 @@ const PasswordReset = ({ setStep, setUsername }) => {
         <Typography style={{ fontWeight: "bold" }} variant="h5">
           Forgot Password
         </Typography>
-        <p style={{ margin: "0px" }}>
-          Enter your email address and we'll send you a verification code.
-        </p>
+        <p style={{ margin: "0px" }}>Enter your email address and we'll send you a verification code.</p>
         <StyledInputLabel shrink>EMAIL</StyledInputLabel>
         <Controller
           name="email"

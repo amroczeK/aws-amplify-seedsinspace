@@ -4,12 +4,7 @@ import styled from "styled-components";
 import { StyledLink } from "../components/styled-components/Links";
 import { Storage } from "aws-amplify";
 
-const resourceList = [
-  "Dates of Germination.pdf",
-  "Seed Entry.pdf",
-  "Scientific Report.pdf",
-  "Science Journal.pdf",
-];
+const resourceList = ["Dates of Germination.pdf", "Seed Entry.pdf", "Scientific Report.pdf", "Science Journal.pdf"];
 
 const getSignedURLs = () =>
   new Promise((resolve, reject) => {
@@ -17,9 +12,7 @@ const getSignedURLs = () =>
     resourceList.forEach(e => {
       let promise = new Promise((resolve, reject) => {
         Storage.get(`documents/${e}`)
-          .then(signedURL =>
-            resolve({ title: `${e.replace(".pdf", "")} (PDF)`, signedURL })
-          )
+          .then(signedURL => resolve({ title: `${e.replace(".pdf", "")} (PDF)`, signedURL }))
           .catch(error => reject(error));
       });
       promises.push(promise);
@@ -45,10 +38,7 @@ const Resources = () => {
     <Container style={{ paddingTop: "1em", paddingBottom: "2rem" }} maxWidth="md">
       <ContentContainer>
         <h1>Classroom resources</h1>
-        <p>
-          Here are some downloadable classroom resources that you can use to record data
-          for your seeds.
-        </p>
+        <p>Here are some downloadable classroom resources that you can use to record data for your seeds.</p>
         {resources?.map(({ signedURL, title }, i) => (
           <>
             <StyledLink
@@ -78,8 +68,7 @@ const Resources = () => {
         <br />
         <StyledLink
           to={{
-            pathname:
-              "https://www.theseedcollection.com.au/blog/our-blog/how-scarification-brings-stubborn-slow-germinating/",
+            pathname: "https://www.theseedcollection.com.au/blog/our-blog/how-scarification-brings-stubborn-slow-germinating/",
           }}
           target="_blank"
           fontSize="16px"
@@ -89,8 +78,7 @@ const Resources = () => {
         <br />
         <StyledLink
           to={{
-            pathname:
-              "https://www.gardeningknowhow.com/ornamental/trees/acacia/acacia-seed-propagation.htm",
+            pathname: "https://www.gardeningknowhow.com/ornamental/trees/acacia/acacia-seed-propagation.htm",
           }}
           target="_blank"
           fontSize="16px"
@@ -100,8 +88,7 @@ const Resources = () => {
         <br />
         <StyledLink
           to={{
-            pathname:
-              "https://hilo.hawaii.edu/affiliates/prism/documents/lesson6seedgermination.pdf",
+            pathname: "https://hilo.hawaii.edu/affiliates/prism/documents/lesson6seedgermination.pdf",
           }}
           target="_blank"
           fontSize="16px"

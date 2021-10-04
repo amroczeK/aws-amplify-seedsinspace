@@ -33,12 +33,7 @@ const SideMenu = () => {
       <IconButton style={{ marginLeft: "0.25em", width: "3em" }} onClick={handleOpen}>
         <MenuIcon style={{ color: "#fff", width: "1.5em", height: "1.5em" }} />
       </IconButton>
-      <StyledTypography
-        component={Link}
-        to="/"
-        variant="h5"
-        style={{ marginLeft: "0.5em" }}
-      >
+      <StyledTypography component={Link} to="/" variant="h5" style={{ marginLeft: "0.5em" }}>
         Seeds in space
       </StyledTypography>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>

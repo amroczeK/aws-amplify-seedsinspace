@@ -70,20 +70,11 @@ const SeedSetUp = () => {
       <SeedSetUpContainer>
         <Typography variant="h5">Have you planted your seeds?</Typography>
         <StyledButtonContainer>
-          <StyledButton
-            color="primary"
-            disableElevation
-            variant="contained"
-            onClick={() => setStep(2)}
-          >
+          <StyledButton color="primary" disableElevation variant="contained" onClick={() => setStep(2)}>
             Yes
           </StyledButton>
 
-          <StyledButtonLight
-            disableElevation
-            variant="contained"
-            onClick={() => setStep(1)}
-          >
+          <StyledButtonLight disableElevation variant="contained" onClick={() => setStep(1)}>
             No
           </StyledButtonLight>
         </StyledButtonContainer>
@@ -99,18 +90,10 @@ const SeedSetUp = () => {
       <SeedSetUpContainer>
         <Card>
           <CardContent>
-            <Typography variant="body2">
-              You won't be able to enter seed data until you've confirmed that you've
-              planted your seeds.
-            </Typography>
+            <Typography variant="body2">You won't be able to enter seed data until you've confirmed that you've planted your seeds.</Typography>
           </CardContent>
         </Card>
-        <StyledButton
-          color="primary"
-          disableElevation
-          variant="contained"
-          onClick={() => setStep(2)}
-        >
+        <StyledButton color="primary" disableElevation variant="contained" onClick={() => setStep(2)}>
           I have planted my seeds
         </StyledButton>
         <StyledLink to={{ pathname: signedURL }} target="_blank">
@@ -126,9 +109,7 @@ const SeedSetUp = () => {
         <GridForm onSubmit={handleSubmit(confirmSeedSetup)}>
           <StyledInputLabel shrink>WHEN DID YOU PLANT YOUR SEEDS?</StyledInputLabel>
           <ControlledPicker name="date" control={control} errors={errors} />
-          <StyledInputLabel shrink>
-            WHAT TYPE OF ENVIRONMENT ARE THE SEEDS GROWING IN?
-          </StyledInputLabel>
+          <StyledInputLabel shrink>WHAT TYPE OF ENVIRONMENT ARE THE SEEDS GROWING IN?</StyledInputLabel>
           <Controller
             name="environment"
             defaultValue=""
@@ -146,12 +127,7 @@ const SeedSetUp = () => {
             )}
           />
           {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
-          <StyledButton
-            color="primary"
-            type="submit"
-            disableElevation
-            variant="contained"
-          >
+          <StyledButton color="primary" type="submit" disableElevation variant="contained">
             Save
           </StyledButton>
         </GridForm>

@@ -56,22 +56,12 @@ const ImageUpload = ({ name, image, text, setValue, formValue, error }) => {
 
   return (
     <>
-      <Image
-        src={imageUrl || image || NoImage}
-        alt="seed image"
-        onError={() => setImageUrl(NoImage)}
-      />
+      <Image src={imageUrl || image || NoImage} alt="seed image" onError={() => setImageUrl(NoImage)} />
       <div>
         <CameraIcon />
         <StyledButton component="label">
           + {text || "Update profile picture"}
-          <input
-            id="image-upload"
-            type="file"
-            accept="image/*"
-            hidden
-            onChange={e => onImageUpload(e)}
-          />
+          <input id="image-upload" type="file" accept="image/*" hidden onChange={e => onImageUpload(e)} />
         </StyledButton>
         {error && <p style={{ color: "red" }}>{error.message}</p>}
         {/* <ImageText>{`Image: ${imageFileName || "None"}`}</ImageText> */}

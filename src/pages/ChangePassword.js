@@ -81,10 +81,7 @@ const ChangePassword = () => {
                 type="password"
                 variant="outlined"
                 error={errors?.newPassword ? true : false}
-                helperText={
-                  errors?.newPassword?.message ||
-                  "Password must be minimum of 8 characters"
-                }
+                helperText={errors?.newPassword?.message || "Password must be minimum of 8 characters"}
               />
             )}
           />
@@ -104,23 +101,14 @@ const ChangePassword = () => {
             )}
           />
           {submitError && <Alert severity="error">{submitError.message}</Alert>}
-          <StyledButton
-            color="primary"
-            type="submit"
-            disableElevation
-            variant="contained"
-          >
+          <StyledButton color="primary" type="submit" disableElevation variant="contained">
             Save
           </StyledButton>
           <StyledLink to="/profile" alignself="center" style={{ textAlign: "center" }}>
             Cancel
           </StyledLink>
         </GridForm>
-        <SuccessSnackbar
-          openSnack={showSnack}
-          setOpenSnack={setShowSnack}
-          text="Success! Password updated"
-        />
+        <SuccessSnackbar openSnack={showSnack} setOpenSnack={setShowSnack} text="Success! Password updated" />
       </Flexbox>
     </Container>
   );

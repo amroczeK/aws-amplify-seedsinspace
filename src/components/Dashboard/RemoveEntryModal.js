@@ -33,14 +33,9 @@ const RemoveEntryModal = ({ name, schoolData, refetch }) => {
       <StyledButton color="primary" onClick={() => setModalOpen(true)}>
         <b>Stop recording data for this seed</b>
       </StyledButton>
-      <StyledModal
-        open={modalOpen}
-        onClose={handleClose}
-        title={`Stop recording ${name} data`}
-      >
+      <StyledModal open={modalOpen} onClose={handleClose} title={`Stop recording ${name} data`}>
         <Typography gutterBottom>
-          You won't be able to record future seed entries for this seed but previous data
-          recorded for this seed will be saved.
+          You won't be able to record future seed entries for this seed but previous data recorded for this seed will be saved.
         </Typography>
         <Button onClick={handleConfirm}>Confirm</Button>
         <Button color="default" onClick={handleClose}>

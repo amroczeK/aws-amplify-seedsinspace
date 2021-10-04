@@ -20,9 +20,7 @@ const DateRangeSelect = ({
     setFocusedInput(focusedInput);
   };
 
-  const orientation = window.matchMedia("(max-width: 1200px)").matches
-    ? "vertical"
-    : "horizontal";
+  const orientation = window.matchMedia("(max-width: 1200px)").matches ? "vertical" : "horizontal";
 
   /**
    * NOTE: isOutsideRange={...} stops user from selecting date in the future and minimumNights allows the user to select same date
@@ -42,8 +40,7 @@ const DateRangeSelect = ({
       enableOutsideDays={false}
       isOutsideRange={day =>
         !enableFutureSelection &&
-        ((focusedInput === "endDate" && day.isAfter(moment().endOf("day"))) ||
-          (focusedInput === "startDate" && day.isAfter(moment())))
+        ((focusedInput === "endDate" && day.isAfter(moment().endOf("day"))) || (focusedInput === "startDate" && day.isAfter(moment())))
       }
       minimumNights={0}
       showDefaultInputIcon

@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DataGridTable } from "../tables/DataGrid";
 import styled from "styled-components";
 import Button from "../../components/inputs/Button";
-import {
-  GridToolbarContainer,
-  GridToolbarFilterButton,
-  GridToolbarExport,
-} from "@material-ui/data-grid";
+import { GridToolbarContainer, GridToolbarFilterButton, GridToolbarExport } from "@material-ui/data-grid";
 
 function Toolbar() {
   return (
@@ -16,13 +12,7 @@ function Toolbar() {
     </GridToolbarContainer>
   );
 }
-const Table = ({
-  data,
-  error = null,
-  loading,
-  handleRowClick,
-  handleViewProfileClick,
-}) => {
+const Table = ({ data, error = null, loading, handleRowClick, handleViewProfileClick }) => {
   const [selectedRow, setSelectedRow] = useState([]);
 
   const defaultColumns = [
@@ -42,11 +32,7 @@ const Table = ({
             width: "100%",
           }}
         >
-          <Button
-            title={"View"}
-            size="small"
-            onClickHandler={() => handleViewProfileClick(row)}
-          />
+          <Button title={"View"} size="small" onClickHandler={() => handleViewProfileClick(row)} />
         </div>
       ),
     },

@@ -26,7 +26,7 @@ export const DataProvider = ({ children }) => {
     error,
     setError,
     graphTitle,
-    setGraphTitle
+    setGraphTitle,
   };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;

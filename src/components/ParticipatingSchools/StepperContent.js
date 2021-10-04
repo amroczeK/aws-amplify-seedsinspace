@@ -8,7 +8,7 @@ const StepperContent = ({ schools }) => {
 
   const stepContent = () => {
     return {
-      0: <Schools schools={schools}  setSelectedSchool={setSelectedSchool} setStep={setStep}/>,
+      0: <Schools schools={schools} setSelectedSchool={setSelectedSchool} setStep={setStep} />,
       1: <ParticipantProfile school={selectedSchool} setStep={setStep} />,
     }[step];
   };

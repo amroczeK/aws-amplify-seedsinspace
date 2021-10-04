@@ -13,13 +13,7 @@ const AccordionPanel = ({ children, title }) => {
     <AccordionContainer>
       <AccordionHeader onClick={() => setOpen(o => !o)}>
         {title}
-        <div style={{ textAlign: "end", flex: "1 0" }}>
-          {open ? (
-            <ArrowIosUpwardOutline size="15" />
-          ) : (
-            <ArrowIosDownwardOutline size="15" />
-          )}
-        </div>
+        <div style={{ textAlign: "end", flex: "1 0" }}>{open ? <ArrowIosUpwardOutline size="15" /> : <ArrowIosDownwardOutline size="15" />}</div>
       </AccordionHeader>
       <Collapse in={open}>
         <AccordionContent>{children}</AccordionContent>
@@ -36,8 +30,7 @@ const FAQ = () => {
       </AccordionPanel>
       <AccordionPanel title="Who can participate?">
         <StyledTypography>
-          This is open to all Australian schools or education institutions or home schools
-          for students aged 3 – 25.
+          This is open to all Australian schools or education institutions or home schools for students aged 3 – 25.
         </StyledTypography>
       </AccordionPanel>
       <AccordionPanel title="Can home-schooled students enter?">
@@ -46,9 +39,7 @@ const FAQ = () => {
       <AccordionPanel title="Who do I contact if I have questions?">
         <StyledTypography>
           Send an email to {""}
-          <a href="mailto: info@onegiantleapaustralia.com">
-            info@onegiantleapaustralia.com
-          </a>
+          <a href="mailto: info@onegiantleapaustralia.com">info@onegiantleapaustralia.com</a>
         </StyledTypography>
       </AccordionPanel>
     </>

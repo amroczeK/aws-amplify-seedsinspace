@@ -54,10 +54,7 @@ const PasswordReset = ({ username }) => {
               variant="outlined"
               placeholder="Verification code"
               error={errors?.verificationCode ? true : false}
-              helperText={
-                errors?.verificationCode &&
-                "Verification code is required and must be 6 digits"
-              }
+              helperText={errors?.verificationCode && "Verification code is required and must be 6 digits"}
             />
           )}
         />
@@ -73,9 +70,7 @@ const PasswordReset = ({ username }) => {
               placeholder="Password"
               variant="outlined"
               error={errors?.newPassword ? true : false}
-              helperText={
-                errors?.newPassword?.message || "Password must be minimum of 8 characters"
-              }
+              helperText={errors?.newPassword?.message || "Password must be minimum of 8 characters"}
             />
           )}
         />

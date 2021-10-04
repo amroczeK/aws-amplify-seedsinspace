@@ -21,46 +21,36 @@ const addSeedSchema = yup.object().shape({
   Height: yup
     .number()
     .min(0)
-    .required("Required as numerical value e.g. 12, use 0 if not sprouted!")
-    .typeError("A Number greater than 0 is required"),
+    .required("Required field. Enter a number or use 0 if not sprouted.")
+    .typeError("Required field. Enter a number or use 0 if not sprouted."),
   StemLength: yup
     .number()
     .min(0)
-    .required("Required as numerical value e.g. 12, use 0 if not sprouted!")
-    .typeError("A Number greater then 0 is required"),
+    .required("Required field. Enter a number or use 0 if not sprouted.")
+    .typeError("Required field. Enter a number or use 0 if not sprouted."),
   LeafWidth: yup
     .number()
     .min(0)
-    .required("Reqired as numerical value e.g. 12 (use 0 if no leaves)")
-    .typeError("A Number greater then 0 is required"),
+    .required("Required field. Enter a number or use 0 if no leaves. ")
+    .typeError("Required field. Enter a number or use 0 if no leaves."),
   LeafColour: yup
     .string()
-    .matches(/^[a-zA-Z\s]*$/, "Only letters are supported")
+    .matches(/^[a-zA-Z\s]*$/, "Required field. Describe the colour or put “none” if no leaves. ")
     .required(),
   LeafCount: yup.lazy(value =>
-    value === ""
-      ? yup.string()
-      : yup.number().min(0).typeError("A Number greater or equal to 0")
+    value === "" ? yup.string() : yup.number().min(0).typeError("Required field. Enter a number or use 0 if no leaves.")
   ),
   LeafLength: yup.lazy(value =>
-    value === ""
-      ? yup.string()
-      : yup.number().min(0).typeError("A Number greater or equal to 0")
+    value === "" ? yup.string() : yup.number().min(0).typeError("Required field. Enter a number or use 0 if no leaves.")
   ),
   PhLevel: yup.lazy(value =>
-    value === ""
-      ? yup.string()
-      : yup.number().min(0).max(14).typeError("A Number between 0 and 14")
+    value === "" ? yup.string() : yup.number().min(0).max(14).typeError("Required field. Enter a number between 0 and 14.")
   ),
   Temperature: yup.lazy(value =>
-    value === ""
-      ? yup.string()
-      : yup.number().min(-10).max(40).typeError("A Number between -10 and 40")
+    value === "" ? yup.string() : yup.number().min(-30).max(40).typeError("Required field. Enter a number between -30 and 40.")
   ),
   WaterVolume: yup.lazy(value =>
-    value === ""
-      ? yup.string()
-      : yup.number().min(0).max(1000).typeError("A Number between 0 and 1000")
+    value === "" ? yup.string() : yup.number().min(0).max(1000).typeError("Required field. Enter a number between 0 and 1000.")
   ),
   Notes: yup.string(),
 });

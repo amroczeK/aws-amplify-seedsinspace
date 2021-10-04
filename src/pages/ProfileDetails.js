@@ -88,37 +88,20 @@ const ProfileDetails = () => {
           <Typography style={{ fontWeight: "bold" }} variant="h5">
             {locationState?.isNewUser ? "Fill in your profile" : "Edit your profile"}
           </Typography>
-          <ImageUpload
-            name="profileImage"
-            image={profileImage}
-            register={register}
-            setValue={setValue}
-          />
-          <StyledInputLabel shrink>
-            {locationState?.isNewUser ? "ADD YOUR LOCATION" : "YOUR LOCATION"}
-          </StyledInputLabel>
-          <LocationSearch
-            onSelected={onLocationSelection}
-            defaultValue={cognitoUser?.attributes?.address}
-          />
+          <ImageUpload name="profileImage" image={profileImage} register={register} setValue={setValue} />
+          <StyledInputLabel shrink>{locationState?.isNewUser ? "ADD YOUR LOCATION" : "YOUR LOCATION"}</StyledInputLabel>
+          <LocationSearch onSelected={onLocationSelection} defaultValue={cognitoUser?.attributes?.address} />
           <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
           <Controller
             name="about"
             defaultValue=""
             control={control}
-            render={({ field }) => (
-              <TextField {...field} multiline variant="outlined" rows={10} />
-            )}
+            render={({ field }) => <TextField {...field} multiline variant="outlined" rows={10} />}
           />
           {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
           {locationState?.isNewUser && (
             <>
-              <StyledButton
-                color="primary"
-                type="submit"
-                disableElevation
-                variant="contained"
-              >
+              <StyledButton color="primary" type="submit" disableElevation variant="contained">
                 Next
               </StyledButton>
               <StyledLink to="/dashboard" alignself="center">
@@ -128,29 +111,16 @@ const ProfileDetails = () => {
           )}
           {!locationState?.isNewUser && (
             <>
-              <StyledButton
-                color="primary"
-                type="submit"
-                disableElevation
-                variant="contained"
-              >
+              <StyledButton color="primary" type="submit" disableElevation variant="contained">
                 Save
               </StyledButton>
-              <StyledLink
-                to="/profile"
-                alignself="center"
-                style={{ textAlign: "center" }}
-              >
+              <StyledLink to="/profile" alignself="center" style={{ textAlign: "center" }}>
                 Cancel
               </StyledLink>
             </>
           )}
         </GridForm>
-        <SuccessSnackbar
-          openSnack={showSnack}
-          setOpenSnack={setShowSnack}
-          text="Success! Profile updated"
-        />
+        <SuccessSnackbar openSnack={showSnack} setOpenSnack={setShowSnack} text="Success! Profile updated" />
       </Flexbox>
     </Container>
   );

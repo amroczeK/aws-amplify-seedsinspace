@@ -23,7 +23,6 @@ const TabPanel = ({ children, value, index, ...others }) => (
   </div>
 );
 
-
 const SchoolData = ({ schoolSubId }) => {
   const classes = useStyles();
 
@@ -31,13 +30,7 @@ const SchoolData = ({ schoolSubId }) => {
 
   return (
     <Paper className={classes.paper}>
-      <Tabs
-        value={tab}
-        onChange={(event, value) => setTab(value)}
-        variant="fullWidth"
-        indicatorColor="primary"
-        textColor="primary"
-      >
+      <Tabs value={tab} onChange={(event, value) => setTab(value)} variant="fullWidth" indicatorColor="primary" textColor="primary">
         <Tab
           label={
             <StyledTabDiv>
@@ -76,7 +69,6 @@ const DataContainer = styled.div`
   position: relative;
   height: 100%;
 `;
-
 
 const StyledTabDiv = styled.div`
   display: flex;

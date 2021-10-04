@@ -72,21 +72,12 @@ const SignUp = () => {
             error={errors?.organisation ? true : false}
             helperText={errors?.organisation?.message}
           />
-
           <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
           <Controller
             name="email"
             control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                variant="outlined"
-                error={errors?.email}
-                helperText={errors?.email?.message}
-              />
-            )}
+            render={({ field }) => <TextField {...field} variant="outlined" error={errors?.email} helperText={errors?.email?.message} />}
           />
-
           <StyledInputLabel shrink>NEW PASSWORD</StyledInputLabel>
           <TextField
             {...register("password")}
@@ -95,7 +86,6 @@ const SignUp = () => {
             error={errors?.password ? true : false}
             helperText={errors?.password?.message}
           />
-
           <StyledInputLabel shrink>CONFIRM NEW PASSWORD</StyledInputLabel>
           <TextField
             {...register("confirmPassword")}
@@ -104,20 +94,11 @@ const SignUp = () => {
             error={errors?.confirmPassword ? true : false}
             helperText={errors?.confirmPassword?.message}
           />
-
           <StyledLink to={{ pathname: signedURL }} target="_blank">
             SIS disclaimer / terms and conditions
           </StyledLink>
-
           {error && <Alert severity="error">{error.message}</Alert>}
-
-          <StyledButton
-            color="primary"
-            disableElevation
-            disabled={processing}
-            variant="contained"
-            type="submit"
-          >
+          <StyledButton color="primary" disableElevation disabled={processing} variant="contained" type="submit">
             Create account
           </StyledButton>
         </GridForm>
