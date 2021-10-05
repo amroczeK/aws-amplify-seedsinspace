@@ -1,10 +1,10 @@
 import Container from "@material-ui/core/Container";
 import ResetPasswordStepper from "../components/ForgotPassword"
 
-const PasswordReset = () => {
+const PasswordReset = ({title}) => {
   return (
     <Container>
-      <ResetPasswordStepper/>
+      <ResetPasswordStepper title={title}/>
     </Container>
   );
 };

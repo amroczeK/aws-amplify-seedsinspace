@@ -11,7 +11,7 @@ import { StyledButton } from "../styled-components/Buttons";
 import { passwordResetResolver } from "../validation/schemas";
 import { StyledInputLabel } from "../styled-components/InputLabel";
 
-const PasswordReset = ({ setStep, setUsername }) => {
+const PasswordReset = ({ setStep, setUsername, title = "Forgot Password" }) => {
   const [submitError, setSubmitError] = useState(null);
 
   const { forgotPassword } = useAws();
@@ -39,7 +39,7 @@ const PasswordReset = ({ setStep, setUsername }) => {
     <Flexbox direction="column" alignItems="center" margin="10em 0em">
       <GridForm onSubmit={handleSubmit(forgotPasswordHandler)}>
         <Typography style={{ fontWeight: "bold" }} variant="h5">
-          Forgot Password
+          {title}
         </Typography>
         <p style={{ margin: "0px" }}>Enter your email address and we'll send you a verification code.</p>
         <StyledInputLabel shrink>EMAIL</StyledInputLabel>

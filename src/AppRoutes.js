@@ -1,4 +1,5 @@
 import * as Pages from "./pages";
+import ForgotPassword from "./pages/ForgotPassword"
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useAws } from "./context/AWSContext";
 
@@ -35,6 +36,9 @@ const AppRoutes = () => {
       <Route path="/resources" component={Pages.Resources} />
       <Route path="/community" component={Pages.ParticipatingSchools} />
       <Route path="/forgot-password" component={Pages.ForgotPassword} />
+      <Route path="/verify-email">
+        <ForgotPassword title="Verify email"/>
+      </Route>
       <Route path="*" component={Pages.PageNotFound} />
     </Switch>
   );
