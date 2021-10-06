@@ -10,11 +10,12 @@ import { Flexbox } from "../styled-components/Flexbox";
 import { StyledButton } from "../styled-components/Buttons";
 import { passwordResetChangePasswordResolver } from "../validation/schemas";
 import { StyledInputLabel } from "../styled-components/InputLabel";
+import { SuccessSnackbar } from "../components/Snackbars";
 
 const PasswordReset = ({ username }) => {
   const history = useHistory();
-
   const [submitError, setSubmitError] = useState(null);
+  const [showSnack, setShowSnack] = useState(false);
   const { forgotPasswordSubmit } = useAws();
   const { control, handleSubmit, formState } = useForm({
     resolver: passwordResetChangePasswordResolver,
@@ -30,7 +31,9 @@ const PasswordReset = ({ username }) => {
         code,
         newPassword,
       });
-      history.push("/signin");
+
+      setShowSnack(true);
+      setTimeout(() => history.push("/signin"), 2000);
     } catch (error) {
       console.log(error);
       setSubmitError(error);
@@ -96,6 +99,7 @@ const PasswordReset = ({ username }) => {
           Change password
         </StyledButton>
       </GridForm>
+      <SuccessSnackbar openSnack={showSnack} setOpenSnack={setShowSnack} text="Success! Password changed" />
     </Flexbox>
   );
 };
