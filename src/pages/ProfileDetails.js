@@ -121,9 +121,6 @@ const ProfileDetails = () => {
               <StyledButton color="primary" type="submit" disableElevation variant="contained">
                 Next
               </StyledButton>
-              {/* <StyledLink to="/dashboard" alignself="center">
-                Skip for now
-              </StyledLink> */}
             </>
           ) : (
             <>
