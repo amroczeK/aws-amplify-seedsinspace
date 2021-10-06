@@ -48,10 +48,10 @@ const SeedSetUp = () => {
     try {
       await updateSchool(
         {
-          SchoolName: cognitoUser.attributes["custom:organisation"],
-          Address: cognitoUser.attributes["address"],
-          Environment: formData.environment,
-          Planting_Date: formData.date,
+          SchoolName: cognitoUser?.attributes["custom:organisation"] || "",
+          Address: cognitoUser?.attributes["address"] || "",
+          Environment: formData?.environment || "",
+          Planting_Date: formData?.date || "",
         },
         cognitoUser?.username
       );

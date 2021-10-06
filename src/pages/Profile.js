@@ -46,12 +46,12 @@ const Profile = () => {
       </ProfileContainer>
       <ContentContainer>
         <Typography style={{ wordWrap: "break-word" }} variant="h5">
-          {cognitoUser.attributes["custom:organisation"]}
+          {cognitoUser?.attributes["custom:organisation"] || "No organisation entry"}
         </Typography>
         <Typography style={{ wordWrap: "break-word" }} variant="subtitle1" gutterBottom>
-          {cognitoUser.attributes["address"]}
+          {cognitoUser?.attributes["address"] || "No address entry"}
         </Typography>
-        <p>{cognitoUser.attributes["custom:about"]}</p>
+        <p>{cognitoUser?.attributes["custom:about"] || "No description given."}</p>
       </ContentContainer>
     </StyledContainer>
   );

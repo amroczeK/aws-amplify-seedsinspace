@@ -39,15 +39,14 @@ const SignUp = () => {
   const { errors } = formState;
 
   const signUpHandler = formData => {
-    const { organisation } = formData;
-
     setProcessing(true);
 
     createNewPassword(formData)
       .then(() => {
-        return addSchool({ SchoolName: organisation }).then(() => {
+        // Add school to DynamoDB otherwise public profile won't be updated
+        return addSchool().then(() => {
           setProcessing(false);
-          history.push("/profile/edit", { isNewUser: true, organisation });
+          history.push("/profile/edit", { isNewUser: true });
         });
       })
       .catch(error => {
@@ -65,13 +64,6 @@ const SignUp = () => {
             Create an account
           </Typography>
 
-          <StyledInputLabel shrink>SCHOOL/ORGANISATION NAME</StyledInputLabel>
-          <TextField
-            {...register("organisation")}
-            variant="outlined"
-            error={errors?.organisation ? true : false}
-            helperText={errors?.organisation?.message}
-          />
           <StyledInputLabel shrink>EMAIL ADDRESS</StyledInputLabel>
           <Controller
             name="email"
