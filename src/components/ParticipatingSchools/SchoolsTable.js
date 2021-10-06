@@ -53,7 +53,7 @@ const Table = ({ data, error = null, loading, handleRowClick, handleViewProfileC
         loading={loading}
         checkboxDisabled={true}
         setSelectedRow={setSelectedRow}
-        getRowId={r => r.createdAt}
+        getRowId={r => r.Sk.replace("SCHOOL#", "")}
         error={error?.message ? true : null}
         customToolbar={Toolbar}
       />

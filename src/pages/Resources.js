@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { StyledLink } from "../components/styled-components/Links";
 import { Storage } from "aws-amplify";
 
-const resourceList = ["Dates of Germination.pdf", "Seed Entry.pdf", "Scientific Report.pdf", "Science Journal.pdf"];
+const resourceList = ["Seeds in space how-to guide.pdf", "Dates of Germination.pdf", "Seed Entry.pdf", "Scientific Report.pdf", "Science Journal.pdf"];
 
 const getSignedURLs = () =>
   new Promise((resolve, reject) => {
