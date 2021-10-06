@@ -3,7 +3,7 @@ import LeafletMap from "../map/LeafletMap";
 import SchoolsTable from "./SchoolsTable";
 import styled from "styled-components";
 
-const Schools = ({ schools, setSelectedSchool, setStep }) => {
+const Schools = ({ schools, setSelectedSchool, setStep, loading = false, error = false }) => {
   const [coordinates, setCoordinates] = useState([]);
 
   const handleViewProfileClick = school => {
@@ -34,7 +34,7 @@ const Schools = ({ schools, setSelectedSchool, setStep }) => {
       </Content>
       <LeafletMap mapData={schools} handlePopupClick={handleSchoolClick} coordinates={coordinates} />
       <p>Select the group name to see the group’s profile and their seed data.</p>
-      <SchoolsTable data={schools} error={false} loading={false} handleRowClick={handleRowClick} handleViewProfileClick={handleViewProfileClick} />
+      <SchoolsTable data={schools} error={error} loading={loading} handleRowClick={handleRowClick} handleViewProfileClick={handleViewProfileClick} />
     </>
   );
 };

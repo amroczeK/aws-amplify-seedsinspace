@@ -7,7 +7,7 @@ export const AWSContext = createContext();
 
 export const fetchS3 = async ({ path, level, identityId }) => {
   let config = {
-    expires: 60,
+    expires: 900, // 15 minutes
     level,
   };
   if (identityId) config.identityId = identityId;
@@ -67,11 +67,11 @@ export const AWSProvider = ({ children }) => {
       }
       if (user.challengeName !== "NEW_PASSWORD_REQUIRED") {
         unstable_batchedUpdates(() => {
-          setLoading(false);
           setCognitoUser(user);
         });
       }
 
+      setLoading(false);
       return user;
     } catch (error) {
       setLoading(false);

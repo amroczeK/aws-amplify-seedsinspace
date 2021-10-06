@@ -18,6 +18,7 @@ const SignIn = () => {
 
   const [previousRoute, setPreviousRoute] = useState(null);
   const [signInError, setSignInError] = useState(null);
+
   const { signIn, loading, cognitoUser } = useAws();
 
   const { control, handleSubmit, formState } = useForm({
@@ -34,28 +35,28 @@ const SignIn = () => {
   }, [cognitoUser, previousRoute, history]);
 
   const signInHandler = async ({ email, password }) => {
-    setSignInError(false);
-    signIn({ email, password })
-      .then(user => {
-        setSignInError(null);
-        if (user?.challengeName === "NEW_PASSWORD_REQUIRED") {
-          return history.push("/signup", { email });
-        }
-        if (!user?.attributes["custom:organisation"]) {
-          // Add school to DynamoDB otherwise public profile won't be updated
-          return addSchool().then(() => {
-            history.push("/profile/edit", { isNewUser: true });
-          });
-        }
-        if (previousRoute) {
-          return history.push(previousRoute);
-        }
-        // If no previous route go to home
-        return history.push("/");
-      })
-      .catch(error => {
-        setSignInError(error);
-      });
+    setSignInError(false); // Always reset error
+    try {
+      let user = await signIn({ email, password });
+
+      setSignInError(null);
+      // Don't change the order of this challenge, keep it at the top
+      if (user?.challengeName === "NEW_PASSWORD_REQUIRED") {
+        return history.push("/signup", { email });
+      }
+      if (!user?.attributes["custom:organisation"]) {
+        // Add school to DynamoDB otherwise public profile won't be updated
+        await addSchool()
+        return history.push("/profile/edit", { isNewUser: true });
+      }
+      if (previousRoute) {
+        return history.push(previousRoute);
+      }
+      // If no previous route go to home
+      return history.push("/");
+    } catch (error) {
+      setSignInError(error)
+    }
   };
 
   return (
@@ -81,7 +82,7 @@ const SignIn = () => {
         />
         {loading && <LinearProgress />}
         {signInError && <Alert severity="error">{signInError.message}</Alert>}
-        <StyledButton color="primary" type="submit" disableElevation variant="contained">
+        <StyledButton color="primary" type="submit" disableElevation disabled={loading} variant="contained">
           Login
         </StyledButton>
         <StyledLink to="/forgot-password" decoration="underline">

@@ -14,8 +14,11 @@ import { SuccessSnackbar } from "../Snackbars";
 
 const PasswordReset = ({ username }) => {
   const history = useHistory();
+
   const [submitError, setSubmitError] = useState(null);
   const [showSnack, setShowSnack] = useState(false);
+  const [processing, setProcessing] = useState(false);
+
   const { forgotPasswordSubmit } = useAws();
   const { control, handleSubmit, formState } = useForm({
     resolver: passwordResetChangePasswordResolver,
@@ -24,6 +27,7 @@ const PasswordReset = ({ username }) => {
 
   const forgotPasswordSubmitHandler = async formData => {
     try {
+      setProcessing(true);
       let { verificationCode: code, newPassword } = formData;
       code = code.toString();
       await forgotPasswordSubmit({
@@ -33,9 +37,13 @@ const PasswordReset = ({ username }) => {
       });
 
       setShowSnack(true);
-      setTimeout(() => history.push("/signin"), 2000);
+      setTimeout(() => {
+        setProcessing(false);
+        history.push("/signin");
+      }, 2000);
     } catch (error) {
       console.log(error);
+      setProcessing(false);
       setSubmitError(error);
     }
   };
@@ -51,6 +59,7 @@ const PasswordReset = ({ username }) => {
         <Controller
           name="verificationCode"
           control={control}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
@@ -95,7 +104,7 @@ const PasswordReset = ({ username }) => {
           )}
         />
         {submitError && <Alert severity="error">{submitError.message}</Alert>}
-        <StyledButton color="primary" type="submit" disableElevation variant="contained">
+        <StyledButton color="primary" type="submit" disableElevation disabled={processing} variant="contained">
           Change password
         </StyledButton>
       </GridForm>
