@@ -10,7 +10,7 @@ import { Flexbox } from "../styled-components/Flexbox";
 import { StyledButton } from "../styled-components/Buttons";
 import { passwordResetChangePasswordResolver } from "../validation/schemas";
 import { StyledInputLabel } from "../styled-components/InputLabel";
-import { SuccessSnackbar } from "../components/Snackbars";
+import { SuccessSnackbar } from "../Snackbars";
 
 const PasswordReset = ({ username }) => {
   const history = useHistory();
