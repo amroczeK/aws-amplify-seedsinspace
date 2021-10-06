@@ -10,7 +10,7 @@ const common = {
 };
 
 const signUpSchema = yup.object().shape({
-  organisation: yup.string().required("Organisation name is required"),
+  //organisation: yup.string().required("Organisation name is required"),
   email: common.email,
   password: common.password,
   confirmPassword: yup
@@ -53,7 +53,10 @@ const passwordResetSchema = yup.object().shape({
 export const passwordResetResolver = yupResolver(passwordResetSchema);
 
 const passwordResetChangePasswordSchema = yup.object().shape({
-  verificationCode: yup.number().min(6, "Verification code must be 6 digits").required("Verification code is required"),
+  verificationCode: yup
+    .string()
+    .matches(/[0-9]{6}/, "Code must be 6 digits")
+    .required("Verification code is required"),
   newPassword: common.password,
   confirmNewPassword: yup
     .string()

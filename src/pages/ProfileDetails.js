@@ -32,9 +32,10 @@ const ProfileDetails = () => {
 
   const { control, register, setValue, handleSubmit } = useForm({
     defaultValues: {
-      about: cognitoUser.attributes["custom:about"],
-      address: cognitoUser.attributes["address"],
-      location: cognitoUser.attributes["custom:location"],
+      organisation: cognitoUser?.attributes["custom:organisation"] || "",
+      about: cognitoUser?.attributes["custom:about"] || "",
+      address: cognitoUser?.attributes["address"] || "",
+      location: cognitoUser?.attributes["custom:location"] || "",
     },
   });
 
@@ -61,10 +62,10 @@ const ProfileDetails = () => {
       // update database entry
       await updateSchool(
         {
-          SchoolName: cognitoUser.attributes["custom:organisation"],
-          Address: formData.address,
-          Lat: JSON.parse(formData.location).lat,
-          Lon: JSON.parse(formData.location).lon,
+          SchoolName: formData?.organisation,
+          Address: formData?.address,
+          Lat: JSON.parse(formData.location)?.lat,
+          Lon: JSON.parse(formData.location)?.lon,
         },
         cognitoUser?.username
       );
@@ -89,8 +90,24 @@ const ProfileDetails = () => {
             {locationState?.isNewUser ? "Fill in your profile" : "Edit your profile"}
           </Typography>
           <ImageUpload name="profileImage" image={profileImage} register={register} setValue={setValue} />
+          <StyledInputLabel shrink>{locationState?.isNewUser ? "ADD YOUR ORGANISATION" : "YOUR ORGANISATION"}</StyledInputLabel>
+          <Controller
+            name="organisation"
+            id="Organisation name"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                name="organisation"
+                id="Organisation name"
+                placeholder="Organisation name"
+                variant="outlined"
+                helperText="e.g. Jandakot Primary School"
+              />
+            )}
+          />
           <StyledInputLabel shrink>{locationState?.isNewUser ? "ADD YOUR LOCATION" : "YOUR LOCATION"}</StyledInputLabel>
-          <LocationSearch onSelected={onLocationSelection} defaultValue={cognitoUser?.attributes?.address} />
+          <LocationSearch onSelected={onLocationSelection} defaultValue={cognitoUser?.attributes?.address || ""} />
           <StyledInputLabel shrink>TELL US ABOUT YOURSELF</StyledInputLabel>
           <Controller
             name="about"
@@ -99,17 +116,16 @@ const ProfileDetails = () => {
             render={({ field }) => <TextField {...field} multiline variant="outlined" rows={10} />}
           />
           {setUpError && <Alert severity="error">{setUpError.message}</Alert>}
-          {locationState?.isNewUser && (
+          {locationState?.isNewUser ? (
             <>
               <StyledButton color="primary" type="submit" disableElevation variant="contained">
                 Next
               </StyledButton>
-              <StyledLink to="/dashboard" alignself="center">
+              {/* <StyledLink to="/dashboard" alignself="center">
                 Skip for now
-              </StyledLink>
+              </StyledLink> */}
             </>
-          )}
-          {!locationState?.isNewUser && (
+          ) : (
             <>
               <StyledButton color="primary" type="submit" disableElevation variant="contained">
                 Save

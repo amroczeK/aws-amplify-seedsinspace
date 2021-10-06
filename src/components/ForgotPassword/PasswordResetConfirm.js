@@ -53,6 +53,7 @@ const PasswordReset = ({ username }) => {
               {...field}
               variant="outlined"
               placeholder="Verification code"
+              inputProps={{ maxLength: 6 }}
               error={errors?.verificationCode ? true : false}
               helperText={errors?.verificationCode && "Verification code is required and must be 6 digits"}
             />

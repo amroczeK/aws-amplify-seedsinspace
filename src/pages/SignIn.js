@@ -11,6 +11,7 @@ import { StyledButton } from "../components/styled-components/Buttons";
 import { StyledInputLabel } from "../components/styled-components/InputLabel";
 import Logo from "../assets/logo.png";
 import { useAws } from "../context/AWSContext";
+import { addSchool } from "../apis";
 
 const SignIn = () => {
   const history = useHistory();
@@ -37,8 +38,14 @@ const SignIn = () => {
     signIn({ email, password })
       .then(user => {
         setSignInError(null);
-        if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+        if (user?.challengeName === "NEW_PASSWORD_REQUIRED") {
           return history.push("/signup", { email });
+        }
+        if (!user?.attributes["custom:organisation"]) {
+          // Add school to DynamoDB otherwise public profile won't be updated
+          return addSchool().then(() => {
+            history.push("/profile/edit", { isNewUser: true });
+          });
         }
         if (previousRoute) {
           return history.push(previousRoute);

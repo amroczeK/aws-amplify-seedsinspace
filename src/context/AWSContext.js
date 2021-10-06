@@ -81,9 +81,7 @@ export const AWSProvider = ({ children }) => {
 
   const createNewPassword = async ({ password, organisation }) => {
     try {
-      await Auth.completeNewPassword(tempUser.current, password, {
-        "custom:organisation": organisation,
-      });
+      await Auth.completeNewPassword(tempUser.current, password);
 
       await checkAuthenticatedUser();
       return Promise.resolve(); // Maybe return the user here
@@ -124,13 +122,14 @@ export const AWSProvider = ({ children }) => {
     }
   };
 
-  const updateCognitoUser = async ({ address, about, location }) => {
-    await Auth.updateUserAttributes(cognitoUser, {
+  const updateCognitoUser = async ({ organisation, address, about, location }) => {
+    let user = await Auth.currentAuthenticatedUser();
+    await Auth.updateUserAttributes(user, {
+      "custom:organisation": organisation,
       address,
       "custom:about": about,
       "custom:location": location,
     });
-
     checkAuthenticatedUser();
   };
 
