@@ -9,11 +9,17 @@ const ParticipatingSchools = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    setLoading(true)
-    getAllSchools().then(res => {
-      setLoading(false)
-      setSchools(res);
-    }).catch(error => setError(error));
+    setLoading(true);
+    getAllSchools()
+      .then(res => {
+        // Only list Organizations that have added their Org name to profile
+        let data = res.filter(obj => {
+          if (obj?.SchoolName) return obj;
+        });
+        setLoading(false);
+        setSchools(data);
+      })
+      .catch(error => setError(error));
     // eslint-disable-next-line
   }, []);
 
