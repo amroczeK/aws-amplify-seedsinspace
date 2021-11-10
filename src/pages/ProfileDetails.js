@@ -89,7 +89,7 @@ const ProfileDetails = () => {
           <Typography style={{ fontWeight: "bold" }} variant="h5">
             {locationState?.isNewUser ? "Fill in your profile" : "Edit your profile"}
           </Typography>
-          {true && <Alert severity="info">Profile details must be populated before starting data entry.</Alert>}
+          {locationState?.isNewUser && <Alert severity="info">Profile details must be populated before starting data entry.</Alert>}
           <ImageUpload name="profileImage" image={profileImage} register={register} setValue={setValue} />
           <StyledInputLabel shrink>{locationState?.isNewUser ? "ADD YOUR ORGANISATION" : "YOUR ORGANISATION"}</StyledInputLabel>
           <Controller
