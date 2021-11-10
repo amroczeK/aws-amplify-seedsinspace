@@ -14,9 +14,13 @@ const Profile = () => {
     const { username } = cognitoUser;
     const path = `profile/profile_picture`;
     const level = "protected";
+    if (!cognitoUser?.attributes["custom:organisation"]) {
+      return history.push("/profile/edit", { isNewUser: true });
+    }
     if (username) {
       fetchS3({ path, level }).then(url => setProfileImage(url));
     }
+    // eslint-disable-next-line
   }, [fetchS3, cognitoUser]);
 
   return (
