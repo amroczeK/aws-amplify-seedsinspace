@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useAws } from "../../context/AWSContext";
 import Weather from "../Weather";
 import Graph from "../charts/Graph";
 import Table from "../charts/Table";
@@ -69,6 +71,9 @@ const TabContainer = () => {
 };
 
 const DashboardContent = ({ setOpenAddSeed }) => {
+  const history = useHistory();
+  const { cognitoUser } = useAws();
+
   return (
     <Container style={{ paddingTop: "1em", paddingBottom: "2rem" }} maxWidth="lg">
       <h1>My seeds</h1>
@@ -77,7 +82,19 @@ const DashboardContent = ({ setOpenAddSeed }) => {
           <WeatherContainer>
             <Weather />
             <ButtonContainer>
-              <StyledButton disableElevation variant="contained" color="primary" onClick={() => setOpenAddSeed(true)} width="300px">
+              <StyledButton
+                disableElevation
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  if (!cognitoUser?.attributes["custom:organisation"]) {
+                    history.push("/profile/edit", { isNewUser: true });
+                  } else {
+                    setOpenAddSeed(true);
+                  }
+                }}
+                width="300px"
+              >
                 Add seed entry
               </StyledButton>
             </ButtonContainer>

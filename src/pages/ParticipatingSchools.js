@@ -13,9 +13,9 @@ const ParticipatingSchools = () => {
     getAllSchools()
       .then(res => {
         // Only list Organizations that have added their Org name to profile
-        let data = res.filter(obj => {
-          if (obj?.SchoolName) return obj;
-        });
+        let data = res.filter(obj => 
+          obj?.SchoolName ? obj : null
+        );
         setLoading(false);
         setSchools(data);
       })
